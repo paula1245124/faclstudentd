@@ -5,16 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>منصة المواد الدراسية</title>
 
-<!-- ★ ملفات الداتا: كل مادة في ملف — الترتيب = ترتيب شريط المواد -->
-<script>var subjects = [];</script>
-<script src="data/1-graphics.js"></script>
-<script src="data/2-visual-programming.js"></script>
-<script src="data/3-networks.js"></script>
-<script src="data/4-operating-systems.js"></script>
-<script src="data/5-software-engineering.js"></script>
-<script src="data/6-field-python.js"></script>
-<script src="data/7-field-net.js"></script>
-
 <style>
 /* ============================================================
    1) الثيمات (فاتح + 5 ثيمات وقت)
@@ -243,7 +233,8 @@ iframe{width:100%;height:600px;border:none;display:block}
 .qn-nav{background:var(--bg-quiz-card);border:2px solid var(--border);border-radius:12px;padding:12px;box-shadow:0 2px 8px var(--shadow)}
 .qn-nav-header{display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:14px;color:var(--text-heading);margin-bottom:10px;gap:6px}
 .qn-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:5px}
-.qn-btn{aspect-ratio:1/1;border:2px solid var(--border);background:var(--bg-card);color:var(--text-primary);border-radius:8px;cursor:pointer;font-weight:bold;font-size:12px;transition:all .18s;font-family:inherit}.qn-btn:hover{transform:scale(1.12);border-color:var(--accent)}
+.qn-btn{aspect-ratio:1/1;border:2px solid var(--border);background:var(--bg-card);color:var(--text-primary);border-radius:8px;cursor:pointer;font-weight:bold;font-size:12px;transition:all .18s;font-family:inherit}
+.qn-btn:hover{transform:scale(1.12);border-color:var(--accent)}
 .qn-btn.ok{background:var(--success);border-color:var(--success);color:#fff}
 .qn-btn.bad{background:var(--danger);border-color:var(--danger);color:#fff}
 .qn-btn.answered{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -297,10 +288,23 @@ iframe{width:100%;height:600px;border:none;display:block}
 .link-action-btn.orange{background:var(--warning)}
 
 /* ============================================================
-   9) وضع الامتحان: سؤال واحد + عدّاد خارج الكارت
+   9) وضع الامتحان — بانر + PDF قصير + خيارات رأسية
    ============================================================ */
+.exam-titlebar{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  background:linear-gradient(135deg,var(--score-bg-1),var(--score-bg-2));
+  color:#fff;padding:14px 18px;border-radius:12px;
+  font-size:19px;font-weight:bold;box-shadow:0 4px 12px var(--shadow);
+  margin-bottom:16px;line-height:1.5;
+}
+.tb-title{flex:1;min-width:0;text-align:center}
+.tb-pdf-btn{background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.45);color:#fff;padding:8px 16px;border-radius:12px;cursor:pointer;font-weight:bold;font-size:14px;font-family:inherit;transition:all .25s;flex-shrink:0}
+.tb-pdf-btn:hover{background:rgba(255,255,255,.35);transform:scale(1.05)}
+.tb-pdf-btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
+/* ★ الـ PDF في الامتحان أقصر — السؤال يظهر معاه في نفس الشاشة */
+#quiz-pdf-area .pdf-viewer iframe{height:340px}
 .exam-qarea{padding-top:22px}
-.exam-qcard{position:relative;background:var(--bg-quiz-card);border:2px solid var(--border);border-radius:14px;padding:30px 24px 24px;box-shadow:0 2px 8px var(--shadow);animation:ldOpen .3s ease}
+.exam-qcard{position:relative;background:var(--bg-quiz-card);border:2px solid var(--border);border-radius:14px;padding:24px;box-shadow:0 2px 8px var(--shadow);animation:ldOpen .3s ease}
 .exam-counter{
   position:absolute;
   top:-19px;
@@ -316,19 +320,20 @@ iframe{width:100%;height:600px;border:none;display:block}
   box-shadow:0 4px 10px var(--shadow);
   z-index:5;
 }
-.exam-qhead{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed var(--border)}
-.exam-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--show-score-bg-2));display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
-.exam-qhead .qh-txt{font-weight:bold;color:var(--text-heading);font-size:15px}
-.exam-qhead .qh-txt small{display:block;color:var(--text-hint);font-weight:normal;font-size:11px}
+.exam-qtop{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid var(--border)}
+.eq-num{font-weight:bold;color:var(--accent);font-size:16px}
 .exam-qtext{font-size:20px;font-weight:bold;color:var(--text-heading);line-height:1.7;margin-bottom:20px}
-.exam-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.exam-opt{border:2px solid var(--border);background:var(--bg-card);border-radius:12px;padding:14px 16px;cursor:pointer;text-align:right;font-size:16px;color:var(--text-primary);transition:all .2s;font-family:inherit;display:flex;align-items:center;gap:10px}
+.exam-qtext.ltr{direction:ltr;text-align:left}
+.exam-opts{display:flex;flex-direction:column;gap:10px}
+.exam-opt{border:2px solid var(--border);background:var(--bg-card);border-radius:12px;padding:14px 16px;cursor:pointer;text-align:right;font-size:16px;color:var(--text-primary);transition:all .2s;font-family:inherit;display:flex;align-items:center;gap:12px}
+.exam-opt.ltr{direction:ltr;text-align:left}
 .exam-opt:hover{border-color:var(--accent);background:var(--option-hover-bg);transform:translateY(-2px)}
 .exam-opt.selected{background:var(--success);border-color:var(--success);color:#fff;font-weight:bold}
 .exam-opt.correct{background:var(--success);border-color:var(--success);color:#fff;font-weight:bold}
 .exam-opt.wrong{background:var(--danger);border-color:var(--danger);color:#fff;font-weight:bold}
 .exam-opt.locked{pointer-events:none}
 .exam-opt .opt-letter{width:28px;height:28px;border-radius:50%;background:var(--bg-quiz-card);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:bold;flex-shrink:0}
+.exam-opt .opt-text{flex:1}
 .exam-opt.selected .opt-letter{background:rgba(255,255,255,.25);border-color:#fff;color:#fff}
 .exam-navbtns{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
 .exam-nav-btn{background:var(--accent);color:#fff;border:none;padding:12px 26px;border-radius:10px;cursor:pointer;font-size:15px;font-weight:bold;font-family:inherit;transition:all .25s}
@@ -337,6 +342,9 @@ iframe{width:100%;height:600px;border:none;display:block}
 .exam-nav-btn:disabled{opacity:.4;pointer-events:none}
 .exam-saved{text-align:center;font-size:13px;font-weight:bold;color:var(--success);margin-top:10px;opacity:0;transition:opacity .3s}
 .exam-saved.show{opacity:1}
+.qmark-btn{background:var(--bg-card);border:2px solid var(--border);color:var(--text-secondary);padding:4px 12px;border-radius:12px;cursor:pointer;font-size:12px;font-weight:bold;font-family:inherit;transition:all .25s;flex-shrink:0}
+.qmark-btn:hover{border-color:var(--warning);transform:scale(1.05)}
+.qmark-btn.on{background:var(--warning);border-color:var(--warning);color:#fff}
 
 /* ============================================================
    10) تجاوب الشاشات
@@ -362,18 +370,23 @@ header h1{font-size:20px}
 .link-action-btn{font-size:12px;padding:7px 12px}
 }
 @media (max-width:640px){
-.exam-opts{grid-template-columns:1fr}
 .exam-qtext{font-size:17px}
 .exam-opt{font-size:14px;padding:11px 13px}
+.exam-row{gap:8px;padding:10px 12px}
+.er-main{min-width:120px}
+.er-play{width:38px;height:38px;font-size:15px}
+.er-icon-btn{width:32px;height:32px;font-size:12px}
+.er-num{min-width:32px;height:32px;font-size:12px}
+.qmark-btn{font-size:11px;padding:3px 10px}
 }
 
 /* ============================================================
-   ★★ 11) لوحة الأسئلة الجانبية — ملاصقة لحافة الشاشة
+   ★★ 11) لوحة الأسئلة الجانبية — ملاصقة لحافة الشاشة (360 = 360)
    ============================================================ */
 .page-layout{display:block}
 body.quiz-mode .page-layout{
   display:grid;
-  grid-template-columns:360px minmax(0,1fr);   /* ★ لازم تساوي عرض اللوحة بالظبط */
+  grid-template-columns:360px minmax(0,1fr);
   gap:16px;
   align-items:start;
   width:100%;
@@ -385,7 +398,7 @@ body.quiz-mode .page-layout{
   display:none;
   position:sticky;
   top:104px;
-  width:360px;                                 /* ★ متطابقة مع العمود */
+  width:360px;
   max-height:calc(100vh - 120px);
   overflow-y:auto;
 }
@@ -393,6 +406,58 @@ body.quiz-mode .qn-sidebar{display:block}
 @media (max-width:900px){
   body.quiz-mode .page-layout{display:block;max-width:980px}
   .qn-sidebar{position:static;top:auto;width:100%;max-height:none;margin:0 0 14px}
+}
+
+/* ============================================================
+   ★★ 12) صفوف الامتحانات + أزرار Word للنتيجة
+   ============================================================ */
+.exam-row{display:flex;align-items:center;gap:12px;background:var(--bg-card);border:2px solid var(--border);border-radius:14px;padding:12px 16px;margin-bottom:10px;cursor:pointer;transition:all .25s;flex-wrap:wrap}
+.exam-row:hover{background:var(--bg-card-hover);transform:translateX(-4px);border-color:var(--accent)}
+.er-play{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--score-bg-2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;box-shadow:0 3px 10px var(--show-score-shadow)}
+.er-main{flex:1;min-width:150px;display:flex;flex-direction:column;gap:2px}
+.er-title{font-weight:bold;font-size:15px;color:var(--text-heading);line-height:1.4}
+.er-sub{font-size:12px;color:var(--text-secondary);line-height:1.4}
+.er-tag{padding:4px 12px;border-radius:12px;font-size:11px;font-weight:bold;white-space:nowrap;flex-shrink:0}
+.er-tag.green{background:var(--success);color:#fff}
+.er-tag.warn{background:var(--warning);color:#fff}
+.er-tag.plain{background:var(--bg-quiz-card);border:1px solid var(--border);color:var(--text-secondary)}
+.er-icon-btn{width:36px;height:36px;border-radius:50%;background:var(--bg-quiz-card);border:2px solid var(--border);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .25s;flex-shrink:0;font-family:inherit;color:var(--text-primary)}
+.er-icon-btn:hover{transform:scale(1.12);border-color:var(--accent)}
+.er-num{min-width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px;flex-shrink:0;direction:ltr}
+.res-word-wrap{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:15px 0}
+.res-word-btn{background:var(--accent);color:#fff;border:none;padding:12px 22px;border-radius:12px;cursor:pointer;font-size:14px;font-weight:bold;font-family:inherit;transition:all .25s;box-shadow:0 3px 10px var(--shadow)}
+.res-word-btn:hover{filter:brightness(1.15);transform:translateY(-2px)}
+.res-word-btn.wrong{background:var(--danger)}
+.res-word-btn.marked{background:var(--warning)}
+
+/* ============================================================
+   ★★ 13) الأكورديون — ملف الامتحان + قسم الأسئلة
+   ============================================================ */
+.ax-sec .sec-body{transition:height .32s ease;overflow:hidden}
+.sec-toggle{display:flex;align-items:center;gap:10px;background:none;border:none;cursor:pointer;padding:0;font-family:inherit;text-align:right;color:inherit}
+.sec-toggle:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
+.sec-arrow{
+  width:30px;height:30px;border:2px solid var(--accent);color:var(--accent);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:bold;line-height:1;
+  transition:transform .3s,background .3s,color .3s;flex-shrink:0;margin-inline-start:auto;
+}
+.ax-sec.open .sec-arrow{transform:rotate(180deg);background:var(--accent);color:#fff}
+/* كارت الملف */
+.attach-toggle{flex:1;min-width:0}
+.attach-toggle .attach-title{flex:1}
+/* قسم الأسئلة */
+.qs-section{background:var(--bg-quiz-card);border:2px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px}
+.qs-toggle{width:100%;background:var(--bg-card-hover);padding:14px 18px}
+.qs-toggle:hover{filter:brightness(1.05)}
+.qs-title{font-weight:bold;font-size:17px;color:var(--text-heading);flex:1}
+.qs-section .sec-body{padding:18px}
+/* ★ السكرول تحت الهيدر الثابت */
+#pdf-sec,.qs-section,.exam-qcard{scroll-margin-top:112px}
+@media (max-width:640px){
+  .exam-titlebar{font-size:16px;padding:12px 12px}
+  .tb-pdf-btn{font-size:12px;padding:6px 12px}
+  .qs-toggle{padding:12px 12px}
+  .qs-section .sec-body{padding:12px}
 }
 </style>
 </head>
@@ -423,7 +488,7 @@ body.quiz-mode .qn-sidebar{display:block}
 
 <button class="scroll-to-top" id="scroll-to-top" onclick="scrollToTop()" title="العودة للأعلى">⬆</button>
 
-<!-- ★ غلاف الصفحة: اللوحة عمود مستقل جنب الحاوية -->
+<!-- ★ غلاف الصفحة: اللوحة عمود مستقل ملاصق للحافة -->
 <div class="page-layout" id="page-layout">
     <aside class="qn-nav qn-sidebar" id="qn-sidebar"></aside>
 
@@ -499,28 +564,41 @@ body.quiz-mode .qn-sidebar{display:block}
                     <span class="ld-arrow">▶</span>
                 </div>
                 <div class="ld-body">
-                    <p class="ld-hint">💾 حلّك يُحفظ تلقائياً في متصفحك — 🧭 تنقّل بين الأسئلة من الأرقام الجانبية.</p>
+                    <p class="ld-hint">💾 حلّك يُحفظ تلقائياً في متصفحك — 🧭 تنقّل بين الأسئلة من الأرقام الجانبية — ⭐ علّمي أي سؤال لملف Word.</p>
                     <div id="lecture-quiz-root"></div>
                 </div>
             </div>
         </div>
 
-        <!-- شاشة الامتحان (من قسم الأسئلة) -->
+        <!-- شاشة الامتحان — بانر + كارت ملف (أكورديون) + قسم الأسئلة (أكورديون) -->
         <div id="quiz-view" class="content-section">
             <button class="back-btn" onclick="goBackFromQuiz()">← العودة</button>
-            <h2 id="quiz-title" style="text-align:center;"></h2>
+            <div class="exam-titlebar" id="quiz-title"></div>
             <div id="quiz-pdf-area"></div>
             <div id="quiz-view-root"></div>
         </div>
     </div>
+</div><!-- ★ page-layout مقفولة صح -->
+
 <div class="status-bar" id="status-bar">Theme Sync: Light <span class="status-dot"></span></div>
 <div class="toast" id="toast"></div>
+
+<!-- ★★ الداتا في آخر body — أسرع أول رسم للصفحة (LCP) -->
+<script>var subjects = [];</script>
+<script src="data/1-graphics.js"></script>
+<script src="data/2-visual-programming.js"></script>
+<script src="data/3-networks.js"></script>
+<script src="data/4-operating-systems.js"></script>
+<script src="data/5-software-engineering.js"></script>
+<script src="data/6-field-python.js"></script>
+<script src="data/7-field-net.js"></script>
 
 <script>
 // ============================================================
 // 1) القيم الافتراضية — الامتحانات المعرّفة في ملفات الداتا لا تُلمس
 // ============================================================
 subjects.forEach(function(s){
+  if(!s.lectures) s.lectures = [];
   s.lectures.forEach(function(l){
     if(!l.links){
       l.links = [
@@ -532,12 +610,6 @@ subjects.forEach(function(s){
   });
   if(!s.midterms || !s.midterms.length) s.midterms = [{t:"ميدتيرم (المحاضرات 1-2)", d:"أسئلة من المحاضرتين الأولى والثانية", lectures:[0,1]}];
   if(!s.finals || !s.finals.length) s.finals = [{t:"الفاينل الشامل", d:"أسئلة من جميع محاضرات المادة", lectures:[0,1,2,3]}];
-  if(!s.examModels || !s.examModels.length){
-    s.examModels = [
-      {t:"نموذج امتحان تجريبي", d:"نموذج بأسلوب الامتحان النهائي", lectures:[0,1,2,3]},
-      {t:"نموذج امتحان سريع", d:"أسئلة المحاضرتين الأخيرتين", lectures:[2,3]}
-    ];
-  }
   if(!s.testBanks || !s.testBanks.length) s.testBanks = [{t:"بنك أسئلة المادة", d:"جميع أسئلة المحاضرات في اختبار واحد", lectures:[0,1,2,3]}];
 });
 
@@ -563,8 +635,15 @@ function applyTimeTheme(){
 }
 function formatTime(d){ var h=d.getHours(),m=d.getMinutes(),s=d.getSeconds(),ap=h>=12?'PM':'AM',h12=h%12||12; return h12+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')+' '+ap; }
 function updateStatusBar(fakeTime){
+  var el = document.getElementById('status-bar');
+  if(!el._timeSpan){
+    el.innerHTML = 'Theme Sync: <span id="sb-theme"></span> — <span id="sb-time"></span> <span class="status-dot"></span>';
+    el._timeSpan = document.getElementById('sb-time');
+    el._themeSpan = document.getElementById('sb-theme');
+  }
   var cur = document.documentElement.getAttribute('data-theme') || 'light';
-  document.getElementById('status-bar').innerHTML = 'Theme Sync: ' + (themeNames[cur]||cur) + ' — ' + (fakeTime || formatTime(new Date())) + ' <span class="status-dot"></span>';
+  el._themeSpan.textContent = themeNames[cur] || cur;
+  el._timeSpan.textContent = fakeTime || formatTime(new Date());
 }
 function runDemo(){
   if(isDemoRunning) return;
@@ -646,20 +725,31 @@ document.addEventListener('click', function(e){
 });
 
 // ============================================================
-// 5) أدوات مساعدة + Toast
+// 5) أدوات مساعدة + Toast + كشف النصوص الإنجليزية
 // ============================================================
-function esc(s){ var d = document.createElement('div'); d.textContent = (s==null?'':String(s)); return d.innerHTML; }
-function escAttr(s){ return esc(s).replace(/"/g,'&quot;'); }
+function esc(s){
+  return String(s==null?'':s).replace(/[&<>"']/g, function(c){
+    return c==='&'?'&amp;':c==='<'?'&lt;':c==='>'?'&gt;':c==='"'?'&quot;':'&#39;';
+  });
+}
+function escAttr(s){ return esc(s); }
 function showToast(msg){
   var el = document.getElementById('toast');
   el.textContent = msg; el.classList.add('show');
   clearTimeout(el._t); el._t = setTimeout(function(){ el.classList.remove('show'); }, 2400);
 }
+function isLatinText(s){
+  var letters = String(s==null?'':s).replace(/[^A-Za-z\u0600-\u06FF]/g,'');
+  if(!letters) return false;
+  var latin = (letters.match(/[A-Za-z]/g) || []).length;
+  return (latin / letters.length) > 0.5;
+}
 
 // ============================================================
-// 6) نظام المواد
+// 6) نظام المواد + التبويبات (Lazy)
 // ============================================================
-var currentSubject = 0;
+var currentSubject = 0, currentLecture = -1;
+
 function renderSubjectBar(){
   document.getElementById('subject-bar').innerHTML = subjects.map(function(s,i){
     return '<button class="subj-btn '+(i===currentSubject?'active':'')+'" onclick="selectSubject('+i+')">'+
@@ -670,970 +760,1116 @@ function renderSubjectBar(){
       '</span></button>';
   }).join('');
 }
+
 function selectSubject(i){
   currentSubject = i;
+  closeQuizEverywhere();
   document.getElementById('main-title').textContent = 'منصة مادة ' + subjects[i].name + (subjects[i].en ? ' — ' + subjects[i].en : '');
-  renderSubjectBar(); renderAllLists();
-  showView('main-view');
-  var tb = document.querySelectorAll('.tabs .tab-button');
+  renderSubjectBar();
+  var tb = document.querySelectorAll('#main-view .tabs .tab-button');
   tb.forEach(function(b,idx){ b.classList.toggle('active', idx===0); });
   document.getElementById('section1').classList.add('active');
   document.getElementById('section2').classList.remove('active');
   resetSubTabs();
+  renderAllLists();
+  showView('main-view');
+  saveLS({subject:i, view:'main', lecture:-1, prop:null, qidx:null, tab:'section1', subTab:'sub-lectures'});
   window.scrollTo({top:0, behavior:'smooth'});
 }
-function resetSubTabs(){
-  document.querySelectorAll('#sub-tabs-container .sub-tab-button').forEach(function(b,i){ b.classList.toggle('active', i===0); });
-  document.querySelectorAll('.sub-content').forEach(function(c){ c.classList.remove('active'); });
-  document.getElementById('sub-lectures').classList.add('active');
-}
 
-// ============================================================
-// 7) حفظ النتائج + الحل (لكل مادة منفصلة)
-// ============================================================
-function getScore(si, key){
-  try{ var p = JSON.parse(localStorage.getItem('quiz_progress_'+si) || '{}'); return (key in p) ? p[key] : null; }catch(e){ return null; }
-}
-function saveScore(si, key, pct){
-  try{
-    var p = JSON.parse(localStorage.getItem('quiz_progress_'+si) || '{}');
-    if(p[key] === undefined || pct > p[key]) p[key] = pct;
-    localStorage.setItem('quiz_progress_'+si, JSON.stringify(p));
-  }catch(e){}
-}
-function getSavedQuizFor(si, key){
-  try{ var v = localStorage.getItem('qa_' + si + '_' + key); return v ? JSON.parse(v) : null; }catch(e){ return null; }
-}
-function getSavedQuiz(key){ return getSavedQuizFor(currentSubject, key); }
-function saveQuizProgress(){
-  if(!quizState) return;
-  try{ localStorage.setItem('qa_' + currentSubject + '_' + quizState.key, JSON.stringify({answers: quizState.answered, finished: !!quizState.finished})); }catch(e){}
-}
-function clearQuizProgress(key){ try{ localStorage.removeItem('qa_' + currentSubject + '_' + key); }catch(e){} }
-function computeCorrectCount(st){
-  var c = 0;
-  Object.keys(st.answered).forEach(function(k){
-    var qi = parseInt(k, 10);
-    if(st.questions[qi] && st.answered[k] === st.questions[qi].correct) c++;
-  });
-  return c;
-}
-
-// ============================================================
-// 8) بناء بيانات الاختبارات — أسئلة الامتحان الخاصة تُستخدم
-// ============================================================
-function collectQuestions(s, inds){
-  var qs = [];
-  inds.forEach(function(i){ if(s.lectures[i]) s.lectures[i].questions.forEach(function(q){ qs.push(q); }); });
-  return qs;
-}
-function getQuizData(cat, idx){
-  var s = subjects[currentSubject];
-  if(cat === 'lecture'){
-    var l = s.lectures[idx];
-    return {title:l.t, questions:l.questions, key:'lec'+idx};
-  }
-  var map = {mid:s.midterms, final:s.finals, bank:s.testBanks};
-  var it = map[cat][idx];
-  var qs = (it.questions && it.questions.length) ? it.questions : collectQuestions(s, (it.lectures || s.lectures.map(function(_,i){ return i; })));
-  return {title:it.t, questions:qs, key:cat+idx};
-}
-
-// ============================================================
-// 9) عرض القوائم
-// ============================================================
-function scoreBadge(sc, doneTxt, newTxt){
-  if(sc !== null && sc >= 50) return '<span class="badge done">'+doneTxt+' '+sc+'%</span>';
-  if(sc !== null) return '<span class="badge" style="background:var(--warning);color:#fff;">أعد المحاولة ('+sc+'%)</span>';
-  return '<span class="badge new">'+newTxt+'</span>';
-}
-function statusBadgeHTML(si, key, total, doneTxt, newTxt){
-  var saved = getSavedQuizFor(si, key);
-  if(saved && !saved.finished && Object.keys(saved.answers || {}).length > 0){
-    var n = Object.keys(saved.answers).length;
-    return '<span class="badge" style="background:var(--warning);color:#fff;">⏸ متابعة '+n+'/'+total+'</span>';
-  }
-  return scoreBadge(getScore(si, key), doneTxt, newTxt);
-}
-function renderAllLists(){
-  var s = subjects[currentSubject];
-
-  document.getElementById('lectures-list').innerHTML = s.lectures.map(function(l,i){
-    var hasPDF = !!lecturePDFAt(currentSubject, i);
-    return '<div class="card" onclick="openLecture('+i+')">'+
-      '<div class="card-text"><h3>'+esc(l.t)+'</h3><p>'+esc(l.d)+'</p></div>'+
-      '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">'+
-      statusBadgeHTML(currentSubject, 'lec'+i, l.questions.length, 'مكتمل ✓', 'جديد 📄')+
-      (hasPDF ? '<span class="badge" style="background:var(--danger);color:#fff;">📎 PDF</span>' : '')+
-      '<span class="badge" style="background:var(--accent);color:#fff;">'+l.questions.length+' أسئلة</span></div></div>';
-  }).join('');
-
-  document.getElementById('questions-lectures-list').innerHTML = s.lectures.map(function(l,i){
-    return '<div class="card" onclick="openQuiz(\'lecture\','+i+')">'+
-      '<div class="card-text"><h3>'+esc(l.t)+'</h3><p>'+esc(l.d)+'</p></div>'+
-      '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">'+
-      statusBadgeHTML(currentSubject, 'lec'+i, l.questions.length, 'أفضل نتيجة:', 'لم يُختبر')+
-      '<button class="btn-sm btn-download-exam" onclick="event.stopPropagation();downloadLecturePDFFromList('+i+')">⭳ تحميل</button></div></div>';
-  }).join('');
-
-  renderExamList('midterms-list','mid', s.midterms);
-  renderExamList('finals-list','final', s.finals);
-  renderExamList('test-banks-list','bank', s.testBanks);
-  renderFilesList();
-  renderProgressSummary();
-}
-function renderExamList(elId, cat, arr){
-  var el = document.getElementById(elId);
-  if(!arr.length){ el.innerHTML = '<p style="color:var(--text-hint);">لا توجد عناصر متاحة حالياً.</p>'; return; }
-  el.innerHTML = arr.map(function(m,i){
-    var d = getQuizData(cat, i);
-    var hasPDF = !!examPDFAt(cat, i);
-    return '<div class="card" onclick="openQuiz(\''+cat+'\','+i+')">'+
-      '<div class="card-text"><h3>'+esc(m.t)+'</h3><p>'+esc(m.d)+'</p></div>'+
-      '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">'+
-      (hasPDF ? '<span class="badge" style="background:var(--danger);color:#fff;">📎 PDF</span>' : '')+
-      statusBadgeHTML(currentSubject, d.key, d.questions.length, 'أفضل نتيجة:', 'جديد 📄')+
-      '<button class="btn-sm btn-download-exam" onclick="event.stopPropagation();downloadSubjectWord(\''+cat+'\','+i+')">⭳ تحميل</button></div></div>';
-  }).join('');
-}
-function renderFilesList(){
-  var s = subjects[currentSubject];
-  var rows = [{icon:'📚', t:'أسئلة المحاضرات كاملة', d:'ملف Word يضم أسئلة جميع محاضرات '+s.name, fn:"downloadSubjectWord('all',0)"}];
-  s.midterms.forEach(function(m,i){ rows.push({icon:'📝', t:m.t, d:m.d+' (ملف Word)', fn:"downloadSubjectWord('mid',"+i+")"}); });
-  s.finals.forEach(function(m,i){ rows.push({icon:'🎓', t:m.t, d:m.d+' (ملف Word)', fn:"downloadSubjectWord('final',"+i+")"}); });
-  s.examModels.forEach(function(m,i){ rows.push({icon:'📋', t:m.t, d:m.d+' (ملف Word)', fn:"downloadSubjectWord('model',"+i+")"}); });
-  s.testBanks.forEach(function(m,i){ rows.push({icon:'🏦', t:m.t, d:m.d+' (ملف Word)', fn:"downloadSubjectWord('bank',"+i+")"}); });
-  rows.push({icon:'🌐', t:'نسخة الصفحة كاملة', d:'تحميل الموقع كملف HTML يعمل بدون إنترنت', fn:'downloadQuestionsPageHTML()'});
-  document.getElementById('files-list').innerHTML = rows.map(function(r){
-    return '<div class="card" onclick="'+r.fn.replace(/"/g,'&quot;')+'">'+
-      '<div class="card-text"><h3>'+r.icon+' '+esc(r.t)+'</h3><p>'+esc(r.d)+'</p></div>'+
-      '<button class="btn-sm btn-download-exam">⭳ تحميل</button></div>';
-  }).join('');
-}
-function renderProgressSummary(){
-  var s = subjects[currentSubject];
-  var rows = s.lectures.map(function(l,i){
-    var sc = getScore(currentSubject,'lec'+i);
-    var saved = getSavedQuizFor(currentSubject, 'lec'+i);
-    var inProgress = saved && !saved.finished && Object.keys(saved.answers||{}).length > 0;
-    var badge;
-    if(inProgress){
-      badge = '<span class="ps-badge" style="background:var(--warning);color:#fff;">⏸ '+Object.keys(saved.answers).length+'/'+l.questions.length+'</span>';
-    } else if(sc !== null && sc >= 50){
-      badge = '<span class="ps-badge done">'+sc+'%</span>';
-    } else {
-      badge = '<span class="ps-badge pending">لم يُختبر</span>';
-    }
-    return '<div class="progress-summary-row" onclick="openLecture('+i+')">'+
-      '<span class="ps-name">'+s.icon+' '+esc(l.t)+'</span>'+badge+
-      '<span class="ps-badge total">'+l.questions.length+' سؤال</span></div>';
-  }).join('');
-  document.getElementById('progress-summary-box').innerHTML =
-    '<h3>📈 ملخص تقدمك في مادة '+esc(s.name)+'</h3>' + rows;
-}
-
-// ============================================================
-// 10) التبويبات + وضع اللوحة الجانبية
-// ============================================================
 function showView(id){
   ['main-view','lecture-view','quiz-view'].forEach(function(v){
-    document.getElementById(v).classList.toggle('active', v === id);
+    var el = document.getElementById(v);
+    if(el) el.classList.toggle('active', v === id);
   });
-  setQuizMode(id === 'quiz-view');
 }
-function setQuizMode(on){ document.body.classList.toggle('quiz-mode', !!on); }
-function visibleView(){
-  var ids = ['main-view','lecture-view','quiz-view'];
-  for(var i=0;i<ids.length;i++){ if(document.getElementById(ids[i]).classList.contains('active')) return ids[i]; }
-  return 'main-view';
-}
+
 function openTab(evt, id){
-  var btns = document.querySelectorAll('.tabs .tab-button');
-  btns.forEach(function(b){ b.classList.toggle('active', b === evt.currentTarget); });
-  showView('main-view');
-  document.getElementById('section1').classList.remove('active');
-  document.getElementById('section2').classList.remove('active');
-  document.getElementById(id).classList.add('active');
+  var btns = document.querySelectorAll('#main-view .tabs .tab-button');
+  btns.forEach(function(b){ b.classList.remove('active'); });
+  if(evt && evt.currentTarget){ evt.currentTarget.classList.add('active'); }
+  else if(btns[id === 'section1' ? 0 : 1]){ btns[id === 'section1' ? 0 : 1].classList.add('active'); }
+  document.getElementById('section1').classList.toggle('active', id === 'section1');
+  document.getElementById('section2').classList.toggle('active', id === 'section2');
+  saveLS({tab:id});
+  if(id === 'section2') renderActiveSubList();
 }
+
 function openSubTab(evt, id){
-  document.querySelectorAll('.sub-tab-button').forEach(function(b){ b.classList.toggle('active', b === evt.currentTarget); });
-  document.querySelectorAll('.sub-content').forEach(function(c){ c.classList.remove('active'); });
-  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('#sub-tabs-container .sub-tab-button').forEach(function(b){ b.classList.remove('active'); });
+  if(evt && evt.currentTarget) evt.currentTarget.classList.add('active');
+  document.querySelectorAll('#section2 .sub-content').forEach(function(d){ d.classList.toggle('active', d.id === id); });
+  saveLS({subTab:id});
+  renderActiveSubList();
 }
-function toggleLD(id){
-  var sec = document.getElementById(id);
-  sec.classList.toggle('open');
-  if(id === 'ld-quiz'){
-    setQuizMode(sec.classList.contains('open'));
-    if(sec.classList.contains('open') && quizState && quizRoot === document.getElementById('lecture-quiz-root') && !quizState.finished && Object.keys(quizState.answered).length){
-      showToast('⏸ كمّل من حيث وقفت!');
+
+function resetSubTabs(){
+  document.querySelectorAll('#sub-tabs-container .sub-tab-button').forEach(function(b,i){ b.classList.toggle('active', i===0); });
+  document.querySelectorAll('#section2 .sub-content').forEach(function(d){ d.classList.toggle('active', d.id==='sub-lectures'); });
+  renderActiveSubList();
+}
+
+// ============================================================
+// 7) الحفظ — localStorage + كاش + آخر حالة + حالة الأقسام
+// ============================================================
+var _progCache = {}, _savedCache = {};
+
+function progressMap(s){
+  var k = 'quiz_progress_' + (s ? s.name : '');
+  if(_progCache[k] === undefined){
+    try{ var raw = localStorage.getItem(k); _progCache[k] = (raw ? JSON.parse(raw) : {}) || {}; }catch(e){ _progCache[k] = {}; }
+  }
+  return _progCache[k];
+}
+function savedCache(s){
+  var n = s ? s.name : '';
+  if(_savedCache[n]) return _savedCache[n];
+  var prefix = 'qa_' + n + '_', map = {};
+  try{
+    for(var i = 0; i < localStorage.length; i++){
+      var k = localStorage.key(i);
+      if(k && k.indexOf(prefix) === 0){
+        try{
+          var o = JSON.parse(localStorage.getItem(k));
+          if(o && typeof o === 'object' && o.answers) map[k.slice(prefix.length)] = o.answers;
+          else if(o && typeof o === 'object') map[k.slice(prefix.length)] = o;
+        }catch(e){}
+      }
+    }
+  }catch(e){}
+  _savedCache[n] = map;
+  return map;
+}
+function getSavedQuizFor(s, key){
+  var m = savedCache(s);
+  return (m && m[key]) ? m[key] : {};
+}
+function saveQuizProgress(s, key, answers){
+  try{ localStorage.setItem('qa_' + (s ? s.name : '') + '_' + key, JSON.stringify(answers)); }catch(e){}
+  var n = s ? s.name : '';
+  if(_savedCache[n]) _savedCache[n][key] = answers;
+}
+function clearSavedQuiz(s, key){
+  try{ localStorage.removeItem('qa_' + (s ? s.name : '') + '_' + key); }catch(e){}
+  var n = s ? s.name : '';
+  if(_savedCache[n]) delete _savedCache[n][key];
+}
+function getScore(s, key){
+  var m = progressMap(s);
+  return (m && m[key]) ? m[key] : null;
+}
+function saveScore(s, key, res){
+  try{
+    var raw = localStorage.getItem('quiz_progress_' + (s ? s.name : ''));
+    var o = {};
+    try{ o = raw ? JSON.parse(raw) : {}; }catch(e){ o = {}; }
+    if(!o || typeof o !== 'object' || Array.isArray(o)) o = {};
+    o[key] = res;
+    localStorage.setItem('quiz_progress_' + (s ? s.name : ''), JSON.stringify(o));
+  }catch(e){}
+  progressMap(s)[key] = res;
+}
+
+var LSKEY = 'last_open_state';
+function saveLS(patch){
+  var o = {};
+  try{ var r = localStorage.getItem(LSKEY); if(r) o = JSON.parse(r) || {}; }catch(e){}
+  for(var k in patch){ o[k] = patch[k]; }
+  try{ localStorage.setItem(LSKEY, JSON.stringify(o)); }catch(e){}
+}
+
+// ★ حالة الأقسام (أكورديون) — الافتراضي: PDF مقفول / الأسئلة مفتوحة
+var SECTIONS_KEY = 'cg_sections_v1';
+var sectionStates = { pdf:false, questions:true };
+function loadSectionStates(){
+  try{
+    var raw = localStorage.getItem(SECTIONS_KEY);
+    if(raw){
+      var o = JSON.parse(raw);
+      if(o && typeof o === 'object'){
+        if(typeof o.pdf === 'boolean') sectionStates.pdf = o.pdf;
+        if(typeof o.questions === 'boolean') sectionStates.questions = o.questions;
+      }
+    }
+  }catch(e){}
+}
+function saveSectionStates(){
+  try{ localStorage.setItem(SECTIONS_KEY, JSON.stringify(sectionStates)); }catch(e){}
+}
+
+// ============================================================
+// 8) بناء الاختبارات + مفاتيح منفصلة
+// ============================================================
+function getQuizData(s, exam){
+  if(exam.questions && exam.questions.length) return exam.questions;
+  var out = [];
+  (exam.lectures || []).forEach(function(li){
+    var lec = (s && s.lectures) ? s.lectures[li] : null;
+    if(lec && lec.questions) lec.questions.forEach(function(q){ out.push(q); });
+  });
+  return out;
+}
+// مفتاح حل صفحة المحاضرة (من قسم المحاضرات)
+function lecQuizKey(l){ return (l && l.t) ? l.t : 'محاضرة'; }
+// ★ مفتاح كويز المحاضرة من قسم الأسئلة — مستقل تماماً
+function lecExamKey(l){ return 'كويز ' + ((l && l.t) ? l.t : 'محاضرة'); }
+
+// ============================================================
+// 9) القوائم — صفوف الامتحانات (▶ + تاج + دايرة رقم)
+// ============================================================
+var renderedTabs = {};
+
+function renderAllLists(){
+  renderLecturesList();
+  renderQuizLists();
+  requestAnimationFrame(function(){ renderProgressSummary(); });
+}
+
+function renderQuizLists(){
+  ['sub-lectures','sub-mid','sub-final','sub-test-bank'].forEach(function(t){ delete renderedTabs[t]; });
+  renderActiveSubList();
+}
+
+function renderActiveSubList(){
+  var sec2 = document.getElementById('section2');
+  if(!sec2 || !sec2.classList.contains('active')) return;
+  var active = document.querySelector('#section2 .sub-content.active');
+  if(!active || renderedTabs[active.id]) return;
+  var s = subjects[currentSubject];
+  if(active.id === 'sub-lectures'){
+    // ★ الصفوف هنا بتستخدم pdf2 (ملف الأسئلة) لو موجود
+    var html = (s.lectures || []).map(function(l, i){
+      if(!l.questions || !l.questions.length) return '';
+      return examCardHTML(s, {t:l.t, d:l.d, pdf:(l.pdf2 || l.pdf)}, 'lec', i, l.questions.length, lecExamKey(l));
+    }).join('');
+    document.getElementById('questions-lectures-list').innerHTML = html || '<p style="color:var(--text-hint)">لا توجد أسئلة محاضرات بعد.</p>';
+  }else if(active.id === 'sub-mid'){
+    document.getElementById('midterms-list').innerHTML = examListHTML(s, 'midterms');
+  }else if(active.id === 'sub-final'){
+    document.getElementById('finals-list').innerHTML = examListHTML(s, 'finals');
+  }else if(active.id === 'sub-test-bank'){
+    document.getElementById('test-banks-list').innerHTML = examListHTML(s, 'testBanks');
+  }
+  renderedTabs[active.id] = true;
+}
+
+function renderLecturesList(){
+  var s = subjects[currentSubject];
+  var box = document.getElementById('lectures-list');
+  if(!s.lectures.length){
+    box.innerHTML = '<p style="color:var(--text-hint)">لا توجد محاضرات لهذه المادة.</p>';
+    return;
+  }
+  box.innerHTML = s.lectures.map(function(l, i){
+    var total = (l.questions || []).length;
+    var done = Object.keys(getSavedQuizFor(s, lecQuizKey(l))).length;
+    var score = getScore(s, lecQuizKey(l));
+    var badge;
+    if(score) badge = '<span class="badge done">🏆 '+score.score+'%</span>';
+    else if(total && done >= total) badge = '<span class="badge done">✅ مكتملة</span>';
+    else badge = '<span class="badge new">'+total+' سؤال</span>';
+    return '<div class="card" onclick="openLecture('+currentSubject+','+i+')">'+
+             '<div class="card-text"><h3>'+(i+1)+'. '+esc(l.t)+'</h3><p>'+(l.d ? esc(l.d) : '')+'</p></div>'+
+             badge +
+           '</div>';
+  }).join('');
+}
+
+function examListHTML(s, prop){
+  var arr = s[prop] || [];
+  if(!arr.length) return '<p style="color:var(--text-hint)">لا توجد عناصر هنا.</p>';
+  return arr.map(function(e, i){
+    return examCardHTML(s, e, prop, i, getQuizData(s, e).length, e.t);
+  }).join('');
+}
+
+function examCardHTML(s, e, prop, idx, total, key){
+  var score = getScore(s, key);
+  var done = Object.keys(getSavedQuizFor(s, key)).length;
+  var tag;
+  if(score)                                  tag = '<span class="er-tag green">🏆 '+score.score+'%</span>';
+  else if(total && done >= total)            tag = '<span class="er-tag green">✅ مكتمل</span>';
+  else if(total && done > 0)                 tag = '<span class="er-tag warn">⏳ قيد الحل</span>';
+  else                                       tag = '<span class="er-tag plain">جديد</span>';
+  var pdfBtn = e.pdf ? '<button class="er-icon-btn" title="تحميل ملف PDF" onclick="event.stopPropagation();downloadPDFAt('+regUrl(pdfDownloadUrl(e.pdf))+')">📄</button>' : '';
+  var wordBtn = total ? '<button class="er-icon-btn" title="تحميل Word" onclick="event.stopPropagation();downloadExamWord(\''+prop+'\','+idx+')">⬇</button>' : '';
+  return '<div class="exam-row" onclick="openQuizByType(\''+prop+'\','+idx+')">'+
+           '<span class="er-play">▶</span>'+
+           '<span class="er-main">'+
+             '<span class="er-title">'+esc(e.t || 'اختبار')+'</span>'+
+             '<span class="er-sub">'+(e.d ? esc(e.d) : '')+'</span>'+
+           '</span>'+
+           tag + pdfBtn + wordBtn +
+           '<span class="er-num">'+total+'</span>'+
+         '</div>';
+}
+
+function renderProgressSummary(){
+  var s = subjects[currentSubject];
+  var box = document.getElementById('progress-summary-box');
+  var rows = (s.lectures || []).map(function(l, i){
+    var total = (l.questions || []).length;
+    if(!total) return '';
+    var done = Object.keys(getSavedQuizFor(s, lecQuizKey(l))).length;
+    var score = getScore(s, lecQuizKey(l));
+    var b = score ? '<span class="ps-badge done">'+score.score+'%</span>'
+           : (done >= total ? '<span class="ps-badge done">مكتمل</span>'
+           : '<span class="ps-badge pending">'+done+'/'+total+'</span>');
+    return '<div class="progress-summary-row" onclick="openLecture('+currentSubject+','+i+')">'+
+             '<span class="ps-name">'+(i+1)+'. '+esc(l.t)+'</span>'+
+             '<span class="ps-badge total">'+total+' سؤال</span>'+ b +
+           '</div>';
+  }).join('');
+  if(!rows){ box.innerHTML = ''; box.style.display = 'none'; return; }
+  box.style.display = 'block';
+  box.innerHTML = '<h3>📊 ملخص التقدم — '+esc(s.name)+'</h3>' + rows;
+}
+
+// ============================================================
+// 10) وضع الامتحان + اللوحة + الأكورديون
+// ============================================================
+function setQuizMode(on){
+  document.body.classList.toggle('quiz-mode', !!on);
+  if(on) placeQNSidebar();
+}
+function detachQNSidebar(){
+  var sb = document.getElementById('qn-sidebar');
+  var layout = document.getElementById('page-layout');
+  if(sb && layout && sb.parentNode !== layout) layout.insertBefore(sb, layout.firstChild);
+}
+function placeQNSidebar(){
+  var sb = document.getElementById('qn-sidebar');
+  if(!sb || !st || !st.root) return;
+  if(window.innerWidth <= 900){
+    if(sb.parentNode !== st.root) st.root.insertBefore(sb, st.root.firstChild);
+  }else{
+    var layout = document.getElementById('page-layout');
+    if(layout && sb.parentNode !== layout) layout.insertBefore(sb, layout.firstChild);
+  }
+}
+window.addEventListener('resize', function(){
+  if(st && st.root && document.body.classList.contains('quiz-mode')) placeQNSidebar();
+});
+
+// ★ محرك الأكورديون (ملف الامتحان / المحاضرة + قسم الأسئلة)
+function setSectionOpen(name, open, animate){
+  sectionStates[name] = !!open;
+  var sec = document.getElementById(name === 'pdf' ? 'pdf-sec' : 'qs-sec');
+  if(!sec) return;
+  sec.classList.toggle('open', !!open);
+  var btn = sec.querySelector('.sec-toggle');
+  if(btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  var body = sec.querySelector('.sec-body');
+  if(!body) return;
+  if(!animate){
+    body.style.height = open ? 'auto' : '0px';
+    if(name === 'pdf' && open) lazyLoadPDF();
+    return;
+  }
+  if(open){
+    body.style.height = '0px';
+    void body.offsetHeight;
+    body.style.height = (body.scrollHeight + 2) + 'px';
+    setTimeout(function(){
+      if(sectionStates[name]) body.style.height = 'auto';
+    }, 340);
+    if(name === 'pdf') lazyLoadPDF();
+  }else{
+    body.style.height = body.scrollHeight + 'px';
+    void body.offsetHeight;
+    body.style.height = '0px';
+  }
+}
+function toggleSection(name){
+  setSectionOpen(name, !sectionStates[name], true);
+  saveSectionStates();
+}
+function ensureSectionOpen(name){
+  var sec = document.getElementById(name === 'pdf' ? 'pdf-sec' : 'qs-sec');
+  if(!sec || sec.classList.contains('open')) return false;
+  setSectionOpen(name, true, true);
+  saveSectionStates();
+  return true;
+}
+function applySectionStates(){
+  setSectionOpen('pdf', sectionStates.pdf, false);
+  setSectionOpen('questions', sectionStates.questions, false);
+}
+function lazyLoadPDF(){
+  var f = document.querySelector('#pdf-body iframe[data-src]');
+  if(f && f.getAttribute('data-src')){
+    f.src = f.getAttribute('data-src');
+    f.removeAttribute('data-src');
+  }
+}
+function openPdfAndScroll(){
+  var sec = document.getElementById('pdf-sec');
+  if(!sec){ showToast('مفيش ملف PDF هنا'); return; }
+  var opened = ensureSectionOpen('pdf');
+  setTimeout(function(){
+    sec.scrollIntoView({behavior:'smooth', block:'start'});
+  }, opened ? 360 : 0);
+}
+
+// ============================================================
+// 11) منطق الكويز — تلوين فوري + تعليم الأسئلة
+// ============================================================
+var st = null;
+var AR_LETTERS = ['أ','ب','ج','د','هـ','و','ز','ح'];
+
+function answeredCount(){
+  if(!st) return 0;
+  var n = 0;
+  for(var i = 0; i < st.data.length; i++){ if(st.answered[i] !== undefined) n++; }
+  return n;
+}
+
+function renderQuizInto(rootEl, s, key, title, questions){
+  detachQNSidebar();
+  st = {
+    subject: s, key: key, title: title || 'اختبار',
+    data: (questions || []).slice(),
+    answered: {}, marks: {}, current: 0, finished: false,
+    root: rootEl
+  };
+  var saved = getSavedQuizFor(s, key);
+  Object.keys(saved).forEach(function(k){
+    var n = parseInt(saved[k], 10);
+    if(!isNaN(n) && n >= 0) st.answered[k] = n;
+  });
+  try{
+    var mkRaw = localStorage.getItem('qmark_' + (s ? s.name : '') + '_' + key);
+    if(mkRaw) st.marks = JSON.parse(mkRaw) || {};
+  }catch(e){ st.marks = {}; }
+  var allDone = true;
+  for(var i = 0; i < st.data.length; i++){
+    if(st.answered[i] === undefined){ st.current = i; allDone = false; break; }
+  }
+  if(allDone && st.data.length){
+    st.current = st.data.length - 1;
+    if(getScore(s, key)) st.finished = true;
+  }
+  var isExam = (rootEl.id === 'quiz-view-root');
+  rootEl.innerHTML =
+    (isExam ?
+      '<div class="qs-section ax-sec" id="qs-sec">'+
+        '<button class="sec-toggle qs-toggle" aria-expanded="true" aria-controls="qs-body" onclick="toggleSection(\'questions\')" title="فتح / إغلاق القسم">'+
+          '<span class="qs-title">🧠 قسم الأسئلة</span>'+
+          '<span class="sec-arrow">⌄</span>'+
+        '</button>'+
+        '<div class="sec-body" id="qs-body">' : '')+
+    '<div class="solved-counter" id="sc-bar"></div>'+
+    '<div class="exam-qarea" id="qa-area"></div>'+
+    '<div id="results-area"></div>'+
+    '<div id="score-btn-area"></div>'+
+    (isExam ? '</div></div>' : '');
+  if(!st.data.length){
+    document.getElementById('qa-area').innerHTML = '<p class="ld-hint">⚠️ لا توجد أسئلة في الاختبار ده.</p>';
+    setQuizMode(false);
+    return;
+  }
+  if(st.finished) showResults(true);
+  else{ renderCurrentQuestion(); updateScoreBtn(); }
+  updateSolvedCounter();
+  renderQNSidebar();
+  setQuizMode(true);
+}
+
+function renderQNSidebar(){
+  var sb = document.getElementById('qn-sidebar');
+  if(!sb || !st) return;
+  var btns = st.data.map(function(q, i){
+    var cls = 'qn-btn';
+    if(i === st.current) cls += ' current';
+    if(st.answered[i] !== undefined){
+      cls += (st.answered[i] === q.correct) ? ' ok' : ' bad';
+    }
+    return '<button class="'+cls+'" onclick="examGoTo('+i+')" title="السؤال '+(i+1)+(st.marks[i]?' ⭐':'')+'">'+(i+1)+'</button>';
+  }).join('');
+  sb.innerHTML =
+    '<div class="qn-nav-header"><span>🗺️ خريطة الأسئلة</span><span class="qn-count">'+st.data.length+' سؤال</span></div>'+
+    '<div class="qn-grid">'+btns+'</div>'+
+    '<div class="qn-legend">'+
+      '<span><span class="qn-dot ok"></span>صحيح</span>'+
+      '<span><span class="qn-dot bad"></span>خطأ</span>'+
+      '<span><span class="qn-dot none"></span>لم يُجب</span>'+
+    '</div>';
+}
+
+function renderCurrentQuestion(){
+  var area = document.getElementById('qa-area');
+  if(!area || !st || !st.data.length){ if(area) area.innerHTML = ''; return; }
+  var i = Math.max(0, Math.min(st.current, st.data.length - 1));
+  st.current = i;
+  var q = st.data[i];
+  var answered = st.answered[i] !== undefined;
+  var userPick = answered ? st.answered[i] : -1;
+  var isCorrect = answered && userPick === q.correct;
+  var isMarked = !!st.marks[i];
+  var qLatin = isLatinText(q.q);
+
+  var opts = (q.options || []).map(function(op, oi){
+    var cls = 'exam-opt';
+    var opLatin = isLatinText(op);
+    var letter = opLatin ? String.fromCharCode(65 + oi) : (AR_LETTERS[oi] || String(oi + 1));
+    var click = '';
+    if(answered){
+      cls += ' locked';
+      if(oi === q.correct) cls += ' correct';
+      else if(oi === userPick) cls += ' selected wrong';
+    }else{
+      click = ' onclick="selectAnswer('+i+','+oi+')"';
+    }
+    if(opLatin) cls += ' ltr';
+    return '<div class="'+cls+'"'+click+'>'+
+             '<span class="opt-letter">'+letter+'</span>'+
+             '<span class="opt-text">'+esc(op)+'</span>'+
+           '</div>';
+  }).join('');
+
+  var fb = '';
+  if(answered){
+    fb = '<div class="quiz-feedback '+(isCorrect ? 'correct-text' : 'wrong-text')+'">'+
+           (isCorrect ? '✅ إجابة صحيحة!' : '❌ إجابة خاطئة — الإجابة الصحيحة: '+esc((q.options||[])[q.correct] || ''))+
+         '</div>';
+  }
+
+  area.innerHTML =
+    '<div class="exam-qcard">'+
+      '<span class="exam-counter">'+(i+1)+' / '+st.data.length+'</span>'+
+      '<div class="exam-qtop">'+
+        '<span class="eq-num">السؤال '+(i+1)+' من '+st.data.length+'</span>'+
+        '<button class="qmark-btn '+(isMarked?'on':'')+'" onclick="toggleMark('+i+')" title="علّمي السؤال — يظهر في ملف Word">'+(isMarked?'⭐ معلّم':'☆ علّم')+'</button>'+
+      '</div>'+
+      '<div class="exam-qtext'+(qLatin?' ltr':'')+'">'+esc(q.q)+'</div>'+
+      '<div class="exam-opts">'+opts+'</div>'+
+      fb +
+      '<div class="exam-navbtns">'+
+        '<button class="exam-nav-btn prev"'+(i===0?' disabled':'')+' onclick="examGo(-1)">→ السابق</button>'+
+        (st.finished ? '<button class="exam-nav-btn" onclick="showResults(true)">📊 النتيجة</button>' : '')+
+        '<button class="exam-nav-btn"'+(i===st.data.length-1?' disabled':'')+' onclick="examGo(1)">التالي ←</button>'+
+      '</div>'+
+      '<div class="exam-saved" id="exam-saved-msg">💾 تم حفظ إجابتك تلقائياً</div>'+
+    '</div>';
+}
+
+function toggleMark(qi){
+  if(!st) return;
+  if(st.marks[qi]){ delete st.marks[qi]; showToast('تم إلغاء تعليم السؤال'); }
+  else{ st.marks[qi] = 1; showToast('⭐ السؤال اتعلّم — هيظهر في ملف Word'); }
+  try{ localStorage.setItem('qmark_' + (st.subject ? st.subject.name : '') + '_' + st.key, JSON.stringify(st.marks)); }catch(e){}
+  renderCurrentQuestion();
+}
+
+function selectAnswer(qi, oi){
+  if(!st) return;
+  if(st.answered[qi] !== undefined) return;
+  st.answered[qi] = oi;
+  saveQuizProgress(st.subject, st.key, st.answered);
+  renderCurrentQuestion();
+  renderQNSidebar();
+  updateSolvedCounter();
+  updateScoreBtn();
+  var m = document.getElementById('exam-saved-msg');
+  if(m){ m.classList.add('show'); setTimeout(function(){ m.classList.remove('show'); }, 1500); }
+}
+
+function examGo(dir){ if(st) examGoTo(st.current + dir); }
+
+function examGoTo(i){
+  if(!st || i < 0 || i >= st.data.length) return;
+  st.current = i;
+  var qa = document.getElementById('qa-area'), ra = document.getElementById('results-area');
+  if(qa) qa.style.display = '';
+  if(ra) ra.innerHTML = '';
+  var wasClosed = ensureSectionOpen('questions');
+  renderCurrentQuestion();
+  renderQNSidebar();
+  var card = document.querySelector('#qa-area .exam-qcard');
+  if(card){
+    if(wasClosed){
+      setTimeout(function(){ card.scrollIntoView({behavior:'smooth', block:'center'}); }, 360);
+    }else{
+      card.scrollIntoView({behavior:'smooth', block:'center'});
     }
   }
 }
 
-// ============================================================
-// 11) وضع الامتحان — سؤال واحد + لوحة جانبية مستقلة
-// ============================================================
-var quizState = null, quizRoot = null, quizReturnView = 'main-view';
-var LETTERS = ['أ','ب','ج','د','هـ','و','ز'];
+function updateSolvedCounter(){
+  var el = document.getElementById('sc-bar');
+  if(!el || !st) return;
+  var done = answeredCount(), total = st.data.length;
+  var pct = total ? Math.round(done * 100 / total) : 0;
+  el.innerHTML = '<span>✅ تم حلّه: <span class="sc-ok">'+done+'</span> من '+total+'</span>'+
+                 '<span class="sc-pct">'+pct+'%</span>';
+}
 
-function qr(sel){ return quizRoot ? quizRoot.querySelector(sel) : null; }
-function clearOtherQuizRoots(keep){
-  ['quiz-view-root','lecture-quiz-root'].forEach(function(id){
-    var el = document.getElementById(id);
-    if(el && el !== keep) el.innerHTML = '';
+function updateScoreBtn(){
+  var wrap = document.getElementById('score-btn-area');
+  if(!wrap || !st) return;
+  if(!st.finished && st.data.length && answeredCount() >= st.data.length){
+    wrap.innerHTML = '<div class="show-score-btn-wrap">'+
+      '<button class="show-score-btn" onclick="showResults()">🏆 اعرض نتيجتك</button>'+
+      '<div class="show-score-subtitle">جاوبتي على كل الأسئلة — شوف مستواك!</div>'+
+    '</div>';
+  }else if(!st.finished){
+    wrap.innerHTML = '';
+  }
+}
+
+function showResults(silent){
+  if(!st || !st.data.length) return;
+  var total = st.data.length;
+  var correct = 0;
+  st.data.forEach(function(q, i){
+    if(st.answered[i] !== undefined && st.answered[i] === q.correct) correct++;
   });
-}
-function buildQuizState(cat, idx){
-  var data = getQuizData(cat, idx);
-  var st = {
-    cat:cat, idx:idx, key:data.key, title:data.title,
-    questions: data.questions.map(function(src){ return {q:src.q, options:src.options, correct:src.correct, src:src}; }),
-    answered:{}, correct:0, finished:false, currentQ:0
-  };
-  var saved = getSavedQuiz(data.key);
-  if(saved && saved.answers && Object.keys(saved.answers).length){
-    st.answered = saved.answers;
-    st.finished = !!saved.finished;
-    st.correct = computeCorrectCount(st);
-    return {st:st, restored:true};
-  }
-  return {st:st, restored:false};
-}
-
-function renderQuizInto(rootEl){
-  var side = document.getElementById('qn-sidebar');
-  var wrap = document.getElementById('page-layout');
-  if(side && wrap && side.parentElement !== wrap) wrap.insertBefore(side, wrap.firstChild);
-
-  quizRoot = rootEl;
-  clearOtherQuizRoots(rootEl);
-  var st = quizState, s = subjects[currentSubject];
-  var total = st.questions.length;
-  rootEl.innerHTML =
-    '<div class="solved-counter">'+
-      '<span>✅ حليت <b class="sc-ok">0</b> من أصل <b class="sc-total">'+total+'</b> أسئلة</span>'+
-      '<span class="sc-pct">0%</span>'+
-    '</div>'+
-    '<div class="quiz-header">'+
-      '<div style="font-weight:bold;font-size:17px;color:var(--text-heading);">'+s.icon+' '+esc(s.name)+' — '+esc(st.title)+'</div>'+
-      '<div style="display:flex;gap:8px;flex-wrap:wrap;">'+
-        '<button class="download-questions-btn" style="margin:0;">📥 تحميل Word</button>'+
-        '<button class="reset-btn">🔄 إعادة</button>'+
-      '</div>'+
-    '</div>'+
-    '<div class="exam-layout">'+
-      '<div class="exam-main">'+
-        '<div class="exam-qarea"></div>'+
-        '<div class="exam-navbtns">'+
-          '<button class="exam-nav-btn prev">← السابق</button>'+
-          '<button class="exam-nav-btn next">التالي →</button>'+
-        '</div>'+
-        '<div class="exam-saved">💾 تم الحفظ!</div>'+
-        '<div class="show-score-btn-wrap" style="display:none;">'+
-          '<button class="show-score-btn">🏆 اعرض نتيجتك</button>'+
-          '<div class="show-score-subtitle">أجبت على جميع الأسئلة!</div>'+
-        '</div>'+
-        '<div class="quiz-result-area"></div>'+
-      '</div>'+
-    '</div>';
-  var dl = rootEl.querySelector('.download-questions-btn'); if(dl) dl.onclick = downloadCurrentQuiz;
-  var rb = rootEl.querySelector('.reset-btn'); if(rb) rb.onclick = retryQuiz;
-  var sb = rootEl.querySelector('.show-score-btn'); if(sb) sb.onclick = function(){ showScore(false); };
-  var pb = rootEl.querySelector('.exam-nav-btn.prev'); if(pb) pb.onclick = function(){ examGo(-1); };
-  var nb = rootEl.querySelector('.exam-nav-btn.next'); if(nb) nb.onclick = function(){ examGo(1); };
-
-  if(side){
-    side.innerHTML =
-      '<div class="qn-nav-header"><span>🧭 الأسئلة</span><span class="qn-count">0 / '+total+'</span></div>'+
-      '<div class="qn-grid"></div>'+
-      '<div class="qn-legend"><span><i class="qn-dot" style="background:var(--accent)"></i> مُجابة</span><span><i class="qn-dot none"></i> لم تُجب</span></div>';
-  }
-  placeQNSidebar();
-  renderCurrentQuestion();
-  updateQuizProgressUI();
-}
-
-function placeQNSidebar(){
-  var side = document.getElementById('qn-sidebar');
-  if(!side || !quizRoot) return;
-  if(window.innerWidth < 900){
-    var anchor = quizRoot.querySelector('.exam-main');
-    if(anchor && side !== anchor.previousElementSibling) quizRoot.insertBefore(side, anchor);
-  } else {
-    var wrap = document.getElementById('page-layout');
-    if(wrap && side.parentElement !== wrap) wrap.insertBefore(side, wrap.firstChild);
-  }
-}
-var _qnRsTimer = null;
-window.addEventListener('resize', function(){
-  clearTimeout(_qnRsTimer);
-  _qnRsTimer = setTimeout(placeQNSidebar, 150);
-});
-//// ★ عرض السؤال — لو اتجاوب: يبان الصح أخضر والغلط أحمر فوراً
-function renderCurrentQuestion(){
-  var st = quizState; if(!st || !quizRoot) return;
-  var qi = st.currentQ, q = st.questions[qi];
-  var sel = st.answered[qi];
-  var answered = (sel !== undefined);          // ★ اتجاوب → يظهر صح/غلط
-  var area = qr('.exam-qarea'); if(!area) return;
-  area.innerHTML =
-    '<div class="exam-qcard">'+
-      '<span class="exam-counter">'+(qi+1)+' / '+st.questions.length+'</span>'+
-      '<div class="exam-qhead">'+
-        '<span class="exam-avatar">🧑‍🎓</span>'+
-        '<span class="qh-txt">السؤال '+(qi+1)+
-          (st.finished ? ' — 🔒 مراجعة' : (answered ? ' — ✔ تم الإجابة' : ''))+
-          '<small>'+esc(quizState.title)+'</small>'+
-        '</span>'+
-      '</div>'+
-      '<div class="exam-qtext">'+esc(q.q)+'</div>'+
-      '<div class="exam-opts">'+ q.options.map(function(op,oi){
-        var cls = 'exam-opt';
-        if(answered){
-          cls += ' locked';
-          if(oi === q.correct) cls += ' correct';
-          else if(sel === oi) cls += ' wrong';
-        }
-        return '<button class="'+cls+'" onclick="selectAnswer('+qi+','+oi+')">'+
-          '<span class="opt-letter">'+(LETTERS[oi]||'•')+'</span><span>'+esc(op)+'</span></button>';
-      }).join('') +'</div>'+
-      (answered ? (sel === q.correct
-        ? '<div class="quiz-feedback correct-text" style="display:block;margin-top:14px;font-size:16px;font-weight:bold;">✔ إجابة صحيحة!</div>'
-        : '<div class="quiz-feedback wrong-text" style="display:block;margin-top:14px;font-size:16px;font-weight:bold;">✘ إجابة خاطئة — الصحيح هو: '+esc(q.options[q.correct])+'</div>') : '')+
-    '</div>';
-  updateNextPrevButtons();
-}
-
-// ★ اختيار إجابة → إعادة الرسم بالصح/الغلط فوراً + حفظ
-function selectAnswer(qi, oi){
-  var st = quizState; if(!st || !quizRoot || qi !== st.currentQ || st.finished) return;
-  if(st.answered[qi] !== undefined) return;   // ★ السؤال يتقفل بعد أول اختيار
-  st.answered[qi] = oi;
-  st.correct = computeCorrectCount(st);
-  saveQuizProgress();
-  renderCurrentQuestion();                    // ★ هنا بيظهر صح/غلط في نفس اللحظة
-  var sv = qr('.exam-saved');
-  if(sv){ sv.classList.add('show'); clearTimeout(sv._t); sv._t = setTimeout(function(){ sv.classList.remove('show'); }, 1600); }
-  updateQuizProgressUI();
-}
-
-function examGo(dir){
-  var st = quizState; if(!st) return;
-  var next = st.currentQ + dir;
-  if(next < 0 || next >= st.questions.length) return;
-  st.currentQ = next;
-  renderCurrentQuestion();
-  updateQuizProgressUI();
-}
-function updateNextPrevButtons(){
-  var st = quizState; if(!st || !quizRoot) return;
-  var prev = qr('.exam-nav-btn.prev'), next = qr('.exam-nav-btn.next');
-  if(prev) prev.disabled = (st.currentQ === 0);
-  if(next) next.disabled = (st.currentQ === st.questions.length - 1);
-}
-
-function jumpToQuestion(qi){
-  var st = quizState; if(!st || !quizRoot) return;
-  if(qi < 0 || qi >= st.questions.length) return;
-  st.currentQ = qi;
-  renderCurrentQuestion();
-  updateQuizProgressUI();
-}
-
-function renderNavigator(){
-  var st = quizState; if(!st) return;
-  var side = document.getElementById('qn-sidebar'); if(!side) return;
-  var grid = side.querySelector('.qn-grid'); if(!grid) return;
-  grid.innerHTML = st.questions.map(function(q,qi){
-    var cls = 'qn-btn';
-    var sel = st.answered[qi];
-    if(st.finished && sel !== undefined){ cls += (sel === q.correct) ? ' ok' : ' bad'; }
-    else if(sel !== undefined){ cls += ' answered'; }
-    if(qi === st.currentQ) cls += ' current';
-    return '<button class="'+cls+'" title="اذهب للسؤال '+(qi+1)+'">'+(qi+1)+'</button>';
-  }).join('');
-  grid.querySelectorAll('.qn-btn').forEach(function(b,bi){ b.onclick = function(){ jumpToQuestion(bi); }; });
-  var c = side.querySelector('.qn-count');
-  if(c) c.textContent = Object.keys(st.answered).length + ' / ' + st.questions.length;
-}
-
-function updateQuizProgressUI(){
-  var st = quizState; if(!st || !quizRoot) return;
-  var done = Object.keys(st.answered).length, total = st.questions.length;
-  var pct = total ? Math.round(done/total*100) : 0;
-  var ok = qr('.sc-ok'); if(ok) ok.textContent = done;
-  var tot = qr('.sc-total'); if(tot) tot.textContent = total;
-  var sp = qr('.sc-pct'); if(sp) sp.textContent = pct + '%';
-  var counter = qr('.exam-counter'); if(counter) counter.textContent = (st.currentQ+1) + ' / ' + total;
-  if(done === total && !st.finished){ var w = qr('.show-score-btn-wrap'); if(w) w.style.display = 'flex'; }
-  renderNavigator();
-  if(quizRoot.id === 'lecture-quiz-root') refreshLectureQuizChip();
-}
-
-function applySavedAnswers(){
-  var st = quizState; if(!st || !quizRoot) return;
-  if(!st.finished && Object.keys(st.answered).length){
-    var firstUn = 0;
-    for(var i=0;i<st.questions.length;i++){ if(st.answered[i] === undefined){ firstUn = i; break; } }
-    st.currentQ = Math.min(firstUn, st.questions.length - 1);
-  }
-  renderCurrentQuestion();
-  updateQuizProgressUI();
-}
-
-function showScore(silent){
-  var st = quizState; if(!st || !quizRoot) return;
-  st.correct = computeCorrectCount(st);
-  var total = st.questions.length;
-  var pct = Math.round(st.correct / total * 100);
-  var wasFinished = st.finished;
+  var pct = Math.round(correct * 100 / total);
   st.finished = true;
-  saveQuizProgress();
-  saveScore(currentSubject, st.key, pct);
-  if(!silent && !wasFinished){
-    addNotification({type:'score', title:'🎉 أنهيت اختبار: ' + st.title, context:'مادة ' + subjects[currentSubject].name, score:pct});
+
+  var res = {score:pct, correct:correct, wrong:(total-correct), total:total, date:new Date().toLocaleDateString('ar-EG')};
+  saveScore(st.subject, st.key, res);
+  if(!silent){
+    addNotification({title:'🏆 نتيجة: '+st.title, context:st.subject.name, score:pct});
+    showToast('تم حفظ النتيجة: '+pct+'%');
   }
-  renderAllLists();
-  renderNavigator();
-  if(quizRoot.id === 'lecture-quiz-root') refreshLectureQuizChip();
-  var msg = pct>=90 ? 'ممتاز! 🌟' : pct>=75 ? 'جيد جداً! 👏' : pct>=50 ? 'جيد — تحتاج مراجعة بسيطة 📖' : 'راسب — راجع المحاضرة جيداً 💪';
+
+  var msg = pct >= 90 ? 'ممتاز! 🌟' : pct >= 75 ? 'جيد جداً 👏' : pct >= 50 ? 'جيد 🙂' : 'حاول مرة تانية 💪';
   var wrongs = [];
-  st.questions.forEach(function(q,qi){
-    var sel = st.answered[qi];
-    if(sel !== undefined && sel !== q.correct) wrongs.push({qi:qi, q:q, sel:sel});
+  st.data.forEach(function(q, i){
+    if(st.answered[i] !== undefined && st.answered[i] !== q.correct) wrongs.push({q:q, i:i, user:st.answered[i]});
   });
-  var wrongHtml = wrongs.length ?
-    '<div class="wrong-collapse-wrap">'+
-    '<div class="wrong-collapse-header"><span>❌ راجع إجاباتك الخاطئة ('+wrongs.length+')</span>'+
-    '<span class="wrong-collapse-arrow">▼</span></div>'+
-    '<div class="wrong-collapse-body">'+ wrongs.map(function(w){
-      return '<div class="wrong-q-card"><span class="wrong-q-num">'+(w.qi+1)+'</span>'+
-      '<div class="wrong-q-text">'+esc(w.q.q)+'</div>'+
-      '<ul class="wrong-q-options-list">'+ w.q.options.map(function(o){ return '<li>'+esc(o)+'</li>'; }).join('') +'</ul>'+
-      '<div class="wrong-q-answer wrong-q-user"><span class="wrong-q-label">إجابتك:</span>'+esc(w.q.options[w.sel])+'</div>'+
-      '<div class="wrong-q-answer wrong-q-correct"><span class="wrong-q-label">الإجابة الصحيحة:</span>'+esc(w.q.options[w.q.correct])+'</div></div>';
-    }).join('') +'</div></div>'
-    : '<div class="no-wrong-msg">🎉 لا توجد إجابات خاطئة، أحسنت!</div>';
-  var ra = qr('.quiz-result-area');
-  if(ra){
-    ra.innerHTML =
-      '<div class="score-card"><div class="score-circle"><div class="score-number">'+pct+'%</div><div class="score-label">النتيجة</div></div>'+
-      '<div class="score-message">'+msg+'</div>'+
-      '<div class="score-details">✔ إجابات صحيحة: '+st.correct+' من '+total+'</div>'+
-      '<div class="score-details">📚 المادة: '+esc(subjects[currentSubject].name)+'</div>'+
-      '<button class="retry-btn">🔄 إعادة المحاولة</button></div>'+ wrongHtml;
-    var rbtn = ra.querySelector('.retry-btn'); if(rbtn) rbtn.onclick = retryQuiz;
-    var wh = ra.querySelector('.wrong-collapse-header');
-    if(wh) wh.onclick = function(){
-      ra.querySelector('.wrong-collapse-body').classList.toggle('open');
-      ra.querySelector('.wrong-collapse-arrow').classList.toggle('open');
-    };
+
+  var actBtns =
+    '<div class="res-word-wrap">'+
+      '<button class="res-word-btn wrong" onclick="downloadWrongWord()">📄 Word — الأسئلة الخطأ</button>'+
+      '<button class="res-word-btn marked" onclick="downloadMarkedWord()">⭐ Word — الأسئلة المعلّمة</button>'+
+    '</div>';
+
+  var wrongHTML;
+  if(wrongs.length){
+    wrongHTML = '<div class="wrong-collapse-wrap">'+
+      '<div class="wrong-collapse-header" onclick="toggleWrongReview(event)">'+
+        '<span>❌ مراجعة الأخطاء ('+wrongs.length+')</span>'+
+        '<span class="wrong-collapse-arrow" id="wra">▼</span>'+
+      '</div>'+
+      '<div class="wrong-collapse-body" id="wrb">'+
+        wrongs.map(function(w){
+          return '<div class="wrong-q-card">'+
+            '<span class="wrong-q-num">'+(w.i+1)+'</span>'+
+            '<div class="wrong-q-text">'+esc(w.q.q)+'</div>'+
+            '<div class="wrong-q-answer wrong-q-user"><span class="wrong-q-label">إجابتك:</span>'+esc((w.q.options||[])[w.user] || '—')+'</div>'+
+            '<div class="wrong-q-answer wrong-q-correct"><span class="wrong-q-label">الإجابة الصحيحة:</span>'+esc((w.q.options||[])[w.q.correct] || '—')+'</div>'+
+          '</div>';
+        }).join('')+
+      '</div>'+
+    '</div>';
+  }else{
+    wrongHTML = '<div class="no-wrong-msg">🎉 مفيش أخطاء — كل إجاباتك صح!</div>';
   }
-  var wrap2 = qr('.show-score-btn-wrap'); if(wrap2) wrap2.style.display = 'none';
-  renderCurrentQuestion();
-  if(!silent && ra) ra.scrollIntoView({behavior:'smooth', block:'center'});
+
+  document.getElementById('results-area').innerHTML =
+    '<div class="score-card">'+
+      '<div class="score-circle"><div class="score-number">'+pct+'%</div><div class="score-label">النتيجة</div></div>'+
+      '<div class="score-details">✅ صحيحة: '+correct+' &nbsp;•&nbsp; ❌ خاطئة: '+(total-correct)+' &nbsp;•&nbsp; الإجمالي: '+total+'</div>'+
+      '<div class="score-message">'+msg+'</div>'+
+      '<button class="retry-btn" onclick="resetQuiz()">🔄 إعادة الاختبار</button>'+
+    '</div>' + actBtns + wrongHTML;
+
+  var qa = document.getElementById('qa-area');
+  if(qa) qa.style.display = 'none';
+  var wrap = document.getElementById('score-btn-area');
+  if(wrap) wrap.innerHTML = '';
+  updateSolvedCounter();
+  renderQNSidebar();
+  var sc = document.querySelector('#results-area .score-card');
+  if(sc) sc.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
-function retryQuiz(){
-  if(!quizState || !quizRoot) return;
-  quizState.answered = {}; quizState.correct = 0; quizState.finished = false; quizState.currentQ = 0;
-  clearQuizProgress(quizState.key);
-  var root = quizRoot;
-  renderQuizInto(root);
-  if(root.id === 'lecture-quiz-root') refreshLectureQuizChip();
-  showToast('🔄 تم بدء محاولة جديدة — تم مسح الحل السابق');
+function downloadWrongWord(){
+  if(!st) return;
+  var qs = [], picks = [];
+  st.data.forEach(function(q, i){
+    if(st.answered[i] !== undefined && st.answered[i] !== q.correct){
+      qs.push(q); picks.push(st.answered[i]);
+    }
+  });
+  if(!qs.length){ showToast('مفيش أسئلة خطأ 🎉'); return; }
+  downloadWord(qs, st.subject.name + ' — ' + st.title + ' (الأسئلة الخطأ)', picks);
+}
+
+function downloadMarkedWord(){
+  if(!st) return;
+  var qs = [], picks = [];
+  st.data.forEach(function(q, i){
+    if(st.marks[i]){ qs.push(q); picks.push(st.answered[i]); }
+  });
+  if(!qs.length){ showToast('مفيش أسئلة معلّمة — علمي ⭐ على الأسئلة اللي عايزاها'); return; }
+  downloadWord(qs, st.subject.name + ' — ' + st.title + ' (الأسئلة المعلّمة)', picks);
+}
+
+function toggleWrongReview(e){
+  if(e) e.stopPropagation();
+  var b = document.getElementById('wrb'), a = document.getElementById('wra');
+  if(b) b.classList.toggle('open');
+  if(a) a.classList.toggle('open');
+}
+
+function resetQuiz(){
+  if(!st) return;
+  clearSavedQuiz(st.subject, st.key);
+  st.answered = {}; st.current = 0; st.finished = false;
+  var ra = document.getElementById('results-area'); if(ra) ra.innerHTML = '';
+  var qa = document.getElementById('qa-area'); if(qa) qa.style.display = '';
+  renderCurrentQuestion();
+  renderQNSidebar();
+  updateSolvedCounter();
+  updateScoreBtn();
+  showToast('تم مسح الحل المحفوظ — بالتوفيق 💪');
 }
 
 // ============================================================
-// 12) PDF: روابط + تحويلات (Drive / Dropbox)
+// 12) PDF — Drive / Dropbox / محلي + تحميل مباشر
 // ============================================================
 function driveId(url){
-  var m = url.match(/drive\.google\.com\/file\/d\/([^\/\?#]+)/) || url.match(/drive\.google\.com\/open\?id=([^&]+)/);
+  if(!url) return null;
+  var m = String(url).match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=|uc\?export=download&id=)([a-zA-Z0-9_-]{10,})/);
   return m ? m[1] : null;
 }
 function pdfEmbedUrl(url){
   var id = driveId(url);
   if(id) return 'https://drive.google.com/file/d/' + id + '/preview';
-  if(url.indexOf('dropbox.com') !== -1){
-    var u = url.replace('?dl=0','').replace('&dl=0','');
-    return u + (u.indexOf('?') !== -1 ? '&' : '?') + 'raw=1';
-  }
-  return url;
+  var u = String(url || '');
+  if(/dropbox\.com/.test(u)) return u.replace('?dl=0','?raw=1').replace('&dl=0','&raw=1');
+  return u;
 }
 function pdfDownloadUrl(url){
   var id = driveId(url);
   if(id) return 'https://drive.google.com/uc?export=download&id=' + id;
-  if(url.indexOf('dropbox.com') !== -1) return url.replace('?dl=0','?dl=1').replace('&dl=0','&dl=1');
-  return url;
+  var u = String(url || '');
+  if(/dropbox\.com/.test(u)) return u.replace('?dl=0','?dl=1');
+  return u;
 }
-function pdfNameFromUrl(url){
-  if(driveId(url)) return 'ملف (Google Drive)';
-  try{
-    var last = decodeURIComponent(url.split('?')[0].split('#')[0].split('/').filter(Boolean).pop() || '');
-    if(/\.(pdf|PDF)$/.test(last)) return last;
-    if(last) return last + '.pdf';
-  }catch(e){}
-  return 'ملف PDF';
+function lecturePDFAt(s, lec){ return (lec && lec.pdf) ? lec.pdf : null; }
+function examPDFAt(e){ return (e && e.pdf) ? e.pdf : null; }
+// ★★ ملف أسئلة المحاضرة (pdf2) — اللي بيفتح في قسم الأسئلة
+//    ولو المحاضرة معندهاش pdf2 → نرجع لـ pdf زي ما كان
+function lecExamPDFAt(l){
+  if(l && l.pdf2) return l.pdf2;
+  return (l && l.pdf) ? l.pdf : null;
 }
-function lecturePDFAt(si, li){
-  var l = subjects[si].lectures[li];
-  if(l.pdf && String(l.pdf).trim()) return String(l.pdf).trim();
-  return '';
-}
-function getLecturePDF(){ return currentLectureIdx >= 0 ? lecturePDFAt(currentSubject, currentLectureIdx) : ''; }
-function examPDFAt(cat, idx){
-  var s = subjects[currentSubject];
-  var map = {mid:s.midterms, final:s.finals, model:s.examModels, bank:s.testBanks};
-  var it = map[cat] && map[cat][idx];
-  if(it && it.pdf && String(it.pdf).trim()) return String(it.pdf).trim();
-  return '';
-}
-var currentExamPDF = '';
-function renderExamPDFArea(cat, idx){
-  var area = document.getElementById('quiz-pdf-area');
-  currentExamPDF = examPDFAt(cat, idx);
-  if(!currentExamPDF){ area.innerHTML = ''; return; }
-  area.innerHTML =
-    '<div class="ld-section" id="exam-pdf-sec">'+
-      '<div class="ld-header" onclick="toggleLD(\'exam-pdf-sec\')" title="فتح / إغلاق ملف الامتحان">'+
-        '<span class="ld-num">📄</span>'+
-        '<span class="ld-title">ملف الامتحان (PDF)</span>'+
-        '<span class="ld-chip ok">📎 PDF جاهز</span>'+
-        '<span class="ld-arrow">▶</span>'+
-      '</div>'+
-      '<div class="ld-body">'+
-        '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">'+
-          '<span class="ld-chip">'+esc(pdfNameFromUrl(currentExamPDF))+'</span>'+
-          '<button class="btn-sm" style="font-size:13px;padding:8px 16px;" onclick="downloadCurrentExamPDF()">⭳ تحميل الملف</button>'+
-        '</div>'+
-        '<div class="pdf-viewer"><iframe src="'+escAttr(pdfEmbedUrl(currentExamPDF))+'"></iframe></div>'+
-      '</div>'+
-    '</div>';
-}
-function downloadCurrentExamPDF(){
-  if(!currentExamPDF) return;
-  window.open(pdfDownloadUrl(currentExamPDF), '_blank');
-  showToast('⭳ فتحنا الملف في تبويب جديد — احفظه من هناك');
-}
-function downloadLecturePDFFromList(i){
-  var pdf = lecturePDFAt(currentSubject, i);
-  if(pdf){
-    window.open(pdfDownloadUrl(pdf), '_blank');
-    showToast('⭳ فتحنا ملف المحاضرة في تبويب جديد — احفظيه من هناك');
-  } else {
-    downloadSubjectWord('lecture', i);
-    showToast('⭳ لا يوجد PDF لهذه المحاضرة — نزّلنا أسئلة Word بدلاً منه');
-  }
+
+function downloadPDFAt(idx){
+  var u = urlRegistry[idx];
+  if(!u){ showToast('الملف غير متاح'); return; }
+  var a = document.createElement('a');
+  a.href = encodeURI(u);
+  a.setAttribute('download','');
+  a.setAttribute('target','_blank');
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function(){ a.remove(); }, 800);
+  showToast('جاري تحميل ملف PDF 📄');
 }
 
 // ============================================================
-// 13) القسم 1: كروت الروابط (صيغتان)
+// 13) كروت الروابط + سجل روابط آمن
 // ============================================================
-var currentLectureLinksCache = [];
-function linkHasContent(lnk){
-  if(lnk.url && String(lnk.url).trim()) return true;
-  if(lnk.actions && lnk.actions.some(function(a){ return a.url && String(a.url).trim(); })) return true;
-  return false;
+var urlRegistry = [];
+function regUrl(u){ urlRegistry.push(u); return urlRegistry.length - 1; }
+function openReg(i){
+  var u = urlRegistry[i];
+  if(u) window.open(encodeURI(u), '_blank');
 }
-function lectureLinks(i){
-  return (subjects[currentSubject].lectures[i].links || []).filter(linkHasContent);
+
+function availableLinks(links){
+  return (links || []).filter(function(L){
+    return L && ((L.url && String(L.url).trim()) || (L.actions && L.actions.length));
+  });
 }
-function renderLectureLinks(){
-  if(currentLectureIdx < 0) return;
-  var links = lectureLinks(currentLectureIdx);
-  currentLectureLinksCache = links;
-  var el = document.getElementById('ld-links-list');
-  if(!links.length){
-    el.innerHTML = '<p style="color:var(--text-hint);">لا توجد روابط متاحة لهذه المحاضرة بعد.</p>';
-  } else {
-    el.innerHTML = links.map(function(lnk, i){
-      var actionsHTML = '';
-      if(lnk.actions && lnk.actions.length){
-        actionsHTML = '<div class="link-actions">'+ lnk.actions.map(function(a, ai){
-          if(!a.url || !String(a.url).trim()) return '';
-          var cls = 'link-action-btn' + (a.color ? ' ' + a.color : '');
-          return '<button class="'+cls+'" onclick="event.stopPropagation();openLinkAction('+i+','+ai+')">'+esc(a.label||'فتح')+'</button>';
-        }).join('') +'</div>';
-      } else if(lnk.url && String(lnk.url).trim()){
-        actionsHTML = '<div class="link-actions"><button class="link-action-btn" onclick="event.stopPropagation();openLegacyLink('+i+')">فتح ↗</button></div>';
-      }
-      return '<div class="link-card" id="lk-card-'+i+'">'+
-        '<div class="link-card-head" onclick="toggleLinkCard('+i+')">'+
-          '<span class="link-card-icon">'+(lnk.icon||'🔗')+'</span>'+
-          '<span style="flex:1;min-width:0;">'+
-            '<span class="link-card-tt">'+esc(lnk.t)+'</span>'+
-            (lnk.d ? '<span class="link-card-dd">'+esc(lnk.d)+'</span>' : '')+
-          '</span>'+
+
+function renderLinksList(boxId, links){
+  var box = document.getElementById(boxId);
+  if(!box) return;
+  var out = availableLinks(links).map(function(L){
+    if(L.actions && L.actions.length){
+      var acts = L.actions.map(function(a){
+        if(!a || !a.url) return '';
+        var col = a.color === 'green' ? ' green' : (a.color === 'orange' ? ' orange' : '');
+        var lbl = a.type === 'download' ? '⬇ ' + esc(a.label) : '👁 ' + esc(a.label);
+        return '<button class="link-action-btn'+col+'" onclick="event.stopPropagation();openReg('+regUrl(a.url)+')">'+lbl+'</button>';
+      }).join('');
+      return '<div class="link-card">'+
+        '<div class="link-card-head" onclick="toggleLinkCard(this)">'+
+          '<span class="link-card-icon">'+(L.icon || '🔗')+'</span>'+
+          '<span><span class="link-card-tt">'+esc(L.t || '')+'</span>'+
+          (L.d ? '<span class="link-card-dd">'+esc(L.d)+'</span>' : '')+'</span>'+
           '<span class="link-arrow">▶</span>'+
         '</div>'+
-        '<div class="link-card-body">'+actionsHTML+'</div>'+
+        '<div class="link-card-body"><div class="link-actions">'+acts+'</div></div>'+
       '</div>';
-    }).join('');
-  }
-  var chip = document.getElementById('ld-links-chip');
-  if(chip){ chip.textContent = links.length ? links.length + ' روابط' : 'لا روابط'; chip.className = 'ld-chip' + (links.length ? ' ok' : ''); }
+    }
+    return '<div class="link-card">'+
+      '<div class="link-card-head" onclick="openReg('+regUrl(L.url)+')">'+
+        '<span class="link-card-icon">🔗</span>'+
+        '<span><span class="link-card-tt">'+esc(L.t || '')+'</span>'+
+        (L.d ? '<span class="link-card-dd">'+esc(L.d)+'</span>' : '')+'</span>'+
+        '<span class="link-arrow">↗</span>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+  box.innerHTML = out || '<p class="ld-hint">لا توجد روابط متاحة لهذه المحاضرة حالياً.</p>';
 }
-function toggleLinkCard(i){
-  var card = document.getElementById('lk-card-'+i);
+function toggleLinkCard(head){
+  var card = head ? head.parentNode : null;
   if(card) card.classList.toggle('open');
 }
-function openLinkAction(i, ai){
-  var lnk = currentLectureLinksCache[i];
-  var a = (lnk && lnk.actions) ? lnk.actions[ai] : null;
-  if(!a || !a.url) return;
-  smartOpenLink(a.url, a.type);
-}
-function openLegacyLink(i){
-  var lnk = currentLectureLinksCache[i];
-  if(lnk && lnk.url) smartOpenLink(lnk.url, 'view');
-}
-function smartOpenLink(url, type){
-  url = String(url).trim();
-  var wantDownload = (type === 'download');
-  var m = url.match(/drive\.google\.com\/file\/d\/([^\/\?#]+)/) || url.match(/drive\.google\.com\/open\?id=([^&]+)/);
-  if(m){
-    if(wantDownload) window.open('https://drive.google.com/uc?export=download&id=' + m[1], '_blank');
-    else window.open('https://drive.google.com/file/d/' + m[1] + '/preview', '_blank');
-    return;
-  }
-  if(url.indexOf('dropbox.com') !== -1){
-    var u = url.replace('?dl=0','').replace('&dl=0','');
-    var sep = (u.indexOf('?') !== -1) ? '&' : '?';
-    window.open(wantDownload ? u + sep + 'dl=1' : u + sep + 'raw=1', '_blank');
-    return;
-  }
-  var a = document.createElement('a');
-  a.href = url; a.target = '_blank'; a.rel = 'noopener';
-  if(wantDownload) a.download = '';
-  document.body.appendChild(a); a.click(); a.remove();
+
+// ============================================================
+// 14) قسم ملف المحاضرة (صفحة المحاضرة العادية — بتستخدم pdf)
+// ============================================================
+function renderAttachCard(boxId, title, url){
+  var box = document.getElementById(boxId);
+  if(!box) return;
+  if(!url){ box.innerHTML = ''; return; }
+  var emb = pdfEmbedUrl(url);
+  var dlIdx = regUrl(pdfDownloadUrl(url));
+  var canPreview = driveId(url) || /\.pdf($|\?)/i.test(String(url)) || /dropbox\.com/.test(String(url));
+  box.innerHTML =
+    '<div class="attach-card">'+
+      '<div class="attach-head">'+
+        '<span class="attach-title">📄 '+esc(title || 'الملف')+'</span>'+
+        '<button class="btn-sm" style="background:var(--download-btn-bg);" onclick="downloadPDFAt('+dlIdx+')">⬇ تحميل الملف</button>'+
+      '</div>'+
+      '<div class="attach-line"></div>'+
+      (canPreview
+        ? '<div class="pdf-viewer"><iframe src="'+escAttr(emb)+'"></iframe></div>'+
+          '<p class="ld-hint" style="margin-top:8px;">الملف مش بيظهر فوق؟ <a href="#" onclick="downloadPDFAt('+dlIdx+');return false;" style="color:var(--accent);font-weight:bold;">نزّليه مباشرة 📥</a></p>'
+        : '<p class="ld-hint">الملف مش PDF مباشر — استخدمي زر التحميل فوق.</p>')+
+    '</div>';
 }
 
 // ============================================================
-// 14) القسم 2: ملف / محتوى المحاضرة
+// 15) فتح الصفحات + حفظ آخر حالة
 // ============================================================
-function buildLecturePreviewHTML(l, s, i){
-  return '<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8"><style>'+
-    'body{font-family:Tahoma,Arial,sans-serif;padding:26px;line-height:2;color:#333;background:#fff}'+
-    'h1{color:#2c3e50;border-bottom:3px solid #3498db;padding-bottom:10px}'+
-    '.tag{display:inline-block;background:#ecf0f1;border-radius:12px;padding:4px 12px;font-size:13px;margin:4px}'+
-    '</style></head><body><h1>'+esc(l.t)+'</h1>'+
-    '<div class="tag">📚 '+esc(s.name)+'</div><div class="tag">📄 محاضرة رقم '+(i+1)+'</div>'+
-    '<p>'+esc(l.d)+'</p>'+
-    '<p style="color:#777;font-size:14px">هذه نسخة عرض داخلية للمحاضرة — لم يُرفع ملف PDF لهذه المحاضرة بعد.</p>'+
-    '</body></html>';
-}
-function renderAttachCard(){
-  if(currentLectureIdx < 0) return;
-  var pdf = getLecturePDF();
-  var el = document.getElementById('ld-attach-card');
-  if(pdf){
-    el.innerHTML =
-      '<div class="attach-card">'+
-        '<div class="attach-head"><span class="attach-title">📎 الملف المرفق</span><span class="badge done">PDF جاهز</span></div>'+
-        '<div class="attach-line"></div>'+
-        '<p style="color:var(--text-secondary);font-size:14px;margin:0 0 14px;">📄 '+esc(pdfNameFromUrl(pdf))+' — يمكنك معاينته أعلاه مباشرة أو تحميله على جهازك.</p>'+
-        '<div style="display:flex;gap:8px;flex-wrap:wrap;">'+
-          '<button class="btn-sm" style="font-size:13px;padding:8px 16px;" onclick="downloadLecturePDF()">⭳ تحميل الملف</button>'+
-          '<button class="btn-sm" style="font-size:13px;padding:8px 16px;" onclick="shareLecture()">📤 مشاركة</button>'+
-        '</div>'+
-      '</div>';
-  } else {
-    el.innerHTML =
-      '<div class="attach-card">'+
-        '<div class="attach-head"><span class="attach-title">📎 الملف المرفق</span><span class="badge new">لا يوجد ملف PDF</span></div>'+
-        '<div class="attach-line"></div>'+
-        '<p style="color:var(--text-secondary);font-size:14px;margin:0 0 14px;">تُعرض حالياً نسخة معاينة داخلية للمحاضرة.</p>'+
-        '<div style="display:flex;gap:8px;flex-wrap:wrap;">'+
-          '<button class="btn-sm" style="font-size:13px;padding:8px 16px;" onclick="downloadLecturePreview()">⭳ تحميل نسخة العرض</button>'+
-          '<button class="btn-sm" style="font-size:13px;padding:8px 16px;" onclick="shareLecture()">📤 مشاركة</button>'+
-        '</div>'+
-      '</div>';
-  }
-}
-function updateFileChip(){
-  if(currentLectureIdx < 0) return;
-  var chip = document.getElementById('ld-file-chip');
-  if(!chip) return;
-  if(getLecturePDF()){ chip.textContent = '📎 ملف PDF'; chip.className = 'ld-chip ok'; }
-  else { chip.textContent = '👁 معاينة داخلية'; chip.className = 'ld-chip'; }
-}
-function downloadLecturePDF(){
-  var pdf = getLecturePDF();
-  if(!pdf) return;
-  window.open(pdfDownloadUrl(pdf), '_blank');
-  showToast('⭳ فتحنا الملف في تبويب جديد — احفظه من هناك');
-}
-function downloadLecturePreview(){
-  if(currentLectureIdx < 0) return;
-  var s = subjects[currentSubject], l = s.lectures[currentLectureIdx];
-  var blob = new Blob([buildLecturePreviewHTML(l, s, currentLectureIdx)], {type:'text/html;charset=utf-8'});
-  triggerDownload(URL.createObjectURL(blob), l.t.replace(/[\\/:*?"<>|]/g,'-')+'.html');
-  showToast('تم تحميل نسخة العرض الداخلي ✅');
-}
-function shareLecture(){
-  try{
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(location.href).then(
-        function(){ showToast('📤 تم نسخ رابط الصفحة للمشاركة'); },
-        function(){ showToast('تعذر النسخ — انسخ الرابط من شريط المتصفح'); }
-      );
-    } else { showToast('انسخ الرابط من شريط المتصفح'); }
-  }catch(e){ showToast('تعذر النسخ حالياً'); }
-}
+function openLecture(subjIdx, lecIdx){
+  currentSubject = subjIdx;
+  var s = subjects[subjIdx];
+  var l = s.lectures[lecIdx];
+  if(!l) return;
+  currentLecture = lecIdx;
+  urlRegistry = [];
+  closeQuizState();
+  detachQNSidebar();
+  document.getElementById('lecture-quiz-root').innerHTML = '';
 
-// ============================================================
-// 15) القسم 3: شارة الأسئلة + فتح الصفحات
-// ============================================================
-function refreshLectureQuizChip(){
-  if(currentLectureIdx < 0) return;
-  var chip = document.getElementById('ld-quiz-chip');
-  if(!chip) return;
-  var l = subjects[currentSubject].lectures[currentLectureIdx];
-  var saved = getSavedQuiz('lec'+currentLectureIdx);
-  if(saved && saved.finished){
-    var sc = getScore(currentSubject, 'lec'+currentLectureIdx);
-    chip.textContent = '✅ مكتمل' + (sc !== null ? ' — '+sc+'%' : '');
-    chip.className = 'ld-chip ok';
-  } else if(saved && Object.keys(saved.answers||{}).length){
-    chip.textContent = '⏸ متابعة ' + Object.keys(saved.answers).length + '/' + l.questions.length;
-    chip.className = 'ld-chip warn';
-  } else {
-    chip.textContent = l.questions.length + ' أسئلة';
-    chip.className = 'ld-chip';
-  }
-}
+  document.getElementById('lecture-title').textContent = l.t || ('محاضرة ' + (lecIdx+1));
+  document.getElementById('lecture-subtitle').textContent = (l.d || '') + (s.en ? ' — ' + s.en : '');
 
-function openLecture(i){
-  currentLectureIdx = i;
-  var s = subjects[currentSubject], l = s.lectures[i];
-  document.getElementById('lecture-title').textContent = l.t;
-  document.getElementById('lecture-subtitle').textContent = s.icon + ' ' + s.name + (s.en ? ' — ' + s.en : '') + ' · ' + l.d;
+  var av = availableLinks(l.links).length;
+  var chip = document.getElementById('ld-links-chip');
+  chip.textContent = av ? av + ' روابط' : 'لا روابط';
+  chip.className = 'ld-chip' + (av ? '' : ' warn');
+  renderLinksList('ld-links-list', l.links);
 
-  ['ld-links','ld-file','ld-quiz'].forEach(function(id){ document.getElementById(id).classList.remove('open'); });
-  setQuizMode(false);
+  // ★ صفحة المحاضرة بتفتح pdf (الأول) — مش pdf2
+  var pdf = lecturePDFAt(s, l);
+  var fchip = document.getElementById('ld-file-chip');
+  fchip.textContent = pdf ? 'ملف متاح' : 'غير متاح';
+  fchip.className = 'ld-chip' + (pdf ? ' ok' : '');
+  document.getElementById('ld-file-meta').innerHTML = pdf ? '' : '<p class="ld-hint">مفيش ملف مرفق بالمحاضرة دي.</p>';
+  renderAttachCard('ld-attach-card', l.t, pdf);
+  document.getElementById('lecture-content-area').innerHTML = '';
 
-  renderLectureLinks();
+  var total = (l.questions || []).length;
+  var done = Object.keys(getSavedQuizFor(s, lecQuizKey(l))).length;
+  var qchip = document.getElementById('ld-quiz-chip');
+  if(!total){ qchip.textContent = 'لا أسئلة'; qchip.className = 'ld-chip'; }
+  else if(done >= total){ qchip.textContent = 'مكتمل ✅'; qchip.className = 'ld-chip ok'; }
+  else if(done > 0){ qchip.textContent = done + '/' + total; qchip.className = 'ld-chip warn'; }
+  else{ qchip.textContent = total + ' سؤال'; qchip.className = 'ld-chip'; }
 
-  var pdf = getLecturePDF();
-  document.getElementById('ld-file-meta').innerHTML =
-    '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">'+
-    '<span class="badge" style="background:var(--accent);color:#fff;">📚 '+esc(s.name)+'</span>'+
-    '<span class="badge new">📄 محاضرة رقم '+(i+1)+'</span>'+
-    '<span class="badge" style="background:var(--success);color:#fff;">'+l.questions.length+' أسئلة</span></div>'+
-    '<p style="color:var(--text-secondary);margin:0 0 6px;font-size:15px;">'+esc(l.d)+'</p>';
-  if(pdf){
-    document.getElementById('lecture-content-area').innerHTML =
-      '<div class="pdf-viewer"><iframe src="'+escAttr(pdfEmbedUrl(pdf))+'"></iframe></div>';
-  } else {
-    document.getElementById('lecture-content-area').innerHTML =
-      '<div class="pdf-viewer"><iframe srcdoc="'+escAttr(buildLecturePreviewHTML(l, s, i))+'"></iframe></div>';
-  }
-  renderAttachCard();
-  updateFileChip();
-
-  var r = buildQuizState('lecture', i);
-  quizState = r.st;
-  renderQuizInto(document.getElementById('lecture-quiz-root'));
-  if(r.restored){
-    applySavedAnswers();
-    if(quizState.finished) showScore(true);
-  }
-  refreshLectureQuizChip();
+  ['ld-links','ld-file','ld-quiz'].forEach(function(id){
+    document.getElementById(id).classList.remove('open');
+  });
 
   showView('lecture-view');
+  saveLS({subject:subjIdx, view:'lecture', lecture:lecIdx, prop:null, qidx:null});
   window.scrollTo({top:0, behavior:'smooth'});
 }
-function goBackToMain(){ showView('main-view'); }
 
-function openQuiz(cat, idx){
-  quizReturnView = visibleView();
-  var r = buildQuizState(cat, idx);
-  quizState = r.st;
-  document.getElementById('quiz-title').textContent = r.st.title + ' — ' + subjects[currentSubject].name;
-  renderExamPDFArea(cat, idx);
-  renderQuizInto(document.getElementById('quiz-view-root'));
-  showView('quiz-view');
-  window.scrollTo({top:0, behavior:'smooth'});
-  if(r.restored){
-    applySavedAnswers();
-    if(quizState.finished) showScore(true);
-    else showToast('⏸ تم استرجاع حلّك المحفوظ — أكمل من حيث توقفت!');
-  }
-}
-function goBackFromQuiz(){ showView(quizReturnView || 'main-view'); }
-
-// ============================================================
-// 16) التحميلات (Word / HTML)
-// ============================================================
-function triggerDownload(url, filename){
-  var a = document.createElement('a');
-  a.href = url; a.download = filename;
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
-}
-function downloadWord(title, questions, withAnswers){
-  try{
-    var html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"></head><body dir="rtl" style="font-family:Arial,sans-serif;line-height:1.9">';
-    html += '<h2 style="text-align:center;color:#2c3e50;border-bottom:2px solid #3498db;padding-bottom:8px;">'+esc(title)+'</h2>';
-    html += '<p style="text-align:center;color:#777">منصة المواد الدراسية — '+esc(subjects[currentSubject].name)+'</p>';
-    questions.forEach(function(q,i){
-      html += '<p><b>س'+(i+1)+': '+esc(q.q)+'</b></p><ol type="A" style="margin-top:4px">';
-      q.options.forEach(function(o){ html += '<li>'+esc(o)+'</li>'; });
-      html += '</ol>';
-      if(withAnswers) html += '<p style="color:#1e8449;"><b>✔ الإجابة الصحيحة:</b> '+esc(q.options[q.correct])+'</p>';
-    });
-    html += '</body></html>';
-    var blob = new Blob(['\ufeff'+html], {type:'application/msword;charset=utf-8'});
-    triggerDownload(URL.createObjectURL(blob), title.replace(/[\\/:*?"<>|]/g,'-')+'.doc');
-    showToast('تم تحميل ملف Word بنجاح ✅');
-  }catch(e){ showToast('تعذر تحميل الملف حالياً.'); }
-}
-function downloadSubjectWord(listName, idx){
+function openLectureQuizSection(){
   var s = subjects[currentSubject];
-  if(listName === 'all'){
-    var allQ = [];
-    s.lectures.forEach(function(l){ allQ = allQ.concat(l.questions); });
-    downloadWord('أسئلة محاضرات — '+s.name, allQ, true); return;
+  var l = s.lectures[currentLecture];
+  var sec = document.getElementById('ld-quiz');
+  if(sec) sec.classList.add('open');
+  var root = document.getElementById('lecture-quiz-root');
+  if(!l || !l.questions || !l.questions.length){
+    root.innerHTML = '<p class="ld-hint">مفيش أسئلة متاحة للمحاضرة دي.</p>';
+    setQuizMode(false);
+    return;
   }
-  if(listName === 'lecture'){ var l = s.lectures[idx]; downloadWord(l.t+' — '+s.name, l.questions, true); return; }
-  var d = getQuizData(listName, idx);
-  downloadWord(d.title+' — '+s.name, d.questions, true);
+  if(!st || st.key !== lecQuizKey(l) || st.root !== root){
+    renderQuizInto(root, s, lecQuizKey(l), l.t, l.questions);
+  }else{
+    setQuizMode(true);
+  }
+  if(sec) sec.scrollIntoView({behavior:'smooth', block:'start'});
 }
-function downloadCurrentQuiz(){
-  if(!quizState) return;
-  downloadWord(quizState.title+' — '+subjects[currentSubject].name, quizState.questions, true);
+
+function toggleLD(id){
+  var sec = document.getElementById(id);
+  if(!sec) return;
+  var willOpen = !sec.classList.contains('open');
+  sec.classList.toggle('open');
+  if(id === 'ld-quiz'){
+    if(willOpen) openLectureQuizSection();
+    else setQuizMode(false);
+  }
 }
-function downloadQuestionsPageHTML(){
-  try{
-    var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-    var blob = new Blob([html], {type:'text/html;charset=utf-8'});
-    triggerDownload(URL.createObjectURL(blob), 'منصة-المواد-الدراسية.html');
-    showToast('تم تحميل الصفحة كـ HTML ✅');
-  }catch(e){ showToast('تعذر تنزيل الصفحة حالياً.'); }
+
+// ★★ openQuiz — الامتحانات + كويز المحاضرات (prop='lec')
+//    كويز المحاضرة بيستخدم pdf2 (ملف الأسئلة) لو موجود
+function openQuiz(subjIdx, prop, idx){
+  currentSubject = subjIdx;
+  var s = subjects[subjIdx];
+  var isLec = (prop === 'lec');
+  var e, qs, pdf;
+  if(isLec){
+    e = s.lectures[idx];
+    qs = (e && e.questions) || [];
+    pdf = lecExamPDFAt(e);   // ★ pdf2 (ملف الأسئلة) — مش pdf المحاضرة
+  }else{
+    e = (s[prop] || [])[idx];
+    qs = e ? getQuizData(s, e) : [];
+    pdf = examPDFAt(e);
+  }
+  if(!e){ showToast('العنصر غير موجود'); return; }
+  urlRegistry = [];
+
+  var qKey = isLec ? lecExamKey(e) : (e.t || 'اختبار');
+  var fileLabel = isLec ? (e.pdf2 ? 'ملف أسئلة المحاضرة' : 'ملف المحاضرة') : 'ملف الامتحان';
+
+  document.getElementById('quiz-title').innerHTML =
+    '<span class="tb-title">'+esc((e.t || 'اختبار') + ' — ' + s.name)+'</span>'+
+    (pdf ? '<button class="tb-pdf-btn" onclick="openPdfAndScroll()" title="فتح الملف">📄 PDF</button>' : '');
+
+  var pArea = document.getElementById('quiz-pdf-area');
+  if(pdf){
+    var pdfDlIdx = regUrl(pdfDownloadUrl(pdf));
+    var emb = pdfEmbedUrl(pdf);
+    pArea.innerHTML =
+      '<div class="attach-card ax-sec" id="pdf-sec">'+
+        '<div class="attach-head">'+
+          '<button class="sec-toggle attach-toggle" aria-expanded="false" aria-controls="pdf-body" onclick="toggleSection(\'pdf\')" title="فتح / إغلاق القسم">'+
+            '<span class="attach-title">📄 '+fileLabel+'</span>'+
+            '<span class="sec-arrow">⌄</span>'+
+          '</button>'+
+          '<button class="btn-sm" style="background:var(--download-btn-bg);" onclick="downloadPDFAt('+pdfDlIdx+');ensureSectionOpen(\'pdf\');">⬇ تحميل PDF</button>'+
+        '</div>'+
+        '<div class="attach-line"></div>'+
+        '<div class="sec-body" id="pdf-body">'+
+          '<div class="pdf-viewer"><iframe title="'+escAttr(fileLabel)+'" data-src="'+escAttr(emb)+'"></iframe></div>'+
+          '<p class="ld-hint" style="margin-top:8px;">الملف مش بيظهر فوق؟ <a href="#" onclick="downloadPDFAt('+pdfDlIdx+');return false;" style="color:var(--accent);font-weight:bold;">نزّليه مباشرة 📥</a></p>'+
+        '</div>'+
+      '</div>';
+  }else{
+    pArea.innerHTML = '';
+  }
+
+  var root = document.getElementById('quiz-view-root');
+  if(!qs.length){
+    root.innerHTML = '<p class="ld-hint" style="font-size:16px;">⚠️ مفيش أسئلة متاحة هنا.</p>';
+    setQuizMode(false);
+  }else{
+    renderQuizInto(root, s, qKey, e.t, qs);
+    applySectionStates();
+  }
+  showView('quiz-view');
+  saveLS({subject:subjIdx, view:'quiz', prop:prop, qidx:idx});
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function openQuizByType(prop, idx){
+  openQuiz(currentSubject, prop, idx);
+}
+
+function closeQuizState(){
+  st = null;
+  setQuizMode(false);
+}
+
+function closeQuizEverywhere(){
+  closeQuizState();
+  detachQNSidebar();
+  ['lecture-quiz-root','quiz-view-root','quiz-pdf-area'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.innerHTML = '';
+  });
+}
+
+function goBackToMain(){
+  closeQuizEverywhere();
+  renderAllLists();
+  showView('main-view');
+  saveLS({view:'main', lecture:-1, prop:null, qidx:null});
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function goBackFromQuiz(){
+  closeQuizEverywhere();
+  renderAllLists();
+  showView('main-view');
+  openTab(null, 'section2');
+  saveLS({view:'main', lecture:-1, prop:null, qidx:null, tab:'section2'});
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
 // ============================================================
-// 17) التشغيل
+// 16) التحميلات — Word (مع إجابتك) + صفحة HTML
 // ============================================================
-if(!subjects.length){
-  document.body.innerHTML = '<div style="padding:40px;text-align:center;font-family:Tahoma;direction:rtl;color:#c0392b;font-size:17px;line-height:2">⚠️ لم يتم تحميل ملفات الداتا — تأكدي من مجلد data وملفات .js السبعة</div>';
-}else{
-  renderSubjectBar();
-  renderAllLists();
+function downloadExamWord(prop, idx){
+  var s = subjects[currentSubject];
+  var e, qs;
+  if(prop === 'lec'){ e = s.lectures[idx]; qs = (e && e.questions) || []; }
+  else{ e = (s[prop] || [])[idx]; qs = e ? getQuizData(s, e) : []; }
+  if(!qs.length){ showToast('لا توجد أسئلة للتحميل'); return; }
+  downloadWord(qs, s.name + ' — ' + (e.t || ''));
+}
+
+function downloadWord(questions, title, picks){
+  if(!questions || !questions.length){ showToast('لا توجد أسئلة للتحميل'); return; }
+  var rows = questions.map(function(q, i){
+    var opts = (q.options || []).map(function(op, oi){
+      var mark = (oi === q.correct) ? ' ✅' : '';
+      return '<div style="margin-right:14pt;">'+(oi+1)+') '+esc(op)+mark+'</div>';
+    }).join('');
+    var ans = (q.correct !== undefined && q.correct !== null && (q.options || [])[q.correct] !== undefined)
+      ? ((q.correct+1)+' — '+esc(q.options[q.correct])) : '—';
+    var mine = '';
+    var pick = (picks && picks.length > i) ? picks[i] : undefined;
+    if(pick !== undefined && pick !== null && (q.options || [])[pick] !== undefined){
+      var wasRight = (pick === q.correct);
+      mine = '<div style="color:'+(wasRight?'#1e8449':'#c0392b')+';font-weight:bold;margin-top:3pt;">'+
+             (wasRight ? '✔ إجابتك: ' : '✘ إجابتك: ') + esc(q.options[pick]) +
+             (wasRight ? ' (صحيحة)' : ' (خطأ)') + '</div>';
+    }
+    return '<div style="margin-bottom:14pt;">'+
+             '<div style="font-weight:bold;">'+(i+1)+') '+esc(q.q)+'</div>'+
+             opts +
+             mine +
+             '<div style="color:#1e8449;font-weight:bold;margin-top:3pt;">الإجابة الصحيحة: '+ans+'</div>'+
+           '</div>';
+  }).join('');
+  var html = '<html dir="rtl" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">'+
+             '<head><meta charset="utf-8"><title>'+esc(title)+'</title></head>'+
+             '<body style="font-family:Arial,Verdana;font-size:12pt;direction:rtl;">'+
+             '<h2 style="text-align:center;margin-bottom:4pt;">'+esc(title)+'</h2><hr>'+
+             '<p style="text-align:center;">عدد الأسئلة: '+questions.length+'</p>'+ rows +
+             '</body></html>';
+  var fname = String(title || 'أسئلة').replace(/[\\\/:*?"<>|]/g, '-') + '.doc';
+  triggerDownload(new Blob(['\ufeff'+html], {type:'application/msword'}), fname);
+  showToast('تم تحميل ملف Word 📥');
+}
+
+function triggerDownload(blob, filename){
+  var a = document.createElement('a');
+  var url = URL.createObjectURL(blob);
+  a.href = url; a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function(){ try{ URL.revokeObjectURL(url); }catch(e){} a.remove(); }, 2000);
+}
+
+function downloadQuestionsPageHTML(){
+  if(!subjects.length){ showToast('لا توجد بيانات للتحميل'); return; }
+  var body = '';
+  subjects.forEach(function(s){
+    body += '<h2>'+esc(s.icon+' '+s.name+(s.en?' — '+s.en:''))+'</h2>';
+    (s.lectures || []).forEach(function(l){
+      if(l.questions && l.questions.length) body += qBlock('📚 '+esc(l.t), l.questions);
+    });
+    [['midterms','📝 '],['finals','🎓 '],['testBanks','🏦 ']].forEach(function(p){
+      (s[p[0]] || []).forEach(function(e){
+        var qs = getQuizData(s, e);
+        if(qs && qs.length) body += qBlock(p[1]+esc(e.t || ''), qs);
+      });
+    });
+  });
+  var html = '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8">'+
+    '<meta name="viewport" content="width=device-width, initial-scale=1.0">'+
+    '<title>بنك الأسئلة — كل المواد</title>'+
+    '<style>body{font-family:Tahoma,Arial,sans-serif;background:#f4f7f6;margin:0;padding:20px;color:#333}'+
+    '.wrap{max-width:900px;margin:auto;background:#fff;padding:25px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.1)}'+
+    'h1{text-align:center;color:#2c3e50}h2{color:#2980b9;border-bottom:2px solid #3498db;padding-bottom:6px;margin-top:30px}'+
+    'h3{color:#2c3e50;margin:20px 0 8px}.q{background:#f8f9fa;border:1px solid #e3e3e3;border-radius:8px;padding:12px 15px;margin:8px 0}'+
+    '.opt{margin:3px 15px}.ans{color:#1e8449;font-weight:bold;margin-top:5px}</style></head><body><div class="wrap">'+
+    '<h1>📚 بنك الأسئلة — كل المواد</h1>'+body+'</div></body></html>';
+  triggerDownload(new Blob([html], {type:'text/html;charset=utf-8'}), 'questions-bank.html');
+  showToast('تم تحميل بنك الأسئلة 📥');
+}
+
+function qBlock(title, qs){
+  return '<h3>'+title+' <small>('+qs.length+' سؤال)</small></h3>'+
+    qs.map(function(q, i){
+      var opts = (q.options || []).map(function(op, oi){
+        var star = (oi === q.correct) ? ' ✅' : '';
+        return '<div class="opt">'+(oi+1)+') '+esc(op)+star+'</div>';
+      }).join('');
+      var ans = (q.correct !== undefined && q.correct !== null && (q.options || [])[q.correct] !== undefined)
+        ? ((q.correct+1)+' — '+esc(q.options[q.correct])) : '—';
+      return '<div class="q"><div><b>'+(i+1)+') '+esc(q.q)+'</b></div>'+opts+
+        '<div class="ans">✔ الإجابة الصحيحة: '+ans+'</div></div>';
+    }).join('');
+}
+
+// ============================================================
+// 17) التشغيل + استرجاع آخر حاجة + حالة الأقسام
+// ============================================================
+(function init(){
+  if(!subjects.length){
+    document.getElementById('main-title').textContent = '⚠️ خطأ في تحميل البيانات';
+    document.getElementById('subject-bar').innerHTML = '';
+    document.querySelector('.container').innerHTML =
+      '<div style="text-align:center;padding:50px 20px;">'+
+      '<h2 style="color:var(--danger)">⚠️ لا توجد مواد محملة</h2>'+
+      '<p style="color:var(--text-hint);line-height:1.8">تأكدي إن ملفات <b>data/*.js</b> موجودة بجانب index.html<br>وإن كل ملف فيه <code>subjects.push({...})</code> صح.</p></div>';
+    return;
+  }
   loadNotifications();
   updateNotifBadge();
-  try{
-    if(!localStorage.getItem('platform_welcomed')){
-      addNotification({type:'info', title:'👋 أهلاً بك في منصة المواد الدراسية', context:'افتح أي محاضرة: 🔗 روابط + 📄 ملف + 🧠 أسئلة'});
-      localStorage.setItem('platform_welcomed','1');
+  loadSectionStates();
+
+  var last = null;
+  try{ var r = localStorage.getItem(LSKEY); if(r) last = JSON.parse(r); }catch(e){}
+
+  currentSubject = (last && typeof last.subject === 'number' && last.subject >= 0 && last.subject < subjects.length) ? last.subject : 0;
+  var s = subjects[currentSubject];
+  document.getElementById('main-title').textContent = 'منصة مادة ' + s.name + (s.en ? ' — ' + s.en : '');
+  renderSubjectBar();
+  renderAllLists();
+
+  var restored = false;
+  if(last && last.view === 'lecture' && typeof last.lecture === 'number' && s.lectures && s.lectures[last.lecture]){
+    openLecture(currentSubject, last.lecture);
+    restored = true;
+    showToast('🔙 رجعناك لآخر محاضرة مفتوحة');
+  }else if(last && last.view === 'quiz' && last.prop && typeof last.qidx === 'number'){
+    var target = (last.prop === 'lec') ? (s.lectures && s.lectures[last.qidx]) : (s[last.prop] && s[last.prop][last.qidx]);
+    if(target){
+      openQuiz(currentSubject, last.prop, last.qidx);
+      restored = true;
+      showToast('🔙 رجعناك لآخر اختبار مفتوح');
     }
-  }catch(e){}
-}
-// ============================================================
-// ★★ 17) تلوين أرقام اللوحة فور الإجابة: صح = أخضر / غلط = أحمر
-//    (بلوك مستقل — لا يعدّل أي دالة موجودة)
-// ============================================================
-(function(){
-  var results = {};   // رقم السؤال => true (صح) / false (غلط)
-  var lastKey = '';
-  var raf = null;
-
-  function allBtns(){
-    return Array.prototype.slice.call(document.querySelectorAll('#qn-sidebar .qn-btn'));
   }
-
-  // هوية الاختبار الحالي: المادة + العنوان + عدد الأسئلة
-  function quizKey(count){
-    var title = '';
-    var qv = document.getElementById('quiz-view');
-    if(qv && qv.classList.contains('active')){
-      var el = document.getElementById('quiz-title');
-      if(el) title = el.textContent;
-    }else{
-      var el2 = document.getElementById('lecture-title');
-      if(el2) title = el2.textContent;
+  if(!restored){
+    showView('main-view');
+    if(last && last.tab === 'section2'){
+      openTab(null, 'section2');
+      if(last.subTab) openSubTab(null, last.subTab);
     }
-    return (window.currentSubject || 0) + '|' + title + '|' + count;
   }
-
-  // قراءة نتيجة السؤال المعروض من كارت السؤال نفسه
-  function readCard(list){
-    var card = document.querySelector('.exam-qcard');
-    var cur  = document.querySelector('#qn-sidebar .qn-btn.current');
-    if(!card || !cur) return;
-    var idx = list.indexOf(cur);
-    if(idx < 0) return;
-
-    var ok = null;
-
-    // (أ) من رسالة الإجابة (إجابة صحيحة / خاطئة)
-    var fb = card.querySelector('.quiz-feedback');
-    if(fb){
-      if(fb.classList.contains('correct-text'))    ok = true;
-      else if(fb.classList.contains('wrong-text')) ok = false;
-    }
-
-    // (ب) احتياطي: من ألوان الخيارات المقفولة (أخضر = الصح / أحمر = الغلط)
-    if(ok === null){
-      var hasWrong   = !!card.querySelector('.exam-opt.wrong');
-      var hasCorrect = !!card.querySelector('.exam-opt.correct');
-      if(hasWrong)        ok = false;
-      else if(hasCorrect) ok = true;
-    }
-
-    if(ok !== null) results[idx] = ok;
-  }
-
-  function paint(){
-    if(!document.body.classList.contains('quiz-mode')) return;
-    var list = allBtns();
-    if(!list.length) return;
-
-    var k = quizKey(list.length);
-    if(k !== lastKey){ lastKey = k; results = {}; }   // اختبار جديد → نبدأ من جديد
-
-    readCard(list);
-
-    list.forEach(function(b, i){
-      if(results[i] === undefined) return;
-      b.classList.remove('answered');
-      b.classList.toggle('ok',  results[i] === true);
-      b.classList.toggle('bad', results[i] === false);
-    });
-  }
-
-  function schedule(){
-    if(raf) return;
-    raf = requestAnimationFrame(function(){ raf = null; paint(); });
-  }
-
-  // مراقبة أي إعادة رسم في الصفحة (كارت السؤال + لوحة الأرقام)
-  if(window.MutationObserver){
-    new MutationObserver(schedule).observe(document.body, {
-      childList:true, subtree:true,
-      attributes:true, attributeFilter:['class']
-    });
-  }
-
-  // بعد أي ضغطة (إجابة / تنقل / فتح قسم) بنراجع الألوان
-  document.addEventListener('click', function(){ setTimeout(schedule, 80); }, true);
-
-  // 🔄 إعادة / إعادة المحاولة → مسح الألوان المسجلة
-  document.addEventListener('click', function(e){
-    var t = e.target;
-    if(t && t.closest && (t.closest('.reset-btn') || t.closest('.retry-btn'))){
-      results = {};
-      schedule();
-    }
-  }, true);
-
-  // شبكة أمان خفيفة كل ثانية
-  setInterval(schedule, 1000);
 })();
 </script>
-
-</div><!-- /page-layout -->
-
 </body>
 </html>

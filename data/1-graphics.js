@@ -7,7 +7,7 @@ subjects.push({
       t: "المحاضرة الأولى",
       d: "مقدمة في رسوميات الحاسب وأنابيب الرسم (Graphics Pipeline).",
       pdf: "Computer Graphics/lectures/Lecture 2.pdf",
-      pdf2: "Computer Graphics/lectures/Lecture 2.pdf",
+      pdf2: "Computer Graphics/lectures/Lecture 1 - Questions - Computer Graphics.pdf",
       links: [
         {
           t: "دليل المحاضرة الوظيفي",
