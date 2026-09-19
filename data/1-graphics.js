@@ -7,7 +7,7 @@ subjects.push({
       t: "المحاضرة الأولى",
       d: "مقدمة في رسوميات الحاسب وأنابيب الرسم (Graphics Pipeline).",
       pdf: "Computer Graphics/lectures/Lecture 2.pdf",
-      pdf2: "Computer Graphics/lectures/Lecture 1 - Questions - Computer Graphics.pdf",
+      pdf2: "Computer Graphics/Questions/Questions on each lecture/Lecture 1 - Questions - Computer Graphics.pdf",
       links: [
         {
           t: "دليل المحاضرة الوظيفي",
@@ -36,6 +36,12 @@ subjects.push({
               label: "PowerPoint ⭳ تحميل",
               url: "Computer Graphics/slides/Slides 1.pptx",
               type: "download",
+              color: "orange",
+            },
+            {
+              label: "PowerPoint ⭳ vie",
+              url: "..\\Computer Graphics\\Questions\\Mid\\MidTerm 2023 - Questions - Computer Graphics.pdf",
+              type: "view",
               color: "orange",
             },
           ],
@@ -1076,108 +1082,12 @@ subjects.push({
         },
       ],
     },
-    {
-      t: "المحاضرة الثانية",
-      d: "التحويلات الهندسية ثنائية الأبعاد (2D Transformations).",
-      pdf: "Computer Graphics/lectures/Lecture 2.pdf",
-      questions: [
-        {
-          q: "التحويل الذي يضرب الإحداثيات في معامل لتكبير أو تصغير الشكل هو:",
-          options: [
-            "الإزاحة Translation",
-            "الدوران Rotation",
-            "التحجيم Scaling",
-            "الانعكاس Reflection",
-          ],
-          correct: 2,
-        },
-        {
-          q: "لتحريك شكل من مكان لمكان نستخدم:",
-          options: ["Translation", "Rotation", "Scaling", "Shear"],
-          correct: 0,
-        },
-        {
-          q: "مصفوفة الدوران تعتمد على الدوال:",
-          options: ["sin و cos", "log و exp", "max و min", "abs و sqrt"],
-          correct: 0,
-        },
-      ],
-    },
-    {
-      t: "المحاضرة الثالثة",
-      d: "خوارزميات رسم الخطوط والتعبئة (Bresenham & Fill).",
-      pdf: "Computer Graphics/lectures/Lecture 3.pdf",
-      questions: [
-        {
-          q: "خوارزمية Bresenham تُستخدم أساساً لـ:",
-          options: [
-            "رسم الخطوط بأعداد صحيحة بكفاءة عالية",
-            "تعبئة الدوائر فقط",
-            "ضغط الصور",
-            "تلوين المضلعات بالتدرج",
-          ],
-          correct: 0,
-        },
-        {
-          q: "خوارزمية Flood Fill تُستخدم لـ:",
-          options: [
-            "قص الصور",
-            "تعبئة منطقة مغلقة بلون معين",
-            "تحويل الصور لأبيض وأسود",
-            "تكبير الصور",
-          ],
-          correct: 1,
-        },
-        {
-          q: "اختصار DDA يشير إلى:",
-          options: [
-            "Digital Differential Analyzer",
-            "Data Definition Algorithm",
-            "Direct Draw Application",
-            "Dynamic Display Array",
-          ],
-          correct: 0,
-        },
-      ],
-    },
-    {
-      t: "المحاضرة الرابعة",
-      d: "الرسوميات ثلاثية الأبعاد والإضاءة وإزالة الأسطح المخفية.",
-      pdf: "Computer Graphics/lectures/Lecture 4.pdf",
-      questions: [
-        {
-          q: "مكونات نموذج الإضاءة Phong هي:",
-          options: [
-            "Ambient و Diffuse و Specular",
-            "RGB فقط",
-            "X و Y و Z",
-            "Top و Bottom و Side",
-          ],
-          correct: 0,
-        },
-        {
-          q: "يُستخدم الـ Z-Buffer في:",
-          options: [
-            "إزالة الأسطح المخفية Hidden Surface Removal",
-            "تحسين الصوت",
-            "ضغط الملفات",
-            "زيادة الدقة",
-          ],
-          correct: 0,
-        },
-        {
-          q: "الإسقاط الذي يجعل الأبعاد البعيدة تبدو أصغر هو:",
-          options: ["Orthographic", "Perspective", "Isometric", "Parallel"],
-          correct: 1,
-        },
-      ],
-    },
   ],
   midterms: [
     {
       t: "ميدتيرم 1 (المحاضرات 1-2)",
       d: "امتحان Midterm الترم الأول",
-      pdf: "Computer Graphics/exams/Midterm 2.pdf",
+      pdf: "Computer Graphics/Questions/Mid/MidTerm 2021 - Questions - Computer Graphics.pdf",
       questions: [
         {
           q: "المرحلة التي تحوّل الأشكال الهندسية إلى بكسلات تسمى:",
@@ -1216,63 +1126,6 @@ subjects.push({
             "تسريع الطباعة",
             "تلوين النقطة",
             "ضغط البيانات",
-          ],
-          correct: 0,
-        },
-      ],
-    },
-    {
-      t: "ميدتيرم 2 (المحاضرات 2-3)",
-      d: "امتحان منتصف الترم الثاني",
-      pdf: "Computer Graphics/exams/Midterm 2.pdf",
-      questions: [
-        {
-          q: "ميزة Bresenham الأساسية على DDA:",
-          options: [
-            "يستخدم أعداداً صحيحة بلا قسمة",
-            "أسرع في رسم الدوائر فقط",
-            "يدعم ألواناً أكثر",
-            "لا يحتاج إحداثيات نقاط",
-          ],
-          correct: 0,
-        },
-        {
-          q: "خوارزمية التعبئة التي تمسح الشكل أفقياً سطراً بسطر:",
-          options: [
-            "Scan-line Fill",
-            "Boundary Fill فقط",
-            "Flood Fill فقط",
-            "DDA",
-          ],
-          correct: 0,
-        },
-        {
-          q: "تعتمد جودة رسم الخط المائل على الشاشة على:",
-          options: [
-            "دقة الشاشة وتقريب البكسلات",
-            "لون الخط فقط",
-            "سرعة المعالج",
-            "حجم الذاكرة",
-          ],
-          correct: 0,
-        },
-        {
-          q: "الشكل الأساسي المستخدم في بناء المجسمات ثلاثية الأبعاد:",
-          options: [
-            "المثلث Triangle",
-            "الدائرة",
-            "المربع فقط",
-            "الخط المستقيم",
-          ],
-          correct: 0,
-        },
-        {
-          q: "لحساب ميل الخط بين نقطتين نقسم:",
-          options: [
-            "فرق y على فرق x",
-            "فرق x على فرق y",
-            "مجموعهما",
-            "حاصل طرحهما",
           ],
           correct: 0,
         },
