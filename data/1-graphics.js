@@ -40,7 +40,7 @@ subjects.push({
             },
             {
               label: "PowerPoint ⭳ vie",
-              url: "..\\Computer Graphics\\Questions\\Mid\\MidTerm 2023 - Questions - Computer Graphics.pdf",
+              url: "Computer Graphics/Questions/Mid/MidTerm 2023 - Questions - Computer Graphics.pdf",
               type: "view",
               color: "orange",
             },
