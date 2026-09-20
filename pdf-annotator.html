@@ -791,8 +791,8 @@
     return found;
   }
 
-  $("#btnZoomIn").addEventListener("click", ()=>{ zoom = Math.min(zoom+0.15, 2.5); applyZoom(); });
-  $("#btnZoomOut").addEventListener("click", ()=>{ zoom = Math.max(zoom-0.15, 0.4); applyZoom(); });
+  $("#btnZoomIn").addEventListener("click", ()=>{ zoom = Math.min(zoom+0.5, 2.5); applyZoom(); });
+  $("#btnZoomOut").addEventListener("click", ()=>{ zoom = Math.max(zoom-0.5, 0.4); applyZoom(); });
   function applyZoom(){
     zoomLabel.textContent = Math.round(zoom*100) + "%";
     if(pdfDoc) renderAllPages();

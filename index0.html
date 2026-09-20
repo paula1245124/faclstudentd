@@ -1926,46 +1926,538 @@ function triggerDownload(blob, filename){
   setTimeout(function(){ try{ URL.revokeObjectURL(url); }catch(e){} a.remove(); }, 2000);
 }
 
-function downloadQuestionsPageHTML(){
-  if(!subjects.length){ showToast('لا توجد بيانات للتحميل'); return; }
-  var body = '';
-  subjects.forEach(function(s){
-    body += '<h2>'+esc(s.icon+' '+s.name+(s.en?' — '+s.en:''))+'</h2>';
-    (s.lectures || []).forEach(function(l){
-      if(l.questions && l.questions.length) body += qBlock('📚 '+esc(l.t), l.questions);
+// ★★ نسخة أسئلة المادة — طبق الأصل من الموقع + 💾📂 باكب متوافق مع الموقع
+var QUIZ_CSS = ":root{--bg-body:#f4f7f6;--bg-header:#2c3e50;--bg-content:#fff;--bg-card:#ecf0f1;--bg-card-hover:#e0e5e6;--bg-quiz-card:#fff;--text-primary:#333;--text-secondary:#555;--text-heading:#2c3e50;--text-hint:#7f8c8d;--text-white:#fff;--accent:#3498db;--success:#27ae60;--success-light:#2ecc71;--danger:#e74c3c;--warning:#f39c12;--border:#ddd;--shadow:rgba(0,0,0,.1);--score-bg-1:#2c3e50;--score-bg-2:#3498db;--show-score-bg-1:#2c3e50;--show-score-bg-2:#3498db;--show-score-shadow:rgba(52,152,219,.4);--status-bg:#2c3e50;--theme-btn-bg:rgba(255,255,255,.15);--theme-btn-active:rgba(255,255,255,.35);--subtab-bg:#ecf0f1;--subtab-active-bg:#27ae60;--wrong-card-bg:#fdecea;--wrong-card-border:#e74c3c;--wrong-card-text:#c0392b;--correct-card-bg:#eafaf1;--correct-card-border:#27ae60;--correct-card-text:#1e8449;--no-wrong-bg:#eafaf1;--no-wrong-border:#27ae60;--no-wrong-text:#1e8449;--wrong-title-bg:#e74c3c}[data-theme=dark]{--bg-body:#0d1117;--bg-header:#161b22;--bg-content:#161b22;--bg-card:#1c2333;--bg-card-hover:#242d3d;--bg-quiz-card:#161b22;--text-primary:#e6edf3;--text-secondary:#a0aec0;--text-heading:#fff;--text-hint:#718096;--accent:#58a6ff;--success:#27ae60;--danger:#e74c3c;--warning:#f39c12;--border:#30363d;--shadow:rgba(0,0,0,.4);--score-bg-1:#161b22;--score-bg-2:#30363d;--show-score-bg-1:#161b22;--show-score-bg-2:#30363d;--show-score-shadow:rgba(88,166,255,.3);--status-bg:#0d1117;--theme-btn-bg:rgba(255,255,255,.06);--theme-btn-active:rgba(88,166,255,.25);--subtab-bg:#1c2333;--wrong-card-bg:#2a1a1a;--correct-card-bg:#1a2a1a;--no-wrong-bg:#1a2a1a}[data-theme=morning]{--bg-body:#fef9ef;--bg-header:#e67e22;--bg-content:#fffdf7;--bg-card:#fef5e7;--bg-card-hover:#fdebd0;--bg-quiz-card:#fffdf7;--text-primary:#5d4037;--text-secondary:#795548;--text-heading:#bf6516;--text-hint:#a1887f;--accent:#e67e22;--border:#f0d9b5;--shadow:rgba(230,126,34,.1);--score-bg-1:#e67e22;--score-bg-2:#f39c12;--show-score-bg-1:#e67e22;--show-score-bg-2:#f39c12;--status-bg:#e67e22;--subtab-bg:#fef5e7;--theme-btn-bg:rgba(255,255,255,.15)}[data-theme=noon]{--bg-body:#fff;--bg-header:#111;--bg-content:#fff;--bg-card:#f8f8f8;--bg-card-hover:#eee;--bg-quiz-card:#fff;--text-primary:#000;--text-secondary:#222;--text-heading:#000;--text-hint:#555;--accent:#0055cc;--border:#ccc;--shadow:rgba(0,0,0,.08);--score-bg-1:#111;--score-bg-2:#333;--show-score-bg-1:#111;--show-score-bg-2:#333;--status-bg:#111;--subtab-bg:#f8f8f8;--theme-btn-bg:rgba(255,255,255,.15)}[data-theme=afternoon]{--bg-body:#f5f0e8;--bg-header:#6d4c41;--bg-content:#faf7f2;--bg-card:#efe9e0;--bg-card-hover:#e3dbd0;--bg-quiz-card:#faf7f2;--text-primary:#3e2723;--text-secondary:#5d4037;--text-heading:#5d4037;--text-hint:#8d6e63;--accent:#8d6e63;--border:#d7ccc8;--shadow:rgba(109,76,65,.1);--score-bg-1:#6d4c41;--score-bg-2:#8d6e63;--show-score-bg-1:#6d4c41;--show-score-bg-2:#8d6e63;--status-bg:#6d4c41;--subtab-bg:#efe9e0;--theme-btn-bg:rgba(255,255,255,.15)}[data-theme=night]{--bg-body:#0a0a14;--bg-header:#12121f;--bg-content:#12121f;--bg-card:#1a1a2e;--bg-card-hover:#22223a;--bg-quiz-card:#12121f;--text-primary:#d4d4e8;--text-secondary:#9999bb;--text-heading:#eef;--text-hint:#668;--accent:#6c8cff;--border:#2a2a44;--shadow:rgba(0,0,0,.5);--score-bg-1:#12121f;--score-bg-2:#2a2a44;--show-score-bg-1:#12121f;--show-score-bg-2:#2a2a44;--status-bg:#0a0a14;--subtab-bg:#1a1a2e;--theme-btn-bg:rgba(255,255,255,.06)}*{box-sizing:border-box}body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--bg-body);margin:0;color:var(--text-primary);transition:background .6s,color .4s;scroll-behavior:smooth}header{background:var(--bg-header);color:var(--text-white);text-align:center;padding:10px 0 8px;box-shadow:0 4px 6px var(--shadow);position:sticky;top:0;z-index:1100}header h1{margin:0 0 8px;font-size:24px}.header-row{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:0 10px 6px}.theme-controls{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}.theme-pill{background:var(--theme-btn-bg);color:#fff;border:2px solid transparent;padding:6px 14px;border-radius:50px;cursor:pointer;font-size:13px;font-weight:bold;transition:all .3s;font-family:inherit}.theme-pill:hover{background:var(--theme-btn-active);transform:scale(1.04)}.theme-pill.active{border-color:#fff;background:var(--theme-btn-active)}.hdr-tools{display:flex;gap:6px;align-items:center}.hdr-icon-btn{width:38px;height:38px;border-radius:50%;background:var(--theme-btn-bg);border:2px solid transparent;color:#fff;font-size:17px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .25s;flex-shrink:0}.hdr-icon-btn:hover{background:var(--theme-btn-active);transform:scale(1.12)}.container{max-width:980px;width:100%;margin:20px auto;padding:0 16px 60px}.content-section{display:none;background:var(--bg-content);padding:30px;border-radius:10px;box-shadow:0 2px 5px var(--shadow)}.content-section.active{display:block}.back-btn{background:var(--danger);color:#fff;border:none;padding:10px 20px;border-radius:5px;cursor:pointer;font-size:16px;margin-bottom:20px;font-family:inherit}.sub-tabs{display:flex;gap:8px;margin:0 0 20px;border-bottom:2px solid var(--border);padding-bottom:15px;flex-wrap:wrap}.sub-tab-button{background:var(--subtab-bg);color:var(--text-primary);border:none;padding:10px 18px;cursor:pointer;border-radius:20px;font-size:15px;font-family:inherit}.sub-tab-button.active{background:var(--subtab-active-bg);color:#fff;font-weight:bold}.sub-content{display:none}.sub-content.active{display:block}.status-bar{position:fixed;bottom:0;left:0;right:0;background:var(--status-bg);color:#fff;text-align:center;padding:8px 15px;font-size:13px;font-weight:bold;z-index:998}.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--success-light);margin-left:8px}.toast{position:fixed;bottom:50px;left:50%;transform:translateX(-50%);background:var(--bg-header);color:#fff;border:1px solid var(--border);padding:12px 22px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:3000}.toast.show{opacity:1}.solved-counter{background:var(--bg-card);border:2px solid var(--border);border-radius:12px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:14px;font-size:16px;font-weight:bold;color:var(--text-heading)}.sc-ok{color:var(--success);font-size:22px}.sc-pct{background:var(--accent);color:#fff;border-radius:12px;padding:3px 10px;font-size:12px}.qn-count{background:var(--accent);color:#fff;border-radius:12px;padding:3px 10px;font-size:12px}.qn-nav{background:var(--bg-quiz-card);border:2px solid var(--border);border-radius:12px;padding:12px;box-shadow:0 2px 8px var(--shadow)}.qn-nav-header{display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:14px;color:var(--text-heading);margin-bottom:10px;gap:6px}.qn-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:5px}.qn-btn{aspect-ratio:1/1;border:2px solid var(--border);background:var(--bg-card);color:var(--text-primary);border-radius:8px;cursor:pointer;font-weight:bold;font-size:12px;font-family:inherit;transition:all .18s}.qn-btn:hover{transform:scale(1.12);border-color:var(--accent)}.qn-btn.ok{background:var(--success);border-color:var(--success);color:#fff}.qn-btn.bad{background:var(--danger);border-color:var(--danger);color:#fff}.qn-btn.current{box-shadow:0 0 0 3px var(--accent);border-color:var(--accent);transform:scale(1.06)}.qn-legend{display:flex;gap:10px;justify-content:center;margin-top:10px;font-size:11px;color:var(--text-secondary);flex-wrap:wrap}.qn-dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-left:4px}.qn-dot.ok{background:var(--success)}.qn-dot.bad{background:var(--danger)}.qn-dot.none{background:var(--bg-card);border:1px solid var(--border)}.exam-qarea{padding-top:22px}.exam-qcard{position:relative;background:var(--bg-quiz-card);border:2px solid var(--border);border-radius:14px;padding:30px 24px 24px;box-shadow:0 2px 8px var(--shadow)}.exam-counter{position:absolute;top:-19px;inset-inline-start:22px;background:linear-gradient(135deg,var(--show-score-bg-1),var(--show-score-bg-2));color:#fff;border:3px solid var(--bg-content);border-radius:14px;padding:5px 16px;font-weight:bold;font-size:14px;direction:ltr;box-shadow:0 4px 10px var(--shadow);z-index:5}.exam-qtop{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid var(--border)}.eq-num{font-weight:bold;color:var(--accent);font-size:16px}.exam-qtext{font-size:20px;font-weight:bold;color:var(--text-heading);line-height:1.7;margin-bottom:20px}.exam-qtext.ltr{direction:ltr;text-align:left}.exam-opts{display:flex;flex-direction:column;gap:10px}.exam-opt{border:2px solid var(--border);background:var(--bg-card);border-radius:12px;padding:14px 16px;cursor:pointer;text-align:right;font-size:16px;color:var(--text-primary);font-family:inherit;display:flex;align-items:center;gap:12px;transition:all .2s}.exam-opt.ltr{direction:ltr;text-align:left}.exam-opt:hover{border-color:var(--accent);transform:translateY(-2px)}.exam-opt.selected{background:var(--success);border-color:var(--success);color:#fff;font-weight:bold}.exam-opt.correct{background:var(--success);border-color:var(--success);color:#fff;font-weight:bold}.exam-opt.wrong{background:var(--danger);border-color:var(--danger);color:#fff;font-weight:bold}.exam-opt.locked{pointer-events:none}.opt-letter{width:28px;height:28px;border-radius:50%;background:var(--bg-quiz-card);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:bold;flex-shrink:0}.exam-opt.selected .opt-letter{background:rgba(255,255,255,.25);border-color:#fff;color:#fff}.opt-text{flex:1}.quiz-feedback{margin-top:15px;font-size:18px;font-weight:bold}.quiz-feedback.correct-text{color:var(--success)}.quiz-feedback.wrong-text{color:var(--danger)}.exam-navbtns{display:flex;justify-content:space-between;gap:10px;margin-top:16px}.exam-nav-btn{background:var(--accent);color:#fff;border:none;padding:12px 26px;border-radius:10px;cursor:pointer;font-size:15px;font-weight:bold;font-family:inherit}.exam-nav-btn.prev{background:var(--bg-card);color:var(--text-primary);border:2px solid var(--border)}.exam-nav-btn:disabled{opacity:.4;pointer-events:none}.exam-saved{text-align:center;font-size:13px;font-weight:bold;color:var(--success);margin-top:10px;opacity:0;transition:opacity .3s}.exam-saved.show{opacity:1}.qmark-btn{background:var(--bg-card);border:2px solid var(--border);color:var(--text-secondary);padding:4px 12px;border-radius:12px;cursor:pointer;font-size:12px;font-weight:bold;font-family:inherit;flex-shrink:0}.qmark-btn.on{background:var(--warning);border-color:var(--warning);color:#fff}.ax-sec .sec-body{transition:height .32s ease;overflow:hidden}.sec-toggle{display:flex;align-items:center;gap:10px;background:none;border:none;cursor:pointer;padding:0;font-family:inherit;text-align:right;color:inherit;width:100%}.sec-arrow{width:30px;height:30px;border:2px solid var(--accent);color:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:bold;transition:all .3s;flex-shrink:0;margin-inline-start:auto}.ax-sec.open .sec-arrow{transform:rotate(180deg);background:var(--accent);color:#fff}.qs-section{background:var(--bg-quiz-card);border:2px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px}.qs-toggle{background:var(--bg-card-hover);padding:14px 18px}.qs-title{font-weight:bold;font-size:17px;color:var(--text-heading);flex:1}.qs-section .sec-body{padding:18px}.qs-section,.exam-qcard{scroll-margin-top:112px}.show-score-btn-wrap{display:flex;flex-direction:column;align-items:center;margin:15px}.show-score-btn{background:linear-gradient(135deg,var(--show-score-bg-1),var(--show-score-bg-2));color:#fff;border:none;padding:18px 50px;border-radius:50px;cursor:pointer;font-size:22px;font-weight:bold;font-family:inherit;box-shadow:0 6px 20px var(--show-score-shadow)}.show-score-subtitle{color:var(--text-hint);font-size:14px;margin-bottom:15px}.score-card{background:linear-gradient(135deg,var(--score-bg-1),var(--score-bg-2));color:#fff;margin:15px 0;border-radius:10px;padding:35px 25px;text-align:center}.score-circle{width:130px;height:130px;border-radius:50%;border:8px solid rgba(255,255,255,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 20px;background:rgba(255,255,255,.1)}.score-number{font-size:42px;font-weight:bold}.score-details{font-size:17px;margin-bottom:8px}.score-message{font-size:22px;font-weight:bold;margin-bottom:15px}.retry-btn{background:#fff;color:var(--score-bg-1);border:none;padding:12px 35px;border-radius:50px;cursor:pointer;font-size:16px;font-weight:bold;font-family:inherit;margin-top:8px}.wrong-collapse-wrap{margin:10px 0;border:2px solid var(--wrong-card-border);border-radius:10px;overflow:hidden}.wrong-collapse-header{background:var(--wrong-title-bg);color:#fff;padding:14px 20px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:17px;font-weight:bold;gap:8px}.wrong-collapse-arrow{transition:transform .3s;font-size:14px}.wrong-collapse-arrow.open{transform:rotate(180deg)}.wrong-collapse-body{display:none;background:var(--bg-quiz-card)}.wrong-collapse-body.open{display:block}.wrong-q-card{padding:16px 20px;border-bottom:1px solid var(--border)}.wrong-q-num{display:inline-block;background:var(--danger);color:#fff;width:28px;height:28px;border-radius:50%;text-align:center;line-height:28px;font-size:13px;font-weight:bold;margin-left:8px}.wrong-q-text{font-size:16px;font-weight:bold;color:var(--text-heading);margin:8px 0;line-height:1.7}.wrong-q-answer{padding:10px 16px;border-radius:8px;margin:6px 0;font-size:15px}.wrong-q-user{background:var(--wrong-card-bg);border-right:4px solid var(--wrong-card-border);color:var(--wrong-card-text)}.wrong-q-correct{background:var(--correct-card-bg);border-right:4px solid var(--correct-card-border);color:var(--correct-card-text)}.wrong-q-label{font-weight:bold;font-size:12px;display:block;margin-bottom:3px}.no-wrong-msg{background:var(--no-wrong-bg);border:2px solid var(--no-wrong-border);color:var(--no-wrong-text);padding:20px;border-radius:10px;text-align:center;font-size:20px;font-weight:bold}.res-word-wrap{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:15px 0}.res-word-btn{background:var(--accent);color:#fff;border:none;padding:12px 22px;border-radius:12px;cursor:pointer;font-size:14px;font-weight:bold;font-family:inherit}.res-word-btn.wrong{background:var(--danger)}.res-word-btn.marked{background:var(--warning)}.exam-titlebar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:linear-gradient(135deg,var(--score-bg-1),var(--score-bg-2));color:#fff;padding:14px 18px;border-radius:12px;font-size:19px;font-weight:bold;margin-bottom:16px;text-align:center}.tb-title{flex:1;min-width:0}.exam-row{display:flex;align-items:center;gap:12px;background:var(--bg-card);border:2px solid var(--border);border-radius:14px;padding:12px 16px;margin-bottom:10px;cursor:pointer;transition:all .25s;flex-wrap:wrap}.exam-row:hover{background:var(--bg-card-hover);transform:translateX(-4px);border-color:var(--accent)}.er-play{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--score-bg-2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;box-shadow:0 3px 10px var(--show-score-shadow)}.er-main{flex:1;min-width:150px;display:flex;flex-direction:column;gap:2px}.er-title{font-weight:bold;font-size:15px;color:var(--text-heading)}.er-sub{font-size:12px;color:var(--text-secondary)}.er-tag{padding:4px 12px;border-radius:12px;font-size:11px;font-weight:bold;flex-shrink:0;background:var(--bg-quiz-card);border:1px solid var(--border);color:var(--text-secondary)}.er-tag.green{background:var(--success);color:#fff}.er-tag.warn{background:var(--warning);color:#fff}.er-num{min-width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px;flex-shrink:0;direction:ltr}.page-layout{display:block}body.quiz-mode .page-layout{display:grid;grid-template-columns:360px minmax(0,1fr);gap:16px;align-items:start;width:100%;max-width:none;margin:20px auto 0;padding:0 14px 60px 16px}.qn-sidebar{display:none;position:sticky;top:104px;width:360px;max-height:calc(100vh - 120px);overflow-y:auto}body.quiz-mode .qn-sidebar{display:block}@media(max-width:900px){.qn-grid{display:flex;overflow-x:auto;gap:6px;padding-bottom:4px}.qn-btn{width:36px;height:36px;min-width:36px;flex-shrink:0;aspect-ratio:auto}.qn-legend{display:none}body.quiz-mode .page-layout{display:block;max-width:980px}.qn-sidebar{position:static;top:auto;width:100%;max-height:none;margin:0 0 14px}}@media(max-width:768px){.container{padding:0 8px;margin:10px auto}.content-section{padding:16px}header h1{font-size:20px}}@media(max-width:640px){.exam-qtext{font-size:17px}.exam-opt{font-size:14px;padding:11px 13px}.exam-row{gap:8px;padding:10px 12px}.er-main{min-width:120px}}";
+
+var QUIZ_HEAD = '<!DOCTYPE html>\n<html lang="ar" dir="rtl" data-theme="dark">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>أسئلة</title>\n<style>' + QUIZ_CSS + '</style>\n</head>\n<body>\n<header>\n<h1 id="main-title"></h1>\n<div class="header-row">\n<div class="theme-controls" id="theme-controls">\n<button class="theme-pill" data-mode="light" onclick="setThemeMode(\'light\')">☀️ فاتح</button>\n<button class="theme-pill" data-mode="dark" onclick="setThemeMode(\'dark\')">🌙 غامق</button>\n<button class="theme-pill" data-mode="auto" onclick="setThemeMode(\'auto\')">🔄 تلقائي</button>\n</div>\n<div class="hdr-tools">\n<button class="hdr-icon-btn" onclick="exportProgress()" title="💾 تصدير نسخة احتياطية">💾</button>\n<button class="hdr-icon-btn" onclick="document.getElementById(\'import-file\').click()" title="📂 استيراد نسخة احتياطية">📂</button>\n</div>\n</div>\n</header>\n<input type="file" id="import-file" accept="application/json,.json" style="display:none" onchange="importProgress(event)">\n<div class="page-layout" id="page-layout">\n<aside class="qn-nav qn-sidebar" id="qn-sidebar"></aside>\n<div class="container">\n<div id="main-view" class="content-section active">\n<h2 style="margin:0 0 6px;">بنك الأسئلة</h2>\n<p style="color:var(--text-hint);font-size:13px;">💾 حلّك بيتحفظ في متصفحك — نسخة مستقلة من الموقع (النسخة الاحتياطية متوافقة مع الموقع).</p>\n<div class="sub-tabs" id="sub-tabs"></div>\n<div id="sub-lec" class="sub-content active"><div id="list-lec"></div></div>\n<div id="sub-mid" class="sub-content"><div id="list-mid"></div></div>\n<div id="sub-fin" class="sub-content"><div id="list-fin"></div></div>\n<div id="sub-bank" class="sub-content"><div id="list-bank"></div></div>\n</div>\n<div id="quiz-view" class="content-section">\n<button class="back-btn" onclick="backToList()">← العودة</button>\n<div class="exam-titlebar" id="quiz-title"></div>\n<div id="quiz-view-root"></div>\n</div>\n</div>\n</div>\n<div class="status-bar" id="status-bar">Theme Sync <span class="status-dot"></span></div>\n<div class="toast" id="toast"></div>\n<script>';
+
+// ★ محرك كامل — نفس دوال الموقع الأصلي + 💾📂 باكب
+function STANDALONE_ENGINE(){
+  var AR_LETTERS = ['أ','ب','ج','د','هـ','و','ز','ح'];
+  var TABS = [['lec','📚 أسئلة المحاضرات'],['mid','📝 الميدتيرم'],['fin','🎓 الفاينل'],['bank','🏦 بنك الأسئلة']];
+  var curTab = 'lec';
+  var st = null;
+
+  // ---- الثيمات (نفس الأصلي) ----
+  var themeMode = 'auto';
+  try{ themeMode = localStorage.getItem('themeMode') || 'auto'; }catch(e){}
+  var themeNames = {light:'Light',dark:'Dark',morning:'Morning',noon:'Noon',afternoon:'Afternoon',night:'Night'};
+  var THEME_META_COLORS = {light:'#2c3e50',dark:'#161b22',morning:'#e67e22',noon:'#111111',afternoon:'#6d4c41',night:'#12121f'};
+  (function(){ var m = document.createElement('meta'); m.name='theme-color'; m.id='meta-theme-color'; m.content='#161b22'; document.head.appendChild(m); })();
+  window.setThemeMode = function(mode){ themeMode = mode; try{ localStorage.setItem('themeMode', mode); }catch(e){} updateThemeUI(); applyTimeTheme(); };
+  function updateThemeUI(){
+    document.querySelectorAll('.theme-pill').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-mode') === themeMode); });
+  }
+  function getAutoTheme(h){ if(h>=6&&h<12) return 'morning'; if(h>=12&&h<15) return 'noon'; if(h>=15&&h<18) return 'afternoon'; return 'night'; }
+  function applyTheme(t){
+    document.documentElement.setAttribute('data-theme', t);
+    var mc = document.getElementById('meta-theme-color');
+    if(mc) mc.setAttribute('content', THEME_META_COLORS[t] || '#2c3e50');
+  }
+  function applyTimeTheme(){
+    if(themeMode==='light') applyTheme('light');
+    else if(themeMode==='dark') applyTheme('dark');
+    else applyTheme(getAutoTheme(new Date().getHours()));
+    updateStatusBar();
+  }
+  function updateStatusBar(){
+    var el = document.getElementById('status-bar');
+    if(!el._span){
+      el.innerHTML = 'Theme Sync: <span id="sb-theme"></span> — نسخة أسئلة المادة <span class="status-dot"></span>';
+      el._span = document.getElementById('sb-theme');
+    }
+    var cur = document.documentElement.getAttribute('data-theme') || 'light';
+    el._span.textContent = themeNames[cur] || cur;
+  }
+  updateThemeUI(); applyTimeTheme();
+  setInterval(function(){ if(themeMode==='auto') applyTimeTheme(); }, 60000);
+
+  // ---- أدوات ----
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return c==='&'?'&amp;':c==='<'?'&lt;':c==='>'?'&gt;':c==='"'?'&quot;':'&#39;'; }); }
+  function isLatinText(s){ var L = String(s==null?'':s).replace(/[^A-Za-z\u0600-\u06FF]/g,''); if(!L) return false; var l = (L.match(/[A-Za-z]/g)||[]).length; return (l/L.length) > 0.5; }
+  function showToast(msg){ var el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(el._t); el._t = setTimeout(function(){ el.classList.remove('show'); }, 2400); }
+
+  // ---- الحفظ (نفس مفاتيح الموقع) ----
+  function getSavedQuizFor(key){
+    try{ var raw = localStorage.getItem('qa_' + DATA.name + '_' + key); if(!raw) return {}; var o = JSON.parse(raw); return (o && typeof o === 'object') ? o : {}; }catch(e){ return {}; }
+  }
+  function saveQuizProgress(key, answers){ try{ localStorage.setItem('qa_' + DATA.name + '_' + key, JSON.stringify(answers)); }catch(e){} }
+  function clearSavedQuiz(key){ try{ localStorage.removeItem('qa_' + DATA.name + '_' + key); }catch(e){} }
+  function getScore(key){
+    try{ var raw = localStorage.getItem('quiz_progress_' + DATA.name); if(!raw) return null; var o = JSON.parse(raw); return (o && o[key]) ? o[key] : null; }catch(e){ return null; }
+  }
+  function saveScore(key, res){
+    try{
+      var raw = localStorage.getItem('quiz_progress_' + DATA.name); var o = {};
+      try{ o = raw ? JSON.parse(raw) : {}; }catch(e){ o = {}; }
+      if(!o || typeof o !== 'object') o = {};
+      o[key] = res;
+      localStorage.setItem('quiz_progress_' + DATA.name, JSON.stringify(o));
+    }catch(e){}
+  }
+  function getMarks(key){ try{ var raw = localStorage.getItem('qmark_' + DATA.name + '_' + key); if(raw) return JSON.parse(raw) || {}; }catch(e){} return {}; }
+  function saveMarks(key, m){ try{ localStorage.setItem('qmark_' + DATA.name + '_' + key, JSON.stringify(m)); }catch(e){} }
+
+  // ---- ★ النسخة الاحتياطية (متوافقة مع الموقع!) ----
+  window.exportProgress = function(){
+    var data = {_app:'study-platform-backup', _version:1, _date:new Date().toLocaleString('ar-EG')};
+    var count = 0;
+    try{
+      for(var i = 0; i < localStorage.length; i++){
+        var k = localStorage.key(i);
+        if(!k) continue;
+        var keep = (k === 'themeMode');
+        if(!keep){
+          if(k.indexOf('qa_' + DATA.name + '_') === 0) keep = true;
+          if(k.indexOf('quiz_progress_' + DATA.name) === 0) keep = true;
+          if(k.indexOf('qmark_' + DATA.name + '_') === 0) keep = true;
+        }
+        if(keep){ data[k] = localStorage.getItem(k); count++; }
+      }
+    }catch(e){}
+    if(!count){ showToast('مفيش تقدم محفوظ لسه'); return; }
+    var d = new Date();
+    var fname = 'backup-' + d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0') + '.json';
+    triggerDownload(new Blob([JSON.stringify(data, null, 2)], {type:'application/json'}), fname);
+    showToast('💾 تم تحميل النسخة (' + count + ' عنصر)');
+  };
+  window.importProgress = function(ev){
+    var file = ev.target.files && ev.target.files[0];
+    if(ev.target) ev.target.value = '';
+    if(!file) return;
+    if(!window.confirm('الاستيراد هيستبدل التقدم الحالي — متأكدة؟')) return;
+    var reader = new FileReader();
+    reader.onload = function(){
+      try{
+        var data = JSON.parse(reader.result);
+        if(!data || typeof data !== 'object' || !data._app) throw new Error('bad');
+        var count = 0;
+        Object.keys(data).forEach(function(k){
+          if(k.charAt(0) === '_') return;
+          if(typeof data[k] === 'string'){
+            try{ localStorage.setItem(k, data[k]); count++; }catch(e){}
+          }
+        });
+        showToast('✅ تم استيراد ' + count + ' عنصر — جاري التحديث...');
+        setTimeout(function(){ location.reload(); }, 1000);
+      }catch(e){
+        showToast('❌ الملف مش نسخة احتياطية صالحة');
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  // ---- الشاشات ----
+  function showView(id){
+    ['main-view','quiz-view'].forEach(function(v){
+      var el = document.getElementById(v);
+      if(el) el.classList.toggle('active', v === id);
     });
-    [['midterms','📝 '],['finals','🎓 '],['testBanks','🏦 ']].forEach(function(p){
-      (s[p[0]] || []).forEach(function(e){
-        var qs = getQuizData(s, e);
-        if(qs && qs.length) body += qBlock(p[1]+esc(e.t || ''), qs);
-      });
-    });
+  }
+
+  // ---- التبويبات + الصفوف ----
+  function renderTabs(){
+    document.getElementById('sub-tabs').innerHTML = TABS.map(function(t){
+      var n = (DATA[t[0]] || []).length;
+      return '<button class="sub-tab-button'+(t[0]===curTab?' active':'')+'" onclick="setTab(\''+t[0]+'\')">'+t[1]+' ('+n+')</button>';
+    }).join('');
+  }
+  window.setTab = function(k){
+    curTab = k;
+    renderTabs();
+    document.querySelectorAll('.sub-content').forEach(function(d){ d.classList.toggle('active', d.id === 'sub-'+k); });
+    renderList();
+  };
+  function renderList(){
+    var arr = DATA[curTab] || [];
+    var box = document.getElementById('list-' + curTab);
+    if(!arr.length){ box.innerHTML = '<p style="color:var(--text-hint)">مفيش حاجة هنا.</p>'; return; }
+    box.innerHTML = arr.map(function(e, i){
+      var total = e.questions.length;
+      var done = Object.keys(getSavedQuizFor(e.t)).length;
+      var score = getScore(e.t);
+      var tag;
+      if(score) tag = '<span class="er-tag green">🏆 '+score.score+'%</span>';
+      else if(done >= total) tag = '<span class="er-tag green">✅ مكتمل</span>';
+      else if(done > 0) tag = '<span class="er-tag warn">⏳ قيد الحل</span>';
+      else tag = '<span class="er-tag">جديد</span>';
+      return '<div class="exam-row" onclick="openQuizAt('+i+')">'+
+        '<span class="er-play">▶</span>'+
+        '<span class="er-main"><span class="er-title">'+esc(e.t)+'</span>'+
+        (e.d ? '<span class="er-sub">'+esc(e.d)+'</span>' : '')+'</span>'+
+        tag + '<span class="er-num">'+total+'</span></div>';
+    }).join('');
+  }
+  window.openQuizAt = function(i){
+    var e = (DATA[curTab] || [])[i];
+    if(!e) return;
+    document.getElementById('quiz-title').innerHTML = '<span class="tb-title">'+esc(e.t + ' — ' + DATA.name)+'</span>';
+    renderQuizInto(document.getElementById('quiz-view-root'), e.t, e.questions);
+    showView('quiz-view');
+    window.scrollTo({top:0, behavior:'smooth'});
+  };
+  window.backToList = function(){
+    st = null;
+    setQuizMode(false);
+    detachQNSidebar();
+    document.getElementById('quiz-view-root').innerHTML = '';
+    renderList();
+    showView('main-view');
+    window.scrollTo({top:0, behavior:'smooth'});
+  };
+
+  // ---- اللوحة الجانبية (نفس الأصلي) ----
+  function setQuizMode(on){
+    document.body.classList.toggle('quiz-mode', !!on);
+    if(on) placeQNSidebar();
+  }
+  function detachQNSidebar(){
+    var sb = document.getElementById('qn-sidebar');
+    var layout = document.getElementById('page-layout');
+    if(sb && layout && sb.parentNode !== layout) layout.insertBefore(sb, layout.firstChild);
+  }
+  function placeQNSidebar(){
+    var sb = document.getElementById('qn-sidebar');
+    if(!sb || !st || !st.root) return;
+    if(window.innerWidth <= 900){
+      if(sb.parentNode !== st.root) st.root.insertBefore(sb, st.root.firstChild);
+    }else{
+      var layout = document.getElementById('page-layout');
+      if(layout && sb.parentNode !== layout) layout.insertBefore(sb, layout.firstChild);
+    }
+  }
+  window.addEventListener('resize', function(){
+    if(st && st.root && document.body.classList.contains('quiz-mode')) placeQNSidebar();
   });
-  var html = '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8">'+
-    '<meta name="viewport" content="width=device-width, initial-scale=1.0">'+
-    '<title>بنك الأسئلة — كل المواد</title>'+
-    '<style>body{font-family:Tahoma,Arial,sans-serif;background:#f4f7f6;margin:0;padding:20px;color:#333}'+
-    '.wrap{max-width:900px;margin:auto;background:#fff;padding:25px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.1)}'+
-    'h1{text-align:center;color:#2c3e50}h2{color:#2980b9;border-bottom:2px solid #3498db;padding-bottom:6px;margin-top:30px}'+
-    'h3{color:#2c3e50;margin:20px 0 8px}.q{background:#f8f9fa;border:1px solid #e3e3e3;border-radius:8px;padding:12px 15px;margin:8px 0}'+
-    '.opt{margin:3px 15px}.ans{color:#1e8449;font-weight:bold;margin-top:5px}</style></head><body><div class="wrap">'+
-    '<h1>📚 بنك الأسئلة — كل المواد</h1>'+body+'</div></body></html>';
-  triggerDownload(new Blob([html], {type:'text/html;charset=utf-8'}), 'questions-bank.html');
-  showToast('تم تحميل بنك الأسئلة 📥');
+
+  // ---- الأكورديون ----
+  var sectionStates = { questions: true };
+  function setSectionOpen(open, animate){
+    sectionStates.questions = !!open;
+    var sec = document.getElementById('qs-sec');
+    if(!sec) return;
+    sec.classList.toggle('open', !!open);
+    var btn = sec.querySelector('.sec-toggle');
+    if(btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    var body = sec.querySelector('.sec-body');
+    if(!body) return;
+    if(!animate){ body.style.height = open ? 'auto' : '0px'; return; }
+    if(open){
+      body.style.height = '0px';
+      void body.offsetHeight;
+      body.style.height = (body.scrollHeight + 2) + 'px';
+      setTimeout(function(){ if(sectionStates.questions) body.style.height = 'auto'; }, 340);
+    }else{
+      body.style.height = body.scrollHeight + 'px';
+      void body.offsetHeight;
+      body.style.height = '0px';
+    }
+  }
+  window.toggleSection = function(){ setSectionOpen(!sectionStates.questions, true); };
+  function ensureSectionOpen(){
+    var sec = document.getElementById('qs-sec');
+    if(!sec || sec.classList.contains('open')) return false;
+    setSectionOpen(true, true);
+    return true;
+  }
+
+  // ---- منطق الكويز (نفس الأصلي) ----
+  function answeredCount(){
+    if(!st) return 0;
+    var n = 0;
+    for(var i = 0; i < st.data.length; i++){ if(st.answered[i] !== undefined) n++; }
+    return n;
+  }
+  function renderQuizInto(root, key, questions){
+    detachQNSidebar();
+    st = { key: key, title: key, data: (questions || []).slice(), answered: {}, marks: {}, current: 0, finished: false, root: root };
+    var saved = getSavedQuizFor(key);
+    Object.keys(saved).forEach(function(k){
+      var n = parseInt(saved[k], 10);
+      if(!isNaN(n) && n >= 0) st.answered[k] = n;
+    });
+    st.marks = getMarks(key);
+    var allDone = true;
+    for(var i = 0; i < st.data.length; i++){
+      if(st.answered[i] === undefined){ st.current = i; allDone = false; break; }
+    }
+    if(allDone && st.data.length){
+      st.current = st.data.length - 1;
+      if(getScore(key)) st.finished = true;
+    }
+    root.innerHTML =
+      '<div class="qs-section ax-sec open" id="qs-sec">'+
+        '<button class="sec-toggle qs-toggle" aria-expanded="true" onclick="toggleSection()" title="فتح / إغلاق القسم">'+
+          '<span class="qs-title">🧠 قسم الأسئلة</span><span class="sec-arrow">⌄</span>'+
+        '</button>'+
+        '<div class="sec-body" id="qs-body">'+
+          '<div class="solved-counter" id="sc-bar"></div>'+
+          '<div class="exam-qarea" id="qa-area"></div>'+
+          '<div id="results-area"></div>'+
+          '<div id="score-btn-area"></div>'+
+        '</div>'+
+      '</div>';
+    if(st.finished) showResults(true);
+    else{ renderCurrentQuestion(); updateScoreBtn(); }
+    updateSolvedCounter();
+    renderQNSidebar();
+    setQuizMode(true);
+  }
+  function renderQNSidebar(){
+    var sb = document.getElementById('qn-sidebar');
+    if(!sb || !st) return;
+    var btns = st.data.map(function(q, i){
+      var cls = 'qn-btn';
+      if(i === st.current) cls += ' current';
+      if(st.answered[i] !== undefined){ cls += (st.answered[i] === q.correct) ? ' ok' : ' bad'; }
+      return '<button class="'+cls+'" onclick="examGoTo('+i+')" title="السؤال '+(i+1)+(st.marks[i]?' ⭐':'')+'">'+(i+1)+'</button>';
+    }).join('');
+    sb.innerHTML =
+      '<div class="qn-nav-header"><span>🗺️ خريطة الأسئلة</span><span class="qn-count">'+st.data.length+' سؤال</span></div>'+
+      '<div class="qn-grid">'+btns+'</div>'+
+      '<div class="qn-legend">'+
+        '<span><span class="qn-dot ok"></span>صحيح</span>'+
+        '<span><span class="qn-dot bad"></span>خطأ</span>'+
+        '<span><span class="qn-dot none"></span>لم يُجب</span>'+
+      '</div>';
+  }
+  function renderCurrentQuestion(){
+    var area = document.getElementById('qa-area');
+    if(!area || !st || !st.data.length){ if(area) area.innerHTML = ''; return; }
+    var i = Math.max(0, Math.min(st.current, st.data.length - 1));
+    st.current = i;
+    var q = st.data[i];
+    var answered = st.answered[i] !== undefined;
+    var userPick = answered ? st.answered[i] : -1;
+    var isCorrect = answered && userPick === q.correct;
+    var isMarked = !!st.marks[i];
+    var qLatin = isLatinText(q.q);
+
+    var opts = (q.options || []).map(function(op, oi){
+      var cls = 'exam-opt';
+      var opLatin = isLatinText(op);
+      var letter = opLatin ? String.fromCharCode(65 + oi) : (AR_LETTERS[oi] || String(oi + 1));
+      var click = '';
+      if(answered){
+        cls += ' locked';
+        if(oi === q.correct) cls += ' correct';
+        else if(oi === userPick) cls += ' selected wrong';
+      }else{
+        click = ' onclick="selectAnswer('+i+','+oi+')"';
+      }
+      if(opLatin) cls += ' ltr';
+      return '<div class="'+cls+'"'+click+'><span class="opt-letter">'+letter+'</span><span class="opt-text">'+esc(op)+'</span></div>';
+    }).join('');
+
+    var fb = '';
+    if(answered){
+      fb = '<div class="quiz-feedback '+(isCorrect ? 'correct-text' : 'wrong-text')+'">'+
+        (isCorrect ? '✅ إجابة صحيحة!' : '❌ إجابة خاطئة — الإجابة الصحيحة: '+esc((q.options||[])[q.correct] || ''))+'</div>';
+    }
+
+    area.innerHTML =
+      '<div class="exam-qcard">'+
+        '<span class="exam-counter">'+(i+1)+' / '+st.data.length+'</span>'+
+        '<div class="exam-qtop">'+
+          '<span class="eq-num">السؤال '+(i+1)+' من '+st.data.length+'</span>'+
+          '<button class="qmark-btn '+(isMarked?'on':'')+'" onclick="toggleMark('+i+')" title="علّمي السؤال — يظهر في ملف Word">'+(isMarked?'⭐ معلّم':'☆ علّم')+'</button>'+
+        '</div>'+
+        '<div class="exam-qtext'+(qLatin?' ltr':'')+'">'+esc(q.q)+'</div>'+
+        '<div class="exam-opts">'+opts+'</div>'+ fb +
+        '<div class="exam-navbtns">'+
+          '<button class="exam-nav-btn prev"'+(i===0?' disabled':'')+' onclick="examGo(-1)">→ السابق</button>'+
+          (st.finished ? '<button class="exam-nav-btn" onclick="showResults(true)">📊 النتيجة</button>' : '')+
+          '<button class="exam-nav-btn"'+(i===st.data.length-1?' disabled':'')+' onclick="examGo(1)">التالي ←</button>'+
+        '</div>'+
+        '<div class="exam-saved" id="exam-saved-msg">💾 تم حفظ إجابتك تلقائياً</div>'+
+      '</div>';
+  }
+  window.toggleMark = function(qi){
+    if(!st) return;
+    if(st.marks[qi]){ delete st.marks[qi]; showToast('تم إلغاء تعليم السؤال'); }
+    else{ st.marks[qi] = 1; showToast('⭐ السؤال اتعلّم — هيظهر في ملف Word'); }
+    saveMarks(st.key, st.marks);
+    renderCurrentQuestion();
+  };
+  window.selectAnswer = function(qi, oi){
+    if(!st) return;
+    if(st.answered[qi] !== undefined) return;
+    st.answered[qi] = oi;
+    saveQuizProgress(st.key, st.answered);
+    renderCurrentQuestion();
+    renderQNSidebar();
+    updateSolvedCounter();
+    updateScoreBtn();
+    var m = document.getElementById('exam-saved-msg');
+    if(m){ m.classList.add('show'); setTimeout(function(){ m.classList.remove('show'); }, 1500); }
+  };
+  window.examGo = function(dir){ if(st) examGoTo(st.current + dir); };
+  window.examGoTo = function(i){
+    if(!st || i < 0 || i >= st.data.length) return;
+    st.current = i;
+    var qa = document.getElementById('qa-area'), ra = document.getElementById('results-area');
+    if(qa) qa.style.display = '';
+    if(ra) ra.innerHTML = '';
+    var wasClosed = ensureSectionOpen();
+    renderCurrentQuestion();
+    renderQNSidebar();
+    var card = document.querySelector('#qa-area .exam-qcard');
+    if(card){
+      if(wasClosed){ setTimeout(function(){ card.scrollIntoView({behavior:'smooth', block:'center'}); }, 360); }
+      else{ card.scrollIntoView({behavior:'smooth', block:'center'}); }
+    }
+  };
+  function updateSolvedCounter(){
+    var el = document.getElementById('sc-bar');
+    if(!el || !st) return;
+    var done = answeredCount(), total = st.data.length;
+    var pct = total ? Math.round(done * 100 / total) : 0;
+    el.innerHTML = '<span>✅ تم حلّه: <span class="sc-ok">'+done+'</span> من '+total+'</span><span class="sc-pct">'+pct+'%</span>';
+  }
+  function updateScoreBtn(){
+    var wrap = document.getElementById('score-btn-area');
+    if(!wrap || !st) return;
+    if(!st.finished && st.data.length && answeredCount() >= st.data.length){
+      wrap.innerHTML = '<div class="show-score-btn-wrap">'+
+        '<button class="show-score-btn" onclick="showResults()">🏆 اعرض نتيجتك</button>'+
+        '<div class="show-score-subtitle">جاوبتي على كل الأسئلة — شوف مستواك!</div></div>';
+    }else if(!st.finished){ wrap.innerHTML = ''; }
+  }
+  window.showResults = function(silent){
+    if(!st || !st.data.length) return;
+    var total = st.data.length, correct = 0;
+    st.data.forEach(function(q, i){ if(st.answered[i] !== undefined && st.answered[i] === q.correct) correct++; });
+    var pct = Math.round(correct * 100 / total);
+    st.finished = true;
+    saveScore(st.key, {score:pct, correct:correct, wrong:(total-correct), total:total});
+    if(!silent) showToast('تم حفظ النتيجة: '+pct+'%');
+    var msg = pct >= 90 ? 'ممتاز! 🌟' : pct >= 75 ? 'جيد جداً 👏' : pct >= 50 ? 'جيد 🙂' : 'حاول مرة تانية 💪';
+    var wrongs = [];
+    st.data.forEach(function(q, i){
+      if(st.answered[i] !== undefined && st.answered[i] !== q.correct) wrongs.push({q:q, i:i, user:st.answered[i]});
+    });
+    var actBtns = '<div class="res-word-wrap">'+
+      '<button class="res-word-btn wrong" onclick="downloadWrongWord()">📄 Word — الأسئلة الخطأ</button>'+
+      '<button class="res-word-btn marked" onclick="downloadMarkedWord()">⭐ Word — الأسئلة المعلّمة</button></div>';
+    var wrongHTML;
+    if(wrongs.length){
+      wrongHTML = '<div class="wrong-collapse-wrap">'+
+        '<div class="wrong-collapse-header" onclick="toggleWrongReview(event)">'+
+          '<span>❌ مراجعة الأخطاء ('+wrongs.length+')</span><span class="wrong-collapse-arrow" id="wra">▼</span></div>'+
+        '<div class="wrong-collapse-body" id="wrb">'+
+          wrongs.map(function(w){
+            return '<div class="wrong-q-card"><span class="wrong-q-num">'+(w.i+1)+'</span>'+
+              '<div class="wrong-q-text">'+esc(w.q.q)+'</div>'+
+              '<div class="wrong-q-answer wrong-q-user"><span class="wrong-q-label">إجابتك:</span>'+esc((w.q.options||[])[w.user] || '—')+'</div>'+
+              '<div class="wrong-q-answer wrong-q-correct"><span class="wrong-q-label">الإجابة الصحيحة:</span>'+esc((w.q.options||[])[w.q.correct] || '—')+'</div></div>';
+          }).join('')+'</div></div>';
+    }else{
+      wrongHTML = '<div class="no-wrong-msg">🎉 مفيش أخطاء — كل إجاباتك صح!</div>';
+    }
+    document.getElementById('results-area').innerHTML =
+      '<div class="score-card">'+
+        '<div class="score-circle"><div class="score-number">'+pct+'%</div><div class="score-label">النتيجة</div></div>'+
+        '<div class="score-details">✅ صحيحة: '+correct+' &nbsp;•&nbsp; ❌ خاطئة: '+(total-correct)+' &nbsp;•&nbsp; الإجمالي: '+total+'</div>'+
+        '<div class="score-message">'+msg+'</div>'+
+        '<button class="retry-btn" onclick="resetQuiz()">🔄 إعادة الاختبار</button></div>'+ actBtns + wrongHTML;
+    var qa = document.getElementById('qa-area');
+    if(qa) qa.style.display = 'none';
+    var wrap = document.getElementById('score-btn-area');
+    if(wrap) wrap.innerHTML = '';
+    updateSolvedCounter();
+    renderQNSidebar();
+    var sc = document.querySelector('#results-area .score-card');
+    if(sc) sc.scrollIntoView({behavior:'smooth', block:'start'});
+  };
+  window.toggleWrongReview = function(e){
+    if(e) e.stopPropagation();
+    var b = document.getElementById('wrb'), a = document.getElementById('wra');
+    if(b) b.classList.toggle('open');
+    if(a) a.classList.toggle('open');
+  };
+  window.resetQuiz = function(){
+    if(!st) return;
+    clearSavedQuiz(st.key);
+    st.answered = {}; st.current = 0; st.finished = false;
+    var ra = document.getElementById('results-area'); if(ra) ra.innerHTML = '';
+    var qa = document.getElementById('qa-area'); if(qa) qa.style.display = '';
+    renderCurrentQuestion(); renderQNSidebar(); updateSolvedCounter(); updateScoreBtn();
+    showToast('تم مسح الحل المحفوظ — بالتوفيق 💪');
+  };
+
+  // ---- Word (نفس الأصلي — بإجابتك) ----
+  window.downloadWrongWord = function(){
+    if(!st) return;
+    var qs = [], picks = [];
+    st.data.forEach(function(q, i){
+      if(st.answered[i] !== undefined && st.answered[i] !== q.correct){ qs.push(q); picks.push(st.answered[i]); }
+    });
+    if(!qs.length){ showToast('مفيش أسئلة خطأ 🎉'); return; }
+    downloadWord(qs, DATA.name + ' — ' + st.key + ' (الأسئلة الخطأ)', picks);
+  };
+  window.downloadMarkedWord = function(){
+    if(!st) return;
+    var qs = [], picks = [];
+    st.data.forEach(function(q, i){ if(st.marks[i]){ qs.push(q); picks.push(st.answered[i]); } });
+    if(!qs.length){ showToast('مفيش أسئلة معلّمة — علمي ⭐'); return; }
+    downloadWord(qs, DATA.name + ' — ' + st.key + ' (الأسئلة المعلّمة)', picks);
+  };
+  function downloadWord(questions, title, picks){
+    if(!questions || !questions.length){ showToast('لا توجد أسئلة للتحميل'); return; }
+    var rows = questions.map(function(q, i){
+      var opts = (q.options || []).map(function(op, oi){
+        return '<div style="margin-right:14pt;">'+(oi+1)+') '+esc(op)+(oi === q.correct ? ' ✅' : '')+'</div>';
+      }).join('');
+      var ans = (q.correct !== undefined && (q.options||[])[q.correct] !== undefined) ? ((q.correct+1)+' — '+esc(q.options[q.correct])) : '—';
+      var mine = '';
+      var pick = (picks && picks.length > i) ? picks[i] : undefined;
+      if(pick !== undefined && pick !== null && (q.options||[])[pick] !== undefined){
+        var wasRight = (pick === q.correct);
+        mine = '<div style="color:'+(wasRight?'#1e8449':'#c0392b')+';font-weight:bold;">'+(wasRight?'✔ إجابتك: ':'✘ إجابتك: ')+esc(q.options[pick])+(wasRight?' (صحيحة)':' (خطأ)')+'</div>';
+      }
+      return '<div style="margin-bottom:14pt;"><div style="font-weight:bold;">'+(i+1)+') '+esc(q.q)+'</div>'+opts+mine+
+        '<div style="color:#1e8449;font-weight:bold;">الإجابة الصحيحة: '+ans+'</div></div>';
+    }).join('');
+    var html = '<html dir="rtl"><head><meta charset="utf-8"><title>'+esc(title)+'</title></head>'+
+      '<body style="font-family:Arial;font-size:12pt;direction:rtl;"><h2 style="text-align:center;">'+esc(title)+'</h2><hr>'+
+      '<p style="text-align:center;">عدد الأسئلة: '+questions.length+'</p>'+rows+'</body></html>';
+    var fname = String(title).replace(/[\\\/:*?"<>|]/g, '-') + '.doc';
+    triggerDownload(new Blob(['\ufeff'+html], {type:'application/msword'}), fname);
+    showToast('تم تحميل ملف Word 📥');
+  }
+  function triggerDownload(blob, filename){
+    var a = document.createElement('a');
+    var url = URL.createObjectURL(blob);
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ try{ URL.revokeObjectURL(url); }catch(e){} a.remove(); }, 2000);
+  }
+
+  // ---- تشغيل ----
+  document.title = 'أسئلة ' + DATA.name;
+  document.getElementById('main-title').textContent = 'منصة مادة ' + DATA.name + (DATA.en ? ' — ' + DATA.en : '');
+  renderTabs();
+  renderList();
+  showView('main-view');
 }
 
-function qBlock(title, qs){
-  return '<h3>'+title+' <small>('+qs.length+' سؤال)</small></h3>'+
-    qs.map(function(q, i){
-      var opts = (q.options || []).map(function(op, oi){
-        var star = (oi === q.correct) ? ' ✅' : '';
-        return '<div class="opt">'+(oi+1)+') '+esc(op)+star+'</div>';
-      }).join('');
-      var ans = (q.correct !== undefined && q.correct !== null && (q.options || [])[q.correct] !== undefined)
-        ? ((q.correct+1)+' — '+esc(q.options[q.correct])) : '—';
-      return '<div class="q"><div><b>'+(i+1)+') '+esc(q.q)+'</b></div>'+opts+
-        '<div class="ans">✔ الإجابة الصحيحة: '+ans+'</div></div>';
-    }).join('');
+function downloadQuestionsPageHTML(){
+  if(!subjects.length){ showToast('لا توجد بيانات للتحميل'); return; }
+  var s = subjects[currentSubject];
+  function pack(list){
+    return (list || []).map(function(e){
+      return { t: e.t || 'اختبار', d: e.d || '', questions: getQuizData(s, e) };
+    }).filter(function(x){ return x.questions.length; });
+  }
+  var lec = (s.lectures || []).map(function(l){
+    return { t: l.t || 'محاضرة', d: l.d || '', questions: l.questions || [] };
+  }).filter(function(x){ return x.questions.length; });
+  var data = { name: s.name, en: s.en || '', icon: s.icon || '📚', lec: lec, mid: pack(s.midterms), fin: pack(s.finals), bank: pack(s.testBanks) };
+  var json = JSON.stringify(data).replace(/<\/script/gi, "<\\/script");
+  var html = QUIZ_HEAD + "\nvar DATA = " + json + ";\n" + STANDALONE_ENGINE.toString() + "\nSTANDALONE_ENGINE();\n<\/script></body></html>";
+  var fname = 'اسئلة-' + String(s.name).replace(/[\\\/:*?"<>|]/g, '-') + '.html';
+  triggerDownload(new Blob([html], {type:'text/html;charset=utf-8'}), fname);
+  showToast('📥 اتنزّلت نسخة أسئلة: ' + s.name);
 }
 
 // ============================================================
