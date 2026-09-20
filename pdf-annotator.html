@@ -219,9 +219,23 @@
       <button class="tbtn" id="btnZoomOut" title="تصغير">−</button>
       <span class="mono" id="zoomLabel" title="اضغط للرجوع لعرض الملاءمة (100%)" style="font-size:12px;min-width:44px;text-align:center;">100%</span>
       <button class="tbtn" id="btnZoomIn" title="تكبير">+</button>
+    
       <button class="tbtn" id="btnZoomFit" title="ملاءمة العرض">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
         <span class="lbl">ملاءمة</span>
+      </button>
+      
+
+      <!-- ★ زرارين جداد -->
+      <div class="sep"></div>
+
+      <button class="tbtn" id="btnExternal" title="فتح الملف في تبويب جديد (العارض العادي)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
+        <span class="lbl">افتح بره</span>
+      </button>
+      <button class="tbtn" id="btnFullscreen" title="ملء الشاشة">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+        <span class="lbl">ملء الشاشة</span>
       </button>
     </div>
 
@@ -569,7 +583,52 @@
   $("#btnZoomOut").addEventListener("click", ()=>zoomBy(1/1.2));
   $("#btnZoomFit").addEventListener("click", ()=>setZoom(1, null));
   zoomLabel.addEventListener("click", ()=>setZoom(1, null));
+  // ---------------- ★ افتح بره + ملء الشاشة ----------------
+  const btnExternal = $("#btnExternal");
+  const btnFullscreen = $("#btnFullscreen");
 
+  // 📤 افتح الملف في تبويب جديد بالعارض العادي
+  btnExternal.addEventListener("click", ()=>{
+    if(!pdfBytes){ toast("مفيش ملف مفتوح"); return; }
+    const blob = new Blob([pdfBytes], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    const w = window.open(url, "_blank");
+    if(!w){ toast("المتصفح حجب النافذة — اسمحي بالنوافذ المنبثقة له الموقع"); }
+    // الرابط محتاج يفضل شغال للتبويب الجديد — بننضفه بعد دقيقة
+    setTimeout(()=>{ try{ URL.revokeObjectURL(url); }catch(e){} }, 60000);
+  });
+
+  // 🖥️ ملء الشاشة (الملف + الأدوات = الشاشة كلها)
+  function fsActive(){ return !!(document.fullscreenElement || document.webkitFullscreenElement); }
+  function toggleFullscreen(){
+    const root = document.documentElement;
+    if(!fsActive()){
+      const req = root.requestFullscreen || root.webkitRequestFullscreen;
+      if(req){
+        const p = req.call(root);
+        if(p && p.catch) p.catch(()=>toast("تعذّر ملء الشاشة"));
+      }else{
+        toast("المتصفح ده مش بيدعم ملء الشاشة 😔");
+      }
+    }else{
+      const ex = document.exitFullscreen || document.webkitExitFullscreen;
+      if(ex) ex.call(document);
+    }
+  }
+  btnFullscreen.addEventListener("click", toggleFullscreen);
+
+  // تحديث شكل الزرار + إعادة رسم الصفحات للمساحة الجديدة
+  ["fullscreenchange","webkitfullscreenchange"].forEach(ev=>{
+    document.addEventListener(ev, ()=>{
+      const on = fsActive();
+      btnFullscreen.classList.toggle("active", on);
+      btnFullscreen.title = on ? "الخروج من ملء الشاشة (Esc)" : "ملء الشاشة";
+      if(pdfDoc){
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(()=>{ renderAllPages(); }, 150);
+      }
+    });
+  });
   // ★ Ctrl + عجلة الماوس = زوم عند مؤشر الماوس (والتراك باد Pinch بيطلع كده برضه)
   mainEl.addEventListener("wheel", (e)=>{
     if(!e.ctrlKey && !e.metaKey) return; // سكرول عادي من غير Ctrl
