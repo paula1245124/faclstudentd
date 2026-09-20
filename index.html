@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>منصة المواد الدراسية</title>
-
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#161b22">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<script src="pwa.js" defer></script>
 <style>
 /* ============================================================
    1) الثيمات (فاتح + 5 ثيمات وقت)
@@ -122,7 +126,11 @@ header h1{margin:0 0 8px;font-size:24px}
 .notif-item.unread{background:var(--notif-unread-bg);font-weight:bold}
 .notif-item .notif-meta{font-size:10px;color:var(--text-hint);margin-top:4px}
 .notif-item .notif-detail{display:block;margin:3px 0;font-size:12px}
+.notif-item .notif-detail del{opacity:.75}
 .notif-empty{padding:30px;text-align:center;color:var(--text-hint);font-size:14px}
+.hdr-tools{display:flex;gap:6px;align-items:center}
+.hdr-icon-btn{width:38px;height:38px;border-radius:50%;background:var(--theme-btn-bg);border:2px solid transparent;color:var(--text-white);font-size:17px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .25s;flex-shrink:0}
+.hdr-icon-btn:hover{background:var(--theme-btn-active);transform:scale(1.12)}
 
 /* ============================================================
    3) شريط المواد + القوائم + الكروت
@@ -301,7 +309,6 @@ iframe{width:100%;height:600px;border:none;display:block}
 .tb-pdf-btn{background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.45);color:#fff;padding:8px 16px;border-radius:12px;cursor:pointer;font-weight:bold;font-size:14px;font-family:inherit;transition:all .25s;flex-shrink:0}
 .tb-pdf-btn:hover{background:rgba(255,255,255,.35);transform:scale(1.05)}
 .tb-pdf-btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
-/* ★ الـ PDF في الامتحان أقصر — السؤال يظهر معاه في نفس الشاشة */
 #quiz-pdf-area .pdf-viewer iframe{height:340px}
 .exam-qarea{padding-top:22px}
 .exam-qcard{position:relative;background:var(--bg-quiz-card);border:2px solid var(--border);border-radius:14px;padding:24px;box-shadow:0 2px 8px var(--shadow);animation:ldOpen .3s ease}
@@ -442,22 +449,45 @@ body.quiz-mode .qn-sidebar{display:block}
   transition:transform .3s,background .3s,color .3s;flex-shrink:0;margin-inline-start:auto;
 }
 .ax-sec.open .sec-arrow{transform:rotate(180deg);background:var(--accent);color:#fff}
-/* كارت الملف */
 .attach-toggle{flex:1;min-width:0}
 .attach-toggle .attach-title{flex:1}
-/* قسم الأسئلة */
 .qs-section{background:var(--bg-quiz-card);border:2px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px}
 .qs-toggle{width:100%;background:var(--bg-card-hover);padding:14px 18px}
 .qs-toggle:hover{filter:brightness(1.05)}
 .qs-title{font-weight:bold;font-size:17px;color:var(--text-heading);flex:1}
 .qs-section .sec-body{padding:18px}
-/* ★ السكرول تحت الهيدر الثابت */
 #pdf-sec,.qs-section,.exam-qcard{scroll-margin-top:112px}
 @media (max-width:640px){
   .exam-titlebar{font-size:16px;padding:12px 12px}
   .tb-pdf-btn{font-size:12px;padding:6px 12px}
   .qs-toggle{padding:12px 12px}
   .qs-section .sec-body{padding:12px}
+}
+
+/* ============================================================
+   ★★ 14) البحث الشامل
+   ============================================================ */
+.search-box{position:relative;margin-bottom:16px}
+.search-input{width:100%;padding:13px 16px;padding-inline-end:44px;border:2px solid var(--border);border-radius:12px;font-size:15px;font-family:inherit;background:var(--bg-card);color:var(--text-primary);transition:border-color .25s,background .4s}
+.search-input:focus{outline:none;border-color:var(--accent)}
+.search-clear{position:absolute;inset-inline-end:8px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;border:none;background:var(--bg-card-hover);color:var(--text-secondary);cursor:pointer;font-size:13px;display:none;align-items:center;justify-content:center;font-family:inherit;transition:all .2s}
+.search-clear.show{display:flex}
+.search-clear:hover{background:var(--bg-card);color:var(--danger)}
+.search-results{display:none;background:var(--bg-content);border:2px solid var(--border);border-radius:12px;margin-bottom:16px;box-shadow:0 4px 14px var(--shadow);overflow:hidden}
+.search-results.show{display:block}
+.sr-header{padding:10px 16px;background:var(--bg-card);border-bottom:2px solid var(--border);font-size:12px;font-weight:bold;color:var(--text-secondary)}
+.sr-list{max-height:400px;overflow-y:auto}
+.sr-item{padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .2s}
+.sr-item:hover{background:var(--bg-card-hover)}
+.sr-item:last-child{border-bottom:none}
+.sr-src{font-size:11px;color:var(--text-hint);margin-bottom:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.sr-src b{color:var(--accent)}
+.sr-text{font-size:14px;color:var(--text-primary);line-height:1.6}
+.sr-text mark{background:var(--warning);color:#fff;padding:0 3px;border-radius:3px}
+.sr-empty{padding:24px;text-align:center;color:var(--text-hint);font-size:14px}
+@media (max-width:640px){
+  .sr-list{max-height:300px}
+  .search-input{font-size:14px}
 }
 </style>
 </head>
@@ -480,8 +510,13 @@ body.quiz-mode .qn-sidebar{display:block}
                 <div id="notif-list"><div class="notif-empty">لا توجد إشعارات حالياً</div></div>
             </div>
         </div>
+        <div class="hdr-tools">
+            <button class="hdr-icon-btn" onclick="exportProgress()" title="💾 نسخة احتياطية للتقدم (تصدير)">💾</button>
+            <button class="hdr-icon-btn" onclick="document.getElementById('import-file').click()" title="📂 استيراد نسخة احتياطية">📂</button>
+        </div>
     </div>
 </header>
+<input type="file" id="import-file" accept="application/json,.json" style="display:none" onchange="importProgress(event)">
 
 <!-- شريط المواد -->
 <div class="subjects" id="subject-bar"></div>
@@ -495,6 +530,13 @@ body.quiz-mode .qn-sidebar{display:block}
     <div class="container">
         <!-- الشاشة الرئيسية -->
         <div id="main-view" class="content-section active">
+            <!-- ★ البحث الشامل -->
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" dir="auto" placeholder="🔍 ابحثي في المحاضرات والأسئلة..." oninput="doSearch()">
+                <button class="search-clear" id="search-clear" onclick="clearSearch()" title="مسح البحث">✕</button>
+            </div>
+            <div class="search-results" id="search-results"></div>
+
             <div class="tabs">
                 <button class="tab-button active" onclick="openTab(event, 'section1')">القسم الأول: المحاضرات</button>
                 <button class="tab-button" onclick="openTab(event, 'section2')">القسم الثاني: الأسئلة</button>
@@ -674,9 +716,29 @@ window.addEventListener('scroll', function(){ sttBtn.classList.toggle('visible',
 function scrollToTop(){ window.scrollTo({top:0, behavior:'smooth'}); }
 
 // ============================================================
-// 4) نظام الإشعارات (نتائج الاختبارات فقط)
+// 4) نظام الإشعارات — عادي + 📝 تعديل إجابة + 📚 محاضرة جديدة
 // ============================================================
 var notifications = [], notifSeq = 0;
+
+// ★★ Shared Answer-Edits Log (يظهر تلقائياً عند كل من يدخل الموقع) ★★
+// عند تعديل إجابة سؤال في ملف الداتا: ضيفي عنصر جديد هنا بـ id فريد لم
+// يُستخدم من قبل (edit-002, edit-003...) — كل من يفتح الموقع سيشاهد
+// إشعاراً تلقائياً بالتعديل في الجرس.
+var answerEditsLog = [
+  // مثال (عدّلي القيم عند الاستخدام الفعلي — أو امسحي السطر ده لو مش محتاجاه):
+    { id: "edit-002", context: "المحاضرة الأولى", questionNum: 1, questionText: "ما هو تعريف القانون في اللغة؟", oldAnswer: "الإجابة القديمة", newAnswer: "الإجابة الصحيحة الجديدة" }
+
+];
+
+// ★★ Shared Lectures-Added Log (إشعار بالمحاضرات الجديدة) ★★
+// لما تضيفي محاضرة جديدة في ملف الداتا: ضيفي عنصر هنا بـ id فريد
+// (lec-002, lec-003...) — كل من يفتح الموقع هيشوف إشعار بالمحاضرة الجديدة.
+var lecturesAddedLog = [
+  // مثال (عدّلي القيم أو امسحي السطر ده):
+  { id: "lec-001", subject: "Computer Graphics", lectureTitle: "المحاضرة الخامسة", lectureDesc: "مقدمة في الرسم بالحواسيب" }
+
+];
+
 function loadNotifications(){
   try{ var n = localStorage.getItem('notifications_data'); if(n) notifications = JSON.parse(n); }catch(e){ notifications = []; }
 }
@@ -684,9 +746,44 @@ function saveNotifications(){ try{ localStorage.setItem('notifications_data', JS
 function addNotification(notif){
   notif.id = Date.now() + (++notifSeq); notif.read = false;
   notif.time = formatTime(new Date()); notif.date = new Date().toLocaleDateString('ar-EG');
+  if(!notif.type) notif.type = 'info';
   notifications.unshift(notif);
   if(notifications.length > 50) notifications = notifications.slice(0,50);
   saveNotifications(); updateNotifBadge(); renderNotifDropdown();
+}
+// ★ إشعار تعديل إجابة (نوع audit)
+function addAuditLog(entry){
+  addNotification({
+    type:'audit',
+    title:'📝 تم تعديل إجابة سؤال',
+    context: entry.context,
+    questionNum: entry.questionNum,
+    questionText: entry.questionText,
+    oldAnswer: entry.oldAnswer,
+    newAnswer: entry.newAnswer
+  });
+}
+// ★ إشعار محاضرة جديدة (نوع lecture_added)
+function addLectureAddedLog(entry){
+  addNotification({
+    type:'lecture_added',
+    title:'📚 تمت إضافة محاضرة جديدة',
+    subject: entry.subject,
+    lectureTitle: entry.lectureTitle,
+    lectureDesc: entry.lectureDesc
+  });
+}
+function truncateText(text, maxLen){
+  if(!text) return '';
+  text = String(text);
+  return text.length > maxLen ? text.substring(0, maxLen) + '...' : text;
+}
+// ★ للمحاكاة/التجربة اليدوية (من الكونسول)
+function simulateAnswerEdit(context, questionNum, questionText, oldAnswer, newAnswer){
+  addAuditLog({ context: context, questionNum: questionNum, questionText: questionText, oldAnswer: oldAnswer, newAnswer: newAnswer });
+}
+function simulateLectureAdded(subject, lectureTitle, lectureDesc){
+  addLectureAddedLog({ subject: subject, lectureTitle: lectureTitle, lectureDesc: lectureDesc });
 }
 function updateNotifBadge(){
   var b = document.getElementById('notif-badge');
@@ -700,15 +797,31 @@ function toggleNotifDropdown(){
 }
 function renderNotifDropdown(){
   var list = document.getElementById('notif-list');
-  if(!notifications.length){ list.innerHTML = '<div class="notif-empty">لا توجد إشعارات حالياً</div>'; return; }
-  list.innerHTML = notifications.map(function(n){
-    var detail = '';
-    if(n.context) detail += '<span class="notif-detail">📍 '+esc(n.context)+'</span>';
-    if(n.score !== undefined) detail += '<span class="notif-detail">🏆 النتيجة: '+n.score+'%</span>';
-    return '<div class="notif-item '+(n.read?'':'unread')+'" onclick="markNotifRead(event,'+n.id+')">'+
-      '<div><b>'+esc(n.title)+'</b></div>'+detail+
-      '<div class="notif-meta">🕒 '+esc(n.time)+' — '+esc(n.date)+'</div></div>';
-  }).join('');
+  if(notifications.length === 0){ list.innerHTML = '<div class="notif-empty">لا توجد إشعارات حالياً</div>'; return; }
+  var html = '';
+  notifications.forEach(function(n){
+    var cls = n.read ? '' : 'unread';
+    html += '<div class="notif-item ' + cls + '" onclick="markNotifRead(event,' + n.id + ')">';
+    if(n.type === 'audit'){
+      html += '<strong>' + esc(n.title) + '</strong>';
+      html += '<span class="notif-detail">📁 ' + esc(n.context) + ' | سؤال #' + esc(n.questionNum) + '</span>';
+      html += '<span class="notif-detail">📝 السؤال: ' + esc(truncateText(n.questionText, 60)) + '</span>';
+      html += '<span class="notif-detail">❌ القديمة: <del>' + esc(n.oldAnswer) + '</del> → ✅ الجديدة: <strong>' + esc(n.newAnswer) + '</strong></span>';
+    }else if(n.type === 'lecture_added'){
+      html += '<strong>' + esc(n.title) + '</strong>';
+      html += '<span class="notif-detail">📁 المادة: ' + esc(n.subject) + '</span>';
+      html += '<span class="notif-detail">📚 المحاضرة: ' + esc(n.lectureTitle) + '</span>';
+      if(n.lectureDesc) html += '<span class="notif-detail">📝 ' + esc(truncateText(n.lectureDesc, 60)) + '</span>';
+    }else{
+      html += '<strong>' + esc(n.title || 'إشعار') + '</strong>';
+      if(n.context) html += '<span class="notif-detail">📁 ' + esc(n.context) + '</span>';
+      if(n.questionText) html += '<span class="notif-detail">📝 ' + esc(truncateText(n.questionText, 60)) + '</span>';
+      if(n.score !== undefined) html += '<span class="notif-detail">🏆 النتيجة: ' + n.score + '%</span>';
+    }
+    html += '<div class="notif-meta">🕐 ' + esc(n.time) + ' | 📅 ' + esc(n.date) + '</div>';
+    html += '</div>';
+  });
+  list.innerHTML = html;
 }
 function markNotifRead(e, id){
   e.stopPropagation();
@@ -719,9 +832,46 @@ function clearAllNotifications(e){
   e.stopPropagation();
   notifications = []; saveNotifications(); updateNotifBadge(); renderNotifDropdown();
 }
+// ★ مزامنة سجل تعديلات الإجابات — كل زائر يشوف كل تعديل مرة واحدة
+function syncAnswerEditsLog(){
+  var seenIds = [];
+  try{ seenIds = JSON.parse(localStorage.getItem('seen_system_edits') || '[]'); }catch(e){ seenIds = []; }
+  if(!Array.isArray(seenIds)) seenIds = [];
+  var changed = false;
+  answerEditsLog.forEach(function(entry){
+    if(seenIds.indexOf(entry.id) === -1){
+      addAuditLog({
+        context: entry.context,
+        questionNum: entry.questionNum,
+        questionText: entry.questionText,
+        oldAnswer: entry.oldAnswer,
+        newAnswer: entry.newAnswer
+      });
+      seenIds.push(entry.id);
+      changed = true;
+    }
+  });
+  if(changed){ try{ localStorage.setItem('seen_system_edits', JSON.stringify(seenIds)); }catch(e){} }
+}
+// ★ مزامنة سجل المحاضرات الجديدة — نفس الفكرة
+function syncLecturesAddedLog(){
+  var seenIds = [];
+  try{ seenIds = JSON.parse(localStorage.getItem('seen_added_lectures') || '[]'); }catch(e){ seenIds = []; }
+  if(!Array.isArray(seenIds)) seenIds = [];
+  var changed = false;
+  lecturesAddedLog.forEach(function(entry){
+    if(seenIds.indexOf(entry.id) === -1){
+      addLectureAddedLog(entry);
+      seenIds.push(entry.id);
+      changed = true;
+    }
+  });
+  if(changed){ try{ localStorage.setItem('seen_added_lectures', JSON.stringify(seenIds)); }catch(e){} }
+}
 document.addEventListener('click', function(e){
   var wrap = document.getElementById('notif-bell-wrap');
-  if(wrap && !wrap.contains(e.target)) document.getElementById('notif-dropdown').classList.remove('show');
+  var dd = document.getElementById('notif-dropdown');
+  if(wrap && dd && !wrap.contains(e.target)) dd.classList.remove('show');
 });
 
 // ============================================================
@@ -909,9 +1059,7 @@ function getQuizData(s, exam){
   });
   return out;
 }
-// مفتاح حل صفحة المحاضرة (من قسم المحاضرات)
 function lecQuizKey(l){ return (l && l.t) ? l.t : 'محاضرة'; }
-// ★ مفتاح كويز المحاضرة من قسم الأسئلة — مستقل تماماً
 function lecExamKey(l){ return 'كويز ' + ((l && l.t) ? l.t : 'محاضرة'); }
 
 // ============================================================
@@ -937,7 +1085,6 @@ function renderActiveSubList(){
   if(!active || renderedTabs[active.id]) return;
   var s = subjects[currentSubject];
   if(active.id === 'sub-lectures'){
-    // ★ الصفوف هنا بتستخدم pdf2 (ملف الأسئلة) لو موجود
     var html = (s.lectures || []).map(function(l, i){
       if(!l.questions || !l.questions.length) return '';
       return examCardHTML(s, {t:l.t, d:l.d, pdf:(l.pdf2 || l.pdf)}, 'lec', i, l.questions.length, lecExamKey(l));
@@ -1051,7 +1198,7 @@ window.addEventListener('resize', function(){
   if(st && st.root && document.body.classList.contains('quiz-mode')) placeQNSidebar();
 });
 
-// ★ محرك الأكورديون (ملف الامتحان / المحاضرة + قسم الأسئلة)
+// ★ محرك الأكورديون
 function setSectionOpen(name, open, animate){
   sectionStates[name] = !!open;
   var sec = document.getElementById(name === 'pdf' ? 'pdf-sec' : 'qs-sec');
@@ -1452,8 +1599,6 @@ function pdfDownloadUrl(url){
 }
 function lecturePDFAt(s, lec){ return (lec && lec.pdf) ? lec.pdf : null; }
 function examPDFAt(e){ return (e && e.pdf) ? e.pdf : null; }
-// ★★ ملف أسئلة المحاضرة (pdf2) — اللي بيفتح في قسم الأسئلة
-//    ولو المحاضرة معندهاش pdf2 → نرجع لـ pdf زي ما كان
 function lecExamPDFAt(l){
   if(l && l.pdf2) return l.pdf2;
   return (l && l.pdf) ? l.pdf : null;
@@ -1572,7 +1717,6 @@ function openLecture(subjIdx, lecIdx){
   chip.className = 'ld-chip' + (av ? '' : ' warn');
   renderLinksList('ld-links-list', l.links);
 
-  // ★ صفحة المحاضرة بتفتح pdf (الأول) — مش pdf2
   var pdf = lecturePDFAt(s, l);
   var fchip = document.getElementById('ld-file-chip');
   fchip.textContent = pdf ? 'ملف متاح' : 'غير متاح';
@@ -1628,8 +1772,7 @@ function toggleLD(id){
   }
 }
 
-// ★★ openQuiz — الامتحانات + كويز المحاضرات (prop='lec')
-//    كويز المحاضرة بيستخدم pdf2 (ملف الأسئلة) لو موجود
+// ★★ openQuiz — الامتحانات + كويز المحاضرات (prop='lec' + pdf2)
 function openQuiz(subjIdx, prop, idx){
   currentSubject = subjIdx;
   var s = subjects[subjIdx];
@@ -1638,7 +1781,7 @@ function openQuiz(subjIdx, prop, idx){
   if(isLec){
     e = s.lectures[idx];
     qs = (e && e.questions) || [];
-    pdf = lecExamPDFAt(e);   // ★ pdf2 (ملف الأسئلة) — مش pdf المحاضرة
+    pdf = lecExamPDFAt(e);
   }else{
     e = (s[prop] || [])[idx];
     qs = e ? getQuizData(s, e) : [];
@@ -1824,7 +1967,209 @@ function qBlock(title, qs){
 }
 
 // ============================================================
-// 17) التشغيل + استرجاع آخر حاجة + حالة الأقسام
+// 17) البحث الشامل + النسخة الاحتياطية للتقدم
+// ============================================================
+var _searchTimer = null;
+var _searchResults = [];
+
+function doSearch(){
+  clearTimeout(_searchTimer);
+  _searchTimer = setTimeout(runSearch, 250);
+}
+
+function clearSearch(){
+  var input = document.getElementById('search-input');
+  var box = document.getElementById('search-results');
+  var clr = document.getElementById('search-clear');
+  if(input) input.value = '';
+  if(box){ box.classList.remove('show'); box.innerHTML = ''; }
+  if(clr) clr.classList.remove('show');
+}
+
+function snippet(text, q){
+  var t = String(text || '');
+  var idx = t.toLowerCase().indexOf(q.toLowerCase());
+  if(idx === -1){
+    return esc(t.length > 90 ? t.slice(0, 90) + '…' : t);
+  }
+  var start = Math.max(0, idx - 40);
+  var end = Math.min(t.length, idx + q.length + 50);
+  var pre = (start > 0 ? '…' : '') + t.slice(start, idx);
+  var mid = t.slice(idx, idx + q.length);
+  var post = t.slice(idx + q.length, end) + (end < t.length ? '…' : '');
+  return esc(pre) + '<mark>' + esc(mid) + '</mark>' + esc(post);
+}
+
+function runSearch(){
+  var input = document.getElementById('search-input');
+  var box = document.getElementById('search-results');
+  var clr = document.getElementById('search-clear');
+  if(!input || !box) return;
+  var q = input.value.trim();
+  if(clr) clr.classList.toggle('show', q.length > 0);
+  if(q.length < 2){
+    box.classList.remove('show');
+    box.innerHTML = '';
+    return;
+  }
+  var ql = q.toLowerCase();
+  var MAX = 40;
+  var results = [];
+
+  subjects.forEach(function(s, si){
+    (s.lectures || []).forEach(function(l, li){
+      if(results.length >= MAX) return;
+      var hay = ((l.t || '') + ' ' + (l.d || '')).toLowerCase();
+      if(hay.indexOf(ql) !== -1){
+        results.push({si:si, type:'lecture', li:li, text:(l.d && l.d.toLowerCase().indexOf(ql) !== -1 ? l.d : (l.t || ''))});
+      }
+    });
+  });
+
+  subjects.forEach(function(s, si){
+    (s.lectures || []).forEach(function(l, li){
+      if(results.length >= MAX) return;
+      (l.questions || []).forEach(function(qq, qi){
+        if(results.length >= MAX) return;
+        if(qq.q && String(qq.q).toLowerCase().indexOf(ql) !== -1){
+          results.push({si:si, type:'question', prop:'lec', ei:li, qi:qi, text:qq.q});
+        }
+      });
+    });
+  });
+
+  subjects.forEach(function(s, si){
+    ['midterms','finals','testBanks'].forEach(function(prop){
+      (s[prop] || []).forEach(function(e, ei){
+        if(results.length >= MAX) return;
+        getQuizData(s, e).forEach(function(qq, qi){
+          if(results.length >= MAX) return;
+          if(qq.q && String(qq.q).toLowerCase().indexOf(ql) !== -1){
+            results.push({si:si, type:'question', prop:prop, ei:ei, qi:qi, text:qq.q});
+          }
+        });
+      });
+    });
+  });
+
+  _searchResults = results;
+
+  var html = '';
+  if(!results.length){
+    html = '<div class="sr-header">نتائج البحث عن: "'+esc(q)+'"</div>'+
+           '<div class="sr-empty">😕 مفيش نتائج — جرّبي كلمة تانية</div>';
+  }else{
+    html = '<div class="sr-header">نتائج البحث عن: "'+esc(q)+'" — '+results.length+
+           (results.length >= MAX ? ' (أول '+MAX+' نتيجة)' : ' نتيجة')+'</div><div class="sr-list">';
+    results.forEach(function(r, i){
+      var s = subjects[r.si];
+      var srcName;
+      if(r.type === 'lecture'){
+        srcName = '📚 ' + (((s.lectures || [])[r.li] || {}).t || '');
+      }else if(r.prop === 'lec'){
+        srcName = '🧠 ' + (((s.lectures || [])[r.ei] || {}).t || '');
+      }else{
+        var exam = (s[r.prop] || [])[r.ei] || {};
+        srcName = (r.prop === 'midterms' ? '📝 ' : (r.prop === 'finals' ? '🎓 ' : '🏦 ')) + (exam.t || '');
+      }
+      html += '<div class="sr-item" onclick="openSearchResult('+i+')">'+
+                '<div class="sr-src"><b>'+esc(s.name)+'</b> — '+esc(srcName)+'</div>'+
+                '<div class="sr-text" dir="auto">'+snippet(r.text, q)+'</div>'+
+              '</div>';
+    });
+    html += '</div>';
+  }
+  box.innerHTML = html;
+  box.classList.add('show');
+}
+
+function openSearchResult(i){
+  var r = _searchResults[i];
+  if(!r) return;
+  clearSearch();
+  if(r.si !== currentSubject){
+    currentSubject = r.si;
+    var s = subjects[r.si];
+    document.getElementById('main-title').textContent = 'منصة مادة ' + s.name + (s.en ? ' — ' + s.en : '');
+    renderSubjectBar();
+  }
+  if(r.type === 'lecture'){
+    openLecture(r.si, r.li);
+  }else{
+    openQuizAtQuestion(r.si, r.prop, r.ei, r.qi);
+  }
+}
+
+function openQuizAtQuestion(subjIdx, prop, idx, qi){
+  openQuiz(subjIdx, prop, idx);
+  if(st && st.data.length && qi >= 0 && qi < st.data.length){
+    setTimeout(function(){ examGoTo(qi); }, 60);
+  }
+}
+
+document.addEventListener('click', function(e){
+  var sRes = document.getElementById('search-results');
+  var sBox = document.getElementById('search-input');
+  if(sRes && sRes.classList.contains('show') && !sRes.contains(e.target) && sBox && !sBox.contains(e.target)){
+    sRes.classList.remove('show');
+  }
+});
+
+// ★ النسخة الاحتياطية — تصدير / استيراد
+var PROGRESS_KEYS = ['last_open_state','themeMode','notifications_data','cg_sections_v1','seen_system_edits','seen_added_lectures'];
+var PROGRESS_PREFIXES = ['qa_','quiz_progress_','qmark_'];
+
+function exportProgress(){
+  var data = {_app:'study-platform-backup', _version:1, _date:new Date().toLocaleString('ar-EG')};
+  var count = 0;
+  try{
+    for(var i = 0; i < localStorage.length; i++){
+      var k = localStorage.key(i);
+      if(!k) continue;
+      var keep = (PROGRESS_KEYS.indexOf(k) !== -1);
+      if(!keep){
+        for(var p = 0; p < PROGRESS_PREFIXES.length; p++){
+          if(k.indexOf(PROGRESS_PREFIXES[p]) === 0){ keep = true; break; }
+        }
+      }
+      if(keep){ data[k] = localStorage.getItem(k); count++; }
+    }
+  }catch(e){}
+  if(!count){ showToast('مفيش تقدم محفوظ لسه'); return; }
+  var d = new Date();
+  var fname = 'backup-' + d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0') + '.json';
+  triggerDownload(new Blob([JSON.stringify(data, null, 2)], {type:'application/json'}), fname);
+  showToast('💾 تم تحميل النسخة الاحتياطية (' + count + ' عنصر)');
+}
+
+function importProgress(ev){
+  var file = ev.target.files && ev.target.files[0];
+  if(ev.target) ev.target.value = '';
+  if(!file) return;
+  if(!window.confirm('الاستيراد هيستبدل التقدم الحالي بالنسخة — متأكدة؟')) return;
+  var reader = new FileReader();
+  reader.onload = function(){
+    try{
+      var data = JSON.parse(reader.result);
+      if(!data || typeof data !== 'object' || !data._app) throw new Error('bad');
+      var count = 0;
+      Object.keys(data).forEach(function(k){
+        if(k.charAt(0) === '_') return;
+        if(typeof data[k] === 'string'){
+          try{ localStorage.setItem(k, data[k]); count++; }catch(e){}
+        }
+      });
+      showToast('✅ تم استيراد ' + count + ' عنصر — جاري إعادة التحميل...');
+      setTimeout(function(){ location.reload(); }, 1000);
+    }catch(e){
+      showToast('❌ الملف مش نسخة احتياطية صالحة');
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ============================================================
+// 18) التشغيل + استرجاع آخر حاجة + حالة الأقسام + الإشعارات
 // ============================================================
 (function init(){
   if(!subjects.length){
@@ -1836,7 +2181,10 @@ function qBlock(title, qs){
       '<p style="color:var(--text-hint);line-height:1.8">تأكدي إن ملفات <b>data/*.js</b> موجودة بجانب index.html<br>وإن كل ملف فيه <code>subjects.push({...})</code> صح.</p></div>';
     return;
   }
+  // ★ الإشعارات + مزامنة سجل التعديلات + سجل المحاضرات الجديدة
   loadNotifications();
+  syncAnswerEditsLog();
+  syncLecturesAddedLog();
   updateNotifBadge();
   loadSectionStates();
 
