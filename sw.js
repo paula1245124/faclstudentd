@@ -5,6 +5,7 @@ const CACHE = `study-platform-${VERSION}`;
 const APP_SHELL = [
   "./",
   "./index.html",
+  "./pdf-annotator.html", // ★ أضيفي السطر ده
   "./manifest.webmanifest",
   "./pwa.js",
   "./icons/icon.svg",

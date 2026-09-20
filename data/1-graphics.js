@@ -1085,8 +1085,8 @@ subjects.push({
   ],
   midterms: [
     {
-      t: "ميدتيرم 1 (المحاضرات 1-2)",
-      d: "امتحان Midterm الترم الأول",
+      t: "MidTerm 2021 - Questions - Computer Graphics.pdf",
+      d: "MidTerm 2021 - Questions - Computer Graphics.pdf",
       pdf: "Computer Graphics/Questions/Mid/MidTerm 2021 - Questions - Computer Graphics.pdf",
       questions: [
         {
