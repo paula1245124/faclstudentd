@@ -19,6 +19,7 @@
     --accent-dim:#C9632E;
     --line:#3A4456;
     --danger:#D1495B;
+    --radius:10px;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;height:100%;background:var(--paper);font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;color:var(--ink);overflow:hidden;}
@@ -26,199 +27,79 @@
 
   #app{display:flex;flex-direction:column;height:100vh;}
 
-  /* ============================================================
-     ★★★ التوب بار — سطر واحد قابل للسحب
-     ============================================================ */
+  /* ---------- Top bar ---------- */
   #topbar{
-    background:var(--ink);color:var(--text-light);
-    display:flex;align-items:center;gap:8px;
-    padding:5px 12px;
-    flex-wrap:nowrap;
-    overflow-x:auto;overflow-y:hidden;
-    scrollbar-width:none;-ms-overflow-style:none;
-    box-shadow:0 2px 8px rgba(0,0,0,.25);z-index:30;
-    flex-shrink:0;
+    background:var(--ink);
+    color:var(--text-light);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 14px;
+    flex-wrap:wrap;
+    box-shadow:0 2px 10px rgba(0,0,0,.25);
+    z-index:30;
   }
-  #topbar::-webkit-scrollbar{display:none;}
-
-  .brand{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+  .brand{display:flex;align-items:center;gap:8px;margin-inline-end:6px;}
   .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(232,121,60,.25);}
-  .brand b{font-size:15px;white-space:nowrap;}
-  .brand span{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;white-space:nowrap;}
+  .brand b{font-size:15px;}
+  .brand span{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
 
-  .sep{width:1px;height:24px;background:var(--line);margin:0 2px;flex-shrink:0;}
+  .sep{width:1px;height:26px;background:var(--line);margin:0 4px;}
 
   button.tbtn{
     background:transparent;border:1px solid transparent;color:var(--text-light);
-    padding:5px 10px;border-radius:8px;cursor:pointer;font-size:13px;
-    display:flex;align-items:center;gap:5px;transition:background .15s, border-color .15s;
-    font-family:inherit;flex-shrink:0;white-space:nowrap;
+    padding:7px 10px;border-radius:8px;cursor:pointer;font-size:13px;
+    display:flex;align-items:center;gap:6px;transition:background .15s, border-color .15s;
+    font-family:inherit;
   }
   button.tbtn:hover{background:var(--ink-2);}
   button.tbtn.active{background:rgba(232,121,60,.16);border-color:var(--accent);color:#fff;}
   button.tbtn:disabled{opacity:.35;cursor:not-allowed;}
   button.tbtn svg{width:16px;height:16px;flex:none;}
 
-  .kbd{
-    font-family:'JetBrains Mono',monospace;font-size:9px;
-    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);
-    border-radius:4px;padding:1px 5px;color:var(--muted);line-height:1.4;flex:none;
+  .pen-rack{display:flex;align-items:center;gap:6px;background:var(--ink-2);padding:5px;border-radius:10px;}
+  .pen{
+    width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid rgba(255,255,255,.15);
+    display:inline-block;position:relative;flex:none;transition:transform .12s;
   }
-  button.tbtn.active .kbd{color:#fff;border-color:rgba(255,255,255,.4);}
+  .pen:hover{transform:translateY(-2px);}
+  .pen.selected{border-color:#fff;box-shadow:0 0 0 2px var(--ink-2),0 0 0 3px var(--accent);}
+
+  input[type=range]{width:80px;accent-color:var(--accent);}
+
+  #saveStatus{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;min-width:78px;}
 
   .primary{background:var(--accent)!important;color:#fff!important;font-weight:600;}
   .primary:hover{background:var(--accent-dim)!important;}
 
-  #zoomLabel{cursor:pointer;user-select:none;flex-shrink:0;}
+  .spacer{flex:1;}
+
+  #zoomLabel{cursor:pointer;user-select:none;}
   #zoomLabel:hover{color:#fff;}
 
-  /* ★ عداد الصفحات الكبير */
-  #pageIndicator{
-    display:none;align-items:center;gap:6px;
-    background:var(--ink-2);padding:4px 12px;border-radius:10px;
-    font-family:'JetBrains Mono',monospace;cursor:pointer;user-select:none;
-    transition:background .15s;flex-shrink:0;
-  }
-  #pageIndicator.show{display:flex;}
-  #pageIndicator:hover{background:var(--accent);}
-  #pageIndicator .pg-num{
-    font-size:18px;font-weight:700;color:var(--accent);line-height:1;
-    direction:ltr;letter-spacing:.02em;
-  }
-  #pageIndicator:hover .pg-num{color:#fff;}
-  #pageIndicator .pg-total{
-    font-size:11px;color:var(--muted);line-height:1;
-  }
-  #pageIndicator:hover .pg-total{color:rgba(255,255,255,.7);}
-  #pageIndicator .pg-label{
-    font-size:10px;color:var(--muted);
-    display:flex;flex-direction:column;align-items:flex-start;line-height:1.3;
-  }
-  #pageIndicator:hover .pg-label{color:rgba(255,255,255,.7);}
-
-  /* ============================================================
-     ★★★ شريط الأدوات — سطر واحد منفصل قابل للسحب
-     ============================================================ */
-  #toolbar{
-    display:none;flex-direction:column;
-    background:var(--ink-2);color:var(--text-light);
-    padding:5px 12px 6px;z-index:29;
-    box-shadow:0 1px 4px rgba(0,0,0,.2);
-    border-bottom:1px solid var(--line);
-    flex-shrink:0;
-    overflow:hidden;
-  }
-  #toolbar.show{display:flex;}
-
-  #toolbarRow{
-    display:flex;align-items:center;justify-content:flex-start;
-    gap:8px;flex-wrap:nowrap;
-    overflow-x:auto;overflow-y:hidden;
-    scrollbar-width:thin;-ms-overflow-style:none;
-    -webkit-overflow-scrolling:touch;
-    padding-bottom:2px;
-  }
-  #toolbarRow::-webkit-scrollbar{height:4px;}
-  #toolbarRow::-webkit-scrollbar-thumb{background:rgba(232,121,60,.4);border-radius:4px;}
-  #toolbarRow::-webkit-scrollbar-track{background:rgba(255,255,255,.05);border-radius:4px;}
-
-  .tool-btn{
-    background:transparent;border:1px solid transparent;color:var(--text-light);
-    padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px;
-    display:flex;align-items:center;gap:6px;transition:all .15s;
-    font-family:inherit;flex-shrink:0;white-space:nowrap;
-  }
-  .tool-btn:hover{background:var(--ink);}
-  .tool-btn.active{
-    background:rgba(232,121,60,.2);border-color:var(--accent);color:#fff;
-    box-shadow:0 0 0 1px rgba(232,121,60,.3);
-  }
-  .tool-btn svg{width:18px;height:18px;flex:none;}
-
-  .t-sep{width:1px;height:24px;background:var(--line);margin:0 2px;flex-shrink:0;}
-
-  .pen-rack{display:flex;align-items:center;gap:5px;background:var(--ink);padding:4px;border-radius:10px;flex-shrink:0;}
-  .pen{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid rgba(255,255,255,.15);display:inline-block;position:relative;flex:none;transition:transform .12s;}
-  .pen:hover{transform:translateY(-2px);}
-  .pen.selected{border-color:#fff;box-shadow:0 0 0 2px var(--ink-2),0 0 0 3px var(--accent);}
-
-  .tb-label{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;flex-shrink:0;white-space:nowrap;}
-  input[type=range].tb-range{width:65px;accent-color:var(--accent);flex-shrink:0;}
-
-  .tb-btn{
-    background:transparent;border:1px solid transparent;color:var(--text-light);
-    padding:6px 10px;border-radius:8px;cursor:pointer;
-    display:flex;align-items:center;gap:4px;transition:background .15s;
-    font-family:inherit;flex-shrink:0;
-  }
-  .tb-btn:hover{background:var(--ink);}
-  .tb-btn svg{width:16px;height:16px;flex:none;}
-
-  /* ============================================================
-     ★★★ الشريط الرأسي يمين بس — واحد مش اتنين
-     ============================================================ */
-  #navBar{
-    display:none;
-    position:fixed;
-    right:8px;top:50%;transform:translateY(-50%);
-    width:20px;max-height:72vh;
-    background:rgba(27,36,48,.2);
-    border-radius:10px;
-    z-index:50;
-    cursor:grab;
-    touch-action:none;
-    pointer-events:auto;
-  }
-  #navBar.show{display:block;}
-  #navBar:hover{cursor:grab;}
-  #navBar:active{cursor:grabbing;}
-  #navThumb{
-    position:absolute;
-    right:2px;width:16px;
-    min-height:24px;
-    background:var(--ink);
-    border-radius:8px;
-    pointer-events:none;
-    box-shadow:0 1px 6px rgba(0,0,0,.25);
-    transition:background .15s;
-  }
-  #navBar:hover #navThumb, #navBar.dragging #navThumb{background:var(--accent);}
-  #navTooltip{
-    position:absolute;right:30px;top:50%;transform:translateY(-50%);
-    background:var(--ink);color:#fff;white-space:nowrap;
-    padding:5px 14px;border-radius:8px;font-size:12px;font-weight:bold;
-    pointer-events:none;opacity:0;transition:opacity .15s;
-    box-shadow:0 4px 12px rgba(0,0,0,.3);
-  }
-  #navBar:hover #navTooltip, #navBar.dragging #navTooltip{opacity:1;}
-
-  /* ============================================================
-     ★★★ Main area
-     ============================================================ */
+  /* ---------- Main area ---------- */
   #main{
     flex:1;position:relative;overflow:auto;background:
       radial-gradient(circle at 1px 1px, rgba(0,0,0,.05) 1px, transparent 0) 0 0/16px 16px,
       var(--paper);
-    touch-action:pan-x pan-y;
-    user-select:none;-webkit-user-select:none;
+    touch-action:pan-x pan-y; /* السكرول بإصبع واحد للنظام — والـ Pinch بنمسكه احنا */
   }
-  #main.grab{cursor:grab;}
-  #main.grabbing{cursor:grabbing!important;}
-  #viewer{direction:ltr;display:flex;flex-direction:column;align-items:flex-start;gap:26px;padding:30px 34px 60px 10px;min-height:100%;}
+  #viewer{direction:ltr;display:flex;flex-direction:column;align-items:flex-start;gap:26px;padding:30px 10px 80px;min-height:100%;}
 
   .page-wrap{
     position:relative;
     box-shadow:0 6px 24px rgba(20,20,30,.22), 0 1px 3px rgba(0,0,0,.15);
     background:var(--paper-page);
-    margin:0 auto;
+    margin:0 auto; /* ★ يوسّط الصفحة من غير ما يمنع السكرول لما تكتبر */
   }
   .page-wrap canvas{display:block;position:absolute;top:0;left:0;}
   .pdf-canvas{position:relative!important;}
   .ink-canvas{touch-action:none;cursor:crosshair;}
   .page-num{
     position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);
-    font-family:'JetBrains Mono',monospace;font-size:11px;color:#8B8273;
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:#8B8273;background:transparent;
   }
+  /* ★ Placeholder للصفحات لسه مترسمتش (رندر عند الاقتراب) */
   .page-ph{
     position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
     color:#9A9282;font-family:'JetBrains Mono',monospace;font-size:12px;
@@ -261,7 +142,7 @@
   }
   #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-  /* ---------- Loading ---------- */
+  /* ---------- Loading overlay ---------- */
   #loadingOverlay{
     position:fixed;inset:0;background:rgba(27,36,48,.92);display:none;
     align-items:center;justify-content:center;z-index:90;color:#fff;flex-direction:column;gap:14px;
@@ -270,55 +151,27 @@
   .spinner{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,.2);border-top-color:var(--accent);animation:spin 1s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
 
-  /* ---------- لوحة الاختصارات ---------- */
-  #helpOverlay{
-    display:none;position:fixed;inset:0;background:rgba(27,36,48,.9);
-    z-index:200;align-items:center;justify-content:center;cursor:pointer;
-  }
-  #helpOverlay.show{display:flex;}
-  #helpPanel{
-    background:var(--ink);border:1px solid var(--line);border-radius:14px;
-    padding:22px 26px;max-width:430px;width:90%;color:var(--text-light);
-    cursor:default;box-shadow:0 20px 60px rgba(0,0,0,.5);
-  }
-  #helpPanel h3{margin:0 0 16px;font-size:17px;display:flex;justify-content:space-between;align-items:center;}
-  #helpPanel h3 button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;font-family:inherit;}
-  .hk-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:13px;}
-  .hk-row:last-child{border-bottom:none;}
-  .hk-row .kbd{margin-inline-start:4px;}
-
   ::-webkit-scrollbar{width:10px;height:10px;}
   ::-webkit-scrollbar-thumb{background:#cfc8b8;border-radius:6px;}
   ::-webkit-scrollbar-track{background:transparent;}
 
   @media (max-width:720px){
-    #topbar{padding:4px 8px;gap:6px;}
+    #topbar{padding:6px 8px;gap:6px;}
     button.tbtn span.lbl{display:none;}
-    .kbd{display:none;}
-    .t-sep{display:none;}
-    .tool-btn span{display:none;}
-    .tool-btn{padding:6px 8px;}
-    .tb-label{display:none;}
-    input[type=range].tb-range{width:48px;}
-    #pageIndicator .pg-label{display:none;}
-    #pageIndicator .pg-num{font-size:15px;}
-    #navBar{right:3px;width:14px;}
-    #navThumb{width:10px;right:2px;}
-    #viewer{padding-right:20px;}
+    .pen{width:20px;height:20px;}
+    input[type=range]{width:56px;}
   }
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- ★★★ التوب بار -->
   <div id="topbar">
     <div class="brand">
       <span class="dot"></span>
       <b>قلم PDF</b>
-      <span class="mono">v8</span>
+      <span class="mono">v2</span>
     </div>
-    <button class="tbtn" id="btnHelp" title="اختصارات لوحة المفاتيح" style="padding:4px 8px;">؟</button>
     <div class="sep"></div>
 
     <button class="tbtn" id="btnOpen" title="فتح ملف PDF">
@@ -326,96 +179,74 @@
       <span class="lbl">فتح ملف</span>
     </button>
 
-    <div class="sep"></div>
+    <div class="sep" id="toolSep" style="display:none"></div>
 
-    <button class="tbtn" id="btnZoomOut" title="تصغير (−)">−</button>
-    <span class="mono" id="zoomLabel" title="ملاءمة (0)" style="font-size:12px;min-width:44px;text-align:center;">100%</span>
-    <button class="tbtn" id="btnZoomIn" title="تكبير (+)">+</button>
-    <button class="tbtn" id="btnZoomFit" title="ملاءمة العرض">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
-      <span class="lbl">ملاءمة</span>
-    </button>
-
-    <div class="sep"></div>
-
-    <div id="pageIndicator" title="اضغطي لاختيار صفحة معينة">
-      <span class="pg-label"><span>الصفحة</span></span>
-      <span class="pg-num" id="pgNum">1</span>
-      <span style="font-size:14px;color:var(--muted);font-family:'JetBrains Mono',monospace;">/</span>
-      <span class="pg-total" id="pgTotal">1</span>
-    </div>
-
-    <div class="sep"></div>
-
-    <button class="tbtn" id="btnPrevPage" title="الصفحة السابقة (Space)">▲</button>
-    <button class="tbtn" id="btnNextPage" title="الصفحة التالية (PageDown)">▼</button>
-
-    <div class="sep"></div>
-
-    <button class="tbtn" id="btnExternal" title="فتح الملف في تبويب جديد">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
-      <span class="lbl">افتح بره</span>
-    </button>
-    <button class="tbtn" id="btnFullscreen" title="ملء الشاشة (F)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
-      <span class="lbl">ملء الشاشة</span>
-    </button>
-
-    <div class="sep"></div>
-    <span id="saveStatus" class="mono" style="font-size:11px;color:var(--muted);display:none;"></span>
-    <button class="tbtn primary" id="btnExport" style="display:none;" title="تنزيل PDF مع التعليقات">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
-      <span class="lbl">تنزيل PDF</span>
-    </button>
-  </div>
-
-  <!-- ★★★ شريط الأدوات -->
-  <div id="toolbar">
-    <div id="toolbarRow">
-      <button class="tool-btn" data-tool="select" title="تصفّح + سحب (اختصار: 1)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 11V6a2 2 0 00-2-2a2 2 0 00-2 2"/><path d="M14 10V4a2 2 0 00-2-2a2 2 0 00-2 2v2"/><path d="M10 10.5V6a2 2 0 00-2-2a2 2 0 00-2 2v8"/><path d="M18 8a2 2 0 114 0v6a8 8 0 01-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 012.83-2.82L7 15"/></svg>
-        <span>تصفّح + سحب</span><span class="kbd">1</span>
+    <div id="toolGroup" style="display:none;align-items:center;gap:10px;">
+      <button class="tbtn" data-tool="select" title="تصفّح - للتنقل والتمرير بسهولة بين الصفحات">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg>
+        <span class="lbl">تصفّح</span>
       </button>
-
-      <div class="t-sep"></div>
-
-      <button class="tool-btn" data-tool="pen" title="قلم (اختصار: 2)">
+      <button class="tbtn" data-tool="pen" title="قلم">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16.5 3.5l4 4L7 21H3v-4L16.5 3.5z"/></svg>
-        <span>قلم</span><span class="kbd">2</span>
+        <span class="lbl">قلم</span>
+      </button>
+      <button class="tbtn" data-tool="highlighter" title="تظليل">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l6-6 4 4-6 6H9v-4z"/><path d="M5 21l3-3"/></svg>
+        <span class="lbl">تظليل</span>
+      </button>
+      
+      <button class="tbtn" data-tool="eraser" title="ممحاة">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="13" width="9" height="6" rx="1" transform="rotate(-45 8 16)"/></svg>
+        <span class="lbl">ممحاة</span>
       </button>
 
       <div class="pen-rack" id="colorRack"></div>
 
-      <span class="tb-label" id="widthLabel">السُمك</span>
-      <input type="range" class="tb-range" id="widthRange" min="1" max="40" value="4">
+      <span class="mono" id="widthLabel" style="font-size:11px;color:var(--muted)">السُمك</span>
+      <input type="range" id="widthRange" min="1" max="40" value="4">
 
-      <div class="t-sep"></div>
+      <div class="sep"></div>
 
-      <button class="tool-btn" data-tool="highlighter" title="تظليل (اختصار: 3)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l6-6 4 4-6 6H9v-4z"/><path d="M5 21l3-3"/></svg>
-        <span>تظليل</span><span class="kbd">3</span>
-      </button>
-
-      <span class="tb-label" id="opLabel" style="display:none;">الشفافية</span>
-      <input type="range" class="tb-range" id="opRange" min="10" max="90" value="38" style="display:none;">
-
-      <div class="t-sep"></div>
-
-      <button class="tool-btn" data-tool="eraser" title="ممحاة (اختصار: 4)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="13" width="9" height="6" rx="1" transform="rotate(-45 8 16)"/></svg>
-        <span>ممحاة</span><span class="kbd">4</span>
-      </button>
-
-      <div class="t-sep"></div>
-
-      <button class="tb-btn" id="btnUndo" title="تراجع (Ctrl+Z)">
+      <button class="tbtn" id="btnUndo" title="تراجع">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12H9"/></svg>
       </button>
-      <button class="tb-btn" id="btnRedo" title="إعادة (Ctrl+Y)">
-        <svg viewBox="0 0 0 24" fill="none" stroke="currentColor" stroke-width="2">        
-          <path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 000 12h5"/></svg>
+      <button class="tbtn" id="btnRedo" title="إعادة">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 000 12h5"/></svg>
+      </button>
+
+      <div class="sep"></div>
+
+      <!-- ★ زوم حر: أزرار + Ctrl+عجلة + Pinch -->
+      <button class="tbtn" id="btnZoomOut" title="تصغير">−</button>
+      <span class="mono" id="zoomLabel" title="اضغط للرجوع لعرض الملاءمة (100%)" style="font-size:12px;min-width:44px;text-align:center;">100%</span>
+      <button class="tbtn" id="btnZoomIn" title="تكبير">+</button>
+    
+      <button class="tbtn" id="btnZoomFit" title="ملاءمة العرض">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+        <span class="lbl">ملاءمة</span>
+      </button>
+      
+
+      <!-- ★ زرارين جداد -->
+      <div class="sep"></div>
+
+      <button class="tbtn" id="btnExternal" title="فتح الملف في تبويب جديد (العارض العادي)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
+        <span class="lbl">افتح بره</span>
+      </button>
+      <button class="tbtn" id="btnFullscreen" title="ملء الشاشة">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+        <span class="lbl">ملء الشاشة</span>
       </button>
     </div>
+
+    <div class="spacer"></div>
+
+    <span id="saveStatus" class="mono" style="display:none;"></span>
+    <button class="tbtn primary" id="btnExport" style="display:none;" title="تنزيل نسخة PDF مع التعليقات">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+      <span class="lbl">تنزيل PDF</span>
+    </button>
   </div>
 
   <div id="main">
@@ -435,34 +266,7 @@
     <div id="viewer" style="display:none;"></div>
   </div>
 
-  <!-- ★ الشريط الرأسي يمين — واحد بس -->
-  <div id="navBar" title="اسحبي للتنقل في الملف">
-    <div id="navThumb"></div>
-    <div id="navTooltip">صفحة 1</div>
-  </div>
-
   <input type="file" id="fileInput" accept="application/pdf" style="display:none;">
-</div>
-
-<!-- لوحة الاختصارات -->
-<div id="helpOverlay">
-  <div id="helpPanel">
-    <h3>⌨️ اختصارات سريعة
-      <button onclick="document.getElementById('helpOverlay').classList.remove('show')">✕</button>
-    </h3>
-    <div class="hk-row"><span>🔲 تصفّح + سحب</span><span><span class="kbd">1</span><span class="kbd">S</span></span></div>
-    <div class="hk-row"><span>✏️ قلم</span><span><span class="kbd">2</span><span class="kbd">P</span></span></div>
-    <div class="hk-row"><span>🖍️ تظليل</span><span><span class="kbd">3</span><span class="kbd">H</span></span></div>
-    <div class="hk-row"><span>🧹 ممحاة</span><span><span class="kbd">4</span><span class="kbd">E</span></span></div>
-    <div class="hk-row"><span>↩️ تراجع / ↪️ إعادة</span><span><span class="kbd">Ctrl+Z</span><span class="kbd">Ctrl+Y</span></span></div>
-    <div class="hk-row"><span>🔍 زوم / تصغير</span><span><span class="kbd">+</span><span class="kbd">−</span></span></div>
-    <div class="hk-row"><span>🎯 ملاءمة</span><span><span class="kbd">0</span></span></div>
-    <div class="hk-row"><span>📄 صفحة لتحت / لفوق</span><span><span class="kbd">Space</span><span class="kbd">Shift+Space</span></span></div>
-    <div class="hk-row"><span>🖥️ ملء الشاشة</span><span><span class="kbd">F</span><span class="kbd">Esc</span></span></div>
-    <div class="hk-row"><span>📊 الشريط الرأسي يمين</span><span>اسحبي المربع البرتقالي</span></div>
-    <div class="hk-row"><span>🔲 سحب الصفحة</span><span>اسحبي بالماوس في وضع التصفّح</span></div>
-    <p style="margin:14px 0 0;font-size:11px;color:var(--muted);text-align:center;">اضغطي في أي مكان بره اللوحة للإغلاق</p>
-  </div>
 </div>
 
 <div id="toast"></div>
@@ -476,12 +280,17 @@
 
   pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 
+  // ====================================================================
+  // ضع هنا رابط مباشر لملف PDF لو عاوزه يفتح تلقائيًا من غير اختيار يدوي.
+  // أو حدده من رابط الصفحة: pdf-annotator.html?file=lectures/lec4.pdf
   const PDF_URL_DEFAULT = "";
   const urlParam = new URLSearchParams(location.search).get("file");
   const PDF_URL = urlParam ? urlParam : PDF_URL_DEFAULT;
+  // ====================================================================
 
-  const NORM_W = 1000;
+  const NORM_W = 1000; // normalized coordinate width for storing strokes
 
+  // ---------------- State ----------------
   let pdfDoc = null;
   let pdfBytes = null;
   let currentFile = null;
@@ -491,40 +300,38 @@
   let redoByPage = {};
   let zoom = 1.0;
   let baseScale = 1.0;
-  let renderedZoom = 1.0;
+  let renderedZoom = 1.0;      // ★ الزوم اللي الرندر الحالي مبني عليه (للتثبيت)
   let currentTool = "select";
   let currentColor = "#1B2430";
   let currentWidth = 4;
-  let currentHiOpacity = 0.38;
   let drawing = false;
   let activeStroke = null;
   let activePageNum = null;
   let saveTimer = null;
   let fsHandle = null;
-  let pageObserver = null;
+  let pageObserver = null;     // ★ رندر عند الاقتراب
   let renderedPages = new Set();
   let renderDebounce = null;
   let resizeTimer = null;
   let pinchState = null;
-  let panState = null;
-  let navDragging = false;
-  let navSync = true;
 
+  // ★ حدود الزوم الحر
   const MIN_ZOOM = 0.25, MAX_ZOOM = 4;
 
   const PEN_COLORS = ["#1B2430", "#D1495B", "#2F6FED", "#2F9E44", "#E8793C"];
   const HI_COLORS = ["#FFE066", "#8CE99A", "#FFA8C5", "#74C0FC"];
 
+  // ---------------- DOM refs ----------------
   const $ = (s)=>document.querySelector(s);
   const btnOpen = $("#btnOpen");
   const fileInput = $("#fileInput");
   const dropZone = $("#dropZone");
   const emptyState = $("#emptyState");
   const viewer = $("#viewer");
-  const toolbar = $("#toolbar");
+  const toolGroup = $("#toolGroup");
+  const toolSep = $("#toolSep");
   const colorRack = $("#colorRack");
   const widthRange = $("#widthRange");
-  const opRange = $("#opRange");
   const saveStatus = $("#saveStatus");
   const btnExport = $("#btnExport");
   const zoomLabel = $("#zoomLabel");
@@ -533,12 +340,6 @@
   const loadingOverlay = $("#loadingOverlay");
   const loadingText = $("#loadingText");
   const mainEl = $("#main");
-  const navBar = $("#navBar");
-  const navThumb = $("#navThumb");
-  const navTooltip = $("#navTooltip");
-  const pageIndicator = $("#pageIndicator");
-  const pgNum = $("#pgNum");
-  const pgTotal = $("#pgTotal");
 
   function toast(msg){
     const t = $("#toast");
@@ -550,20 +351,29 @@
   function showLoading(msg){ loadingText.textContent = msg||"جاري التحميل..."; loadingOverlay.classList.add("show"); }
   function hideLoading(){ loadingOverlay.classList.remove("show"); }
 
+  // ★ دقة الكانفس الفعلية (بيتخزن على كل canvas عشان الرسم يطلع مظبوط)
   function canvasDpr(canvas){ return parseFloat(canvas.dataset.dpr) || 1; }
 
-  // ---------------- Storage ----------------
+  // ---------------- Storage helpers ----------------
   const STORAGE_PREFIX = "pdfqalam:";
   async function storeGet(key){
-    try{ const raw = localStorage.getItem(STORAGE_PREFIX + key); return raw ? JSON.parse(raw) : null; }catch(e){ return null; }
+    try{
+      const raw = localStorage.getItem(STORAGE_PREFIX + key);
+      return raw ? JSON.parse(raw) : null;
+    }catch(e){ return null; }
   }
   async function storeSet(key, value){
-    try{ localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value)); return true; }catch(e){ return false; }
+    try{
+      localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value));
+      return true;
+    }catch(e){ return false; }
   }
+
   function fileId(name, size){
     return "f_" + size + "_" + name.replace(/[^a-zA-Z0-9_\-\.]/g,"_").slice(0,80);
   }
 
+  // ---------------- IndexedDB for file handles ----------------
   function idbOpen(){
     return new Promise((res,rej)=>{
       const req = indexedDB.open("pdf-annotator-db", 1);
@@ -624,7 +434,12 @@
     for(const item of list){
       const div = document.createElement("div");
       div.className = "recent-item";
-      div.innerHTML = `<div class="ric">PDF</div><div class="ri-meta"><div class="ri-name">${escapeHtml(item.name)}</div><div class="ri-sub">${fmtSize(item.size)} · آخر حفظ ${fmtDate(item.savedAt)}</div></div>`;
+      div.innerHTML = `
+        <div class="ric">PDF</div>
+        <div class="ri-meta">
+          <div class="ri-name">${escapeHtml(item.name)}</div>
+          <div class="ri-sub">${fmtSize(item.size)} · آخر حفظ ${fmtDate(item.savedAt)}</div>
+        </div>`;
       div.addEventListener("click", ()=>openRecent(item));
       recentList.appendChild(div);
     }
@@ -643,7 +458,7 @@
           await loadFile(file, handle);
           return;
         }
-      }catch(e){}
+      }catch(e){ }
     }
     toast("اختر نفس الملف \""+item.name+"\" من جهازك لمتابعة التعديل عليه");
     fileInput.onchange = async (ev)=>{
@@ -670,6 +485,7 @@
     }
     fileInput.click();
   }
+
   function defaultFileInputHandler(ev){
     const f = ev.target.files[0];
     if(f) loadFile(f, null);
@@ -708,22 +524,19 @@
       zoom = 1.0;
       renderedZoom = 1.0;
       zoomLabel.textContent = "100%";
-      pgTotal.textContent = numPages;
 
       await renderAllPages();
 
       emptyState.style.display = "none";
       viewer.style.display = "flex";
-      toolbar.classList.add("show");
-      pageIndicator.classList.add("show");
-      navBar.classList.add("show");
+      toolGroup.style.display = "flex";
+      toolSep.style.display = "block";
       saveStatus.style.display = "inline";
       btnExport.style.display = "flex";
       setSaveStatus(saved ? "تم تحميل تعليقاتك السابقة" : "جاهز");
 
       await upsertRecent({ id: currentFile.id, name: currentFile.name, size: currentFile.size, savedAt: Date.now() });
       hideLoading();
-      toast("💡 1-4 للأدوات — Space للصفحات — ؟ للاختصارات");
     }catch(err){
       console.error(err);
       hideLoading();
@@ -731,7 +544,7 @@
     }
   }
 
-  // ---------------- Zoom system ----------------
+  // ---------------- ★ Zoom system (حر + مثبّت على نقطة النظر) ----------------
   function clampZoom(z){ return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z)); }
 
   function setZoom(newZoom, anchor){
@@ -741,16 +554,17 @@
     const rect = mainEl.getBoundingClientRect();
     let ax=null, ay=null, vx=rect.width/2, vy=rect.height/2;
     if(anchor){
-      ax = anchor.x - rect.left + mainEl.scrollLeft;
+      ax = anchor.x - rect.left + mainEl.scrollLeft;  // نقطة المحتوى تحت المؤشر
       ay = anchor.y - rect.top  + mainEl.scrollTop;
       vx = anchor.x - rect.left;
       vy = anchor.y - rect.top;
     }
-    const layoutZoom = renderedZoom;
+    const layoutZoom = renderedZoom; // الرندر الحالي مبني على الزوم ده
 
     zoom = newZoom;
     zoomLabel.textContent = Math.round(zoom*100) + "%";
 
+    // رندر واحد مهما اتكرر الزوم بسرعة (سلاسة)
     clearTimeout(renderDebounce);
     renderDebounce = setTimeout(async ()=>{
       await renderAllPages();
@@ -770,9 +584,55 @@
   $("#btnZoomOut").addEventListener("click", ()=>zoomBy(1/1.2));
   $("#btnZoomFit").addEventListener("click", ()=>setZoom(1, null));
   zoomLabel.addEventListener("click", ()=>setZoom(1, null));
+  // ---------------- ★ افتح بره + ملء الشاشة ----------------
+  const btnExternal = $("#btnExternal");
+  const btnFullscreen = $("#btnFullscreen");
 
+  // 📤 افتح الملف في تبويب جديد بالعارض العادي
+  btnExternal.addEventListener("click", ()=>{
+    if(!pdfBytes){ toast("مفيش ملف مفتوح"); return; }
+    const blob = new Blob([pdfBytes], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    const w = window.open(url, "_blank");
+    if(!w){ toast("المتصفح حجب النافذة — اسمحي بالنوافذ المنبثقة له الموقع"); }
+    // الرابط محتاج يفضل شغال للتبويب الجديد — بننضفه بعد دقيقة
+    setTimeout(()=>{ try{ URL.revokeObjectURL(url); }catch(e){} }, 60000);
+  });
+
+  // 🖥️ ملء الشاشة (الملف + الأدوات = الشاشة كلها)
+  function fsActive(){ return !!(document.fullscreenElement || document.webkitFullscreenElement); }
+  function toggleFullscreen(){
+    const root = document.documentElement;
+    if(!fsActive()){
+      const req = root.requestFullscreen || root.webkitRequestFullscreen;
+      if(req){
+        const p = req.call(root);
+        if(p && p.catch) p.catch(()=>toast("تعذّر ملء الشاشة"));
+      }else{
+        toast("المتصفح ده مش بيدعم ملء الشاشة 😔");
+      }
+    }else{
+      const ex = document.exitFullscreen || document.webkitExitFullscreen;
+      if(ex) ex.call(document);
+    }
+  }
+  btnFullscreen.addEventListener("click", toggleFullscreen);
+
+  // تحديث شكل الزرار + إعادة رسم الصفحات للمساحة الجديدة
+  ["fullscreenchange","webkitfullscreenchange"].forEach(ev=>{
+    document.addEventListener(ev, ()=>{
+      const on = fsActive();
+      btnFullscreen.classList.toggle("active", on);
+      btnFullscreen.title = on ? "الخروج من ملء الشاشة (Esc)" : "ملء الشاشة";
+      if(pdfDoc){
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(()=>{ renderAllPages(); }, 150);
+      }
+    });
+  });
+  // ★ Ctrl + عجلة الماوس = زوم عند مؤشر الماوس (والتراك باد Pinch بيطلع كده برضه)
   mainEl.addEventListener("wheel", (e)=>{
-    if(!e.ctrlKey && !e.metaKey) return;
+    if(!e.ctrlKey && !e.metaKey) return; // سكرول عادي من غير Ctrl
     e.preventDefault();
     let dy = e.deltaY;
     if(e.deltaMode === 1) dy *= 16;
@@ -780,6 +640,7 @@
     setZoom(zoom * factor, {x: e.clientX, y: e.clientY});
   }, {passive:false});
 
+  // ★ Pinch بإصبعين على الموبايل/التابلت
   function tDist(e){
     return Math.hypot(
       e.touches[0].clientX - e.touches[1].clientX,
@@ -787,7 +648,7 @@
     );
   }
   mainEl.addEventListener("touchstart", (e)=>{
-    if(e.touches.length === 2){ pinchState = { d: tDist(e), z: zoom }; panState = null; }
+    if(e.touches.length === 2){ pinchState = { d: tDist(e), z: zoom }; }
   }, {passive:true});
   mainEl.addEventListener("touchmove", (e)=>{
     if(!pinchState || e.touches.length !== 2) return;
@@ -801,182 +662,15 @@
     if(e.touches.length < 2) pinchState = null;
   }, {passive:true});
 
-  // ---------------- افتح بره + ملء الشاشة + المساعدة ----------------
-  const btnExternal = $("#btnExternal");
-  const btnFullscreen = $("#btnFullscreen");
-
-  btnExternal.addEventListener("click", ()=>{
-    if(!pdfBytes){ toast("مفيش ملف مفتوح"); return; }
-    const blob = new Blob([pdfBytes], { type: "application/pdf" });
-    const url = URL.createObjectURL(blob);
-    const w = window.open(url, "_blank");
-    if(!w){ toast("المتصفح حجب النافذة — اسمحي بالنوافذ المنبثقة"); }
-    setTimeout(()=>{ try{ URL.revokeObjectURL(url); }catch(e){} }, 60000);
-  });
-
-  function fsActive(){ return !!(document.fullscreenElement || document.webkitFullscreenElement); }
-  function toggleFullscreen(){
-    const root = document.documentElement;
-    if(!fsActive()){
-      const req = root.requestFullscreen || root.webkitRequestFullscreen;
-      if(req){
-        const p = req.call(root);
-        if(p && p.catch) p.catch(()=>toast("تعذّر ملء الشاشة"));
-      }else{
-        toast("المتصفح ده مش بيدعم ملء الشاشة");
-      }
-    }else{
-      const ex = document.exitFullscreen || document.webkitExitFullscreen;
-      if(ex) ex.call(document);
-    }
-  }
-  btnFullscreen.addEventListener("click", toggleFullscreen);
-
-  ["fullscreenchange","webkitfullscreenchange"].forEach(ev=>{
-    document.addEventListener(ev, ()=>{
-      const on = fsActive();
-      btnFullscreen.classList.toggle("active", on);
-      btnFullscreen.title = on ? "الخروج من ملء الشاشة (Esc)" : "ملء الشاشة (F)";
-      if(pdfDoc){
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(()=>{ renderAllPages(); }, 150);
-      }
-    });
-  });
-
-  const helpOverlay = $("#helpOverlay");
-  $("#btnHelp").addEventListener("click", ()=> helpOverlay.classList.add("show"));
-  helpOverlay.addEventListener("click", (e)=>{
-    if(e.target === helpOverlay) helpOverlay.classList.remove("show");
-  });
-
-  // ---------------- السحب بالماوس ----------------
-  mainEl.addEventListener("pointerdown", (e)=>{
-    if(currentTool !== "select" || !pdfDoc) return;
-    if(e.pointerType !== "mouse" || e.button !== 0) return;
-    if(e.target.closest("#emptyState") || e.target.closest("button") || e.target.closest("input")) return;
-    panState = { x: e.clientX, y: e.clientY, sl: mainEl.scrollLeft, st: mainEl.scrollTop };
-    mainEl.classList.add("grabbing");
-  });
-  window.addEventListener("pointermove", (e)=>{
-    if(!panState) return;
-    mainEl.scrollLeft = panState.sl - (e.clientX - panState.x);
-    mainEl.scrollTop  = panState.st - (e.clientY - panState.y);
-  });
-  window.addEventListener("pointerup", ()=>{ panState = null; mainEl.classList.remove("grabbing"); });
-  window.addEventListener("pointercancel", ()=>{ panState = null; mainEl.classList.remove("grabbing"); });
-
-  // ---------------- الصفحة الحالية + العداد ----------------
-  function currentPage(){
-    if(!pdfDoc) return 1;
-    const mr = mainEl.getBoundingClientRect();
-    let cur = 1;
-    viewer.querySelectorAll(".page-wrap").forEach(w=>{
-      const r = w.getBoundingClientRect();
-      if(r.top < mr.top + mr.height * 0.45) cur = parseInt(w.dataset.page, 10);
-    });
-    return cur;
-  }
-  function updatePageIndicator(){
-    const p = currentPage();
-    pgNum.textContent = p;
-    pgTotal.textContent = numPages;
-    navTooltip.textContent = "صفحة " + p;
-  }
-  function goToPage(p){
-    if(!pdfDoc) return;
-    p = Math.max(1, Math.min(numPages, p));
-    const wrap = viewer.querySelector('.page-wrap[data-page="'+p+'"]');
-    if(!wrap) return;
-    const mr = mainEl.getBoundingClientRect();
-    const wr = wrap.getBoundingClientRect();
-    mainEl.scrollBy({ top: wr.top - mr.top - 8, behavior: "smooth" });
-    pgNum.textContent = p;
-  }
-  $("#btnPrevPage").addEventListener("click", ()=> goToPage(currentPage() - 1));
-  $("#btnNextPage").addEventListener("click", ()=> goToPage(currentPage() + 1));
-  pageIndicator.addEventListener("click", ()=>{
-    if(!pdfDoc) return;
-    const n = prompt("اكتبي رقم الصفحة (1 - " + numPages + "):", String(currentPage()));
-    if(n === null) return;
-    const p = parseInt(n, 10);
-    if(p >= 1 && p <= numPages) goToPage(p);
-  });
-
-  let scrollSyncTimer = null;
-  mainEl.addEventListener("scroll", ()=>{
-    if(!pdfDoc) return;
-    clearTimeout(scrollSyncTimer);
-    scrollSyncTimer = setTimeout(()=>{
-      updatePageIndicator();
-      updateNavBar();
-    }, 60);
-  });
-
-  // ---------------- ★ الشريط الرأسي يمين (سحب شغال) ----------------
-  function navMetrics(){
-    const trackH = Math.max(30, navBar.clientHeight - 4);
-    const ratio = Math.max(0.1, Math.min(1, mainEl.clientHeight / Math.max(1, mainEl.scrollHeight)));
-    const thumbH = Math.max(24, Math.round(ratio * trackH));
-    const maxScroll = Math.max(1, mainEl.scrollHeight - mainEl.clientHeight);
-    const pct = mainEl.scrollTop / maxScroll;
-    const maxTop = Math.max(0, trackH - thumbH);
-    return { trackH: trackH, thumbH: thumbH, maxScroll: maxScroll, pct: pct, maxTop: maxTop };
-  }
-
-  function updateNavBar(){
-    if(!pdfDoc || navDragging) return;
-    const m = navMetrics();
-    navThumb.style.height = m.thumbH + "px";
-    navThumb.style.top = (2 + m.pct * m.maxTop) + "px";
-  }
-
-  function pageFromNavY(y){
-    const m = navMetrics();
-    const rect = navBar.getBoundingClientRect();
-    const pct = Math.max(0, Math.min(1, (y - rect.top - 2) / Math.max(1, m.trackH)));
-    navThumb.style.top = (2 + pct * m.maxTop) + "px";
-    navSync = false;
-    mainEl.scrollTop = pct * m.maxScroll;
-    updatePageIndicator();
-    clearTimeout(updateNavBar._t);
-    updateNavBar._t = setTimeout(function(){ navSync = true; }, 250);
-  }
-
-  navBar.addEventListener("pointerdown", (e)=>{
-    if(!pdfDoc) return;
-    e.preventDefault();
-    e.stopPropagation();
-    navBar.setPointerCapture(e.pointerId);
-    navDragging = true;
-    navBar.classList.add("dragging");
-    pageFromNavY(e.clientY);
-  });
-  navBar.addEventListener("pointermove", (e)=>{
-    if(!navDragging) return;
-    pageFromNavY(e.clientY);
-  });
-  function endNavDrag(){
-    if(!navDragging) return;
-    navDragging = false;
-    navBar.classList.remove("dragging");
-    navSync = true;
-    updateNavBar();
-  }
-  navBar.addEventListener("pointerup", endNavDrag);
-  navBar.addEventListener("pointercancel", endNavDrag);
-  navBar.addEventListener("click", (e)=>{
-    e.stopPropagation();
-  });
-
-  // ---------------- Rendering ----------------
+  // ---------------- ★ Rendering: placeholders + رندر عند الاقتراب ----------------
   async function renderAllPages(){
     if(!pdfDoc) return;
     if(pageObserver){ pageObserver.disconnect(); }
     viewer.innerHTML = "";
     renderedPages.clear();
 
-    const containerWidth = Math.min(mainEl.clientWidth - 60, 900);
+    const containerWidth = Math.min(mainEl.clientWidth - 40, 900);
+    // ★ جودة أعلى: على الأقل 2x مهما كانت الشاشة (نص وصور أوضح)
     const baseDpr = Math.min(3, Math.max(window.devicePixelRatio || 1, 2));
 
     for(let p=1; p<=numPages; p++){
@@ -1014,8 +708,6 @@
 
     renderedZoom = zoom;
     updateCanvasInteractivity();
-    updatePageIndicator();
-    updateNavBar();
   }
 
   async function renderPageContent(p){
@@ -1028,6 +720,7 @@
       const scale = meta.width / meta.ptW;
       const scaledViewport = meta.page.getViewport({ scale });
 
+      // ★ حد أقصى ذكي للدقة (عشان الذاكرة عند الزوم العالي)
       let dpr = meta.dpr;
       const MAX_PIX = 6000;
       if(scaledViewport.width  * dpr > MAX_PIX) dpr = MAX_PIX / scaledViewport.width;
@@ -1048,7 +741,7 @@
       const inkCanvas = document.createElement("canvas");
       inkCanvas.className = "ink-canvas";
       inkCanvas.dataset.page = p;
-      inkCanvas.dataset.dpr = dpr;
+      inkCanvas.dataset.dpr = dpr;                 // ★ لازم للرسم الصح
       inkCanvas.width  = Math.round(scaledViewport.width  * dpr);
       inkCanvas.height = Math.round(scaledViewport.height * dpr);
       inkCanvas.style.width  = meta.width + "px";
@@ -1070,7 +763,7 @@
       updateCanvasInteractivity();
     }catch(err){
       console.error("render page", p, err);
-      renderedPages.delete(p);
+      renderedPages.delete(p); // يتعاد لو رجع ظاهر
     }
   }
 
@@ -1080,23 +773,23 @@
   function toNorm(p, clientX, clientY, canvas){
     const rect = canvas.getBoundingClientRect();
     const s = pageScale(p);
-    return { x: (clientX - rect.left) / s, y: (clientY - rect.top) / s };
+    return {
+      x: (clientX - rect.left) / s,
+      y: (clientY - rect.top) / s
+    };
   }
 
-  function strokeStyleFor(stroke){
-    if(stroke.tool === "highlighter"){
-      const op = (typeof stroke.opacity === "number") ? stroke.opacity : 0.38;
-      return { opacity: op, comp: "multiply" };
-    }
+  function strokeStyleFor(tool){
+    if(tool === "highlighter") return { opacity: 0.38, comp: "multiply" };
     return { opacity: 1, comp: "source-over" };
   }
 
   function drawStrokeOnCtx(ctx, stroke, scale){
     if(!stroke.points || stroke.points.length < 2) return;
-    const style = strokeStyleFor(stroke);
+    const { opacity, comp } = strokeStyleFor(stroke.tool);
     ctx.save();
-    ctx.globalAlpha = style.opacity;
-    ctx.globalCompositeOperation = style.comp;
+    ctx.globalAlpha = opacity;
+    ctx.globalCompositeOperation = comp;
     ctx.strokeStyle = stroke.color;
     ctx.lineWidth = Math.max(stroke.width * scale, 0.6);
     ctx.lineCap = "round";
@@ -1163,7 +856,6 @@
         tool: currentTool,
         color: currentColor,
         width: currentTool==="highlighter" ? Math.max(currentWidth,10) : currentWidth,
-        opacity: currentTool==="highlighter" ? currentHiOpacity : 1,
         points: [pt]
       };
     });
@@ -1183,11 +875,7 @@
       ctx.setTransform(dpr,0,0,dpr,0,0);
       const scale = pageScale(p);
       const n = activeStroke.points.length;
-      drawStrokeOnCtx(ctx, {
-        tool: activeStroke.tool, color: activeStroke.color,
-        width: activeStroke.width, opacity: activeStroke.opacity,
-        points: activeStroke.points.slice(Math.max(0,n-2))
-      }, scale);
+      drawStrokeOnCtx(ctx, { ...activeStroke, points: activeStroke.points.slice(Math.max(0,n-2)) }, scale);
       ctx.restore();
     });
 
@@ -1222,7 +910,7 @@
   function buildColorRack(){
     colorRack.innerHTML = "";
     const colors = currentTool === "highlighter" ? HI_COLORS : PEN_COLORS;
-    colors.forEach(c=>{
+    colors.forEach((c,i)=>{
       const el = document.createElement("span");
       el.className = "pen";
       el.style.background = c;
@@ -1237,33 +925,30 @@
     });
     if(!colors.includes(currentColor)){
       currentColor = colors[0];
-      if(colorRack.firstChild) colorRack.firstChild.classList.add("selected");
+      colorRack.firstChild && colorRack.firstChild.classList.add("selected");
     }
   }
 
-  function selectTool(tool){
-    currentTool = tool;
-    document.querySelectorAll("[data-tool]").forEach(b=>b.classList.toggle("active", b.dataset.tool === tool));
-    if(currentTool === "highlighter"){ currentWidth = Math.max(currentWidth, 14); widthRange.value = currentWidth; }
-    if(currentTool === "pen" && currentWidth>14){ currentWidth=4; widthRange.value=4; }
-    buildColorRack();
-    updateToolUIVisibility();
-    updateCanvasInteractivity();
-  }
-
   document.querySelectorAll("[data-tool]").forEach(btn=>{
-    btn.addEventListener("click", ()=> selectTool(btn.dataset.tool));
+    btn.addEventListener("click", ()=>{
+      currentTool = btn.dataset.tool;
+      document.querySelectorAll("[data-tool]").forEach(b=>b.classList.toggle("active", b===btn));
+      if(currentTool === "highlighter"){ currentWidth = Math.max(currentWidth, 14); widthRange.value = currentWidth; }
+      if(currentTool === "pen" && currentWidth>14){ currentWidth=4; widthRange.value=4; }
+      buildColorRack();
+      updateToolUIVisibility();
+      updateCanvasInteractivity();
+    });
   });
-  selectTool("select");
+  document.querySelector('[data-tool="select"]').classList.add("active");
+  buildColorRack();
+  updateToolUIVisibility();
 
   function updateToolUIVisibility(){
     const showDrawControls = (currentTool === "pen" || currentTool === "highlighter");
-    const showHi = (currentTool === "highlighter");
     colorRack.style.display = showDrawControls ? "flex" : "none";
     widthRange.style.display = showDrawControls ? "inline-block" : "none";
     $("#widthLabel").style.display = showDrawControls ? "inline" : "none";
-    opRange.style.display = showHi ? "inline-block" : "none";
-    $("#opLabel").style.display = showHi ? "inline" : "none";
   }
 
   function updateCanvasInteractivity(){
@@ -1272,11 +957,9 @@
       c.style.pointerEvents = interactive ? "auto" : "none";
       c.style.cursor = interactive ? (currentTool==="eraser" ? "cell" : "crosshair") : "default";
     });
-    mainEl.classList.toggle("grab", currentTool === "select" && !!pdfDoc);
   }
 
   widthRange.addEventListener("input", ()=>{ currentWidth = parseInt(widthRange.value,10); });
-  opRange.addEventListener("input", ()=>{ currentHiOpacity = parseInt(opRange.value,10)/100; });
 
   $("#btnUndo").addEventListener("click", ()=>{
     const p = lastActivePageWithStrokes();
@@ -1308,40 +991,6 @@
     return found;
   }
 
-  // ---------------- اختصارات الكيبورد ----------------
-  document.addEventListener("keydown", (e)=>{
-    if(e.key === "Escape"){
-      helpOverlay.classList.remove("show");
-      return;
-    }
-    if(!pdfDoc){
-      if(e.key === "؟" || (e.shiftKey && e.key === "/")){ helpOverlay.classList.add("show"); }
-      if(e.key.toLowerCase() === "f"){ toggleFullscreen(); }
-      return;
-    }
-    if(e.ctrlKey || e.metaKey){
-      const k = e.key.toLowerCase();
-      if(k === "z"){ e.preventDefault(); $("#btnUndo").click(); return; }
-      if(k === "y"){ e.preventDefault(); $("#btnRedo").click(); return; }
-      return;
-    }
-    const key = e.key;
-    const lower = key.toLowerCase();
-    if(key === "1" || lower === "s") selectTool("select");
-    else if(key === "2" || lower === "p") selectTool("pen");
-    else if(key === "3" || lower === "h") selectTool("highlighter");
-    else if(key === "4" || lower === "e") selectTool("eraser");
-    else if(key === "+" || key === "=") zoomBy(1.2);
-    else if(key === "-" || key === "_") zoomBy(1/1.2);
-    else if(key === "0") setZoom(1, null);
-    else if(lower === "f") toggleFullscreen();
-    else if(key === "PageDown" || (key === " " && !e.shiftKey)){ e.preventDefault(); goToPage(currentPage() + 1); }
-    else if(key === "PageUp"   || (key === " " && e.shiftKey)){ e.preventDefault(); goToPage(currentPage() - 1); }
-    else if(key === "Home"){ e.preventDefault(); goToPage(1); }
-    else if(key === "End"){ e.preventDefault(); goToPage(numPages); }
-    else if(key === "؟" || (e.shiftKey && key === "/")) helpOverlay.classList.toggle("show");
-  });
-
   // ---------------- Save ----------------
   function setSaveStatus(text){ saveStatus.textContent = text; }
   function scheduleSave(){
@@ -1357,7 +1006,7 @@
     if(ok) await upsertRecent({ id: currentFile.id, name: currentFile.name, size: currentFile.size, savedAt: Date.now() });
   }
 
-  // ---------------- Export ----------------
+  // ---------------- Export flattened PDF ----------------
   btnExport.addEventListener("click", exportPdf);
   async function exportPdf(){
     if(!pdfBytes || !currentFile) return;
@@ -1422,7 +1071,7 @@
     }catch(e){
       console.error(e);
       hideLoading();
-      toast("تعذّر تحميل الملف (شغّلي من localhost/استضافة — file:// مش هيشتغل)");
+      toast("تعذّر تحميل الملف من الرابط (شغّلي الموقع على localhost/استضافة — من file:// مش هيشتغل)");
     }
   }
 
@@ -1446,7 +1095,7 @@
         await loadFile(file, handle);
         return;
       }
-    }catch(e){}
+    }catch(e){ }
     showQuickResume(last);
   }
 
@@ -1458,6 +1107,7 @@
     }else{
       await tryAutoResume();
     }
+    // ★ resize بـ debounce (بدل إعادة رسم مع كل بكسل)
     window.addEventListener("resize", ()=>{
       if(!pdfDoc) return;
       clearTimeout(resizeTimer);

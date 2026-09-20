@@ -26,33 +26,25 @@
 
   #app{display:flex;flex-direction:column;height:100vh;}
 
-  /* ============================================================
-     ★★★ التوب بار — سطر واحد قابل للسحب
-     ============================================================ */
+  /* ---------- Top bar ---------- */
   #topbar{
     background:var(--ink);color:var(--text-light);
-    display:flex;align-items:center;gap:8px;
-    padding:5px 12px;
-    flex-wrap:nowrap;
-    overflow-x:auto;overflow-y:hidden;
-    scrollbar-width:none;-ms-overflow-style:none;
-    box-shadow:0 2px 8px rgba(0,0,0,.25);z-index:30;
-    flex-shrink:0;
+    display:flex;align-items:center;gap:10px;
+    padding:8px 14px;flex-wrap:wrap;
+    box-shadow:0 2px 10px rgba(0,0,0,.25);z-index:30;
   }
-  #topbar::-webkit-scrollbar{display:none;}
-
-  .brand{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+  .brand{display:flex;align-items:center;gap:8px;margin-inline-end:6px;}
   .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(232,121,60,.25);}
-  .brand b{font-size:15px;white-space:nowrap;}
-  .brand span{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;white-space:nowrap;}
+  .brand b{font-size:15px;}
+  .brand span{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
 
-  .sep{width:1px;height:24px;background:var(--line);margin:0 2px;flex-shrink:0;}
+  .sep{width:1px;height:26px;background:var(--line);margin:0 4px;}
 
   button.tbtn{
     background:transparent;border:1px solid transparent;color:var(--text-light);
-    padding:5px 10px;border-radius:8px;cursor:pointer;font-size:13px;
-    display:flex;align-items:center;gap:5px;transition:background .15s, border-color .15s;
-    font-family:inherit;flex-shrink:0;white-space:nowrap;
+    padding:7px 10px;border-radius:8px;cursor:pointer;font-size:13px;
+    display:flex;align-items:center;gap:6px;transition:background .15s, border-color .15s;
+    font-family:inherit;
   }
   button.tbtn:hover{background:var(--ink-2);}
   button.tbtn.active{background:rgba(232,121,60,.16);border-color:var(--accent);color:#fff;}
@@ -66,135 +58,25 @@
   }
   button.tbtn.active .kbd{color:#fff;border-color:rgba(255,255,255,.4);}
 
-  .primary{background:var(--accent)!important;color:#fff!important;font-weight:600;}
-  .primary:hover{background:var(--accent-dim)!important;}
-
-  #zoomLabel{cursor:pointer;user-select:none;flex-shrink:0;}
-  #zoomLabel:hover{color:#fff;}
-
-  /* ★ عداد الصفحات الكبير */
-  #pageIndicator{
-    display:none;align-items:center;gap:6px;
-    background:var(--ink-2);padding:4px 12px;border-radius:10px;
-    font-family:'JetBrains Mono',monospace;cursor:pointer;user-select:none;
-    transition:background .15s;flex-shrink:0;
-  }
-  #pageIndicator.show{display:flex;}
-  #pageIndicator:hover{background:var(--accent);}
-  #pageIndicator .pg-num{
-    font-size:18px;font-weight:700;color:var(--accent);line-height:1;
-    direction:ltr;letter-spacing:.02em;
-  }
-  #pageIndicator:hover .pg-num{color:#fff;}
-  #pageIndicator .pg-total{
-    font-size:11px;color:var(--muted);line-height:1;
-  }
-  #pageIndicator:hover .pg-total{color:rgba(255,255,255,.7);}
-  #pageIndicator .pg-label{
-    font-size:10px;color:var(--muted);
-    display:flex;flex-direction:column;align-items:flex-start;line-height:1.3;
-  }
-  #pageIndicator:hover .pg-label{color:rgba(255,255,255,.7);}
-
-  /* ============================================================
-     ★★★ شريط الأدوات — سطر واحد منفصل قابل للسحب
-     ============================================================ */
-  #toolbar{
-    display:none;flex-direction:column;
-    background:var(--ink-2);color:var(--text-light);
-    padding:5px 12px 6px;z-index:29;
-    box-shadow:0 1px 4px rgba(0,0,0,.2);
-    border-bottom:1px solid var(--line);
-    flex-shrink:0;
-    overflow:hidden;
-  }
-  #toolbar.show{display:flex;}
-
-  #toolbarRow{
-    display:flex;align-items:center;justify-content:flex-start;
-    gap:8px;flex-wrap:nowrap;
-    overflow-x:auto;overflow-y:hidden;
-    scrollbar-width:thin;-ms-overflow-style:none;
-    -webkit-overflow-scrolling:touch;
-    padding-bottom:2px;
-  }
-  #toolbarRow::-webkit-scrollbar{height:4px;}
-  #toolbarRow::-webkit-scrollbar-thumb{background:rgba(232,121,60,.4);border-radius:4px;}
-  #toolbarRow::-webkit-scrollbar-track{background:rgba(255,255,255,.05);border-radius:4px;}
-
-  .tool-btn{
-    background:transparent;border:1px solid transparent;color:var(--text-light);
-    padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px;
-    display:flex;align-items:center;gap:6px;transition:all .15s;
-    font-family:inherit;flex-shrink:0;white-space:nowrap;
-  }
-  .tool-btn:hover{background:var(--ink);}
-  .tool-btn.active{
-    background:rgba(232,121,60,.2);border-color:var(--accent);color:#fff;
-    box-shadow:0 0 0 1px rgba(232,121,60,.3);
-  }
-  .tool-btn svg{width:18px;height:18px;flex:none;}
-
-  .t-sep{width:1px;height:24px;background:var(--line);margin:0 2px;flex-shrink:0;}
-
-  .pen-rack{display:flex;align-items:center;gap:5px;background:var(--ink);padding:4px;border-radius:10px;flex-shrink:0;}
-  .pen{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid rgba(255,255,255,.15);display:inline-block;position:relative;flex:none;transition:transform .12s;}
+  .pen-rack{display:flex;align-items:center;gap:6px;background:var(--ink-2);padding:5px;border-radius:10px;}
+  .pen{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid rgba(255,255,255,.15);display:inline-block;position:relative;flex:none;transition:transform .12s;}
   .pen:hover{transform:translateY(-2px);}
   .pen.selected{border-color:#fff;box-shadow:0 0 0 2px var(--ink-2),0 0 0 3px var(--accent);}
 
-  .tb-label{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;flex-shrink:0;white-space:nowrap;}
-  input[type=range].tb-range{width:65px;accent-color:var(--accent);flex-shrink:0;}
+  input[type=range]{width:70px;accent-color:var(--accent);}
 
-  .tb-btn{
-    background:transparent;border:1px solid transparent;color:var(--text-light);
-    padding:6px 10px;border-radius:8px;cursor:pointer;
-    display:flex;align-items:center;gap:4px;transition:background .15s;
-    font-family:inherit;flex-shrink:0;
-  }
-  .tb-btn:hover{background:var(--ink);}
-  .tb-btn svg{width:16px;height:16px;flex:none;}
+  #saveStatus{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;min-width:78px;}
 
-  /* ============================================================
-     ★★★ الشريط الرأسي يمين بس — واحد مش اتنين
-     ============================================================ */
-  #navBar{
-    display:none;
-    position:fixed;
-    right:8px;top:50%;transform:translateY(-50%);
-    width:20px;max-height:72vh;
-    background:rgba(27,36,48,.2);
-    border-radius:10px;
-    z-index:50;
-    cursor:grab;
-    touch-action:none;
-    pointer-events:auto;
-  }
-  #navBar.show{display:block;}
-  #navBar:hover{cursor:grab;}
-  #navBar:active{cursor:grabbing;}
-  #navThumb{
-    position:absolute;
-    right:2px;width:16px;
-    min-height:24px;
-    background:var(--ink);
-    border-radius:8px;
-    pointer-events:none;
-    box-shadow:0 1px 6px rgba(0,0,0,.25);
-    transition:background .15s;
-  }
-  #navBar:hover #navThumb, #navBar.dragging #navThumb{background:var(--accent);}
-  #navTooltip{
-    position:absolute;right:30px;top:50%;transform:translateY(-50%);
-    background:var(--ink);color:#fff;white-space:nowrap;
-    padding:5px 14px;border-radius:8px;font-size:12px;font-weight:bold;
-    pointer-events:none;opacity:0;transition:opacity .15s;
-    box-shadow:0 4px 12px rgba(0,0,0,.3);
-  }
-  #navBar:hover #navTooltip, #navBar.dragging #navTooltip{opacity:1;}
+  .primary{background:var(--accent)!important;color:#fff!important;font-weight:600;}
+  .primary:hover{background:var(--accent-dim)!important;}
 
-  /* ============================================================
-     ★★★ Main area
-     ============================================================ */
+  .spacer{flex:1;}
+  #zoomLabel{cursor:pointer;user-select:none;}
+  #zoomLabel:hover{color:#fff;}
+  #pageLabel{cursor:pointer;user-select:none;}
+  #pageLabel:hover{color:#fff;}
+
+  /* ---------- Main area ---------- */
   #main{
     flex:1;position:relative;overflow:auto;background:
       radial-gradient(circle at 1px 1px, rgba(0,0,0,.05) 1px, transparent 0) 0 0/16px 16px,
@@ -204,7 +86,7 @@
   }
   #main.grab{cursor:grab;}
   #main.grabbing{cursor:grabbing!important;}
-  #viewer{direction:ltr;display:flex;flex-direction:column;align-items:flex-start;gap:26px;padding:30px 34px 60px 10px;min-height:100%;}
+  #viewer{direction:ltr;display:flex;flex-direction:column;align-items:flex-start;gap:26px;padding:30px 10px 80px 34px;min-height:100%;}
 
   .page-wrap{
     position:relative;
@@ -226,6 +108,41 @@
       linear-gradient(135deg, rgba(0,0,0,.025) 25%, transparent 25%, transparent 50%, rgba(0,0,0,.025) 50%, rgba(0,0,0,.025) 75%, transparent 75%) 0 0/26px 26px,
       #FCFAF4;
   }
+
+  /* ---------- ★ شريط التنقل الجانبي (Navbar) ---------- */
+  #navBar{
+    display:none;
+    position:fixed;
+    left:6px;top:50%;transform:translateY(-50%);
+    width:16px;max-height:80vh;
+    background:rgba(27,36,48,.15);
+    border-radius:10px;
+    z-index:40;
+    cursor:grab;
+    touch-action:none;
+  }
+  #navBar.show{display:block;}
+  #navBar:active{cursor:grabbing;}
+  #navThumb{
+    position:absolute;
+    left:0;width:100%;
+    min-height:24px;
+    background:var(--ink);
+    border-radius:10px;
+    box-shadow:0 0 0 2px rgba(255,255,255,.5), 0 2px 8px rgba(0,0,0,.3);
+    pointer-events:none;
+    transition:background .15s;
+  }
+  #navThumb:hover{background:var(--accent);}
+  #navBar:hover #navThumb{background:var(--accent);}
+  #navTooltip{
+    position:absolute;left:28px;top:50%;transform:translateY(-50%);
+    background:var(--ink);color:#fff;white-space:nowrap;
+    padding:5px 12px;border-radius:8px;font-size:12px;font-weight:bold;
+    pointer-events:none;opacity:0;transition:opacity .15s;
+    box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:41;
+  }
+  #navBar:hover #navTooltip, #navBar.dragging #navTooltip{opacity:1;}
 
   /* ---------- Empty state ---------- */
   #emptyState{
@@ -292,33 +209,26 @@
   ::-webkit-scrollbar-track{background:transparent;}
 
   @media (max-width:720px){
-    #topbar{padding:4px 8px;gap:6px;}
+    #topbar{padding:6px 8px;gap:6px;}
     button.tbtn span.lbl{display:none;}
     .kbd{display:none;}
-    .t-sep{display:none;}
-    .tool-btn span{display:none;}
-    .tool-btn{padding:6px 8px;}
-    .tb-label{display:none;}
-    input[type=range].tb-range{width:48px;}
-    #pageIndicator .pg-label{display:none;}
-    #pageIndicator .pg-num{font-size:15px;}
-    #navBar{right:3px;width:14px;}
-    #navThumb{width:10px;right:2px;}
-    #viewer{padding-right:20px;}
+    .pen{width:20px;height:20px;}
+    input[type=range]{width:52px;}
+    #navBar{left:3px;width:12px;}
+    #viewer{padding-left:24px;}
   }
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- ★★★ التوب بار -->
   <div id="topbar">
     <div class="brand">
       <span class="dot"></span>
       <b>قلم PDF</b>
-      <span class="mono">v8</span>
+      <span class="mono">v4</span>
     </div>
-    <button class="tbtn" id="btnHelp" title="اختصارات لوحة المفاتيح" style="padding:4px 8px;">؟</button>
+    <button class="tbtn" id="btnHelp" title="اختصارات لوحة المفاتيح" style="padding:5px 9px;">؟</button>
     <div class="sep"></div>
 
     <button class="tbtn" id="btnOpen" title="فتح ملف PDF">
@@ -326,96 +236,78 @@
       <span class="lbl">فتح ملف</span>
     </button>
 
-    <div class="sep"></div>
+    <div class="sep" id="toolSep" style="display:none"></div>
 
-    <button class="tbtn" id="btnZoomOut" title="تصغير (−)">−</button>
-    <span class="mono" id="zoomLabel" title="ملاءمة (0)" style="font-size:12px;min-width:44px;text-align:center;">100%</span>
-    <button class="tbtn" id="btnZoomIn" title="تكبير (+)">+</button>
-    <button class="tbtn" id="btnZoomFit" title="ملاءمة العرض">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
-      <span class="lbl">ملاءمة</span>
-    </button>
-
-    <div class="sep"></div>
-
-    <div id="pageIndicator" title="اضغطي لاختيار صفحة معينة">
-      <span class="pg-label"><span>الصفحة</span></span>
-      <span class="pg-num" id="pgNum">1</span>
-      <span style="font-size:14px;color:var(--muted);font-family:'JetBrains Mono',monospace;">/</span>
-      <span class="pg-total" id="pgTotal">1</span>
-    </div>
-
-    <div class="sep"></div>
-
-    <button class="tbtn" id="btnPrevPage" title="الصفحة السابقة (Space)">▲</button>
-    <button class="tbtn" id="btnNextPage" title="الصفحة التالية (PageDown)">▼</button>
-
-    <div class="sep"></div>
-
-    <button class="tbtn" id="btnExternal" title="فتح الملف في تبويب جديد">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
-      <span class="lbl">افتح بره</span>
-    </button>
-    <button class="tbtn" id="btnFullscreen" title="ملء الشاشة (F)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
-      <span class="lbl">ملء الشاشة</span>
-    </button>
-
-    <div class="sep"></div>
-    <span id="saveStatus" class="mono" style="font-size:11px;color:var(--muted);display:none;"></span>
-    <button class="tbtn primary" id="btnExport" style="display:none;" title="تنزيل PDF مع التعليقات">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
-      <span class="lbl">تنزيل PDF</span>
-    </button>
-  </div>
-
-  <!-- ★★★ شريط الأدوات -->
-  <div id="toolbar">
-    <div id="toolbarRow">
-      <button class="tool-btn" data-tool="select" title="تصفّح + سحب (اختصار: 1)">
+    <div id="toolGroup" style="display:none;align-items:center;gap:10px;">
+      <button class="tbtn" data-tool="select" title="تصفّح + سحب (اختصار: 1)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 11V6a2 2 0 00-2-2a2 2 0 00-2 2"/><path d="M14 10V4a2 2 0 00-2-2a2 2 0 00-2 2v2"/><path d="M10 10.5V6a2 2 0 00-2-2a2 2 0 00-2 2v8"/><path d="M18 8a2 2 0 114 0v6a8 8 0 01-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 012.83-2.82L7 15"/></svg>
-        <span>تصفّح + سحب</span><span class="kbd">1</span>
+        <span class="lbl">تصفّح + سحب</span><span class="kbd">1</span>
       </button>
-
-      <div class="t-sep"></div>
-
-      <button class="tool-btn" data-tool="pen" title="قلم (اختصار: 2)">
+      <button class="tbtn" data-tool="pen" title="قلم (اختصار: 2)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16.5 3.5l4 4L7 21H3v-4L16.5 3.5z"/></svg>
-        <span>قلم</span><span class="kbd">2</span>
+        <span class="lbl">قلم</span><span class="kbd">2</span>
+      </button>
+      <button class="tbtn" data-tool="highlighter" title="تظليل (اختصار: 3)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l6-6 4 4-6 6H9v-4z"/><path d="M5 21l3-3"/></svg>
+        <span class="lbl">تظليل</span><span class="kbd">3</span>
+      </button>
+      <button class="tbtn" data-tool="eraser" title="ممحاة (اختصار: 4)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="13" width="9" height="6" rx="1" transform="rotate(-45 8 16)"/></svg>
+        <span class="lbl">ممحاة</span><span class="kbd">4</span>
       </button>
 
       <div class="pen-rack" id="colorRack"></div>
 
-      <span class="tb-label" id="widthLabel">السُمك</span>
-      <input type="range" class="tb-range" id="widthRange" min="1" max="40" value="4">
+      <span class="mono" id="widthLabel" style="font-size:11px;color:var(--muted)">السُمك</span>
+      <input type="range" id="widthRange" min="1" max="40" value="4">
 
-      <div class="t-sep"></div>
+      <span class="mono" id="opLabel" style="font-size:11px;color:var(--muted);display:none;">الشفافية</span>
+      <input type="range" id="opRange" min="10" max="90" value="38" style="display:none;">
 
-      <button class="tool-btn" data-tool="highlighter" title="تظليل (اختصار: 3)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l6-6 4 4-6 6H9v-4z"/><path d="M5 21l3-3"/></svg>
-        <span>تظليل</span><span class="kbd">3</span>
-      </button>
+      <div class="sep"></div>
 
-      <span class="tb-label" id="opLabel" style="display:none;">الشفافية</span>
-      <input type="range" class="tb-range" id="opRange" min="10" max="90" value="38" style="display:none;">
-
-      <div class="t-sep"></div>
-
-      <button class="tool-btn" data-tool="eraser" title="ممحاة (اختصار: 4)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="13" width="9" height="6" rx="1" transform="rotate(-45 8 16)"/></svg>
-        <span>ممحاة</span><span class="kbd">4</span>
-      </button>
-
-      <div class="t-sep"></div>
-
-      <button class="tb-btn" id="btnUndo" title="تراجع (Ctrl+Z)">
+      <button class="tbtn" id="btnUndo" title="تراجع (Ctrl+Z)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12H9"/></svg>
       </button>
-      <button class="tb-btn" id="btnRedo" title="إعادة (Ctrl+Y)">
-        <svg viewBox="0 0 0 24" fill="none" stroke="currentColor" stroke-width="2">        
-          <path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 000 12h5"/></svg>
+      <button class="tbtn" id="btnRedo" title="إعادة (Ctrl+Y)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 000 12h5"/></svg>
+      </button>
+
+      <div class="sep"></div>
+
+      <button class="tbtn" id="btnZoomOut" title="تصغير (−)">−</button>
+      <span class="mono" id="zoomLabel" title="ملاءمة (0)" style="font-size:12px;min-width:44px;text-align:center;">100%</span>
+      <button class="tbtn" id="btnZoomIn" title="تكبير (+)">+</button>
+      <button class="tbtn" id="btnZoomFit" title="ملاءمة العرض">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+        <span class="lbl">ملاءمة</span>
+      </button>
+
+      <div class="sep"></div>
+
+      <button class="tbtn" id="btnPrevPage" title="الصفحة السابقة (Space / PageUp)">▲</button>
+      <span class="mono" id="pageLabel" title="اضغطي للاختيار صفحة" style="font-size:12px;min-width:58px;text-align:center;">— / —</span>
+      <button class="tbtn" id="btnNextPage" title="الصفحة التالية (PageDown)">▼</button>
+
+      <div class="sep"></div>
+
+      <button class="tbtn" id="btnExternal" title="فتح الملف في تبويب جديد">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
+        <span class="lbl">افتح بره</span>
+      </button>
+      <button class="tbtn" id="btnFullscreen" title="ملء الشاشة (F)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+        <span class="lbl">ملء الشاشة</span>
       </button>
     </div>
+
+    <div class="spacer"></div>
+
+    <span id="saveStatus" class="mono" style="display:none;"></span>
+    <button class="tbtn primary" id="btnExport" style="display:none;" title="تنزيل PDF مع التعليقات">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+      <span class="lbl">تنزيل PDF</span>
+    </button>
   </div>
 
   <div id="main">
@@ -435,7 +327,7 @@
     <div id="viewer" style="display:none;"></div>
   </div>
 
-  <!-- ★ الشريط الرأسي يمين — واحد بس -->
+  <!-- ★ شريط التنقل الجانبي -->
   <div id="navBar" title="اسحبي للتنقل في الملف">
     <div id="navThumb"></div>
     <div id="navTooltip">صفحة 1</div>
@@ -458,8 +350,9 @@
     <div class="hk-row"><span>🔍 زوم / تصغير</span><span><span class="kbd">+</span><span class="kbd">−</span></span></div>
     <div class="hk-row"><span>🎯 ملاءمة</span><span><span class="kbd">0</span></span></div>
     <div class="hk-row"><span>📄 صفحة لتحت / لفوق</span><span><span class="kbd">Space</span><span class="kbd">Shift+Space</span></span></div>
+    <div class="hk-row"><span>📄 أول / آخر صفحة</span><span><span class="kbd">Home</span><span class="kbd">End</span></span></div>
     <div class="hk-row"><span>🖥️ ملء الشاشة</span><span><span class="kbd">F</span><span class="kbd">Esc</span></span></div>
-    <div class="hk-row"><span>📊 الشريط الرأسي يمين</span><span>اسحبي المربع البرتقالي</span></div>
+    <div class="hk-row"><span>📊 شريط التنقل الجانبي</span><span>اسحبي المربع البرتقالي</span></div>
     <div class="hk-row"><span>🔲 سحب الصفحة</span><span>اسحبي بالماوس في وضع التصفّح</span></div>
     <p style="margin:14px 0 0;font-size:11px;color:var(--muted);text-align:center;">اضغطي في أي مكان بره اللوحة للإغلاق</p>
   </div>
@@ -482,6 +375,7 @@
 
   const NORM_W = 1000;
 
+  // ---------------- State ----------------
   let pdfDoc = null;
   let pdfBytes = null;
   let currentFile = null;
@@ -506,22 +400,24 @@
   let renderDebounce = null;
   let resizeTimer = null;
   let pinchState = null;
-  let panState = null;
-  let navDragging = false;
-  let navSync = true;
+  let panState = null;          // ★ سحب بالماوس
+  let navDragging = false;      // ★ سحب الشريط الجانبي
+  let navSync = true;           // الشريط بيتحرك مع السكرول (متعطل وقت السحب اليدوي)
 
   const MIN_ZOOM = 0.25, MAX_ZOOM = 4;
 
   const PEN_COLORS = ["#1B2430", "#D1495B", "#2F6FED", "#2F9E44", "#E8793C"];
   const HI_COLORS = ["#FFE066", "#8CE99A", "#FFA8C5", "#74C0FC"];
 
+  // ---------------- DOM refs ----------------
   const $ = (s)=>document.querySelector(s);
   const btnOpen = $("#btnOpen");
   const fileInput = $("#fileInput");
   const dropZone = $("#dropZone");
   const emptyState = $("#emptyState");
   const viewer = $("#viewer");
-  const toolbar = $("#toolbar");
+  const toolGroup = $("#toolGroup");
+  const toolSep = $("#toolSep");
   const colorRack = $("#colorRack");
   const widthRange = $("#widthRange");
   const opRange = $("#opRange");
@@ -536,9 +432,7 @@
   const navBar = $("#navBar");
   const navThumb = $("#navThumb");
   const navTooltip = $("#navTooltip");
-  const pageIndicator = $("#pageIndicator");
-  const pgNum = $("#pgNum");
-  const pgTotal = $("#pgTotal");
+  const pageLabel = $("#pageLabel");
 
   function toast(msg){
     const t = $("#toast");
@@ -708,22 +602,21 @@
       zoom = 1.0;
       renderedZoom = 1.0;
       zoomLabel.textContent = "100%";
-      pgTotal.textContent = numPages;
 
       await renderAllPages();
 
       emptyState.style.display = "none";
       viewer.style.display = "flex";
-      toolbar.classList.add("show");
-      pageIndicator.classList.add("show");
-      navBar.classList.add("show");
+      toolGroup.style.display = "flex";
+      toolSep.style.display = "block";
       saveStatus.style.display = "inline";
       btnExport.style.display = "flex";
+      navBar.classList.add("show");
       setSaveStatus(saved ? "تم تحميل تعليقاتك السابقة" : "جاهز");
 
       await upsertRecent({ id: currentFile.id, name: currentFile.name, size: currentFile.size, savedAt: Date.now() });
       hideLoading();
-      toast("💡 1-4 للأدوات — Space للصفحات — ؟ للاختصارات");
+      toast("💡 1-4 للتبديل بين الأدوات — ؟ للاختصارات — اسحبي الصفحة للتنقل");
     }catch(err){
       console.error(err);
       hideLoading();
@@ -850,7 +743,7 @@
     if(e.target === helpOverlay) helpOverlay.classList.remove("show");
   });
 
-  // ---------------- السحب بالماوس ----------------
+  // ---------------- ★ السحب بالماوس (وضع التصفّح) ----------------
   mainEl.addEventListener("pointerdown", (e)=>{
     if(currentTool !== "select" || !pdfDoc) return;
     if(e.pointerType !== "mouse" || e.button !== 0) return;
@@ -866,7 +759,7 @@
   window.addEventListener("pointerup", ()=>{ panState = null; mainEl.classList.remove("grabbing"); });
   window.addEventListener("pointercancel", ()=>{ panState = null; mainEl.classList.remove("grabbing"); });
 
-  // ---------------- الصفحة الحالية + العداد ----------------
+  // ---------------- ★ الصفحة الحالية + الانتقال ----------------
   function currentPage(){
     if(!pdfDoc) return 1;
     const mr = mainEl.getBoundingClientRect();
@@ -877,12 +770,6 @@
     });
     return cur;
   }
-  function updatePageIndicator(){
-    const p = currentPage();
-    pgNum.textContent = p;
-    pgTotal.textContent = numPages;
-    navTooltip.textContent = "صفحة " + p;
-  }
   function goToPage(p){
     if(!pdfDoc) return;
     p = Math.max(1, Math.min(numPages, p));
@@ -891,11 +778,11 @@
     const mr = mainEl.getBoundingClientRect();
     const wr = wrap.getBoundingClientRect();
     mainEl.scrollBy({ top: wr.top - mr.top - 8, behavior: "smooth" });
-    pgNum.textContent = p;
+    pageLabel.textContent = p + " / " + numPages;
   }
   $("#btnPrevPage").addEventListener("click", ()=> goToPage(currentPage() - 1));
   $("#btnNextPage").addEventListener("click", ()=> goToPage(currentPage() + 1));
-  pageIndicator.addEventListener("click", ()=>{
+  pageLabel.addEventListener("click", ()=>{
     if(!pdfDoc) return;
     const n = prompt("اكتبي رقم الصفحة (1 - " + numPages + "):", String(currentPage()));
     if(n === null) return;
@@ -903,50 +790,51 @@
     if(p >= 1 && p <= numPages) goToPage(p);
   });
 
-  let scrollSyncTimer = null;
+  let pageLabelTimer = null;
   mainEl.addEventListener("scroll", ()=>{
     if(!pdfDoc) return;
-    clearTimeout(scrollSyncTimer);
-    scrollSyncTimer = setTimeout(()=>{
-      updatePageIndicator();
-      updateNavBar();
+    clearTimeout(pageLabelTimer);
+    pageLabelTimer = setTimeout(()=>{
+      pageLabel.textContent = currentPage() + " / " + numPages;
+      updateNavBar();   // ★ الشريط بيتحرك مع السكرول
     }, 60);
   });
 
-  // ---------------- ★ الشريط الرأسي يمين (سحب شغال) ----------------
+  // ---------------- ★ شريط التنقل الجانبي ----------------
   function navMetrics(){
-    const trackH = Math.max(30, navBar.clientHeight - 4);
-    const ratio = Math.max(0.1, Math.min(1, mainEl.clientHeight / Math.max(1, mainEl.scrollHeight)));
-    const thumbH = Math.max(24, Math.round(ratio * trackH));
+    const trackH = navBar.clientHeight;
+    const thumbH = Math.max(24, Math.min(trackH, (mainEl.clientHeight / Math.max(1, mainEl.scrollHeight) * trackH)));
     const maxScroll = Math.max(1, mainEl.scrollHeight - mainEl.clientHeight);
     const pct = mainEl.scrollTop / maxScroll;
     const maxTop = Math.max(0, trackH - thumbH);
-    return { trackH: trackH, thumbH: thumbH, maxScroll: maxScroll, pct: pct, maxTop: maxTop };
+    return { trackH, thumbH, maxScroll, pct, maxTop };
   }
-
   function updateNavBar(){
     if(!pdfDoc || navDragging) return;
     const m = navMetrics();
     navThumb.style.height = m.thumbH + "px";
-    navThumb.style.top = (2 + m.pct * m.maxTop) + "px";
+    navThumb.style.top = (m.pct * m.maxTop) + "px";
   }
-
   function pageFromNavY(y){
+    // يحول مكان السحب لرقم صفحة (يستهدف أعلى الصفحة عند النقطة
     const m = navMetrics();
-    const rect = navBar.getBoundingClientRect();
-    const pct = Math.max(0, Math.min(1, (y - rect.top - 2) / Math.max(1, m.trackH)));
-    navThumb.style.top = (2 + pct * m.maxTop) + "px";
+    const pct = Math.max(0, Math.min(1, (y - navBar.getBoundingClientRect().top) / m.trackH));
+    navThumb.style.top = (pct * m.maxTop) + "px";
+    const scrollTop = pct * m.maxScroll;
+    // لقي الصفحة عند المكان ده
     navSync = false;
-    mainEl.scrollTop = pct * m.maxScroll;
-    updatePageIndicator();
+    mainEl.scrollTop = scrollTop;
+    navTooltip.textContent = "صفحة " + currentPage();
+    clearTimeout(pageLabelTimer);
+    pageLabel.textContent = currentPage() + " / " + numPages;
+    // ارجع المتابعة بعد شوية
     clearTimeout(updateNavBar._t);
-    updateNavBar._t = setTimeout(function(){ navSync = true; }, 250);
+    updateNavBar._t = setTimeout(()=>{ navSync = true; }, 250);
   }
 
   navBar.addEventListener("pointerdown", (e)=>{
     if(!pdfDoc) return;
     e.preventDefault();
-    e.stopPropagation();
     navBar.setPointerCapture(e.pointerId);
     navDragging = true;
     navBar.classList.add("dragging");
@@ -965,11 +853,8 @@
   }
   navBar.addEventListener("pointerup", endNavDrag);
   navBar.addEventListener("pointercancel", endNavDrag);
-  navBar.addEventListener("click", (e)=>{
-    e.stopPropagation();
-  });
 
-  // ---------------- Rendering ----------------
+  // ---------------- Rendering: placeholders + رندر عند الاقتراب ----------------
   async function renderAllPages(){
     if(!pdfDoc) return;
     if(pageObserver){ pageObserver.disconnect(); }
@@ -1014,7 +899,7 @@
 
     renderedZoom = zoom;
     updateCanvasInteractivity();
-    updatePageIndicator();
+    if(pageLabel) pageLabel.textContent = currentPage() + " / " + numPages;
     updateNavBar();
   }
 
@@ -1093,10 +978,10 @@
 
   function drawStrokeOnCtx(ctx, stroke, scale){
     if(!stroke.points || stroke.points.length < 2) return;
-    const style = strokeStyleFor(stroke);
+    const { opacity, comp } = strokeStyleFor(stroke);
     ctx.save();
-    ctx.globalAlpha = style.opacity;
-    ctx.globalCompositeOperation = style.comp;
+    ctx.globalAlpha = opacity;
+    ctx.globalCompositeOperation = comp;
     ctx.strokeStyle = stroke.color;
     ctx.lineWidth = Math.max(stroke.width * scale, 0.6);
     ctx.lineCap = "round";
@@ -1183,11 +1068,7 @@
       ctx.setTransform(dpr,0,0,dpr,0,0);
       const scale = pageScale(p);
       const n = activeStroke.points.length;
-      drawStrokeOnCtx(ctx, {
-        tool: activeStroke.tool, color: activeStroke.color,
-        width: activeStroke.width, opacity: activeStroke.opacity,
-        points: activeStroke.points.slice(Math.max(0,n-2))
-      }, scale);
+      drawStrokeOnCtx(ctx, { ...activeStroke, points: activeStroke.points.slice(Math.max(0,n-2)) }, scale);
       ctx.restore();
     });
 
@@ -1222,7 +1103,7 @@
   function buildColorRack(){
     colorRack.innerHTML = "";
     const colors = currentTool === "highlighter" ? HI_COLORS : PEN_COLORS;
-    colors.forEach(c=>{
+    colors.forEach((c,i)=>{
       const el = document.createElement("span");
       el.className = "pen";
       el.style.background = c;
@@ -1237,7 +1118,7 @@
     });
     if(!colors.includes(currentColor)){
       currentColor = colors[0];
-      if(colorRack.firstChild) colorRack.firstChild.classList.add("selected");
+      colorRack.firstChild && colorRack.firstChild.classList.add("selected");
     }
   }
 
