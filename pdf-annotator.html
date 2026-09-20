@@ -74,20 +74,38 @@
 
   .spacer{flex:1;}
 
+  #zoomLabel{cursor:pointer;user-select:none;}
+  #zoomLabel:hover{color:#fff;}
+
   /* ---------- Main area ---------- */
-  #main{flex:1;position:relative;overflow:auto;background:
+  #main{
+    flex:1;position:relative;overflow:auto;background:
       radial-gradient(circle at 1px 1px, rgba(0,0,0,.05) 1px, transparent 0) 0 0/16px 16px,
       var(--paper);
+    touch-action:pan-x pan-y; /* السكرول بإصبع واحد للنظام — والـ Pinch بنمسكه احنا */
   }
-  #viewer{direction:ltr;display:flex;flex-direction:column;align-items:center;gap:26px;padding:30px 10px 80px;min-height:100%;}
+  #viewer{direction:ltr;display:flex;flex-direction:column;align-items:flex-start;gap:26px;padding:30px 10px 80px;min-height:100%;}
 
-  .page-wrap{position:relative;box-shadow:0 6px 24px rgba(20,20,30,.22), 0 1px 3px rgba(0,0,0,.15);background:var(--paper-page);}
+  .page-wrap{
+    position:relative;
+    box-shadow:0 6px 24px rgba(20,20,30,.22), 0 1px 3px rgba(0,0,0,.15);
+    background:var(--paper-page);
+    margin:0 auto; /* ★ يوسّط الصفحة من غير ما يمنع السكرول لما تكتبر */
+  }
   .page-wrap canvas{display:block;position:absolute;top:0;left:0;}
   .pdf-canvas{position:relative!important;}
   .ink-canvas{touch-action:none;cursor:crosshair;}
   .page-num{
     position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);
     font-family:'JetBrains Mono',monospace;font-size:11px;color:#8B8273;background:transparent;
+  }
+  /* ★ Placeholder للصفحات لسه مترسمتش (رندر عند الاقتراب) */
+  .page-ph{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    color:#9A9282;font-family:'JetBrains Mono',monospace;font-size:12px;
+    background:
+      linear-gradient(135deg, rgba(0,0,0,.025) 25%, transparent 25%, transparent 50%, rgba(0,0,0,.025) 50%, rgba(0,0,0,.025) 75%, transparent 75%) 0 0/26px 26px,
+      #FCFAF4;
   }
 
   /* ---------- Empty state ---------- */
@@ -152,7 +170,7 @@
     <div class="brand">
       <span class="dot"></span>
       <b>قلم PDF</b>
-      <span class="mono">v1</span>
+      <span class="mono">v2</span>
     </div>
     <div class="sep"></div>
 
@@ -197,9 +215,14 @@
 
       <div class="sep"></div>
 
+      <!-- ★ زوم حر: أزرار + Ctrl+عجلة + Pinch -->
       <button class="tbtn" id="btnZoomOut" title="تصغير">−</button>
-      <span class="mono" id="zoomLabel" style="font-size:12px;min-width:40px;text-align:center;">100%</span>
+      <span class="mono" id="zoomLabel" title="اضغط للرجوع لعرض الملاءمة (100%)" style="font-size:12px;min-width:44px;text-align:center;">100%</span>
       <button class="tbtn" id="btnZoomIn" title="تكبير">+</button>
+      <button class="tbtn" id="btnZoomFit" title="ملاءمة العرض">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+        <span class="lbl">ملاءمة</span>
+      </button>
     </div>
 
     <div class="spacer"></div>
@@ -244,33 +267,25 @@
 
   // ====================================================================
   // ضع هنا رابط مباشر لملف PDF لو عاوزه يفتح تلقائيًا من غير اختيار يدوي.
-  // الرابط لازم يكون "قابل للوصول عبر الإنترنت أو الشبكة" (http/https) —
-  // مسار جهاز عادي زي C:\... أو /Users/... المتصفح يرفض يقرأه تلقائيًا
-  // لأسباب أمان (أي موقع كان هيقدر يقرأ ملفاتك من غير إذنك). لو الملف
-  // على جهازك بس، شغّل سيرفر محلي بسيطة وحط رابطه هنا، مثلاً:
-  //   1) افتح Terminal/CMD في المجلد اللي فيه الملف
-  //   2) شغّل: python -m http.server 8000   (أو: npx serve -p 8000)
-  //   3) PDF_URL = "http://localhost:8000/اسم-الملف.pdf"
-  // سيبه فاضي "" لو عاوز تفتح الملف بالاختيار اليدوي كالعادة.
+  // أو حدده من رابط الصفحة: pdf-annotator.html?file=lectures/lec4.pdf
   const PDF_URL_DEFAULT = "";
-  // تقدر كمان تحدد الملف عن طريق رابط الصفحة نفسها، وده الأنسب لو الموقع
-  // بيفتح الأداة جوه iframe: pdf-annotator.html?file=lectures/lec4.pdf
   const urlParam = new URLSearchParams(location.search).get("file");
   const PDF_URL = urlParam ? urlParam : PDF_URL_DEFAULT;
   // ====================================================================
 
-  const NORM_W = 1000; // normalized coordinate width for storing strokes (resolution independent)
+  const NORM_W = 1000; // normalized coordinate width for storing strokes
 
   // ---------------- State ----------------
-  let pdfDoc = null;          // pdfjsLib document
-  let pdfBytes = null;        // ArrayBuffer of the original file (kept for export)
-  let currentFile = null;     // {id, name, size}
+  let pdfDoc = null;
+  let pdfBytes = null;
+  let currentFile = null;
   let numPages = 0;
-  let pageMeta = [];          // [{width, height, normH}] per page (in pdf points, page 1-indexed -> index 0)
-  let strokesByPage = {};     // {pageNum: [stroke,...]}
-  let redoByPage = {};        // {pageNum: [stroke,...]}
-  let zoom = 1.0;             // display zoom multiplier on top of fit-width
-  let baseScale = 1.0;        // fit-width scale in px-per-point
+  let pageMeta = [];
+  let strokesByPage = {};
+  let redoByPage = {};
+  let zoom = 1.0;
+  let baseScale = 1.0;
+  let renderedZoom = 1.0;      // ★ الزوم اللي الرندر الحالي مبني عليه (للتثبيت)
   let currentTool = "select";
   let currentColor = "#1B2430";
   let currentWidth = 4;
@@ -278,7 +293,15 @@
   let activeStroke = null;
   let activePageNum = null;
   let saveTimer = null;
-  let fsHandle = null;        // FileSystemFileHandle if available for current file
+  let fsHandle = null;
+  let pageObserver = null;     // ★ رندر عند الاقتراب
+  let renderedPages = new Set();
+  let renderDebounce = null;
+  let resizeTimer = null;
+  let pinchState = null;
+
+  // ★ حدود الزوم الحر
+  const MIN_ZOOM = 0.25, MAX_ZOOM = 4;
 
   const PEN_COLORS = ["#1B2430", "#D1495B", "#2F6FED", "#2F9E44", "#E8793C"];
   const HI_COLORS = ["#FFE066", "#8CE99A", "#FFA8C5", "#74C0FC"];
@@ -301,6 +324,7 @@
   const recentList = $("#recentList");
   const loadingOverlay = $("#loadingOverlay");
   const loadingText = $("#loadingText");
+  const mainEl = $("#main");
 
   function toast(msg){
     const t = $("#toast");
@@ -312,29 +336,29 @@
   function showLoading(msg){ loadingText.textContent = msg||"جاري التحميل..."; loadingOverlay.classList.add("show"); }
   function hideLoading(){ loadingOverlay.classList.remove("show"); }
 
+  // ★ دقة الكانفس الفعلية (بيتخزن على كل canvas عشان الرسم يطلع مظبوط)
+  function canvasDpr(canvas){ return parseFloat(canvas.dataset.dpr) || 1; }
+
   // ---------------- Storage helpers ----------------
-  // ملحوظة: الموقع ده هيتفتح كموقع حقيقي مستقل (مش جوه بيئة Claude)،
-  // فبنستخدم localStorage بتاع المتصفح نفسه — بيتخزن على نفس الدومين
-  // اللي الموقع شغال عليه، ويفضل محفوظ لما ترجع تاني من نفس المتصفح/الجهاز.
   const STORAGE_PREFIX = "pdfqalam:";
   async function storeGet(key){
     try{
       const raw = localStorage.getItem(STORAGE_PREFIX + key);
       return raw ? JSON.parse(raw) : null;
-    }catch(e){ console.error("storage get failed", e); return null; }
+    }catch(e){ return null; }
   }
   async function storeSet(key, value){
     try{
       localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value));
       return true;
-    }catch(e){ console.error("storage set failed", e); return false; }
+    }catch(e){ return false; }
   }
 
   function fileId(name, size){
     return "f_" + size + "_" + name.replace(/[^a-zA-Z0-9_\-\.]/g,"_").slice(0,80);
   }
 
-  // simple IndexedDB wrapper for File System Access handles (Chrome/Edge desktop only)
+  // ---------------- IndexedDB for file handles ----------------
   function idbOpen(){
     return new Promise((res,rej)=>{
       const req = indexedDB.open("pdf-annotator-db", 1);
@@ -366,7 +390,7 @@
     }catch(e){ return null; }
   }
 
-  // ---------------- Recent files list ----------------
+  // ---------------- Recent files ----------------
   async function getRecentList(){
     const list = await storeGet("recent-files-list");
     return Array.isArray(list) ? list : [];
@@ -419,7 +443,7 @@
           await loadFile(file, handle);
           return;
         }
-      }catch(e){ /* fall through to manual pick */ }
+      }catch(e){ }
     }
     toast("اختر نفس الملف \""+item.name+"\" من جهازك لمتابعة التعديل عليه");
     fileInput.onchange = async (ev)=>{
@@ -442,7 +466,6 @@
         return;
       }catch(e){
         if(e && e.name === "AbortError") return;
-        // fall through to classic input
       }
     }
     fileInput.click();
@@ -483,6 +506,9 @@
       const saved = await storeGet("annot:" + currentFile.id);
       strokesByPage = (saved && saved.pages) ? saved.pages : {};
       redoByPage = {};
+      zoom = 1.0;
+      renderedZoom = 1.0;
+      zoomLabel.textContent = "100%";
 
       await renderAllPages();
 
@@ -503,42 +529,163 @@
     }
   }
 
-  // ---------------- Rendering pages ----------------
+  // ---------------- ★ Zoom system (حر + مثبّت على نقطة النظر) ----------------
+  function clampZoom(z){ return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z)); }
+
+  function setZoom(newZoom, anchor){
+    newZoom = clampZoom(newZoom);
+    if(Math.abs(newZoom - zoom) < 0.001) return;
+
+    const rect = mainEl.getBoundingClientRect();
+    let ax=null, ay=null, vx=rect.width/2, vy=rect.height/2;
+    if(anchor){
+      ax = anchor.x - rect.left + mainEl.scrollLeft;  // نقطة المحتوى تحت المؤشر
+      ay = anchor.y - rect.top  + mainEl.scrollTop;
+      vx = anchor.x - rect.left;
+      vy = anchor.y - rect.top;
+    }
+    const layoutZoom = renderedZoom; // الرندر الحالي مبني على الزوم ده
+
+    zoom = newZoom;
+    zoomLabel.textContent = Math.round(zoom*100) + "%";
+
+    // رندر واحد مهما اتكرر الزوم بسرعة (سلاسة)
+    clearTimeout(renderDebounce);
+    renderDebounce = setTimeout(async ()=>{
+      await renderAllPages();
+      if(ax !== null){
+        const ratio = zoom / layoutZoom;
+        mainEl.scrollLeft = Math.max(0, ax * ratio - vx);
+        mainEl.scrollTop  = Math.max(0, ay * ratio - vy);
+      }
+    }, 130);
+  }
+
+  function zoomBy(factor){
+    const rect = mainEl.getBoundingClientRect();
+    setZoom(zoom * factor, {x: rect.left + rect.width/2, y: rect.top + rect.height/2});
+  }
+  $("#btnZoomIn").addEventListener("click", ()=>zoomBy(1.2));
+  $("#btnZoomOut").addEventListener("click", ()=>zoomBy(1/1.2));
+  $("#btnZoomFit").addEventListener("click", ()=>setZoom(1, null));
+  zoomLabel.addEventListener("click", ()=>setZoom(1, null));
+
+  // ★ Ctrl + عجلة الماوس = زوم عند مؤشر الماوس (والتراك باد Pinch بيطلع كده برضه)
+  mainEl.addEventListener("wheel", (e)=>{
+    if(!e.ctrlKey && !e.metaKey) return; // سكرول عادي من غير Ctrl
+    e.preventDefault();
+    let dy = e.deltaY;
+    if(e.deltaMode === 1) dy *= 16;
+    const factor = Math.exp(-dy * 0.0018);
+    setZoom(zoom * factor, {x: e.clientX, y: e.clientY});
+  }, {passive:false});
+
+  // ★ Pinch بإصبعين على الموبايل/التابلت
+  function tDist(e){
+    return Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY
+    );
+  }
+  mainEl.addEventListener("touchstart", (e)=>{
+    if(e.touches.length === 2){ pinchState = { d: tDist(e), z: zoom }; }
+  }, {passive:true});
+  mainEl.addEventListener("touchmove", (e)=>{
+    if(!pinchState || e.touches.length !== 2) return;
+    e.preventDefault();
+    const d = tDist(e);
+    const mx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+    const my = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+    setZoom(pinchState.z * (d / pinchState.d), {x: mx, y: my});
+  }, {passive:false});
+  mainEl.addEventListener("touchend", (e)=>{
+    if(e.touches.length < 2) pinchState = null;
+  }, {passive:true});
+
+  // ---------------- ★ Rendering: placeholders + رندر عند الاقتراب ----------------
   async function renderAllPages(){
+    if(!pdfDoc) return;
+    if(pageObserver){ pageObserver.disconnect(); }
     viewer.innerHTML = "";
-    pageMeta = [];
-    const containerWidth = Math.min(document.getElementById("main").clientWidth - 40, 900);
+    renderedPages.clear();
+
+    const containerWidth = Math.min(mainEl.clientWidth - 40, 900);
+    // ★ جودة أعلى: على الأقل 2x مهما كانت الشاشة (نص وصور أوضح)
+    const baseDpr = Math.min(3, Math.max(window.devicePixelRatio || 1, 2));
 
     for(let p=1; p<=numPages; p++){
       const page = await pdfDoc.getPage(p);
-      const viewport = page.getViewport({ scale: 1 });
-      if(p===1) baseScale = containerWidth / viewport.width;
-      const scale = baseScale * zoom;
-      const scaledViewport = page.getViewport({ scale });
+      const vp1 = page.getViewport({ scale: 1 });
+      if(p===1) baseScale = containerWidth / vp1.width;
+      const w = Math.round(vp1.width  * baseScale * zoom);
+      const h = Math.round(vp1.height * baseScale * zoom);
 
-      const dpr = window.devicePixelRatio || 1;
       const wrap = document.createElement("div");
       wrap.className = "page-wrap";
-      wrap.style.width = scaledViewport.width + "px";
-      wrap.style.height = scaledViewport.height + "px";
+      wrap.dataset.page = p;
+      wrap.style.width = w + "px";
+      wrap.style.height = h + "px";
+
+      const ph = document.createElement("div");
+      ph.className = "page-ph";
+      ph.textContent = p + " / " + numPages;
+      wrap.appendChild(ph);
+
+      viewer.appendChild(wrap);
+      pageMeta[p] = { width:w, height:h, page:page, ptW:vp1.width, ptH:vp1.height, dpr:baseDpr };
+    }
+
+    pageObserver = new IntersectionObserver((entries)=>{
+      for(const en of entries){
+        if(en.isIntersecting){
+          const p = parseInt(en.target.dataset.page, 10);
+          if(p && !renderedPages.has(p)) renderPageContent(p);
+        }
+      }
+    }, { root: mainEl, rootMargin: "500px 0px" });
+
+    viewer.querySelectorAll(".page-wrap").forEach(w=> pageObserver.observe(w));
+
+    renderedZoom = zoom;
+    updateCanvasInteractivity();
+  }
+
+  async function renderPageContent(p){
+    if(renderedPages.has(p) || !pdfDoc) return;
+    const meta = pageMeta[p];
+    const wrap = viewer.querySelector('.page-wrap[data-page="'+p+'"]');
+    if(!meta || !wrap) return;
+    renderedPages.add(p);
+    try{
+      const scale = meta.width / meta.ptW;
+      const scaledViewport = meta.page.getViewport({ scale });
+
+      // ★ حد أقصى ذكي للدقة (عشان الذاكرة عند الزوم العالي)
+      let dpr = meta.dpr;
+      const MAX_PIX = 6000;
+      if(scaledViewport.width  * dpr > MAX_PIX) dpr = MAX_PIX / scaledViewport.width;
+      if(scaledViewport.height * dpr > MAX_PIX) dpr = Math.min(dpr, MAX_PIX / scaledViewport.height);
 
       const pdfCanvas = document.createElement("canvas");
       pdfCanvas.className = "pdf-canvas";
-      pdfCanvas.width = scaledViewport.width * dpr;
-      pdfCanvas.height = scaledViewport.height * dpr;
-      pdfCanvas.style.width = scaledViewport.width + "px";
-      pdfCanvas.style.height = scaledViewport.height + "px";
+      pdfCanvas.width  = Math.round(scaledViewport.width  * dpr);
+      pdfCanvas.height = Math.round(scaledViewport.height * dpr);
+      pdfCanvas.style.width  = meta.width + "px";
+      pdfCanvas.style.height = meta.height + "px";
       const pctx = pdfCanvas.getContext("2d");
+      pctx.imageSmoothingEnabled = true;
+      pctx.imageSmoothingQuality = "high";
       pctx.scale(dpr, dpr);
-      await page.render({ canvasContext: pctx, viewport: scaledViewport }).promise;
+      await meta.page.render({ canvasContext: pctx, viewport: scaledViewport }).promise;
 
       const inkCanvas = document.createElement("canvas");
       inkCanvas.className = "ink-canvas";
       inkCanvas.dataset.page = p;
-      inkCanvas.width = scaledViewport.width * dpr;
-      inkCanvas.height = scaledViewport.height * dpr;
-      inkCanvas.style.width = scaledViewport.width + "px";
-      inkCanvas.style.height = scaledViewport.height + "px";
+      inkCanvas.dataset.dpr = dpr;                 // ★ لازم للرسم الصح
+      inkCanvas.width  = Math.round(scaledViewport.width  * dpr);
+      inkCanvas.height = Math.round(scaledViewport.height * dpr);
+      inkCanvas.style.width  = meta.width + "px";
+      inkCanvas.style.height = meta.height + "px";
       const ictx = inkCanvas.getContext("2d");
       ictx.scale(dpr, dpr);
 
@@ -546,21 +693,18 @@
       pnum.className = "page-num mono";
       pnum.textContent = p + " / " + numPages;
 
+      wrap.innerHTML = "";
       wrap.appendChild(pdfCanvas);
       wrap.appendChild(inkCanvas);
       wrap.appendChild(pnum);
-      viewer.appendChild(wrap);
-
-      const rawViewport = page.getViewport({ scale: 1 });
-      pageMeta[p] = {
-        width: scaledViewport.width, height: scaledViewport.height,
-        ptW: rawViewport.width, ptH: rawViewport.height
-      };
 
       attachPointerEvents(inkCanvas, p);
       drawPageStrokes(p);
+      updateCanvasInteractivity();
+    }catch(err){
+      console.error("render page", p, err);
+      renderedPages.delete(p); // يتعاد لو رجع ظاهر
     }
-    updateCanvasInteractivity();
   }
 
   // ---------------- Drawing helpers ----------------
@@ -600,13 +744,13 @@
   }
 
   function getInkCanvas(p){
-    return viewer.querySelector(`canvas.ink-canvas[data-page="${p}"]`);
+    return viewer.querySelector('canvas.ink-canvas[data-page="'+p+'"]');
   }
 
   function drawPageStrokes(p){
     const canvas = getInkCanvas(p);
     if(!canvas) return;
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = canvasDpr(canvas);
     const ctx = canvas.getContext("2d");
     ctx.save();
     ctx.setTransform(dpr,0,0,dpr,0,0);
@@ -665,9 +809,8 @@
       }
       if(!activeStroke) return;
       activeStroke.points.push(pt);
-      // live incremental draw for responsiveness
       const ctx = canvas.getContext("2d");
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = canvasDpr(canvas);
       ctx.save();
       ctx.setTransform(dpr,0,0,dpr,0,0);
       const scale = pageScale(p);
@@ -703,7 +846,7 @@
     }
   }
 
-  // ---------------- Toolbar logic ----------------
+  // ---------------- Toolbar ----------------
   function buildColorRack(){
     colorRack.innerHTML = "";
     const colors = currentTool === "highlighter" ? HI_COLORS : PEN_COLORS;
@@ -748,8 +891,6 @@
     $("#widthLabel").style.display = showDrawControls ? "inline" : "none";
   }
 
-  // وضع "تصفّح": يلغي تفاعل طبقة الرسم تمامًا فيرجع التمرير والتنقل بين
-  // الصفحات طبيعي جدًا (سكرول، لمس، تكبير بإصبعين) بدل ما يترسم خط بالغلط.
   function updateCanvasInteractivity(){
     const interactive = currentTool !== "select";
     viewer.querySelectorAll("canvas.ink-canvas").forEach(c=>{
@@ -761,7 +902,6 @@
   widthRange.addEventListener("input", ()=>{ currentWidth = parseInt(widthRange.value,10); });
 
   $("#btnUndo").addEventListener("click", ()=>{
-    // undo on the page currently most visible — simplest: last page with strokes added most recently overall
     const p = lastActivePageWithStrokes();
     if(!p) return;
     const list = strokesByPage[p] || [];
@@ -791,14 +931,7 @@
     return found;
   }
 
-  $("#btnZoomIn").addEventListener("click", ()=>{ zoom = Math.min(zoom+0.5, 2.5); applyZoom(); });
-  $("#btnZoomOut").addEventListener("click", ()=>{ zoom = Math.max(zoom-0.5, 0.4); applyZoom(); });
-  function applyZoom(){
-    zoomLabel.textContent = Math.round(zoom*100) + "%";
-    if(pdfDoc) renderAllPages();
-  }
-
-  // ---------------- Save / persistence ----------------
+  // ---------------- Save ----------------
   function setSaveStatus(text){ saveStatus.textContent = text; }
   function scheduleSave(){
     setSaveStatus("جاري الحفظ...");
@@ -830,7 +963,7 @@
         const page = pages[i];
         const { width, height } = page.getSize();
 
-        const exportScale = 3; // resolution multiplier for crisp annotations
+        const exportScale = 3;
         const cw = Math.round(width * exportScale);
         const ch = Math.round(height * exportScale);
         const off = document.createElement("canvas");
@@ -865,7 +998,7 @@
     }
   }
 
-  // ---------------- Auto load: from URL, or resume last local file ----------------
+  // ---------------- Auto load ----------------
   async function autoLoadFromUrl(url){
     showLoading("جاري تحميل الملف من الرابط...");
     try{
@@ -878,7 +1011,7 @@
     }catch(e){
       console.error(e);
       hideLoading();
-      toast("تعذّر تحميل الملف من الرابط، تأكد إن السيرفر شغال والرابط صحيح (ومسموح CORS)");
+      toast("تعذّر تحميل الملف من الرابط (شغّلي الموقع على localhost/استضافة — من file:// مش هيشتغل)");
     }
   }
 
@@ -902,8 +1035,7 @@
         await loadFile(file, handle);
         return;
       }
-    }catch(e){ /* queryPermission unsupported or handle stale */ }
-    // الإذن محتاج تأكيد بضغطة (قاعدة أمان من المتصفح) — نعرض زرار سريع بدل تصفّح كامل
+    }catch(e){ }
     showQuickResume(last);
   }
 
@@ -915,7 +1047,12 @@
     }else{
       await tryAutoResume();
     }
-    window.addEventListener("resize", ()=>{ if(pdfDoc) renderAllPages(); });
+    // ★ resize بـ debounce (بدل إعادة رسم مع كل بكسل)
+    window.addEventListener("resize", ()=>{
+      if(!pdfDoc) return;
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(()=>{ renderAllPages(); }, 200);
+    });
   })();
 
 })();
