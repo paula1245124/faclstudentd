@@ -170,6 +170,8 @@
     pointer-events:auto;
   }
   #navBar.show{display:block;}
+  /* الشريط الغامق اتخفى — بنستخدم شريط التمرير العادي على اليمين */
+  #navBar{display:none!important;}
   #navBar:hover{cursor:grab;}
   #navBar:active{cursor:grabbing;}
   #navThumb{
@@ -201,10 +203,25 @@
       var(--paper);
     touch-action:pan-x pan-y;
     user-select:none;-webkit-user-select:none;
+    direction:ltr; /* ★ يودّي شريط التمرير ناحية اليمين */
   }
+  #emptyState{direction:rtl;} /* الشاشة الفاضية تفضل عربي كما هي */
   #main.grab{cursor:grab;}
+
+  /* ★ شريط التمرير الرئيسي — لون واضح على الخلفية البيج */
+  #main::-webkit-scrollbar{width:14px;height:14px;}
+  #main::-webkit-scrollbar-track{background:rgba(27,36,48,.08);border-left:1px solid rgba(27,36,48,.10);}
+  #main::-webkit-scrollbar-thumb{
+    background:#8B8273;border-radius:8px;
+    border:3px solid transparent;background-clip:padding-box;
+  }
+  #main::-webkit-scrollbar-thumb:hover{background:var(--accent);background-clip:padding-box;}
+  #main::-webkit-scrollbar-thumb:active{background:var(--accent-dim);background-clip:padding-box;}
+  @supports (-moz-appearance:none){
+    #main{scrollbar-color:#8B8273 rgba(27,36,48,.08);scrollbar-width:auto;}
+  }
   #main.grabbing{cursor:grabbing!important;}
-  #viewer{direction:ltr;display:flex;flex-direction:column;align-items:flex-start;gap:26px;padding:30px 34px 60px 10px;min-height:100%;}
+  #viewer{direction:ltr;display:flex;flex-direction:column;align-items:flex-start;gap:26px;padding:30px 10px 60px 10px;min-height:100%;}
 
   .page-wrap{
     position:relative;
@@ -304,7 +321,7 @@
     #pageIndicator .pg-num{font-size:15px;}
     #navBar{right:3px;width:14px;}
     #navThumb{width:10px;right:2px;}
-    #viewer{padding-right:20px;}
+    #viewer{padding-right:10px;}
   }
 </style>
 </head>
@@ -459,7 +476,7 @@
     <div class="hk-row"><span>🎯 ملاءمة</span><span><span class="kbd">0</span></span></div>
     <div class="hk-row"><span>📄 صفحة لتحت / لفوق</span><span><span class="kbd">Space</span><span class="kbd">Shift+Space</span></span></div>
     <div class="hk-row"><span>🖥️ ملء الشاشة</span><span><span class="kbd">F</span><span class="kbd">Esc</span></span></div>
-    <div class="hk-row"><span>📊 الشريط الرأسي يمين</span><span>اسحبي المربع البرتقالي</span></div>
+    <div class="hk-row"><span>📊 التنقل في الملف</span><span>اسحبي شريط التمرير يمين</span></div>
     <div class="hk-row"><span>🔲 سحب الصفحة</span><span>اسحبي بالماوس في وضع التصفّح</span></div>
     <p style="margin:14px 0 0;font-size:11px;color:var(--muted);text-align:center;">اضغطي في أي مكان بره اللوحة للإغلاق</p>
   </div>
