@@ -1083,159 +1083,159 @@ subjects.push({
       ],
     },
   ],
-  midterms: [
-    {
-      t: "MidTerm 2021 - Questions - Computer Graphics.pdf",
-      d: "MidTerm 2021 - Questions - Computer Graphics.pdf",
-      pdf: "Computer Graphics/Questions/Mid/MidTerm 2021 - Questions - Computer Graphics.pdf",
-      questions: [
-        {
-          q: "المرحلة التي تحوّل الأشكال الهندسية إلى بكسلات تسمى:",
-          options: [
-            "Rasterization التنقيط",
-            "Clipping القص",
-            "Blending المزج",
-            "Culling الاستبعاد",
-          ],
-          correct: 0,
-        },
-        {
-          q: "ناتج إزاحة النقطة (2، 3) بمقدار (5، 1) هو:",
-          options: ["(7، 4)", "(3، 2)", "(10، 3)", "(2، 3)"],
-          correct: 0,
-        },
-        {
-          q: "مصفوفة التحويل المتجانس ثنائية الأبعاد مقاسها:",
-          options: ["3×3", "2×2", "4×4", "1×1"],
-          correct: 0,
-        },
-        {
-          q: "التحجيم بمعامل 0.5 يجعل الشكل:",
-          options: [
-            "أصغر إلى النصف",
-            "أكبر بالضعف",
-            "معكوساً كالمرآة",
-            "مائلاً",
-          ],
-          correct: 0,
-        },
-        {
-          q: "الغرض من تمثيل النقطة كـ (x, y, 1) في الإحداثيات المتجانسة:",
-          options: [
-            "توحيد كل التحويلات في صورة ضرب مصفوفات",
-            "تسريع الطباعة",
-            "تلوين النقطة",
-            "ضغط البيانات",
-          ],
-          correct: 0,
-        },
-      ],
-    },
-  ],
-  finals: [
-    {
-      t: "الفاينل 1 (شامل)",
-      d: "امتحان نهاية الترم — نموذج أول",
-      pdf: "Computer Graphics/exams/Final 1.pdf",
-      questions: [
-        {
-          q: "مكوّن Phong المسؤول عن «اللمعة» اللامعة في نقطة واحدة:",
-          options: ["Specular", "Ambient", "Diffuse", "Emissive"],
-          correct: 0,
-        },
-        {
-          q: "تظليل Gouraud يحسب الإضاءة عند:",
-          options: [
-            "الرؤوس ثم يستوفيها على سطح الوجه",
-            "كل بكسل على حدة",
-            "مركز الشكل فقط",
-            "لا يحسبها إطلاقاً",
-          ],
-          correct: 0,
-        },
-        {
-          q: "نقطة تلاشي الخطوط المتوازية في الإسقاط المنظوري تسمى:",
-          options: ["Vanishing Point", "Focus Point", "Origin", "Center Pixel"],
-          correct: 0,
-        },
-        {
-          q: "الغرض من تقنية Double Buffering:",
-          options: [
-            "منع الوميض أثناء تحديث الصورة",
-            "مضاعفة الدقة",
-            "ضغط الصورة",
-            "تشفير العرض",
-          ],
-          correct: 0,
-        },
-        {
-          q: "عملية إخفاء الأجزاء غير المرئية من المجسم:",
-          options: [
-            "Hidden Surface Removal",
-            "Clipping",
-            "Dithering",
-            "Morphing",
-          ],
-          correct: 0,
-        },
-        {
-          q: "تقنية Anti-aliasing تحسّن:",
-          options: [
-            "نعومة حواف الخطوط",
-            "سرعة المعالج",
-            "حجم الملف",
-            "عدد الألوان المتاحة",
-          ],
-          correct: 0,
-        },
-      ],
-    },
-    {
-      t: "الفاينل 2 (شامل)",
-      d: "امتحان نهاية الترم — نموذج ثاني",
-      pdf: "Computer Graphics/exams/Final 2.pdf",
-      questions: [
-        {
-          q: "تغطية سطح المجسم بصورة لزيادة الواقعية:",
-          options: [
-            "Texture Mapping",
-            "Shadow Mapping",
-            "Level of Detail",
-            "Ray Casting",
-          ],
-          correct: 0,
-        },
-        {
-          q: "الإضاءة المحيطة Ambient تتميز بأنها:",
-          options: [
-            "موحدة بغض النظر عن اتجاه الضوء",
-            "تعتمد على زاوية سقوط الضوء",
-            "تظهر في الظلام فقط",
-            "تتحرك مع الكاميرا",
-          ],
-          correct: 0,
-        },
-        {
-          q: "منطقة الرؤية الهرمية أمام الكاميرا تسمى:",
-          options: [
-            "Viewing Frustum",
-            "Viewport فقط",
-            "Render Target",
-            "Frame Buffer",
-          ],
-          correct: 0,
-        },
-        {
-          q: "زيادة قيمة Specular في نموذج Phong تجعل السطح:",
-          options: ["أكثر لمعاناً", "أغمق لوناً", "شفافاً", "مطفاً تماماً"],
-          correct: 0,
-        },
-        {
-          q: "الذاكرة التي تُخزَّن فيها ألوان البكسلات الجاهزة للعرض:",
-          options: ["Frame Buffer", "Cache", "Register", "Stack"],
-          correct: 0,
-        },
-      ],
-    },
-  ],
+  // midterms: [
+  //   {
+  //     t: "MidTerm 2021 - Questions - Computer Graphics.pdf",
+  //     d: "MidTerm 2021 - Questions - Computer Graphics.pdf",
+  //     pdf: "Computer Graphics/Questions/Mid/MidTerm 2021 - Questions - Computer Graphics.pdf",
+  //     questions: [
+  //       {
+  //         q: "المرحلة التي تحوّل الأشكال الهندسية إلى بكسلات تسمى:",
+  //         options: [
+  //           "Rasterization التنقيط",
+  //           "Clipping القص",
+  //           "Blending المزج",
+  //           "Culling الاستبعاد",
+  //         ],
+  //         correct: 0,
+  //       },
+  //       {
+  //         q: "ناتج إزاحة النقطة (2، 3) بمقدار (5، 1) هو:",
+  //         options: ["(7، 4)", "(3، 2)", "(10، 3)", "(2، 3)"],
+  //         correct: 0,
+  //       },
+  //       {
+  //         q: "مصفوفة التحويل المتجانس ثنائية الأبعاد مقاسها:",
+  //         options: ["3×3", "2×2", "4×4", "1×1"],
+  //         correct: 0,
+  //       },
+  //       {
+  //         q: "التحجيم بمعامل 0.5 يجعل الشكل:",
+  //         options: [
+  //           "أصغر إلى النصف",
+  //           "أكبر بالضعف",
+  //           "معكوساً كالمرآة",
+  //           "مائلاً",
+  //         ],
+  //         correct: 0,
+  //       },
+  //       {
+  //         q: "الغرض من تمثيل النقطة كـ (x, y, 1) في الإحداثيات المتجانسة:",
+  //         options: [
+  //           "توحيد كل التحويلات في صورة ضرب مصفوفات",
+  //           "تسريع الطباعة",
+  //           "تلوين النقطة",
+  //           "ضغط البيانات",
+  //         ],
+  //         correct: 0,
+  //       },
+  //     ],
+  //   },
+  // ],
+  // finals: [
+  //   {
+  //     t: "الفاينل 1 (شامل)",
+  //     d: "امتحان نهاية الترم — نموذج أول",
+  //     pdf: "Computer Graphics/exams/Final 1.pdf",
+  //     questions: [
+  //       {
+  //         q: "مكوّن Phong المسؤول عن «اللمعة» اللامعة في نقطة واحدة:",
+  //         options: ["Specular", "Ambient", "Diffuse", "Emissive"],
+  //         correct: 0,
+  //       },
+  //       {
+  //         q: "تظليل Gouraud يحسب الإضاءة عند:",
+  //         options: [
+  //           "الرؤوس ثم يستوفيها على سطح الوجه",
+  //           "كل بكسل على حدة",
+  //           "مركز الشكل فقط",
+  //           "لا يحسبها إطلاقاً",
+  //         ],
+  //         correct: 0,
+  //       },
+  //       {
+  //         q: "نقطة تلاشي الخطوط المتوازية في الإسقاط المنظوري تسمى:",
+  //         options: ["Vanishing Point", "Focus Point", "Origin", "Center Pixel"],
+  //         correct: 0,
+  //       },
+  //       {
+  //         q: "الغرض من تقنية Double Buffering:",
+  //         options: [
+  //           "منع الوميض أثناء تحديث الصورة",
+  //           "مضاعفة الدقة",
+  //           "ضغط الصورة",
+  //           "تشفير العرض",
+  //         ],
+  //         correct: 0,
+  //       },
+  //       {
+  //         q: "عملية إخفاء الأجزاء غير المرئية من المجسم:",
+  //         options: [
+  //           "Hidden Surface Removal",
+  //           "Clipping",
+  //           "Dithering",
+  //           "Morphing",
+  //         ],
+  //         correct: 0,
+  //       },
+  //       {
+  //         q: "تقنية Anti-aliasing تحسّن:",
+  //         options: [
+  //           "نعومة حواف الخطوط",
+  //           "سرعة المعالج",
+  //           "حجم الملف",
+  //           "عدد الألوان المتاحة",
+  //         ],
+  //         correct: 0,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     t: "الفاينل 2 (شامل)",
+  //     d: "امتحان نهاية الترم — نموذج ثاني",
+  //     pdf: "Computer Graphics/exams/Final 2.pdf",
+  //     questions: [
+  //       {
+  //         q: "تغطية سطح المجسم بصورة لزيادة الواقعية:",
+  //         options: [
+  //           "Texture Mapping",
+  //           "Shadow Mapping",
+  //           "Level of Detail",
+  //           "Ray Casting",
+  //         ],
+  //         correct: 0,
+  //       },
+  //       {
+  //         q: "الإضاءة المحيطة Ambient تتميز بأنها:",
+  //         options: [
+  //           "موحدة بغض النظر عن اتجاه الضوء",
+  //           "تعتمد على زاوية سقوط الضوء",
+  //           "تظهر في الظلام فقط",
+  //           "تتحرك مع الكاميرا",
+  //         ],
+  //         correct: 0,
+  //       },
+  //       {
+  //         q: "منطقة الرؤية الهرمية أمام الكاميرا تسمى:",
+  //         options: [
+  //           "Viewing Frustum",
+  //           "Viewport فقط",
+  //           "Render Target",
+  //           "Frame Buffer",
+  //         ],
+  //         correct: 0,
+  //       },
+  //       {
+  //         q: "زيادة قيمة Specular في نموذج Phong تجعل السطح:",
+  //         options: ["أكثر لمعاناً", "أغمق لوناً", "شفافاً", "مطفاً تماماً"],
+  //         correct: 0,
+  //       },
+  //       {
+  //         q: "الذاكرة التي تُخزَّن فيها ألوان البكسلات الجاهزة للعرض:",
+  //         options: ["Frame Buffer", "Cache", "Register", "Stack"],
+  //         correct: 0,
+  //       },
+  //     ],
+  //   },
+  // ],
 });
