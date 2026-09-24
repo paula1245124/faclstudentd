@@ -8,171 +8,142 @@ subjects.push({
       d: "مقدمة في الشبكات ونموذج الطبقات OSI.",
       pdf: "Computer Networks/lectures/lec 1/Chapter 1 Computer Networks and the Internet.pdf",
       pdf2: "Computer Networks/Questions/Questions on each lecture/Chapter 1 - Questions - Computer Networks.pdf",
-      links: [
-        // --- فيديوهات عربية 🇪🇬 / 🇸🇦 ---
+     
+      linkCategories: [
         {
-          t: "د. خولة الهراشحة - شبكات الحاسوب (Ch1: 1.1 - 1.3.1)",
-          d: "تغطية شاملة بالعربي لفقرات الملف: Nuts-and-Bolts, Services, Protocols, DSL/Cable/FTTH, و Packet Switching",
+          category: "فيديوهات عربية",
           icon: "🇪🇬",
-          actions: [
+          description: "شروحات باللغة العربية لمفاهيم الشبكات",
+          links: [
             {
-              label: "📖 الشرح",
-              url: "https://www.youtube.com/playlist?list=PL8v_bZALWLKE9Lo2BIy8nsdsakbSvQlEo",
-              type: "view",
-              color: "red",
+              t: "د. خولة الهراشحة - شبكات الحاسوب (Ch1: 1.1 - 1.3.1)",
+              d: "تغطية شاملة بالعربي: Nuts-and-Bolts, Services, Protocols, DSL/Cable/FTTH, Packet Switching",
+              icon: "🇪🇬",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://www.youtube.com/playlist?list=PL8v_bZALWLKE9Lo2BIy8nsdsakbSvQlEo",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+            {
+              t: "أب ديت (Update) - أساسيات اتصال الإنترنت",
+              d: "شرح Twisted-Pair والألياف الضوئية والشبكات اللاسلكية",
+              icon: "🇪🇬",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://www.youtube.com/playlist?list=PLkpG3YKjv6p5XwncCUIlPFSBNnN4mnhGA",
+                  type: "view",
+                  color: "red",
+                },
+              ],
             },
           ],
         },
         {
-          t: "أب ديت (Update) - أساسيات اتصال الإنترنت وشبكات الوصول",
-          d: "شرح لوسائل الاتصال الفيزيائية كالـ Twisted-Pair والألياف الضوئية والشبكات اللاسلكية",
-          icon: "🇪🇬",
-          actions: [
-            {
-              label: "📖 الشرح",
-              url: "https://www.youtube.com/playlist?list=PLkpG3YKjv6p5XwncCUIlPFSBNnN4mnhGA",
-              type: "view",
-              color: "red",
-            },
-          ],
-        },
-        {
-          t: "أحمد حفني - كورس تأسيس الشبكات (Physical Media & Switching)",
-          d: "توضيح عملي لربط الـ End Systems بأجهزة الـ Routers والـ Switches وطبيعة عمل الـ ISPs",
-          icon: "🇪🇬",
-          actions: [
-            {
-              label: "📖 الشرح",
-              url: "https://www.youtube.com/playlist?list=PLpwHU9rNXAVurp2h2Jh-cd4-8XjkT5osu",
-              type: "view",
-              color: "red",
-            },
-          ],
-        },
-
-        // --- فيديوهات عالمية 🌍 ---
-        {
-          t: "Jim Kurose - Chapter 1 (Official Lectures)",
-          d: "الشرح المباشر لمؤلف الكتاب بنفسه Jim Kurose المخصص لكل جزئية وردت بالملف",
+          category: "فيديوهات عالمية",
           icon: "🌍",
-          actions: [
+          description: "شروحات أكاديمية من مؤلف الكتاب وقنوات عالمية",
+          links: [
             {
-              label: "📖 الشرح",
-              url: "https://www.youtube.com/playlist?list=PL1ya5dD_M8uX-BLUF1FEvUNsYWQL5_l0O",
-              type: "view",
-              color: "red",
+              t: "Jim Kurose - Chapter 1 (Official Lectures)",
+              d: "الشرح المباشر لمؤلف الكتاب",
+              icon: "🌍",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://www.youtube.com/playlist?list=PL1ya5dD_M8uX-BLUF1FEvUNsYWQL5_l0O",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+            {
+              t: "Neso Academy - Introduction to Computer Networks",
+              d: "مفاهيم Protocols، Transmission Media، Store-and-Forward Delay",
+              icon: "🌍",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://www.youtube.com/playlist?list=PLBlnK6fEyqRgneraVKkEXrwyLVx2vJUvt",
+                  type: "view",
+                  color: "red",
+                },
+              ],
             },
           ],
         },
         {
-          t: "Neso Academy - Introduction to Computer Networks",
-          d: "تركيز على مفاهيم الـ Protocols، أنواع الـ Transmission Media، وحسابات الـ Store-and-Forward Delay",
-          icon: "🌍",
-          actions: [
-            {
-              label: "📖 الشرح",
-              url: "https://www.youtube.com/playlist?list=PLBlnK6fEyqRgneraVKkEXrwyLVx2vJUvt",
-              type: "view",
-              color: "red",
-            },
-          ],
-        },
-        {
-          t: "Epic Networks Lab - Packet Switching & Delay",
-          d: "شرح أكاديمي دقيق للقوانين الحسابية ومفهوم الـ Queuing Delay والـ Packet Loss",
-          icon: "🌍",
-          actions: [
-            {
-              label: "📖 الشرح",
-              url: "https://www.youtube.com/playlist?list=PLo80JwUm6hSSwGLJmS_quaeJgx9SILLiI",
-              type: "view",
-              color: "red",
-            },
-          ],
-        },
-
-        // --- مواقع ومراجع 📚 ---
-        {
-          t: "GeeksforGeeks - Access Networks & Internet Connection",
-          d: "مقال يشرح شبكات الوصول DSL, Cable, FTTH, Ethernet, Wi-Fi والوسائط الموجهة Guided/Unguided",
+          category: "مواقع ومراجع",
           icon: "📚",
-          actions: [
+          description: "مقالات وتوثيقات إضافية",
+          links: [
             {
-              label: "🚀 فتح المقال",
-              url: "https://www.geeksforgeeks.org/computer-networks/how-to-connect-to-the-internet/",
-              type: "view",
-              color: "green",
+              t: "GeeksforGeeks - Access Networks & Internet Connection",
+              d: "شرح DSL, Cable, FTTH, Ethernet, Wi-Fi",
+              icon: "📚",
+              actions: [
+                {
+                  label: "🚀 فتح المقال",
+                  url: "https://www.geeksforgeeks.org/computer-networks/how-to-connect-to-the-internet/",
+                  type: "view",
+                  color: "green",
+                },
+              ],
+            },
+            {
+              t: "Kurose & Ross Official Student Resources",
+              d: "الموقع الرسمي للكتاب",
+              icon: "📚",
+              actions: [
+                {
+                  label: "🌐 فتح الموقع",
+                  url: "https://gaia.cs.umass.edu/kurose_ross/",
+                  type: "view",
+                  color: "blue",
+                },
+              ],
             },
           ],
         },
         {
-          t: "GeeksforGeeks - Packet Switching in Computer Networks",
-          d: "شرح مخصص لآلية تقسيم البيانات إلى Packets وتوجيهها عبر الـ Forwarding Tables في الـ Routers",
-          icon: "📚",
-          actions: [
-            {
-              label: "🚀 فتح المقال",
-              url: "https://www.geeksforgeeks.org/packet-switching-in-computer-networks/",
-              type: "view",
-              color: "green",
-            },
-          ],
-        },
-        {
-          t: "Kurose & Ross Official Student Resources",
-          d: "الموقع الرسمي الملحق بالكتاب المباشر لأسئلة ومراجعات الجزء الموجود بالملف",
-          icon: "📚",
-          actions: [
-            {
-              label: "🌐 فتح الموقع",
-              url: "https://gaia.cs.umass.edu/kurose_ross/",
-              type: "view",
-              color: "blue",
-            },
-          ],
-        },
-
-        // --- أدوات ومحاكاة 🔧 ---
-        {
-          t: "Kurose & Ross Interactive Animations",
-          d: "محاكاة تفاعلية رسمية من مؤلفي الكتاب لتوضيح كيفية حركة الـ Packets وزمن التأخير والـ Queue Buffers",
+          category: "أدوات ومحاكاة",
           icon: "🔧",
-          actions: [
+          description: "برامج محاكاة وأدوات تفاعلية",
+          links: [
             {
-              label: "🚀 فتح التفاعليات",
-              url: "https://gaia.cs.umass.edu/kurose_ross/interactive/",
-              type: "view",
-              color: "orange",
+              t: "Kurose & Ross Interactive Animations",
+              d: "محاكاة تفاعلية رسمية للـ Packets والـ Queue Buffers",
+              icon: "🔧",
+              actions: [
+                {
+                  label: "🚀 فتح التفاعليات",
+                  url: "https://gaia.cs.umass.edu/kurose_ross/interactive/",
+                  type: "view",
+                  color: "orange",
+                },
+              ],
             },
-          ],
-        },
-        {
-          t: "Wireshark - Packet Analyzer",
-          d: "الأداة المذكورة لتتبع الـ Packets وقراءة الـ Headers والـ Protocols الخاصة بـ TCP/IP",
-          icon: "🔧",
-          actions: [
             {
-              label: "⭳ تحميل الأداة",
-              url: "https://www.wireshark.org/",
-              type: "download",
-              color: "blue",
-            },
-          ],
-        },
-        {
-          t: "Cisco Packet Tracer",
-          d: "برنامج محاكاة لبناء شبكة تحتوي على End Systems و Routers و Switches لتطبيق مفاهيم قسم 1.1 و 1.2",
-          icon: "🔧",
-          actions: [
-            {
-              label: "🚀 فتح / تحميل البرنامج",
-              url: "https://www.netacad.com/courses/packet-tracer",
-              type: "view",
-              color: "orange",
+              t: "Wireshark - Packet Analyzer",
+              d: "أداة تتبع الـ Packets وقراءة الـ Headers",
+              icon: "🔧",
+              actions: [
+                {
+                  label: "⭳ تحميل الأداة",
+                  url: "https://www.wireshark.org/",
+                  type: "download",
+                  color: "blue",
+                },
+              ],
             },
           ],
         },
       ],
+
       questions: [
         // ==========================================
         // الاختيار من متعدد (Multiple-Choice Questions)

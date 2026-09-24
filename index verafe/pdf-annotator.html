@@ -27,7 +27,7 @@
   #app{display:flex;flex-direction:column;height:100vh;}
 
   /* ============================================================
-     ★★★ التوب بار
+     ★★★ التوب بار — سطر واحد قابل للسحب
      ============================================================ */
   #topbar{
     background:var(--ink);color:var(--text-light);
@@ -72,6 +72,7 @@
   #zoomLabel{cursor:pointer;user-select:none;flex-shrink:0;}
   #zoomLabel:hover{color:#fff;}
 
+  /* ★ عداد الصفحات الكبير */
   #pageIndicator{
     display:none;align-items:center;gap:6px;
     background:var(--ink-2);padding:4px 12px;border-radius:10px;
@@ -96,7 +97,7 @@
   #pageIndicator:hover .pg-label{color:rgba(255,255,255,.7);}
 
   /* ============================================================
-     ★★★ شريط الأدوات
+     ★★★ شريط الأدوات — سطر واحد منفصل قابل للسحب
      ============================================================ */
   #toolbar{
     display:none;flex-direction:column;
@@ -136,50 +137,10 @@
 
   .t-sep{width:1px;height:24px;background:var(--line);margin:0 2px;flex-shrink:0;}
 
-  /* ★★★ صندوق الألوان الجديد ★★★ */
-  .pen-rack{
-    display:flex;align-items:center;gap:6px;
-    background:var(--ink);padding:4px 6px;
-    border-radius:10px;flex-shrink:0;
-  }
-  .pen{
-    width:20px;height:20px;border-radius:50%;cursor:pointer;
-    border:2px solid rgba(255,255,255,.15);display:inline-block;
-    position:relative;flex:none;transition:transform .12s;
-  }
+  .pen-rack{display:flex;align-items:center;gap:5px;background:var(--ink);padding:4px;border-radius:10px;flex-shrink:0;}
+  .pen{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid rgba(255,255,255,.15);display:inline-block;position:relative;flex:none;transition:transform .12s;}
   .pen:hover{transform:translateY(-2px);}
-  .pen.selected{
-    border-color:#fff;
-    box-shadow:0 0 0 2px var(--ink-2),0 0 0 3px var(--accent);
-  }
-
-  /* ★ Color Picker الرئيسي */
-  .color-picker-btn{
-    width:28px;height:28px;border-radius:8px;cursor:pointer;
-    border:2px solid rgba(255,255,255,.25);
-    display:inline-flex;align-items:center;justify-content:center;
-    position:relative;flex:none;padding:0;overflow:hidden;
-    transition:transform .12s, border-color .15s;
-    background:transparent;
-  }
-  .color-picker-btn:hover{
-    transform:scale(1.08);
-    border-color:var(--accent);
-  }
-  .color-picker-btn input[type="color"]{
-    position:absolute;inset:0;width:100%;height:100%;
-    opacity:0;cursor:pointer;border:none;padding:0;
-  }
-  .color-picker-btn .c-swatch{
-    position:absolute;inset:2px;border-radius:5px;
-    background:currentColor;pointer-events:none;
-    box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);
-  }
-  .color-picker-btn .c-icon{
-    position:relative;z-index:2;color:#fff;
-    font-size:12px;font-weight:bold;pointer-events:none;
-    text-shadow:0 0 3px rgba(0,0,0,.8),0 0 1px rgba(0,0,0,.9);
-  }
+  .pen.selected{border-color:#fff;box-shadow:0 0 0 2px var(--ink-2),0 0 0 3px var(--accent);}
 
   .tb-label{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;flex-shrink:0;white-space:nowrap;}
   input[type=range].tb-range{width:65px;accent-color:var(--accent);flex-shrink:0;}
@@ -194,7 +155,7 @@
   .tb-btn svg{width:16px;height:16px;flex:none;}
 
   /* ============================================================
-     ★★★ الشريط الرأسي
+     ★★★ الشريط الرأسي يمين بس — واحد مش اتنين
      ============================================================ */
   #navBar{
     display:none;
@@ -209,6 +170,7 @@
     pointer-events:auto;
   }
   #navBar.show{display:block;}
+  /* الشريط الغامق اتخفى — بنستخدم شريط التمرير العادي على اليمين */
   #navBar{display:none!important;}
   #navBar:hover{cursor:grab;}
   #navBar:active{cursor:grabbing;}
@@ -241,11 +203,12 @@
       var(--paper);
     touch-action:pan-x pan-y;
     user-select:none;-webkit-user-select:none;
-    direction:ltr;
+    direction:ltr; /* ★ يودّي شريط التمرير ناحية اليمين */
   }
-  #emptyState{direction:rtl;}
+  #emptyState{direction:rtl;} /* الشاشة الفاضية تفضل عربي كما هي */
   #main.grab{cursor:grab;}
 
+  /* ★ شريط التمرير الرئيسي — لون واضح على الخلفية البيج */
   #main::-webkit-scrollbar{width:14px;height:14px;}
   #main::-webkit-scrollbar-track{background:rgba(27,36,48,.08);border-left:1px solid rgba(27,36,48,.10);}
   #main::-webkit-scrollbar-thumb{
@@ -345,17 +308,6 @@
   ::-webkit-scrollbar-thumb{background:#cfc8b8;border-radius:6px;}
   ::-webkit-scrollbar-track{background:transparent;}
 
-  /* ---------- Waiting for parent ---------- */
-  #waitingForParent{
-    display:none;
-    position:fixed;inset:0;background:rgba(27,36,48,.85);
-    z-index:80;align-items:center;justify-content:center;
-    color:#fff;flex-direction:column;gap:16px;text-align:center;padding:20px;
-  }
-  #waitingForParent.show{display:flex;}
-  #waitingForParent h3{margin:0;font-size:16px;}
-  #waitingForParent p{margin:0;font-size:12px;color:var(--muted);}
-
   @media (max-width:720px){
     #topbar{padding:4px 8px;gap:6px;}
     button.tbtn span.lbl{display:none;}
@@ -370,10 +322,6 @@
     #navBar{right:3px;width:14px;}
     #navThumb{width:10px;right:2px;}
     #viewer{padding-right:10px;}
-    /* ★ تحسين Color Picker للموبايل */
-    .color-picker-btn{width:32px;height:32px;}
-    .pen{width:18px;height:18px;}
-    .pen-rack{gap:5px;padding:4px;}
   }
 </style>
 </head>
@@ -481,7 +429,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12H9"/></svg>
       </button>
       <button class="tb-btn" id="btnRedo" title="إعادة (Ctrl+Y)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg viewBox="0 0 0 24" fill="none" stroke="currentColor" stroke-width="2">        
           <path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 000 12h5"/></svg>
       </button>
     </div>
@@ -504,19 +452,13 @@
     <div id="viewer" style="display:none;"></div>
   </div>
 
+  <!-- ★ الشريط الرأسي يمين — واحد بس -->
   <div id="navBar" title="اسحبي للتنقل في الملف">
     <div id="navThumb"></div>
     <div id="navTooltip">صفحة 1</div>
   </div>
 
   <input type="file" id="fileInput" accept="application/pdf" style="display:none;">
-</div>
-
-<!-- ★ شاشة الانتظار -->
-<div id="waitingForParent">
-  <div class="spinner"></div>
-  <h3>⏳ بانتظار الملف من الصفحة الرئيسية...</h3>
-  <p>لو الشاشة فضلت كده، ارجعي للصفحة الرئيسية وأعيدي فتح قلم PDF</p>
 </div>
 
 <!-- لوحة الاختصارات -->
@@ -553,8 +495,7 @@
 
   const PDF_URL_DEFAULT = "";
   const urlParam = new URLSearchParams(location.search).get("file");
-  const VIA_POST = new URLSearchParams(location.search).get("viapost") === "1";
-  const PDF_URL = VIA_POST ? "" : (urlParam ? urlParam : PDF_URL_DEFAULT);
+  const PDF_URL = urlParam ? urlParam : PDF_URL_DEFAULT;
 
   const NORM_W = 1000;
 
@@ -588,29 +529,8 @@
 
   const MIN_ZOOM = 0.25, MAX_ZOOM = 4;
 
-  // ═══════════════════════════════════════════════════════════
-  // ★★★ الألوان — سريعة + مخصصة ★★★
-  // ═══════════════════════════════════════════════════════════
   const PEN_COLORS = ["#1B2430", "#D1495B", "#2F6FED", "#2F9E44", "#E8793C"];
-  const HI_COLORS  = ["#FFE066", "#8CE99A", "#FFA8C5", "#74C0FC", "#FFD43B"];
-
-  const CUSTOM_COLORS_KEY = "pdfqalam:custom-colors";
-  function loadCustomColors(){
-    try{
-      var raw = localStorage.getItem(CUSTOM_COLORS_KEY);
-      var arr = raw ? JSON.parse(raw) : [];
-      return Array.isArray(arr) ? arr : [];
-    }catch(e){ return []; }
-  }
-  function saveCustomColor(color){
-    try{
-      var arr = loadCustomColors();
-      arr = arr.filter(function(c){ return String(c).toLowerCase() !== String(color).toLowerCase(); });
-      arr.unshift(color);
-      if(arr.length > 8) arr = arr.slice(0, 8);
-      localStorage.setItem(CUSTOM_COLORS_KEY, JSON.stringify(arr));
-    }catch(e){}
-  }
+  const HI_COLORS = ["#FFE066", "#8CE99A", "#FFA8C5", "#74C0FC"];
 
   const $ = (s)=>document.querySelector(s);
   const btnOpen = $("#btnOpen");
@@ -636,7 +556,6 @@
   const pageIndicator = $("#pageIndicator");
   const pgNum = $("#pgNum");
   const pgTotal = $("#pgTotal");
-  const waitingForParent = $("#waitingForParent");
 
   function toast(msg){
     const t = $("#toast");
@@ -649,48 +568,6 @@
   function hideLoading(){ loadingOverlay.classList.remove("show"); }
 
   function canvasDpr(canvas){ return parseFloat(canvas.dataset.dpr) || 1; }
-
-  // ═══════════════════════════════════════════════════════════
-  // ★★★ نظام postMessage ★★★
-  // ═══════════════════════════════════════════════════════════
-  window.addEventListener("message", function(e){
-    var data = e.data;
-    if(!data || typeof data !== "object") return;
-
-    if(data.type === "load-pdf" && data.bytes){
-      try{
-        waitingForParent.classList.remove("show");
-        var blob = new Blob([data.bytes], {type: "application/pdf"});
-        var file = new File([blob], data.name || "document.pdf", {type: "application/pdf"});
-        loadFile(file, null).then(function(){
-          if(e.source && e.source.postMessage){
-            e.source.postMessage({type: "load-pdf-ack", success: true}, "*");
-          }
-        }).catch(function(err){
-          console.error("postMessage load error:", err);
-          if(e.source && e.source.postMessage){
-            e.source.postMessage({type: "load-pdf-ack", success: false, error: String(err)}, "*");
-          }
-        });
-      }catch(err){
-        console.error("postMessage prepare error:", err);
-      }
-      return;
-    }
-
-    if(data.type === "ping" && e.source){
-      try{ e.source.postMessage({type: "pong", ready: true}, "*"); }catch(err){}
-    }
-  });
-
-  function announceReady(){
-    if(window.parent && window.parent !== window){
-      try{
-        window.parent.postMessage({type: "annotator-ready"}, "*");
-        console.log("📤 Annotator: أرسلت إشارة ready للأب");
-      }catch(err){ console.warn("postMessage failed:", err); }
-    }
-  }
 
   // ---------------- Storage ----------------
   const STORAGE_PREFIX = "pdfqalam:";
@@ -1053,7 +930,7 @@
     }, 60);
   });
 
-  // ---------------- الشريط الرأسي ----------------
+  // ---------------- ★ الشريط الرأسي يمين (سحب شغال) ----------------
   function navMetrics(){
     const trackH = Math.max(30, navBar.clientHeight - 4);
     const ratio = Math.max(0.1, Math.min(1, mainEl.clientHeight / Math.max(1, mainEl.scrollHeight)));
@@ -1358,119 +1235,29 @@
     }
   }
 
-  // ═══════════════════════════════════════════════════════════
-  // ★★★ Toolbar — Color Picker الجديد ★★★
-  // ═══════════════════════════════════════════════════════════
+  // ---------------- Toolbar ----------------
   function buildColorRack(){
     colorRack.innerHTML = "";
-
-    const isHi = (currentTool === "highlighter");
-    const quickColors = isHi ? HI_COLORS : PEN_COLORS;
-
-    // ═══════════════════════════════════════
-    // 1) ★ Color Picker الرئيسي
-    // ═══════════════════════════════════════
-    const pickerWrap = document.createElement("div");
-    pickerWrap.className = "color-picker-btn";
-    pickerWrap.title = "🎨 افتحي منتقي الألوان الكامل";
-    pickerWrap.style.color = currentColor;
-
-    pickerWrap.innerHTML =
-      '<div class="c-swatch"></div>' +
-      '<span class="c-icon">🎨</span>' +
-      '<input type="color" value="' + currentColor + '">';
-
-    const pickerInput = pickerWrap.querySelector('input[type="color"]');
-    pickerInput.addEventListener("input", function(e){
-      currentColor = e.target.value;
-      pickerWrap.style.color = currentColor;
-      updateSelectedPen();
-    });
-    pickerInput.addEventListener("change", function(e){
-      currentColor = e.target.value;
-      pickerWrap.style.color = currentColor;
-      saveCustomColor(currentColor);
-      refreshCustomColors();
-      updateSelectedPen();
-    });
-
-    colorRack.appendChild(pickerWrap);
-
-    // فاصل
-    const sep = document.createElement("span");
-    sep.style.cssText = "width:1px;height:20px;background:rgba(255,255,255,.15);flex:none;margin:0 2px;";
-    colorRack.appendChild(sep);
-
-    // ═══════════════════════════════════════
-    // 2) ألوان سريعة
-    // ═══════════════════════════════════════
-    quickColors.forEach(function(c){
+    const colors = currentTool === "highlighter" ? HI_COLORS : PEN_COLORS;
+    colors.forEach(c=>{
       const el = document.createElement("span");
       el.className = "pen";
       el.style.background = c;
       el.title = c;
-      el.dataset.color = c;
-      if(String(c).toLowerCase() === String(currentColor).toLowerCase()){
-        el.classList.add("selected");
-      }
-      el.addEventListener("click", function(){
+      if(c === currentColor) el.classList.add("selected");
+      el.addEventListener("click", ()=>{
         currentColor = c;
-        updateSelectedPen();
+        colorRack.querySelectorAll(".pen").forEach(p=>p.classList.remove("selected"));
+        el.classList.add("selected");
       });
       colorRack.appendChild(el);
     });
-
-    // ═══════════════════════════════════════
-    // 3) ألوان مخصصة
-    // ═══════════════════════════════════════
-    const customs = loadCustomColors();
-    const uniqueCustoms = customs.filter(function(c){
-      return !quickColors.some(function(q){ return q.toLowerCase() === c.toLowerCase(); });
-    });
-
-    if(uniqueCustoms.length){
-      const sep2 = document.createElement("span");
-      sep2.style.cssText = "width:1px;height:20px;background:rgba(255,255,255,.15);flex:none;margin:0 2px;";
-      colorRack.appendChild(sep2);
-
-      uniqueCustoms.forEach(function(c){
-        const el = document.createElement("span");
-        el.className = "pen";
-        el.style.background = c;
-        el.style.width = "16px";
-        el.style.height = "16px";
-        el.title = "مخصص: " + c;
-        el.dataset.color = c;
-        if(String(c).toLowerCase() === String(currentColor).toLowerCase()){
-          el.classList.add("selected");
-        }
-        el.addEventListener("click", function(){
-          currentColor = c;
-          updateSelectedPen();
-        });
-        colorRack.appendChild(el);
-      });
+    if(!colors.includes(currentColor)){
+      currentColor = colors[0];
+      if(colorRack.firstChild) colorRack.firstChild.classList.add("selected");
     }
   }
 
-  function updateSelectedPen(){
-    const pickerWrap = colorRack.querySelector('.color-picker-btn');
-    if(pickerWrap){
-      pickerWrap.style.color = currentColor;
-      const inp = pickerWrap.querySelector('input[type="color"]');
-      if(inp) inp.value = currentColor;
-    }
-    colorRack.querySelectorAll('.pen').forEach(function(p){
-      const c = p.dataset.color || '';
-      p.classList.toggle('selected', String(c).toLowerCase() === String(currentColor).toLowerCase());
-    });
-  }
-
-  function refreshCustomColors(){
-    buildColorRack();
-  }
-
-  // ---------------- Tools ----------------
   function selectTool(tool){
     currentTool = tool;
     document.querySelectorAll("[data-tool]").forEach(b=>b.classList.toggle("active", b.dataset.tool === tool));
@@ -1538,7 +1325,7 @@
     return found;
   }
 
-  // ---------------- اختصارات ----------------
+  // ---------------- اختصارات الكيبورد ----------------
   document.addEventListener("keydown", (e)=>{
     if(e.key === "Escape"){
       helpOverlay.classList.remove("show");
@@ -1652,7 +1439,7 @@
     }catch(e){
       console.error(e);
       hideLoading();
-      toast("تعذّر تحميل الملف (شغّلي من localhost/استضافة)");
+      toast("تعذّر تحميل الملف (شغّلي من localhost/استضافة — file:// مش هيشتغل)");
     }
   }
 
@@ -1683,26 +1470,11 @@
   // ---------------- Init ----------------
   (async function init(){
     await renderRecentList();
-
     if(PDF_URL){
       await autoLoadFromUrl(PDF_URL);
-    }else if(VIA_POST){
-      console.log("⏳ Annotator: في وضع postMessage — بانتظار الملف من الأب...");
-      waitingForParent.classList.add("show");
-      setTimeout(announceReady, 100);
-      setTimeout(announceReady, 500);
-      setTimeout(announceReady, 1200);
-      setTimeout(announceReady, 2500);
-      setTimeout(function(){
-        if(!pdfDoc){
-          waitingForParent.classList.remove("show");
-          console.warn("⚠️ Annotator: مجاش ملف من الأب خلال 8 ثواني");
-        }
-      }, 8000);
     }else{
       await tryAutoResume();
     }
-
     window.addEventListener("resize", ()=>{
       if(!pdfDoc) return;
       clearTimeout(resizeTimer);
