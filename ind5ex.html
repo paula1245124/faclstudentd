@@ -471,14 +471,6 @@ body.quiz-mode .qn-sidebar{display:block}
 .pdf-merge-btn.backup{border:2px solid var(--warning);background:rgba(230,126,34,.08)}
 .pdf-merge-cancel{margin-top:18px;padding:11px;width:100%;background:transparent;border:1px solid var(--border);color:var(--text-hint);border-radius:10px;cursor:pointer;font-size:13px;font-family:inherit}
 .pdf-merge-cancel:hover{background:var(--bg-card-hover)}
-
-/* ============================================================
-   16) شاشة تحميل المادة (Lazy Load)
-   ============================================================ */
-@keyframes spin{to{transform:rotate(360deg)}}
-.subject-loader{text-align:center;padding:50px 20px;color:var(--text-hint);font-size:14px}
-.subject-loader .spinner-ring{width:40px;height:40px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--accent);animation:spin 1s linear infinite;margin:0 auto 16px}
-.subject-loader .loader-text{margin-top:6px;font-weight:bold}
 </style>
 </head>
 <body>
@@ -543,6 +535,7 @@ body.quiz-mode .qn-sidebar{display:block}
                     <button class="sub-tab-button" onclick="openSubTab(event, 'sub-mid')">📝 الميدتيرم</button>
                     <button class="sub-tab-button" onclick="openSubTab(event, 'sub-final')">🎓 الفاينل</button>
                     <button class="sub-tab-button" onclick="openSubTab(event, 'sub-test-bank')">🏦 بنك الأسئلة</button>
+                    <!-- <button class="sub-tab-button" onclick="openSubTab(event, 'sub-links')">🔗 روابط ومصادر</button> -->
                 </div>
                 <div id="sub-lectures" class="sub-content active"><div id="questions-lectures-list"></div></div>
                 <div id="sub-mid" class="sub-content"><div id="midterms-list"></div></div>
@@ -611,13 +604,19 @@ body.quiz-mode .qn-sidebar{display:block}
 <div class="toast" id="toast"></div>
 
 <script>var subjects = [];</script>
-<script src="data/subjects-index.js"></script>
+<!-- <script src="data/1-graphics.js"></script> -->
+<!-- <script src="data/2-visual-programming.js"></script> -->
+<script src="data/3-networks.js"></script>
+<script src="data/4-operating-systems.js"></script>
+<script src="data/5-software-engineering.js"></script>
+<!-- <script src="data/6-field-python.js"></script> -->
+<!-- <script src="data/7-field-net.js"></script> -->
 
 <script>
 // ============================================================
-// 1) تطبيع بيانات المادة + التحميل الديناميكي (Lazy Load)
+// 1) القيم الافتراضية
 // ============================================================
-function normalizeSubject(s){
+subjects.forEach(function(s){
   if(!s.lectures) s.lectures = [];
   s.lectures.forEach(function(l){
     if(!l.links){
@@ -632,65 +631,7 @@ function normalizeSubject(s){
   if(!s.finals || !s.finals.length) s.finals = [{t:"الفاينل الشامل", d:"أسئلة من جميع محاضرات المادة", lectures:[0,1,2,3]}];
   if(!s.testBanks || !s.testBanks.length) s.testBanks = [{t:"بنك أسئلة المادة", d:"جميع أسئلة المحاضرات في اختبار واحد", lectures:[0,1,2,3]}];
   if(!s.linkCategories) s.linkCategories = [];
-}
-
-var _loadingPromises = {};
-
-function loadSubject(i){
-  var meta = SUBJECTS_INDEX[i];
-  if(!meta) return Promise.reject(new Error('مادة غير موجودة'));
-  if(subjects[i]) return Promise.resolve(subjects[i]);
-  if(_loadingPromises[meta.slug]) return _loadingPromises[meta.slug];
-
-  var before = subjects.length;
-  var p = new Promise(function(resolve, reject){
-    var script = document.createElement('script');
-    script.src = meta.file;
-    script.async = true;
-    script.onload = function(){
-      var added = subjects.length - before;
-      var data = null;
-      if(added === 1){
-        data = subjects.pop();
-      }else if(added > 1){
-        data = subjects.splice(before, added)[0];
-      }
-      if(!data){ reject(new Error('الملف ما أضافش بيانات للمادة')); return; }
-      subjects[i] = data;
-      normalizeSubject(data);
-      resolve(data);
-    };
-    script.onerror = function(){
-      reject(new Error('فشل تحميل الملف: ' + meta.file));
-    };
-    document.head.appendChild(script);
-  });
-
-  _loadingPromises[meta.slug] = p;
-  p.finally(function(){ delete _loadingPromises[meta.slug]; });
-  return p;
-}
-
-function getActiveSubjects(){
-  var out = [];
-  for(var i = 0; i < SUBJECTS_INDEX.length; i++){
-    if(SUBJECTS_INDEX[i].active !== false) out.push(i);
-  }
-  return out;
-}
-
-function showSubjectLoading(){
-  var box = document.getElementById('lectures-list');
-  if(box){
-    box.innerHTML =
-      '<div class="subject-loader">' +
-        '<div class="spinner-ring"></div>' +
-        '<div class="loader-text">⏳ جاري تحميل بيانات المادة...</div>' +
-      '</div>';
-  }
-  var ps = document.getElementById('progress-summary-box');
-  if(ps){ ps.innerHTML = ''; ps.style.display = 'none'; }
-}
+});
 
 // ============================================================
 // 2) الثيمات
@@ -888,10 +829,9 @@ function isLatinText(s){
 var currentSubject = 0, currentLecture = -1;
 
 function renderSubjectBar(){
-  document.getElementById('subject-bar').innerHTML = SUBJECTS_INDEX.map(function(s,i){
-    if(s.active === false) return '';
+  document.getElementById('subject-bar').innerHTML = subjects.map(function(s,i){
     return '<button class="subj-btn '+(i===currentSubject?'active':'')+'" onclick="selectSubject('+i+')">'+
-      '<span>'+(s.icon || '📚')+'</span>'+
+      '<span>'+s.icon+'</span>'+
       '<span style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.25;">'+
         '<span>'+esc(s.name)+'</span>'+
         (s.en ? '<span style="font-size:10px;opacity:.8;font-weight:normal;">'+esc(s.en)+'</span>' : '')+
@@ -900,39 +840,19 @@ function renderSubjectBar(){
 }
 
 function selectSubject(i){
-  if(!SUBJECTS_INDEX[i] || SUBJECTS_INDEX[i].active === false) return;
   currentSubject = i;
   closeQuizEverywhere();
-
-  var meta = SUBJECTS_INDEX[i];
-  document.getElementById('main-title').textContent = 'منصة مادة ' + meta.name + (meta.en ? ' — ' + meta.en : '');
+  document.getElementById('main-title').textContent = 'منصة مادة ' + subjects[i].name + (subjects[i].en ? ' — ' + subjects[i].en : '');
   renderSubjectBar();
-
   var tb = document.querySelectorAll('#main-view .tabs .tab-button');
   tb.forEach(function(b,idx){ b.classList.toggle('active', idx===0); });
   document.getElementById('section1').classList.add('active');
   document.getElementById('section2').classList.remove('active');
-
+  resetSubTabs();
+  renderAllLists();
   showView('main-view');
+  saveLS({subject:i, view:'main', lecture:-1, prop:null, qidx:null, tab:'section1', subTab:'sub-lectures'});
   window.scrollTo({top:0, behavior:'smooth'});
-
-  if(!subjects[i]){
-    showSubjectLoading();
-    loadSubject(i).then(function(){
-      resetSubTabs();
-      renderAllLists();
-      saveLS({subject:i, view:'main', lecture:-1, prop:null, qidx:null, tab:'section1', subTab:'sub-lectures'});
-    }).catch(function(err){
-      document.getElementById('lectures-list').innerHTML =
-        '<p style="color:var(--danger);padding:24px;text-align:center;font-weight:bold;">⚠️ ' + esc(err.message) + '</p>' +
-        '<p style="text-align:center;color:var(--text-hint);">تأكدي إن الملف موجود في مجلد data/</p>';
-      showToast('فشل تحميل المادة');
-    });
-  }else{
-    resetSubTabs();
-    renderAllLists();
-    saveLS({subject:i, view:'main', lecture:-1, prop:null, qidx:null, tab:'section1', subTab:'sub-lectures'});
-  }
 }
 
 function showView(id){
@@ -1091,7 +1011,6 @@ function renderActiveSubList(){
   var active = document.querySelector('#section2 .sub-content.active');
   if(!active || renderedTabs[active.id]) return;
   var s = subjects[currentSubject];
-  if(!s) return;
   if(active.id === 'sub-lectures'){
     var html = (s.lectures || []).map(function(l, i){
       if(!l.questions || !l.questions.length) return '';
@@ -1113,7 +1032,7 @@ function renderActiveSubList(){
 function renderLecturesList(){
   var s = subjects[currentSubject];
   var box = document.getElementById('lectures-list');
-  if(!s || !s.lectures || !s.lectures.length){
+  if(!s.lectures.length){
     box.innerHTML = '<p style="color:var(--text-hint)">لا توجد محاضرات لهذه المادة.</p>';
     return;
   }
@@ -1163,7 +1082,6 @@ function examCardHTML(s, e, prop, idx, total, key){
 function renderProgressSummary(){
   var s = subjects[currentSubject];
   var box = document.getElementById('progress-summary-box');
-  if(!s){ box.innerHTML = ''; box.style.display='none'; return; }
   var rows = (s.lectures || []).map(function(l, i){
     var total = (l.questions || []).length;
     if(!total) return '';
@@ -1950,7 +1868,6 @@ function renderLectureLinks(boxId, links, categories){
 function openLecture(subjIdx, lecIdx){
   currentSubject = subjIdx;
   var s = subjects[subjIdx];
-  if(!s) return;
   var l = s.lectures[lecIdx];
   if(!l) return;
   currentLecture = lecIdx;
@@ -2001,7 +1918,6 @@ function openLecture(subjIdx, lecIdx){
 
 function openLectureQuizSection(){
   var s = subjects[currentSubject];
-  if(!s) return;
   var l = s.lectures[currentLecture];
   var sec = document.getElementById('ld-quiz');
   if(sec) sec.classList.add('open');
@@ -2033,7 +1949,6 @@ function toggleLD(id){
 function openQuiz(subjIdx, prop, idx){
   currentSubject = subjIdx;
   var s = subjects[subjIdx];
-  if(!s) return;
   var isLec = (prop === 'lec');
   var e, qs, pdf;
   if(isLec){
@@ -2274,7 +2189,6 @@ function STANDALONE_ENGINE(){
 function downloadQuestionsPageHTML(){
   if(!subjects.length){ showToast('لا توجد بيانات للتحميل'); return; }
   var s = subjects[currentSubject];
-  if(!s){ showToast('المادة مش محمّلة'); return; }
   function pack(list){ return (list || []).map(function(e){ return { t: e.t || 'اختبار', d: e.d || '', questions: getQuizData(s, e) }; }).filter(function(x){ return x.questions.length; }); }
   var lec = (s.lectures || []).map(function(l){ return { t: l.t || 'محاضرة', d: l.d || '', questions: l.questions || [] }; }).filter(function(x){ return x.questions.length; });
   var data = { name: s.name, en: s.en || '', icon: s.icon || '📚', lec: lec, mid: pack(s.midterms), fin: pack(s.finals), bank: pack(s.testBanks) };
@@ -2329,9 +2243,7 @@ function runSearch(){
   var MAX = 40;
   var results = [];
 
-  SUBJECTS_INDEX.forEach(function(meta, si){
-    var s = subjects[si];
-    if(!s) return;
+  subjects.forEach(function(s, si){
     (s.lectures || []).forEach(function(l, li){
       if(results.length >= MAX) return;
       var hay = ((l.t || '') + ' ' + (l.d || '')).toLowerCase();
@@ -2341,9 +2253,7 @@ function runSearch(){
     });
   });
 
-  SUBJECTS_INDEX.forEach(function(meta, si){
-    var s = subjects[si];
-    if(!s) return;
+  subjects.forEach(function(s, si){
     (s.lectures || []).forEach(function(l, li){
       if(results.length >= MAX) return;
       (l.questions || []).forEach(function(qq, qi){
@@ -2355,9 +2265,7 @@ function runSearch(){
     });
   });
 
-  SUBJECTS_INDEX.forEach(function(meta, si){
-    var s = subjects[si];
-    if(!s) return;
+  subjects.forEach(function(s, si){
     ['midterms','finals','testBanks'].forEach(function(prop){
       (s[prop] || []).forEach(function(e, ei){
         if(results.length >= MAX) return;
@@ -2380,7 +2288,6 @@ function runSearch(){
     html = '<div class="sr-header">نتائج البحث عن: "'+esc(q)+'" — '+results.length+(results.length >= MAX ? ' (أول '+MAX+' نتيجة)' : ' نتيجة')+'</div><div class="sr-list">';
     results.forEach(function(r, i){
       var s = subjects[r.si];
-      if(!s) return;
       var srcName;
       if(r.type === 'lecture'){ srcName = '📚 ' + (((s.lectures || [])[r.li] || {}).t || ''); }
       else if(r.prop === 'lec'){ srcName = '🧠 ' + (((s.lectures || [])[r.ei] || {}).t || ''); }
@@ -2399,20 +2306,9 @@ function openSearchResult(i){
   clearSearch();
   if(r.si !== currentSubject){
     currentSubject = r.si;
-    var meta = SUBJECTS_INDEX[r.si];
-    document.getElementById('main-title').textContent = 'منصة مادة ' + meta.name + (meta.en ? ' — ' + meta.en : '');
+    var s = subjects[r.si];
+    document.getElementById('main-title').textContent = 'منصة مادة ' + s.name + (s.en ? ' — ' + s.en : '');
     renderSubjectBar();
-  }
-  // لو المادة مش محمّلة نحمّلها الأول
-  if(!subjects[r.si]){
-    showSubjectLoading();
-    loadSubject(r.si).then(function(){
-      if(r.type === 'lecture'){ openLecture(r.si, r.li); }
-      else{ openQuizAtQuestion(r.si, r.prop, r.ei, r.qi); }
-    }).catch(function(err){
-      showToast('فشل تحميل المادة');
-    });
-    return;
   }
   if(r.type === 'lecture'){ openLecture(r.si, r.li); }
   else{ openQuizAtQuestion(r.si, r.prop, r.ei, r.qi); }
@@ -2615,19 +2511,18 @@ function importProgress(ev){
 }
 
 // ============================================================
-// 23) التشغيل (Lazy Load)
+// 23) التشغيل
 // ============================================================
 (function init(){
-  if(typeof SUBJECTS_INDEX === 'undefined' || !SUBJECTS_INDEX.length){
-    document.getElementById('main-title').textContent = '⚠️ خطأ في تحميل الفهرس';
+  if(!subjects.length){
+    document.getElementById('main-title').textContent = '⚠️ خطأ في تحميل البيانات';
     document.getElementById('subject-bar').innerHTML = '';
     document.querySelector('.container').innerHTML =
       '<div style="text-align:center;padding:50px 20px;">'+
-      '<h2 style="color:var(--danger)">⚠️ لا يوجد فهرس مواد</h2>'+
-      '<p style="color:var(--text-hint);line-height:1.8">تأكدي إن ملف <b>data/subjects-index.js</b> موجود ومربوط في index.html</p></div>';
+      '<h2 style="color:var(--danger)">⚠️ لا توجد مواد محملة</h2>'+
+      '<p style="color:var(--text-hint);line-height:1.8">تأكدي إن ملفات <b>data/*.js</b> موجودة بجانب index.html<br>وإن كل ملف فيه <code>subjects.push({...})</code> صح.</p></div>';
     return;
   }
-
   loadNotifications();
   syncAnswerEditsLog();
   syncLecturesAddedLog();
@@ -2637,50 +2532,32 @@ function importProgress(ev){
   var last = null;
   try{ var r = localStorage.getItem(LSKEY); if(r) last = JSON.parse(r); }catch(e){}
 
-  var activeList = getActiveSubjects();
-  var startIdx = (last && typeof last.subject === 'number' && activeList.indexOf(last.subject) !== -1)
-    ? last.subject
-    : (activeList[0] || 0);
-
-  currentSubject = startIdx;
-  var meta = SUBJECTS_INDEX[startIdx];
-  document.getElementById('main-title').textContent = 'منصة مادة ' + meta.name + (meta.en ? ' — ' + meta.en : '');
+  currentSubject = (last && typeof last.subject === 'number' && last.subject >= 0 && last.subject < subjects.length) ? last.subject : 0;
+  var s = subjects[currentSubject];
+  document.getElementById('main-title').textContent = 'منصة مادة ' + s.name + (s.en ? ' — ' + s.en : '');
   renderSubjectBar();
+  renderAllLists();
 
-  // ⬇️ نحمّل المادة المطلوبة بس
-  showSubjectLoading();
-  loadSubject(startIdx).then(function(){
-    var s = subjects[startIdx];
-
-    var restored = false;
-    if(last && last.view === 'lecture' && typeof last.lecture === 'number' && s.lectures && s.lectures[last.lecture]){
-      openLecture(startIdx, last.lecture);
+  var restored = false;
+  if(last && last.view === 'lecture' && typeof last.lecture === 'number' && s.lectures && s.lectures[last.lecture]){
+    openLecture(currentSubject, last.lecture);
+    restored = true;
+    showToast('🔙 رجعناك لآخر محاضرة مفتوحة');
+  }else if(last && last.view === 'quiz' && last.prop && typeof last.qidx === 'number'){
+    var target = (last.prop === 'lec') ? (s.lectures && s.lectures[last.qidx]) : (s[last.prop] && s[last.prop][last.qidx]);
+    if(target){
+      openQuiz(currentSubject, last.prop, last.qidx);
       restored = true;
-      showToast('🔙 رجعناك لآخر محاضرة مفتوحة');
-    }else if(last && last.view === 'quiz' && last.prop && typeof last.qidx === 'number'){
-      var target = (last.prop === 'lec')
-        ? (s.lectures && s.lectures[last.qidx])
-        : (s[last.prop] && s[last.prop][last.qidx]);
-      if(target){
-        openQuiz(startIdx, last.prop, last.qidx);
-        restored = true;
-        showToast('🔙 رجعناك لآخر اختبار مفتوح');
-      }
+      showToast('🔙 رجعناك لآخر اختبار مفتوح');
     }
-
-    if(!restored){
-      resetSubTabs();
-      renderAllLists();
-      showView('main-view');
-      if(last && last.tab === 'section2'){
-        openTab(null, 'section2');
-        if(last.subTab) openSubTab(null, last.subTab);
-      }
+  }
+  if(!restored){
+    showView('main-view');
+    if(last && last.tab === 'section2'){
+      openTab(null, 'section2');
+      if(last.subTab) openSubTab(null, last.subTab);
     }
-  }).catch(function(err){
-    document.getElementById('lectures-list').innerHTML =
-      '<p style="color:var(--danger);padding:24px;text-align:center;font-weight:bold;">⚠️ فشل تحميل المادة: ' + esc(err.message) + '</p>';
-  });
+  }
 })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
