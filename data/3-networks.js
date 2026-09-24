@@ -174,25 +174,932 @@ subjects.push({
         },
       ],
       questions: [
+        // ==========================================
+        // الاختيار من متعدد (Multiple-Choice Questions)
+        // ==========================================
         {
-          q: "عدد طبقات نموذج OSI هو:",
-          options: ["4 طبقات", "5 طبقات", "7 طبقات", "9 طبقات"],
+          q: "1. What is the primary focus of the book when discussing computer networks?[cite: 2]",
+          options: [
+            "Private corporate networks",
+            "The public Internet and its protocols",
+            "Local area networks only",
+            "Satellite communication systems",
+          ],
+          correct: 1,
+        },
+        {
+          q: "2. How can the Internet be described in terms of its basic components?[cite: 2]",
+          options: [
+            "Only as a service provider for applications",
+            "As hardware and software components (nuts and bolts) or as infrastructure for distributed applications",
+            "Solely as a collection of servers",
+            "As a single global database",
+          ],
+          correct: 1,
+        },
+        {
+          q: "3. What are computing devices connected to the Internet called in Internet jargon?[cite: 2]",
+          options: ["Servers", "Hosts or end systems", "Routers", "Links"],
+          correct: 1,
+        },
+        {
+          q: "4. According to estimates mentioned, how many devices were connected to the Internet by 2022?[cite: 2]",
+          options: ["18 billion", "28.5 billion", "10 billion", "50 billion"],
+          correct: 1,
+        },
+        {
+          q: "5. What connects end systems in a network?[cite: 2]",
+          options: [
+            "Only packet switches",
+            "A network of communication links and packet switches",
+            "Servers exclusively",
+            "Protocols alone",
+          ],
+          correct: 1,
+        },
+        {
+          q: "6. What is a packet in computer networks?[cite: 2]",
+          options: [
+            "A complete message sent without segmentation",
+            "Segmented data with added headers sent through the network",
+            "A hardware device",
+            "A type of router",
+          ],
+          correct: 1,
+        },
+        {
+          q: "7. What are the two main types of packet switches in the Internet?[cite: 2]",
+          options: [
+            "Hosts and end systems",
+            "Routers and link-layer switches",
+            "Servers and clients",
+            "Links and protocols",
+          ],
+          correct: 1,
+        },
+        {
+          q: "8. Where are link-layer switches typically used?[cite: 2]",
+          options: [
+            "In the network core",
+            "In access networks",
+            "Only in end systems",
+            "In global transit",
+          ],
+          correct: 1,
+        },
+        {
+          q: "9. What is the sequence of links and switches a packet traverses called?[cite: 2]",
+          options: ["A protocol", "A route or path", "A header", "A segment"],
+          correct: 1,
+        },
+        {
+          q: "10. How do end systems access the Internet?[cite: 2]",
+          options: [
+            "Directly through global routers",
+            "Through Internet Service Providers (ISPs)",
+            "Via packet switches only",
+            "Using protocols without intermediaries",
+          ],
+          correct: 1,
+        },
+        {
+          q: "11. What interconnects lower-tier ISPs?[cite: 2]",
+          options: [
+            "End systems",
+            "National and international upper-tier ISPs",
+            "Only local links",
+            "Application protocols",
+          ],
+          correct: 1,
+        },
+        {
+          q: "12. What are the two most important protocols in the Internet?[cite: 2]",
+          options: [
+            "HTTP and SMTP",
+            "TCP and IP",
+            "Ethernet and WiFi",
+            "DNS and FTP",
+          ],
+          correct: 1,
+        },
+        {
+          q: "13. Who develops Internet standards?[cite: 2]",
+          options: [
+            "IEEE",
+            "IETF (Internet Engineering Task Force)",
+            "Cisco",
+            "Google",
+          ],
+          correct: 1,
+        },
+        {
+          q: "14. What are RFCs?[cite: 2]",
+          options: [
+            "Hardware specifications",
+            "Requests for comments that define protocols like TCP and IP",
+            "Network hardware",
+            "Application services",
+          ],
+          correct: 1,
+        },
+        {
+          q: "15. What body specifies standards for network links like Ethernet?[cite: 2]",
+          options: [
+            "IETF",
+            "IEEE 802 LAN Standards Committee",
+            "Cisco VNI",
+            "Fiber Broadband",
+          ],
+          correct: 1,
+        },
+        {
+          q: "16. How is the Internet described as an infrastructure?[cite: 2]",
+          options: [
+            "Only for hardware connections",
+            "As providing services to distributed applications",
+            "Solely for packet switching",
+            "As a single protocol stack",
+          ],
+          correct: 1,
+        },
+        {
+          q: "17. What are distributed applications?[cite: 2]",
+          options: [
+            "Programs running on a single system",
+            "Applications involving multiple end systems exchanging data",
+            "Only server-based programs",
+            "Hardware components",
+          ],
+          correct: 1,
+        },
+        {
+          q: "18. What interface do end systems use to deliver data over the Internet?[cite: 2]",
+          options: [
+            "Packet switch interface",
+            "Socket interface",
+            "Router interface",
+            "Link-layer interface",
+          ],
+          correct: 1,
+        },
+        {
+          q: "19. In a human protocol analogy, what initiates communication?[cite: 2]",
+          options: [
+            "Asking for time directly",
+            "Offering a greeting like 'Hi'",
+            "Sending a packet",
+            "Closing the connection",
+          ],
+          correct: 1,
+        },
+        {
+          q: "20. What defines a network protocol?[cite: 2]",
+          options: [
+            "Hardware only",
+            "Format and order of messages, plus actions on transmission/receipt",
+            "Physical media",
+            "End systems alone",
+          ],
+          correct: 1,
+        },
+        {
+          q: "21. What are end systems also referred to as?[cite: 2]",
+          options: ["Routers", "Hosts", "Links", "Switches"],
+          correct: 1,
+        },
+        {
+          q: "22. How are hosts categorized?[cite: 2]",
+          options: [
+            "Into links and switches",
+            "Into clients and servers",
+            "Into protocols and layers",
+            "Into physical media",
+          ],
+          correct: 1,
+        },
+        {
+          q: "23. Where do most servers for search results and email reside today?[cite: 2]",
+          options: [
+            "In homes",
+            "In large data centers",
+            "On mobile devices",
+            "In access networks",
+          ],
+          correct: 1,
+        },
+        {
+          q: "24. What is the access network?[cite: 2]",
+          options: [
+            "The core of the Internet",
+            "The network connecting an end system to the first router",
+            "Only wireless connections",
+            "Global transit links",
+          ],
+          correct: 1,
+        },
+        {
+          q: "25. What are the two most prevalent broadband residential access types?[cite: 2]",
+          options: [
+            "Ethernet and WiFi",
+            "DSL and cable",
+            "FTTH and 5G",
+            "Satellite and radio",
+          ],
+          correct: 1,
+        },
+        {
+          q: "26. In DSL, what device is located in the telco's central office?[cite: 2]",
+          options: [
+            "Cable modem",
+            "DSLAM (Digital Subscriber Line Access Multiplexer)",
+            "Router",
+            "Switch",
+          ],
+          correct: 1,
+        },
+        {
+          q: "27. How are data and telephone signals handled in DSL?[cite: 2]",
+          options: [
+            "On separate lines",
+            "Encoded at different frequencies on the same line",
+            "Only digitally",
+            "Via satellite",
+          ],
+          correct: 1,
+        },
+        {
+          q: "28. What is the typical range for DSL to work effectively?[cite: 2]",
+          options: ["1-2 miles", "5-10 miles", "20 miles", "Unlimited"],
+          correct: 1,
+        },
+        {
+          q: "29. What infrastructure does cable Internet use?[cite: 2]",
+          options: [
+            "Telephone lines",
+            "Cable television infrastructure",
+            "Fiber optics only",
+            "Wireless spectrum",
+          ],
+          correct: 1,
+        },
+        {
+          q: "30. What is HFC in cable access?[cite: 2]",
+          options: [
+            "High-frequency coax",
+            "Hybrid fiber coax",
+            "Home fiber connection",
+            "High-speed fiber",
+          ],
+          correct: 1,
+        },
+        {
+          q: "31. What device serves a similar function to DSLAM in cable networks?[cite: 2]",
+          options: [
+            "DSL modem",
+            "CMTS (Cable Modem Termination System)",
+            "Router",
+            "Switch",
+          ],
+          correct: 1,
+        },
+        {
+          q: "32. Why is cable Internet access shared?[cite: 2]",
+          options: [
+            "It uses dedicated lines",
+            "Every packet travels on shared links to all homes",
+            "Only upstream is shared",
+            "It is not shared",
+          ],
+          correct: 1,
+        },
+        {
+          q: "33. What technology provides gigabit speeds directly to homes?[cite: 2]",
+          options: ["DSL", "Cable", "FTTH (Fiber to the Home)", "Ethernet"],
           correct: 2,
         },
         {
-          q: "اختصار LAN يعني:",
+          q: "34. What is the simplest FTTH technology?[cite: 2]",
           options: [
-            "شبكة محلية",
-            "شبكة عالمية",
-            "شبكة إقليمية",
-            "شبكة مدينة فقط",
+            "Hybrid fiber",
+            "Direct fiber",
+            "Coaxial fiber",
+            "Wireless fiber",
+          ],
+          correct: 1,
+        },
+        {
+          q: "35. What is the most prevalent access technology in enterprises?[cite: 2]",
+          options: ["DSL", "Ethernet", "Cable", "Satellite"],
+          correct: 1,
+        },
+        {
+          q: "36. What standard is WiFi based on?[cite: 2]",
+          options: ["IEEE 802.3", "IEEE 802.11", "IEEE 802.1", "IEEE 802.15"],
+          correct: 1,
+        },
+        {
+          q: "37. What is the range for a wireless LAN user from an access point?[cite: 2]",
+          options: [
+            "A few meters",
+            "A few tens of meters",
+            "Kilometers",
+            "Unlimited",
+          ],
+          correct: 1,
+        },
+        {
+          q: "38. What generation of wireless provides wide-area access up to tens of kilometers?[cite: 2]",
+          options: ["WiFi", "Ethernet", "3G, 4G, and 5G cellular", "FTTH"],
+          correct: 2,
+        },
+        {
+          q: "39. What are the two categories of physical media?[cite: 2]",
+          options: [
+            "Wired and wireless",
+            "Guided and unguided",
+            "Copper and fiber",
+            "Terrestrial and satellite",
+          ],
+          correct: 1,
+        },
+        {
+          q: "40. What is the most common guided medium for LANs?[cite: 2]",
+          options: [
+            "Fiber optics",
+            "Coaxial cable",
+            "Twisted-pair copper wire",
+            "Radio spectrum",
+          ],
+          correct: 2,
+        },
+        {
+          q: "41. What breaks messages into packets?[cite: 2]",
+          options: ["Routers", "The source end system", "Switches", "Links"],
+          correct: 1,
+        },
+        {
+          q: "42. What is store-and-forward transmission?[cite: 2]",
+          options: [
+            "Transmitting bits immediately",
+            "Receiving the entire packet before forwarding",
+            "Segmenting packets",
+            "Queuing only",
+          ],
+          correct: 1,
+        },
+        {
+          q: "43. For a path with N links of rate R and packet length L, what is the end-to-end delay without other delays?[cite: 2]",
+          options: ["L/R", "N(L/R)", "(N-1)(L/R)", "2L/R"],
+          correct: 2,
+        },
+        {
+          q: "44. What causes queuing delays?[cite: 2]",
+          options: [
+            "Empty buffers",
+            "Packets waiting in output buffers due to congestion",
+            "Propagation speed",
+            "Header addition",
+          ],
+          correct: 1,
+        },
+        {
+          q: "45. What happens when a queue is full?[cite: 2]",
+          options: [
+            "Faster transmission",
+            "Packet loss",
+            "Automatic rerouting",
+            "No effect",
+          ],
+          correct: 1,
+        },
+        {
+          q: "46. How does a router determine where to forward a packet?[cite: 2]",
+          options: [
+            "Using protocols",
+            "Forwarding table based on destination address",
+            "Randomly",
+            "Via physical media",
+          ],
+          correct: 1,
+        },
+        {
+          q: "47. What sets forwarding tables automatically?[cite: 2]",
+          options: [
+            "End systems",
+            "Routing protocols",
+            "Applications",
+            "Physical layer",
+          ],
+          correct: 1,
+        },
+        {
+          q: "48. In circuit switching, what is reserved for a session?[cite: 2]",
+          options: [
+            "Packets",
+            "Resources like buffers and link rates",
+            "Messages",
+            "Headers",
+          ],
+          correct: 1,
+        },
+        {
+          q: "49. What are the two multiplexing methods in circuit switching?[cite: 2]",
+          options: [
+            "Packet and message",
+            "FDM and TDM",
+            "Store-and-forward",
+            "Queuing and propagation",
+          ],
+          correct: 1,
+        },
+        {
+          q: "50. Why is packet switching better for sharing capacity?[cite: 2]",
+          options: [
+            "It reserves resources",
+            "It allows better sharing than circuit switching",
+            "It has fixed delays",
+            "No queuing",
+          ],
+          correct: 1,
+        },
+        {
+          q: "51. What trend is seen in telecommunication networks?[cite: 2]",
+          options: [
+            "Toward circuit switching",
+            "Toward packet switching",
+            "Away from multiplexing",
+            "To proprietary networks",
+          ],
+          correct: 1,
+        },
+        {
+          q: "52. In Network Structure 1, how are access ISPs interconnected?[cite: 2]",
+          options: [
+            "Directly to each other",
+            "Via a single global transit ISP",
+            "Through end systems",
+            "Without interconnection",
+          ],
+          correct: 1,
+        },
+        {
+          q: "53. What is a customer-provider relationship in ISPs?[cite: 2]",
+          options: [
+            "Free peering",
+            "Access ISP pays the global ISP",
+            "Equal sharing",
+            "No payment",
+          ],
+          correct: 1,
+        },
+        {
+          q: "54. What does Network Structure 2 add?[cite: 2]",
+          options: [
+            "Single ISP",
+            "Multiple competing global transit ISPs",
+            "Only access ISPs",
+            "End systems",
+          ],
+          correct: 1,
+        },
+        {
+          q: "55. What are tier-1 ISPs?[cite: 2]",
+          options: [
+            "Local access providers",
+            "Global ISPs with presence not in every city",
+            "Only regional",
+            "Home networks",
+          ],
+          correct: 1,
+        },
+        {
+          q: "56. In Network Structure 3, what connects access ISPs in a region?[cite: 2]",
+          options: [
+            "Global ISPs directly",
+            "Regional ISPs that connect to tier-1",
+            "Peering points",
+            "Content providers",
+          ],
+          correct: 1,
+        },
+        {
+          q: "57. What is a PoP?[cite: 2]",
+          options: [
+            "Point of presence for customer connections",
+            "Protocol over protocol",
+            "Packet of packets",
+            "Point of peering",
           ],
           correct: 0,
         },
         {
-          q: "الطبقة المسؤولة عن التوجيه Routing هي طبقة:",
-          options: ["التطبيق", "النقل", "الشبكة", "الفيزيائية"],
-          correct: 2,
+          q: "58. What is multi-homing?[cite: 2]",
+          options: [
+            "Connecting to one ISP",
+            "Connecting to two or more provider ISPs",
+            "Single link use",
+            "No redundancy",
+          ],
+          correct: 1,
+        },
+        {
+          q: "59. What is peering between ISPs?[cite: 2]",
+          options: [
+            "Payment-based connection",
+            "Direct, settlement-free connection",
+            "Through tier-1 only",
+            "Via end systems",
+          ],
+          correct: 1,
+        },
+        {
+          q: "60. What is an IXP?[cite: 2]",
+          options: [
+            "Internet exchange point for peering",
+            "ISP expansion protocol",
+            "Internal exchange protocol",
+            "Internet xylem point",
+          ],
+          correct: 0,
+        },
+        {
+          q: "61. What does Network Structure 5 add?[cite: 2]",
+          options: [
+            "Only access ISPs",
+            "Content-provider networks like Google",
+            "More regional ISPs",
+            "End systems",
+          ],
+          correct: 1,
+        },
+        {
+          q: "62. How does Google bypass upper tiers?[cite: 2]",
+          options: [
+            "Using public Internet only",
+            "Peering with lower-tier ISPs and IXPS",
+            "Paying all tier-1",
+            "No bypassing",
+          ],
+          correct: 1,
+        },
+        {
+          q: "63. What is twisted-pair copper wire used for?[cite: 2]",
+          options: [
+            "Long-haul only",
+            "LANs and residential access",
+            "Satellite links",
+            "Optical pulses",
+          ],
+          correct: 1,
+        },
+        {
+          q: "64. What achieves data rates up to 10 Gbps over 100 meters?[cite: 2]",
+          options: [
+            "Coaxial cable",
+            "Category 6a twisted-pair",
+            "Radio channels",
+            "Satellite",
+          ],
+          correct: 1,
+        },
+        {
+          q: "65. What is fiber optics preferred for?[cite: 2]",
+          options: [
+            "Short-haul LANS",
+            "Long-haul transmission",
+            "Wireless",
+            "Low bit rates",
+          ],
+          correct: 1,
+        },
+
+        // ==========================================
+        // الأسئلة النظرية / المقالية (Theoretical Questions)
+        // ==========================================
+        {
+          q: "1. What are the two principal ways to describe the Internet?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "2. In Internet jargon, what are the billions of computing devices connected to the Internet called?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "3. What are the two most prominent types of packet switches in today's Internet?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "4. What is the name for the sequence of communication links and packet switches traversed by a packet from sender to receiver?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "5. Through what do end systems access the Internet?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "6. What is the collective name for the Internet's principal protocols?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "7. Which organization develops Internet standards, and what are its documents called?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "8. Which committee specifies standards for Ethernet and WiFi?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "9. From a services perspective, the Internet is an infrastructure that provides services to what?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "10. Where do Internet applications run?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "11. What is the name of the interface that specifies how a program asks the Internet to deliver data to a destination program on another end system?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "12. Using a human analogy for a protocol, what might a response of 'Don't bother me!' to a 'Hi' indicate?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "13. What three things does a network protocol define?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "14. What are the components located at the edge of the Internet called?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "15. What is the equation given for hosts and end systems?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "16. Into what two categories are hosts sometimes divided?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "17. Where do many of the servers we use today reside?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "18. What is the access network?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "19. What are the two most prevalent types of broadband residential access discussed?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "20. What does a DSLAM do?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "21. What does HFC stand for, and what two types of cable does it use?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "22. What is the device at the cable head end that serves a similar function to a DSLAM?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "23. Why is cable Internet access considered a shared broadcast medium?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "24. What does FTTH stand for?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "25. What is the dominant wired access technology in corporate, university, and home LANs?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "26. What is the common name for IEEE 802.11 wireless LAN technology?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "27. Compared to WiFi, what is the typical range for a user from a cellular base station?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "28. What are the two categories of physical media?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "29. What is the least expensive and most commonly used guided transmission medium?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "30. What is a key characteristic of coaxial cable that allows it to achieve high data rates?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "31. What are three advantages of fiber optics as a transmission medium?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "32. What is a key reason fiber optics is not yet prevalent for short-haul transport like LANs?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "33. What are the three broad groups of terrestrial radio channels based on distance?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "34. What are the two types of satellites used in communications?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "35. What is a significant disadvantage of geostationary satellites?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "36. What are the two fundamental approaches to moving data through a network?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "37. In a network application, what do end systems exchange?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "38. What are the smaller chunks of data that a long message is broken into called?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "39. What does 'store-and-forward transmission' mean?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "40. In a simple two-end-system, one-router example, if a packet is L bits long and the link rate is R bits/sec, what is the total delay to get the packet to the destination?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "41. For a path with N links, each of rate R, what is the end-to-end delay for one packet?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "42. What is the purpose of an output buffer (output queue) in a packet switch?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "43. What is the variable delay that packets suffer in addition to store-and-forward delays?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "44. What happens if an arriving packet finds the output buffer full?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "45. How does a router determine which outbound link to forward a packet onto?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "46. What are the special protocols used to automatically set forwarding tables called?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "47. In circuit switching, what is reserved for the duration of a communication session?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "48. What are the two fundamental approaches to multiplexing a circuit in a link?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "49. What is the main criticism of packet switching regarding real-time services?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "50. What are two arguments made by proponents of packet switching?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "51. What is the overarching goal of interconnecting access ISPs?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "52. Why is directly connecting every access ISP to every other access ISP not a practical solution?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "53. In a simple network structure (Structure 1), what interconnects all access ISPs?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "54. In the hierarchy of ISPs, what are the approximately dozen very large ISPs called?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "55. What does it mean for an ISP to multi-home?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "56. What is the primary benefit of multi-homing?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "57. What does it mean for two ISPs to peer?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "58. What is an IXP?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "59. What is a key characteristic of content-provider networks like Google's?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "128. What is the fundamental difference between how resources are managed in packet switching versus circuit switching?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "129. Why is packet switching considered more efficient for bursty data traffic?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "130. How does the concept of 'statistical multiplexing' relate to packet switching?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "131. What is the relationship between a host, an end system, and a server?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "133. In the context of access networks, what does 'asymmetric' mean?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
+        },
+        {
+          q: "134. How does a router differ from a link-layer switch in terms of the layers they implement?[cite: 3]",
+          options: ["انظر في الملف"],
+          correct: 0,
         },
       ],
     },
