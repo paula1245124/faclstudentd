@@ -4,61 +4,150 @@ subjects.push({
   icon: "🎨",
   lectures: [
     {
-      t: "المحاضرة الأولى",
-      d: "مقدمة في رسوميات الحاسب وأنابيب الرسم (Graphics Pipeline).",
-      pdf: "Computer Graphics/",
-      pdf2: "Computer Graphics/Questions/Questions on each lecture/Lecture 1 - Questions - Computer Graphics.pdf",
-      links: [
+      t: "المحاضرة 1: مقدمة الرسوميات، الإسقاط المنظوري، والـ Rasterization",
+      d: "تغطي المفاهيم الأساسية لرسوميات الحاسوب، تحويل المجسمات من 3D إلى 2D باستخدام الإسقاط المنظوري (Perspective Projection)، وخوارزميات تحويل الخطوط إلى بيكسلات (Rasterization).",
+      pdf: "Computer Graphics/lectures/Lec1-Computer Graphics.pdf",
+      //   pdf2: "Computer Graphics/Questions/Questions on each lecture/Lecture 1 - Questions - Computer Graphics.pdf",
+      // فئات روابط منظمة لمادة رسوميات الحاسوب (Computer Graphics - Lecture 1)
+      linkCategories: [
         {
-          t: "دليل المحاضرة الوظيفي",
-          d: "شرح تفصيلي لمحاور المحاضرة",
-          icon: "📘",
-          actions: [
+          category: "فيديوهات عربية",
+          icon: "🇪🇬",
+          description:
+            "شروحات باللغة العربية لمفاهيم رسوميات الحاسوب واساسيات تحويل الأشكال والرسم",
+          links: [
             {
-              label: "📖 الشرح",
-              url: "https://youtube.com/watch?v=XXXX",
-              type: "view",
+              t: "مبادئ رسوميات الحاسوب (Computer Graphics) - بالعربي",
+              d: "مقدمة شاملة عن الرسوميات، تحويل النقاط من 3D إلى 2D، وكيفية معالجة الصور والتسقيط",
+              icon: "🇪🇬",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://www.youtube.com/playlist?list=PLvS947PnbR_mK04oVWBfCsw_6qDylu9M_",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+            {
+              t: "شرح خوارزميات رسم الخطوط والشبكات (Line Rasterization)",
+              d: "تغطية تفصيلية لخوارزميات DDA و Bresenham لعملية الـ Rasterization وتلوين البيكسلات على الشاشة",
+              icon: "🇪🇬",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://www.youtube.com/playlist?list=PL3X--Qeb3951P_eW8bL12_X8N9B95C3C",
+                  type: "view",
+                  color: "red",
+                },
+              ],
             },
           ],
         },
         {
-          t: "الاسلايدات التعليمية (Slides)",
-          d: "عرض شرائح المحاضرة",
-          icon: "📑",
-          actions: [
+          category: "فيديوهات عالمية",
+          icon: "🌍",
+          description:
+            "محاضرات أكاديمية من صاحب السلايدات (Keenan Crane) وقنوات عالمية متخصصة",
+          links: [
             {
-              label: "PDF ⭳ تحميل",
-              url: "Computer Graphics/slides/Slides 1.pdf",
-              type: "download",
-              color: "green",
+              t: "Keenan Crane (CMU) - Computer Graphics Lecture Course",
+              d: "المحاضرات الرسمية لمؤلف هذه السلايدات: Perspective Projection, Rasterization, Line Drawing",
+              icon: "🌍",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://www.youtube.com/playlist?list=PL9_jI1ts8Bn482X5A6Kz3d1-u2G_I1r1O",
+                  type: "view",
+                  color: "red",
+                },
+              ],
             },
             {
-              label: "PowerPoint ⭳ تحميل",
-              url: "Computer Graphics/slides/Slides 1.pptx",
-              type: "download",
-              color: "orange",
-            },
-            {
-              label: "PowerPoint ⭳ vie",
-              url: "Computer Graphics/Questions/Mid/MidTerm 2023 - Questions - Computer Graphics.pdf",
-              type: "view",
-              color: "orange",
+              t: "GAMES101 - Introduction to Computer Graphics",
+              d: "كورس أكاديمي ممتاز يغطي 3D Transformation, Pinhole Camera Model, Projection, Rasterization",
+              icon: "🌍",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://www.youtube.com/playlist?list=PLlrATfBNZ98edc5GshPRIJ9gU1CC6zEV0",
+                  type: "view",
+                  color: "red",
+                },
+              ],
             },
           ],
         },
         {
-          t: "موقع الإنترنت التفاعلي",
-          d: "محاكاة تجريبية للمحاضرة",
-          icon: "🌐",
-          actions: [
+          category: "مواقع ومراجع",
+          icon: "📚",
+          description:
+            "مقالات وشروحات تفاعلية للـ Perspective Projection والـ Rasterization",
+          links: [
             {
-              label: "🚀 فتح الموقع",
-              url: "https://example.com",
-              type: "view",
+              t: "Scratchapixel - Computer Graphics From Scratch",
+              d: "مرجع متكامل يشرح 3D Perspective Projection (u=x/z, v=y/z), Pinhole Camera, Rasterization",
+              icon: "📚",
+              actions: [
+                {
+                  label: "🚀 فتح الموقع",
+                  url: "https://www.scratchapixel.com/",
+                  type: "view",
+                  color: "green",
+                },
+              ],
+            },
+            {
+              t: "GeeksforGeeks - Computer Graphics Tutorial",
+              d: "توثيق شامل لمفاهيم Line Rasterization, Diamond Rule, 3D Transformations & Graphics Pipeline",
+              icon: "📚",
+              actions: [
+                {
+                  label: "🚀 فتح المقال",
+                  url: "https://www.geeksforgeeks.org/computer-graphics-2/",
+                  type: "view",
+                  color: "blue",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          category: "أدوات ومحاكاة",
+          icon: "🔧",
+          description:
+            "برامج تفاعلية ومحاكاة للـ 3D Modeling، الكاميرا والـ Shading",
+          links: [
+            {
+              t: "Shadertoy - Interactive Pixel Shaders",
+              d: "منصة تفاعلية لكتابة الكود والتحكم المباشر بالبيكسلات (Rasterization) والرسوميات في الوقت الفعلي",
+              icon: "🔧",
+              actions: [
+                {
+                  label: "🚀 فتح التفاعليات",
+                  url: "https://www.shadertoy.com/",
+                  type: "view",
+                  color: "orange",
+                },
+              ],
+            },
+            {
+              t: "Three.js - Interactive 3D Editor",
+              d: "محرر تفاعلي لإنشاء المكعبات وتجربة إسقاط المنظور (Perspective Camera) والتحكم بالمجسمات",
+              icon: "🔧",
+              actions: [
+                {
+                  label: "🌐 فتح المحرر",
+                  url: "https://threejs.org/editor/",
+                  type: "view",
+                  color: "blue",
+                },
+              ],
             },
           ],
         },
       ],
+
       questions: [
         {
           q: "Which of the following is enough on its own to create the appearance of three dimensions on a 2D screen?",
