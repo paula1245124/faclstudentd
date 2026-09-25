@@ -8,7 +8,7 @@ subjects.push({
       d: "مقدمة في الشبكات ونموذج الطبقات OSI.",
       pdf: "Computer Networks/lectures/lec 1/Chapter 1 Computer Networks and the Internet.pdf",
       pdf2: "Computer Networks/Questions/Questions on each lecture/Chapter 1 - Questions - Computer Networks.pdf",
-     
+
       linkCategories: [
         {
           category: "فيديوهات عربية",
@@ -748,9 +748,9 @@ subjects.push({
         // الأسئلة النظرية / المقالية (Theoretical Questions)
         // ==========================================
         {
+          type: "essay",
           q: "1. What are the two principal ways to describe the Internet?[cite: 3]",
-          options: ["انظر في الملف"],
-          correct: 0,
+          answer: ["انظر في الملف"],
         },
         {
           q: "2. In Internet jargon, what are the billions of computing devices connected to the Internet called?[cite: 3]",
