@@ -9,419 +9,325 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#1B2430;
-    --ink-2:#252F3E;
-    --paper:#E9E5DC;
-    --paper-page:#FFFFFF;
-    --text-light:#F4F1EA;
-    --muted:#9AA3B2;
-    --accent:#E8793C;
-    --accent-dim:#C9632E;
-    --line:#3A4456;
-    --danger:#D1495B;
+    --ink:#1B2430; --ink-2:#252F3E; --paper:#E9E5DC; --paper-page:#FFFFFF;
+    --text-light:#F4F1EA; --muted:#9AA3B2; --accent:#E8793C; --accent-dim:#C9632E;
+    --line:#3A4456; --danger:#D1495B;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;height:100%;background:var(--paper);font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;color:var(--ink);overflow:hidden;}
   .mono{font-family:'JetBrains Mono',monospace;letter-spacing:.02em;}
-
   #app{display:flex;flex-direction:column;height:100vh;}
 
-  /* ============================================================
-     ★★★ التوب بار
-     ============================================================ */
-  #topbar{
-    background:var(--ink);color:var(--text-light);
-    display:flex;align-items:center;gap:8px;
-    padding:5px 12px;
-    flex-wrap:nowrap;
-    overflow-x:auto;overflow-y:hidden;
-    scrollbar-width:none;-ms-overflow-style:none;
-    box-shadow:0 2px 8px rgba(0,0,0,.25);z-index:30;
-    flex-shrink:0;
-  }
+  /* ============ TOPBAR ============ */
+  #topbar{background:var(--ink);color:var(--text-light);display:flex;align-items:center;gap:8px;padding:5px 12px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;box-shadow:0 2px 8px rgba(0,0,0,.25);z-index:30;flex-shrink:0;}
   #topbar::-webkit-scrollbar{display:none;}
-
   .brand{display:flex;align-items:center;gap:8px;flex-shrink:0;}
   .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(232,121,60,.25);}
   .brand b{font-size:15px;white-space:nowrap;}
   .brand span{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;white-space:nowrap;}
-
   .sep{width:1px;height:24px;background:var(--line);margin:0 2px;flex-shrink:0;}
-
-  button.tbtn{
-    background:transparent;border:1px solid transparent;color:var(--text-light);
-    padding:5px 10px;border-radius:8px;cursor:pointer;font-size:13px;
-    display:flex;align-items:center;gap:5px;transition:background .15s, border-color .15s;
-    font-family:inherit;flex-shrink:0;white-space:nowrap;
-  }
+  button.tbtn{background:transparent;border:1px solid transparent;color:var(--text-light);padding:5px 10px;border-radius:8px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:5px;transition:background .15s, border-color .15s;font-family:inherit;flex-shrink:0;white-space:nowrap;}
   button.tbtn:hover{background:var(--ink-2);}
   button.tbtn.active{background:rgba(232,121,60,.16);border-color:var(--accent);color:#fff;}
-  button.tbtn:disabled{opacity:.35;cursor:not-allowed;}
   button.tbtn svg{width:16px;height:16px;flex:none;}
-
-  .kbd{
-    font-family:'JetBrains Mono',monospace;font-size:9px;
-    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);
-    border-radius:4px;padding:1px 5px;color:var(--muted);line-height:1.4;flex:none;
-  }
-  button.tbtn.active .kbd{color:#fff;border-color:rgba(255,255,255,.4);}
-
+  .kbd{font-family:'JetBrains Mono',monospace;font-size:9px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:4px;padding:1px 5px;color:var(--muted);line-height:1.4;flex:none;}
   .primary{background:var(--accent)!important;color:#fff!important;font-weight:600;}
   .primary:hover{background:var(--accent-dim)!important;}
-
   #zoomLabel{cursor:pointer;user-select:none;flex-shrink:0;}
-  #zoomLabel:hover{color:#fff;}
-
-  #pageIndicator{
-    display:none;align-items:center;gap:6px;
-    background:var(--ink-2);padding:4px 12px;border-radius:10px;
-    font-family:'JetBrains Mono',monospace;cursor:pointer;user-select:none;
-    transition:background .15s;flex-shrink:0;
-  }
+  #pageIndicator{display:none;align-items:center;gap:6px;background:var(--ink-2);padding:4px 12px;border-radius:10px;font-family:'JetBrains Mono',monospace;cursor:pointer;user-select:none;transition:background .15s;flex-shrink:0;}
   #pageIndicator.show{display:flex;}
   #pageIndicator:hover{background:var(--accent);}
-  #pageIndicator .pg-num{
-    font-size:18px;font-weight:700;color:var(--accent);line-height:1;
-    direction:ltr;letter-spacing:.02em;
-  }
+  #pageIndicator .pg-num{font-size:18px;font-weight:700;color:var(--accent);line-height:1;direction:ltr;}
   #pageIndicator:hover .pg-num{color:#fff;}
-  #pageIndicator .pg-total{
-    font-size:11px;color:var(--muted);line-height:1;
-  }
-  #pageIndicator:hover .pg-total{color:rgba(255,255,255,.7);}
-  #pageIndicator .pg-label{
-    font-size:10px;color:var(--muted);
-    display:flex;flex-direction:column;align-items:flex-start;line-height:1.3;
-  }
-  #pageIndicator:hover .pg-label{color:rgba(255,255,255,.7);}
+  #pageIndicator .pg-total{font-size:11px;color:var(--muted);line-height:1;}
+  #pageIndicator .pg-label{font-size:10px;color:var(--muted);display:flex;flex-direction:column;align-items:flex-start;line-height:1.3;}
 
-  /* ============================================================
-     ★★★ شريط الأدوات
-     ============================================================ */
-  #toolbar{
-    display:none;flex-direction:column;
-    background:var(--ink-2);color:var(--text-light);
-    padding:5px 12px 6px;z-index:29;
-    box-shadow:0 1px 4px rgba(0,0,0,.2);
-    border-bottom:1px solid var(--line);
-    flex-shrink:0;
-    overflow:hidden;
-  }
+  /* ============ TOOLBAR — صف واحد بس مع scroll أفقي ============ */
+  #toolbar{display:none;flex-direction:column;background:var(--ink-2);color:var(--text-light);padding:6px 12px;z-index:29;box-shadow:0 1px 4px rgba(0,0,0,.2);border-bottom:1px solid var(--line);flex-shrink:0;overflow:hidden;}
   #toolbar.show{display:flex;}
-
   #toolbarRow{
-    display:flex;align-items:center;justify-content:flex-start;
-    gap:8px;flex-wrap:nowrap;
+    display:flex;align-items:center;justify-content:flex-start;gap:6px;
+    flex-wrap:nowrap;
     overflow-x:auto;overflow-y:hidden;
-    scrollbar-width:thin;-ms-overflow-style:none;
+    scrollbar-width:thin;scrollbar-color:rgba(232,121,60,.5) transparent;
+    padding-bottom:4px;
     -webkit-overflow-scrolling:touch;
-    padding-bottom:2px;
   }
-  #toolbarRow::-webkit-scrollbar{height:4px;}
-  #toolbarRow::-webkit-scrollbar-thumb{background:rgba(232,121,60,.4);border-radius:4px;}
-  #toolbarRow::-webkit-scrollbar-track{background:rgba(255,255,255,.05);border-radius:4px;}
+  #toolbarRow::-webkit-scrollbar{height:6px;}
+  #toolbarRow::-webkit-scrollbar-thumb{background:rgba(232,121,60,.45);border-radius:6px;}
+  #toolbarRow::-webkit-scrollbar-thumb:hover{background:rgba(232,121,60,.75);}
+  #toolbarRow::-webkit-scrollbar-track{background:rgba(255,255,255,.05);border-radius:6px;}
 
-  .tool-btn{
-    background:transparent;border:1px solid transparent;color:var(--text-light);
-    padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px;
-    display:flex;align-items:center;gap:6px;transition:all .15s;
-    font-family:inherit;flex-shrink:0;white-space:nowrap;
-  }
+  .tool-btn{background:transparent;border:1px solid transparent;color:var(--text-light);padding:6px 10px;border-radius:8px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:6px;transition:all .15s;font-family:inherit;flex-shrink:0;white-space:nowrap;}
   .tool-btn:hover{background:var(--ink);}
-  .tool-btn.active{
-    background:rgba(232,121,60,.2);border-color:var(--accent);color:#fff;
-    box-shadow:0 0 0 1px rgba(232,121,60,.3);
-  }
+  .tool-btn.active{background:rgba(232,121,60,.2);border-color:var(--accent);color:#fff;box-shadow:0 0 0 1px rgba(232,121,60,.3);}
   .tool-btn svg{width:18px;height:18px;flex:none;}
-
   .t-sep{width:1px;height:24px;background:var(--line);margin:0 2px;flex-shrink:0;}
 
-  /* ★★★ صندوق الألوان الجديد ★★★ */
-  .pen-rack{
-    display:flex;align-items:center;gap:6px;
-    background:var(--ink);padding:4px 6px;
-    border-radius:10px;flex-shrink:0;
-  }
-  .pen{
-    width:20px;height:20px;border-radius:50%;cursor:pointer;
-    border:2px solid rgba(255,255,255,.15);display:inline-block;
-    position:relative;flex:none;transition:transform .12s;
-  }
+  .pen-rack{display:flex;align-items:center;gap:6px;background:var(--ink);padding:4px 6px;border-radius:10px;flex-shrink:0;}
+  .pen{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid rgba(255,255,255,.15);display:inline-block;position:relative;flex:none;transition:transform .12s;}
   .pen:hover{transform:translateY(-2px);}
-  .pen.selected{
-    border-color:#fff;
-    box-shadow:0 0 0 2px var(--ink-2),0 0 0 3px var(--accent);
-  }
+  .pen.selected{border-color:#fff;box-shadow:0 0 0 2px var(--ink-2),0 0 0 3px var(--accent);}
 
-  /* ★ Color Picker الرئيسي */
-  .color-picker-btn{
-    width:28px;height:28px;border-radius:8px;cursor:pointer;
-    border:2px solid rgba(255,255,255,.25);
-    display:inline-flex;align-items:center;justify-content:center;
-    position:relative;flex:none;padding:0;overflow:hidden;
-    transition:transform .12s, border-color .15s;
-    background:transparent;
-  }
-  .color-picker-btn:hover{
-    transform:scale(1.08);
-    border-color:var(--accent);
-  }
-  .color-picker-btn input[type="color"]{
-    position:absolute;inset:0;width:100%;height:100%;
-    opacity:0;cursor:pointer;border:none;padding:0;
-  }
-  .color-picker-btn .c-swatch{
-    position:absolute;inset:2px;border-radius:5px;
-    background:currentColor;pointer-events:none;
-    box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);
-  }
-  .color-picker-btn .c-icon{
-    position:relative;z-index:2;color:#fff;
-    font-size:12px;font-weight:bold;pointer-events:none;
-    text-shadow:0 0 3px rgba(0,0,0,.8),0 0 1px rgba(0,0,0,.9);
-  }
+  .color-picker-btn{width:28px;height:28px;border-radius:8px;cursor:pointer;border:2px solid rgba(255,255,255,.25);display:inline-flex;align-items:center;justify-content:center;position:relative;flex:none;padding:0;overflow:hidden;transition:transform .12s;background:transparent;}
+  .color-picker-btn:hover{transform:scale(1.08);border-color:var(--accent);}
+  .color-picker-btn input[type="color"]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;border:none;}
+  .color-picker-btn .c-swatch{position:absolute;inset:2px;border-radius:5px;background:currentColor;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);}
+  .color-picker-btn .c-icon{position:relative;z-index:2;color:#fff;font-size:12px;font-weight:bold;pointer-events:none;text-shadow:0 0 3px rgba(0,0,0,.8);}
 
   .tb-label{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;flex-shrink:0;white-space:nowrap;}
   input[type=range].tb-range{width:65px;accent-color:var(--accent);flex-shrink:0;}
-
-  .tb-btn{
-    background:transparent;border:1px solid transparent;color:var(--text-light);
-    padding:6px 10px;border-radius:8px;cursor:pointer;
-    display:flex;align-items:center;gap:4px;transition:background .15s;
-    font-family:inherit;flex-shrink:0;
-  }
+  .tb-btn{background:transparent;border:1px solid transparent;color:var(--text-light);padding:6px 10px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:4px;transition:background .15s;font-family:inherit;flex-shrink:0;}
   .tb-btn:hover{background:var(--ink);}
   .tb-btn svg{width:16px;height:16px;flex:none;}
 
-  /* ============================================================
-     ★★★ الشريط الرأسي
-     ============================================================ */
-  #navBar{
-    display:none;
-    position:fixed;
-    right:8px;top:50%;transform:translateY(-50%);
-    width:20px;max-height:72vh;
-    background:rgba(27,36,48,.2);
-    border-radius:10px;
-    z-index:50;
-    cursor:grab;
-    touch-action:none;
-    pointer-events:auto;
-  }
-  #navBar.show{display:block;}
-  #navBar{display:none!important;}
-  #navBar:hover{cursor:grab;}
-  #navBar:active{cursor:grabbing;}
-  #navThumb{
-    position:absolute;
-    right:2px;width:16px;
-    min-height:24px;
-    background:var(--ink);
-    border-radius:8px;
-    pointer-events:none;
-    box-shadow:0 1px 6px rgba(0,0,0,.25);
-    transition:background .15s;
-  }
-  #navBar:hover #navThumb, #navBar.dragging #navThumb{background:var(--accent);}
-  #navTooltip{
-    position:absolute;right:30px;top:50%;transform:translateY(-50%);
-    background:var(--ink);color:#fff;white-space:nowrap;
-    padding:5px 14px;border-radius:8px;font-size:12px;font-weight:bold;
-    pointer-events:none;opacity:0;transition:opacity .15s;
-    box-shadow:0 4px 12px rgba(0,0,0,.3);
-  }
-  #navBar:hover #navTooltip, #navBar.dragging #navTooltip{opacity:1;}
-
-  /* ============================================================
-     ★★★ Main area
-     ============================================================ */
-  #main{
-    flex:1;position:relative;overflow:auto;background:
-      radial-gradient(circle at 1px 1px, rgba(0,0,0,.05) 1px, transparent 0) 0 0/16px 16px,
-      var(--paper);
-    touch-action:pan-x pan-y;
-    user-select:none;-webkit-user-select:none;
-    direction:ltr;
-  }
+  /* ============ MAIN ============ */
+  #main{flex:1;position:relative;overflow:auto;background:radial-gradient(circle at 1px 1px, rgba(0,0,0,.05) 1px, transparent 0) 0 0/16px 16px, var(--paper);touch-action:pan-x pan-y;user-select:none;-webkit-user-select:none;direction:ltr;scrollbar-width:none;-ms-overflow-style:none;}
   #emptyState{direction:rtl;}
   #main.grab{cursor:grab;}
-
-  #main::-webkit-scrollbar{width:14px;height:14px;}
-  #main::-webkit-scrollbar-track{background:rgba(27,36,48,.08);border-left:1px solid rgba(27,36,48,.10);}
-  #main::-webkit-scrollbar-thumb{
-    background:#8B8273;border-radius:8px;
-    border:3px solid transparent;background-clip:padding-box;
-  }
-  #main::-webkit-scrollbar-thumb:hover{background:var(--accent);background-clip:padding-box;}
-  #main::-webkit-scrollbar-thumb:active{background:var(--accent-dim);background-clip:padding-box;}
-  @supports (-moz-appearance:none){
-    #main{scrollbar-color:#8B8273 rgba(27,36,48,.08);scrollbar-width:auto;}
-  }
+  #main::-webkit-scrollbar{display:none;width:0;height:0;}
   #main.grabbing{cursor:grabbing!important;}
-  #viewer{direction:ltr;display:flex;flex-direction:column;align-items:flex-start;gap:26px;padding:30px 10px 60px 10px;min-height:100%;}
-
-  .page-wrap{
-    position:relative;
-    box-shadow:0 6px 24px rgba(20,20,30,.22), 0 1px 3px rgba(0,0,0,.15);
-    background:var(--paper-page);
-    margin:0 auto;
-  }
+  #main.dragging-text{cursor:grabbing!important;}
+  #viewer{direction:ltr;display:flex;flex-direction:column;align-items:flex-start;gap:26px;padding:30px 30px 60px 30px;min-height:100%;}
+  .page-wrap{position:relative;box-shadow:0 6px 24px rgba(20,20,30,.22), 0 1px 3px rgba(0,0,0,.15);background:var(--paper-page);margin:0 auto;}
   .page-wrap canvas{display:block;position:absolute;top:0;left:0;}
   .pdf-canvas{position:relative!important;}
   .ink-canvas{touch-action:none;cursor:crosshair;}
-  .page-num{
-    position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);
-    font-family:'JetBrains Mono',monospace;font-size:11px;color:#8B8273;
-  }
-  .page-ph{
-    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-    color:#9A9282;font-family:'JetBrains Mono',monospace;font-size:12px;
-    background:
-      linear-gradient(135deg, rgba(0,0,0,.025) 25%, transparent 25%, transparent 50%, rgba(0,0,0,.025) 50%, rgba(0,0,0,.025) 75%, transparent 75%) 0 0/26px 26px,
-      #FCFAF4;
-  }
+  .page-num{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:11px;color:#8B8273;}
+  .page-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#9A9282;font-family:'JetBrains Mono',monospace;font-size:12px;background:linear-gradient(135deg, rgba(0,0,0,.025) 25%, transparent 25%, transparent 50%, rgba(0,0,0,.025) 50%, rgba(0,0,0,.025) 75%, transparent 75%) 0 0/26px 26px,#FCFAF4;}
 
-  /* ---------- Empty state ---------- */
-  #emptyState{
-    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:18px;padding:30px;text-align:center;
+  .textLayer{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;line-height:1;text-size-adjust:none;-webkit-text-size-adjust:none;forced-color-adjust:none;transform-origin:0 0;z-index:3;pointer-events:none;}
+  .textLayer.selectable{pointer-events:auto;}
+  .textLayer > span, .textLayer > br{color:transparent !important;position:absolute;white-space:pre;cursor:text;transform-origin:0% 0%;pointer-events:auto;user-select:text;-webkit-user-select:text;}
+  .textLayer ::selection{background:rgba(47,111,237,.35);}
+  .textLayer ::-moz-selection{background:rgba(47,111,237,.35);}
+
+  /* ============ VERTICAL NAVIGATION BAR ============ */
+  #navBar{
+    display:none;
+    position:fixed;
+    right:10px;top:104px;bottom:14px;
+    width:20px;
+    z-index:50;
+    cursor:grab;
+    touch-action:none;
   }
-  #dropZone{
-    width:min(520px,86vw);padding:46px 28px;border:2px dashed #B9AF9C;border-radius:16px;
-    background:#F5F2EA;cursor:pointer;transition:border-color .15s,background .15s;
+  #navBar.show{display:block;}
+  #navBar:active,#navBar.dragging{cursor:grabbing;}
+  #navBar::before{
+    content:'';
+    position:absolute;
+    left:50%;top:2px;bottom:2px;
+    width:4px;
+    transform:translateX(-50%);
+    background:rgba(27,36,48,.16);
+    border-radius:4px;
+    transition:background .15s, width .15s;
   }
-  #dropZone:hover, #dropZone.drag{border-color:var(--accent);background:#FBEFE4;}
+  #navBar:hover::before,#navBar.dragging::before{background:rgba(27,36,48,.32);width:5px;}
+  .nav-cap{
+    position:absolute;left:50%;transform:translateX(-50%);
+    width:8px;height:8px;border-radius:50%;
+    background:rgba(27,36,48,.35);
+    pointer-events:none;
+    transition:background .15s;
+  }
+  .nav-cap-top{top:-3px;}
+  .nav-cap-bottom{bottom:-3px;}
+  #navBar:hover .nav-cap,#navBar.dragging .nav-cap{background:var(--accent);}
+  #navThumb{
+    position:absolute;
+    left:50%;transform:translateX(-50%);
+    width:13px;
+    min-height:32px;
+    background:var(--ink);
+    border-radius:8px;
+    pointer-events:none;
+    box-shadow:0 2px 8px rgba(0,0,0,.35);
+    transition:background .15s, width .15s;
+    z-index:1;
+  }
+  #navBar:hover #navThumb,#navBar.dragging #navThumb{background:var(--accent);width:16px;}
+  #navTooltip{
+    position:absolute;right:34px;top:50%;transform:translateY(-50%);
+    background:var(--ink);color:#fff;white-space:nowrap;
+    padding:6px 14px;border-radius:8px;font-size:12px;font-weight:bold;
+    pointer-events:none;opacity:0;transition:opacity .15s;
+    box-shadow:0 4px 12px rgba(0,0,0,.3);
+    font-family:'IBM Plex Sans Arabic',sans-serif;
+  }
+  #navBar:hover #navTooltip,#navBar.dragging #navTooltip{opacity:1;}
+
+  /* ============ CONTEXT MENU ============ */
+  #pdfCtxMenu{position:fixed;display:none;z-index:300;background:#2B2B2B;color:#E8E8E8;border-radius:10px;box-shadow:0 12px 40px rgba(0,0,0,.45);padding:6px;min-width:240px;direction:rtl;font-family:'IBM Plex Sans Arabic',sans-serif;border:1px solid rgba(255,255,255,.08);user-select:none;-webkit-user-select:none;}
+  #pdfCtxMenu.show{display:block;}
+  .ctx-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:7px;cursor:pointer;font-size:14px;transition:background .1s;white-space:nowrap;position:relative;}
+  .ctx-item:hover{background:rgba(255,255,255,.09);}
+  .ctx-item .ctx-icon{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;flex:none;}
+  .ctx-item .ctx-shortcut{margin-inline-start:auto;color:#9AA3B2;font-size:11px;font-family:'JetBrains Mono',monospace;}
+  .ctx-item .ctx-check{margin-inline-start:auto;color:#4A9EFF;font-weight:bold;font-size:15px;display:none;line-height:1;}
+  .ctx-item.active-markup .ctx-check{display:inline;}
+  .ctx-sep{height:1px;background:rgba(255,255,255,.08);margin:4px 6px;}
+
+  /* ★ قائمة الألوان الفرعية — تظهر على الـ hover */
+  .ctx-has-submenu{position:relative;}
+  .ctx-item .ctx-swatches{
+    display:none;
+    position:absolute;
+    top:50%;transform:translateY(-50%);
+    inset-inline-end:100%;
+    margin-inline-end:8px;
+    background:#2B2B2B;
+    border-radius:12px;
+    box-shadow:0 12px 36px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08);
+    padding:10px;
+    gap:8px;
+    flex-wrap:wrap;
+    width:150px;
+    justify-content:center;
+    z-index:10;
+    animation:ctxPop .12s ease-out;
+  }
+  @keyframes ctxPop{
+    from{opacity:0;transform:translateY(-50%) translateX(8px);}
+    to  {opacity:1;transform:translateY(-50%) translateX(0);}
+  }
+  .ctx-item:hover .ctx-swatches{display:flex;}
+  .ctx-item .ctx-swatches::after{
+    content:'';
+    position:absolute;
+    top:50%;inset-inline-start:100%;
+    transform:translateY(-50%);
+    width:0;height:0;
+    border:6px solid transparent;
+    border-inline-start-color:#2B2B2B;
+  }
+  .ctx-swatches .sw{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid rgba(255,255,255,.2);transition:transform .1s;position:relative;}
+  .ctx-swatches .sw:hover{transform:scale(1.18);}
+  .ctx-swatches .sw.selected{border-color:#fff;box-shadow:0 0 0 2px rgba(232,121,60,.6);}
+  .ctx-swatches .sw.selected::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#000;font-weight:bold;font-size:13px;}
+  .ctx-swatches .sw-sep{flex-basis:100%;height:1px;background:rgba(255,255,255,.12);margin:2px 0;}
+  .ctx-swatches .mk-btn{width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:#E8E8E8;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;flex:none;transition:background .12s,border-color .12s,color .12s;}
+  .ctx-swatches .mk-btn:hover{background:rgba(232,121,60,.22);border-color:var(--accent);color:#fff;}
+  .ctx-swatches .mk-btn svg{width:16px;height:16px;}
+
+  /* ============ EMPTY / RECENT / TOAST ============ */
+  #emptyState{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:30px;text-align:center;}
+  #dropZone{width:min(520px,86vw);padding:46px 28px;border:2px dashed #B9AF9C;border-radius:16px;background:#F5F2EA;cursor:pointer;transition:border-color .15s,background .15s;}
+  #dropZone:hover,#dropZone.drag{border-color:var(--accent);background:#FBEFE4;}
   #dropZone svg{width:46px;height:46px;color:var(--accent-dim);margin-bottom:10px;}
   #dropZone h2{margin:6px 0 4px;font-size:17px;}
   #dropZone p{margin:0;color:#7A7263;font-size:13px;}
-
   #recentBox{width:min(520px,86vw);}
   #recentBox h3{font-size:12px;color:#8B8273;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.08em;margin:0 0 10px;text-align:right;}
-  .recent-item{
-    display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #E3DDCD;border-radius:10px;
-    padding:10px 12px;margin-bottom:8px;cursor:pointer;transition:border-color .15s, transform .1s;
-  }
+  .recent-item{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #E3DDCD;border-radius:10px;padding:10px 12px;margin-bottom:8px;cursor:pointer;transition:border-color .15s, transform .1s;}
   .recent-item:hover{border-color:var(--accent);transform:translateX(-2px);}
   .recent-item .ric{width:30px;height:30px;border-radius:8px;background:var(--ink);color:var(--accent);display:flex;align-items:center;justify-content:center;flex:none;font-size:12px;font-family:'JetBrains Mono',monospace;font-weight:700;}
   .recent-item .ri-meta{flex:1;min-width:0;text-align:right;}
   .recent-item .ri-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .recent-item .ri-sub{font-size:11px;color:#9A9282;font-family:'JetBrains Mono',monospace;}
-
-  /* ---------- Toast ---------- */
-  #toast{
-    position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);
-    background:var(--ink);color:#fff;padding:10px 18px;border-radius:10px;font-size:13px;
-    opacity:0;transition:opacity .2s, transform .2s;pointer-events:none;z-index:100;box-shadow:0 6px 20px rgba(0,0,0,.3);
-  }
+  #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:10px;font-size:13px;opacity:0;transition:opacity .2s, transform .2s;pointer-events:none;z-index:400;box-shadow:0 6px 20px rgba(0,0,0,.3);}
   #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-
-  /* ---------- Loading ---------- */
-  #loadingOverlay{
-    position:fixed;inset:0;background:rgba(27,36,48,.92);display:none;
-    align-items:center;justify-content:center;z-index:90;color:#fff;flex-direction:column;gap:14px;
-  }
+  #loadingOverlay{position:fixed;inset:0;background:rgba(27,36,48,.92);display:none;align-items:center;justify-content:center;z-index:90;color:#fff;flex-direction:column;gap:14px;}
   #loadingOverlay.show{display:flex;}
   .spinner{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,.2);border-top-color:var(--accent);animation:spin 1s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
-
-  /* ---------- لوحة الاختصارات ---------- */
-  #helpOverlay{
-    display:none;position:fixed;inset:0;background:rgba(27,36,48,.9);
-    z-index:200;align-items:center;justify-content:center;cursor:pointer;
-  }
+  #helpOverlay{display:none;position:fixed;inset:0;background:rgba(27,36,48,.9);z-index:200;align-items:center;justify-content:center;cursor:pointer;}
   #helpOverlay.show{display:flex;}
-  #helpPanel{
-    background:var(--ink);border:1px solid var(--line);border-radius:14px;
-    padding:22px 26px;max-width:430px;width:90%;color:var(--text-light);
-    cursor:default;box-shadow:0 20px 60px rgba(0,0,0,.5);
-  }
+  #helpPanel{background:var(--ink);border:1px solid var(--line);border-radius:14px;padding:22px 26px;max-width:460px;width:90%;color:var(--text-light);cursor:default;box-shadow:0 20px 60px rgba(0,0,0,.5);max-height:85vh;overflow-y:auto;}
   #helpPanel h3{margin:0 0 16px;font-size:17px;display:flex;justify-content:space-between;align-items:center;}
   #helpPanel h3 button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;font-family:inherit;}
   .hk-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:13px;}
   .hk-row:last-child{border-bottom:none;}
-  .hk-row .kbd{margin-inline-start:4px;}
-
   ::-webkit-scrollbar{width:10px;height:10px;}
   ::-webkit-scrollbar-thumb{background:#cfc8b8;border-radius:6px;}
-  ::-webkit-scrollbar-track{background:transparent;}
-
-  /* ---------- Waiting for parent ---------- */
-  #waitingForParent{
-    display:none;
-    position:fixed;inset:0;background:rgba(27,36,48,.85);
-    z-index:80;align-items:center;justify-content:center;
-    color:#fff;flex-direction:column;gap:16px;text-align:center;padding:20px;
-  }
+  #waitingForParent{display:none;position:fixed;inset:0;background:rgba(27,36,48,.85);z-index:80;align-items:center;justify-content:center;color:#fff;flex-direction:column;gap:16px;text-align:center;padding:20px;}
   #waitingForParent.show{display:flex;}
-  #waitingForParent h3{margin:0;font-size:16px;}
-  #waitingForParent p{margin:0;font-size:12px;color:var(--muted);}
+
+  /* ============ TEXT INPUT (add & edit) ============ */
+  #textInputBox{position:fixed;display:none;z-index:150;background:#fff;border:2px solid var(--accent);border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.35);min-width:240px;direction:rtl;}
+  #textInputBox.editing{border-color:#4A9EFF;box-shadow:0 0 0 4px rgba(74,158,255,.2), 0 10px 40px rgba(0,0,0,.35);}
+  #textInputBox .ti-badge{display:none;background:#4A9EFF;color:#fff;font-size:10px;font-weight:600;padding:3px 8px;border-radius:0 6px 0 6px;position:absolute;top:-2px;right:-2px;font-family:inherit;}
+  #textInputBox.editing .ti-badge{display:inline-block;}
+  #textInputBox textarea{display:block;width:100%;min-height:70px;min-width:240px;border:none;outline:none;resize:both;padding:10px;font-family:'IBM Plex Sans Arabic','JetBrains Mono',sans-serif;font-size:16px;line-height:1.5;background:transparent;color:var(--ink);}
+  #textInputBox .ti-actions{display:flex;gap:6px;padding:6px 8px;border-top:1px solid #E3DDCD;background:#F5F2EA;border-radius:0 0 8px 8px;justify-content:space-between;align-items:center;}
+  #textInputBox .ti-actions button{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:5px 12px;font-family:inherit;font-size:12px;cursor:pointer;font-weight:600;}
+  #textInputBox.editing .ti-actions button#tiOk{background:#4A9EFF;}
+  #textInputBox .ti-actions button.ghost{background:transparent;color:#7A7263;font-weight:400;}
+  #textInputBox .ti-actions button.danger{background:transparent;color:#D1495B;font-weight:500;font-size:12px;padding:5px 10px;}
+  #textInputBox .ti-dir{display:flex;gap:4px;}
+  #textInputBox .ti-dir button{background:#E3DDCD;color:var(--ink);padding:4px 10px;font-size:11px;font-weight:600;}
+  #textInputBox .ti-dir button.active{background:var(--accent);color:#fff;}
+
+  /* ============ TRANSLATION ============ */
+  #translatePanel{display:none;position:fixed;right:20px;top:90px;width:min(400px,92vw);background:#fff;border:1px solid #E3DDCD;border-radius:14px;box-shadow:0 14px 44px rgba(0,0,0,.28);z-index:250;overflow:hidden;direction:rtl;}
+  #translatePanel.show{display:block;}
+  #translatePanel .tp-header{background:var(--ink);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600;}
+  #translatePanel .tp-header button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;}
+  #translatePanel .tp-body{padding:12px 14px;display:flex;flex-direction:column;gap:10px;}
+  #translatePanel .tp-langs{display:flex;gap:8px;align-items:center;justify-content:center;}
+  #translatePanel .tp-langs select{flex:1;padding:6px 8px;border:1px solid #E3DDCD;border-radius:8px;font-family:inherit;font-size:13px;background:#F9F7F1;cursor:pointer;}
+  #translatePanel .tp-swap{background:var(--accent);color:#fff;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:14px;flex:none;display:flex;align-items:center;justify-content:center;}
+  #translatePanel textarea{width:100%;min-height:80px;border:1px solid #E3DDCD;border-radius:10px;padding:10px;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:14px;resize:vertical;background:#FCFAF4;outline:none;}
+  #translatePanel .tp-result{min-height:80px;border:1px solid #E3DDCD;border-radius:10px;padding:10px;background:#FBEFE4;font-size:14px;line-height:1.6;white-space:pre-wrap;}
+  #translatePanel .tp-actions{display:flex;gap:8px;}
+  #translatePanel .tp-actions button{flex:1;padding:8px 12px;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;background:var(--accent);color:#fff;}
+  #translatePanel .tp-actions button.ghost{background:#E3DDCD;color:var(--ink);font-weight:500;}
 
   @media (max-width:720px){
     #topbar{padding:4px 8px;gap:6px;}
     button.tbtn span.lbl{display:none;}
-    .kbd{display:none;}
-    .t-sep{display:none;}
+    .kbd{display:none;}.t-sep{display:none;}
     .tool-btn span{display:none;}
     .tool-btn{padding:6px 8px;}
     .tb-label{display:none;}
     input[type=range].tb-range{width:48px;}
     #pageIndicator .pg-label{display:none;}
     #pageIndicator .pg-num{font-size:15px;}
-    #navBar{right:3px;width:14px;}
-    #navThumb{width:10px;right:2px;}
-    #viewer{padding-right:10px;}
-    /* ★ تحسين Color Picker للموبايل */
     .color-picker-btn{width:32px;height:32px;}
     .pen{width:18px;height:18px;}
-    .pen-rack{gap:5px;padding:4px;}
+    #translatePanel{right:8px;left:8px;width:auto;top:80px;}
+    #pdfCtxMenu{min-width:200px;}
+    #navBar{right:6px;width:16px;top:96px;bottom:10px;}
+    #navThumb{width:11px;min-height:26px;}
+    #viewer{padding:30px 24px 60px 24px;}
   }
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- ★★★ التوب بار -->
+  <!-- ============ TOPBAR ============ -->
   <div id="topbar">
-    <div class="brand">
-      <span class="dot"></span>
-      <b>قلم PDF</b>
-      <span class="mono">v8</span>
-    </div>
-    <button class="tbtn" id="btnHelp" title="اختصارات لوحة المفاتيح" style="padding:4px 8px;">؟</button>
+    <div class="brand"><span class="dot"></span><b>قلم PDF</b><span class="mono">v13</span></div>
+    <button class="tbtn" id="btnHelp" style="padding:4px 8px;">؟</button>
     <div class="sep"></div>
-
-    <button class="tbtn" id="btnOpen" title="فتح ملف PDF">
+    <button class="tbtn" id="btnOpen">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
       <span class="lbl">فتح ملف</span>
     </button>
-
     <div class="sep"></div>
-
-    <button class="tbtn" id="btnZoomOut" title="تصغير (−)">−</button>
-    <span class="mono" id="zoomLabel" title="ملاءمة (0)" style="font-size:12px;min-width:44px;text-align:center;">100%</span>
-    <button class="tbtn" id="btnZoomIn" title="تكبير (+)">+</button>
-    <button class="tbtn" id="btnZoomFit" title="ملاءمة العرض">
+    <button class="tbtn" id="btnZoomOut">−</button>
+    <span class="mono" id="zoomLabel" style="font-size:12px;min-width:44px;text-align:center;cursor:pointer;">100%</span>
+    <button class="tbtn" id="btnZoomIn">+</button>
+    <button class="tbtn" id="btnZoomFit" title="ملاءمة">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
       <span class="lbl">ملاءمة</span>
     </button>
-
     <div class="sep"></div>
-
-    <div id="pageIndicator" title="اضغطي لاختيار صفحة معينة">
+    <div id="pageIndicator">
       <span class="pg-label"><span>الصفحة</span></span>
       <span class="pg-num" id="pgNum">1</span>
       <span style="font-size:14px;color:var(--muted);font-family:'JetBrains Mono',monospace;">/</span>
       <span class="pg-total" id="pgTotal">1</span>
     </div>
-
     <div class="sep"></div>
-
-    <button class="tbtn" id="btnPrevPage" title="الصفحة السابقة (Space)">▲</button>
-    <button class="tbtn" id="btnNextPage" title="الصفحة التالية (PageDown)">▼</button>
-
+    <button class="tbtn" id="btnTranslate" title="ترجمة (G)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h7M9 3v2c0 4-2 7-5 9"/><path d="M5 9c0 2 2 4 4 5"/><path d="M14 9l4 10m-6 0l4-10m-3 6h4"/></svg>
+      <span class="lbl">ترجمة</span>
+    </button>
     <div class="sep"></div>
-
-    <button class="tbtn" id="btnExternal" title="فتح الملف في تبويب جديد">
+    <button class="tbtn" id="btnExternal" title="فتح في تبويب جديد">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
       <span class="lbl">افتح بره</span>
     </button>
@@ -429,114 +335,210 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
       <span class="lbl">ملء الشاشة</span>
     </button>
-
     <div class="sep"></div>
     <span id="saveStatus" class="mono" style="font-size:11px;color:var(--muted);display:none;"></span>
-    <button class="tbtn primary" id="btnExport" style="display:none;" title="تنزيل PDF مع التعليقات">
+    <button class="tbtn" id="btnClearAll" title="حذف كل التعديلات في هذا الملف" style="display:none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 002 2h6a2 2 0 002-2l1-13"/></svg>
+      <span class="lbl">حذف الكل</span>
+    </button>
+    <button class="tbtn primary" id="btnExport" style="display:none;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
       <span class="lbl">تنزيل PDF</span>
     </button>
   </div>
 
-  <!-- ★★★ شريط الأدوات -->
+  <!-- ============ TOOLBAR (single row with horizontal scroll) ============ -->
   <div id="toolbar">
     <div id="toolbarRow">
-      <button class="tool-btn" data-tool="select" title="تصفّح + سحب (اختصار: 1)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 11V6a2 2 0 00-2-2a2 2 0 00-2 2"/><path d="M14 10V4a2 2 0 00-2-2a2 2 0 00-2 2v2"/><path d="M10 10.5V6a2 2 0 00-2-2a2 2 0 00-2 2v8"/><path d="M18 8a2 2 0 114 0v6a8 8 0 01-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 012.83-2.82L7 15"/></svg>
-        <span>تصفّح + سحب</span><span class="kbd">1</span>
+      <button class="tool-btn" data-tool="select" title="تحديد / سحب / تعديل النص (1/S)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l7 17 2-7 7-2z"/></svg>
+        <span>تحديد / سحب</span>
       </button>
-
       <div class="t-sep"></div>
-
-      <button class="tool-btn" data-tool="pen" title="قلم (اختصار: 2)">
+      <button class="tool-btn" data-tool="pen" title="قلم (2/P)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16.5 3.5l4 4L7 21H3v-4L16.5 3.5z"/></svg>
-        <span>قلم</span><span class="kbd">2</span>
+        <span>قلم</span>
       </button>
-
       <div class="pen-rack" id="colorRack"></div>
-
       <span class="tb-label" id="widthLabel">السُمك</span>
       <input type="range" class="tb-range" id="widthRange" min="1" max="40" value="4">
-
       <div class="t-sep"></div>
-
-      <button class="tool-btn" data-tool="highlighter" title="تظليل (اختصار: 3)">
+      <button class="tool-btn" data-tool="highlighter" title="تظليل حر (3/H)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l6-6 4 4-6 6H9v-4z"/><path d="M5 21l3-3"/></svg>
-        <span>تظليل</span><span class="kbd">3</span>
+        <span>تظليل حر</span>
       </button>
-
-      <span class="tb-label" id="opLabel" style="display:none;">الشفافية</span>
+      <div class="t-sep" id="hiSepStart" style="display:none;"></div>
+      <div id="hiGroup" style="display:none;align-items:center;gap:6px;">
+        <button class="tool-btn" data-tool="underline" title="تسطير (U)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4v6a6 6 0 0012 0V4M4 20h16"/></svg><span>تسطير</span></button>
+        <button class="tool-btn" data-tool="strike" title="شطب (K)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4v4a6 6 0 0012 0V4M4 12h16M4 20h16"/></svg><span>شطب</span></button>
+      </div>
+      <div class="t-sep" id="hiSepEnd" style="display:none;"></div>
+      <span class="tb-label" id="opLabel" style="display:none;">شفافية</span>
       <input type="range" class="tb-range" id="opRange" min="10" max="90" value="38" style="display:none;">
-
       <div class="t-sep"></div>
-
-      <button class="tool-btn" data-tool="eraser" title="ممحاة (اختصار: 4)">
+      <button class="tool-btn" data-tool="eraser" title="ممحاة (4/E)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="13" width="9" height="6" rx="1" transform="rotate(-45 8 16)"/></svg>
-        <span>ممحاة</span><span class="kbd">4</span>
+        <span>ممحاة</span>
       </button>
-
+      <div class="t-sep" id="shapesSepStart" style="display:none;"></div>
+      <div id="shapesGroup" style="display:none;align-items:center;gap:6px;">
+        <button class="tool-btn" data-tool="line" title="خط (L)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="20" x2="20" y2="4"/></svg><span>خط</span></button>
+        <button class="tool-btn" data-tool="arrow" title="سهم (A)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="14 7 20 12 14 17"/></svg><span>سهم</span></button>
+        <button class="tool-btn" data-tool="rect" title="مستطيل (R)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="6" width="16" height="12" rx="1"/></svg><span>مستطيل</span></button>
+        <button class="tool-btn" data-tool="circle" title="دائرة (C)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg><span>دائرة</span></button>
+        <button class="tool-btn" data-tool="polygon" title="مضلع (Y)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 3 20 8 20 16 12 21 4 16 4 8"/></svg><span>مضلع</span></button>
+        <button class="tool-btn" data-tool="cloud" title="سحابة (O)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 16c-2 0-3-1.5-3-3.5S4.5 9 6.5 9C7 6 9 4 12 4s5 2 5.5 5c2 .5 3.5 2 3.5 4s-1.5 3.5-3.5 3.5H6z"/></svg><span>سحابة</span></button>
+        <button class="tool-btn" data-tool="callout" title="فقاعة (Q)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v10H9l-4 4v-4H4z"/></svg><span>فقاعة</span></button>
+      </div>
+      <div class="t-sep" id="shapesSepEnd" style="display:none;"></div>
+      <button class="tool-btn" data-tool="text" title="كتابة نص (T)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 6h14M12 6v14M8 20h8"/></svg>
+        <span>نص</span>
+      </button>
+      <span class="tb-label" id="fontLabel" style="display:none;">حجم</span>
+      <input type="range" class="tb-range" id="fontRange" min="10" max="80" value="24" style="display:none;">
       <div class="t-sep"></div>
-
-      <button class="tb-btn" id="btnUndo" title="تراجع (Ctrl+Z)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12H9"/></svg>
-      </button>
-      <button class="tb-btn" id="btnRedo" title="إعادة (Ctrl+Y)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 000 12h5"/></svg>
-      </button>
+      <button class="tb-btn" id="btnUndo" title="تراجع (Ctrl+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12H9"/></svg></button>
+      <button class="tb-btn" id="btnRedo" title="إعادة (Ctrl+Y)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 000 12h5"/></svg></button>
     </div>
   </div>
 
+  <!-- ============ MAIN ============ -->
   <div id="main">
     <div id="emptyState">
       <div id="quickResume" style="display:none;"></div>
       <div id="dropZone">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 16V4m0 0L7 9m5-5l5 5"/><path d="M5 16v3a2 2 0 002 2h10a2 2 0 002-2v-3"/></svg>
         <h2>اسحب ملف PDF هنا</h2>
-        <p>أو اضغط للاختيار من جهازك (لابتوب أو موبايل)</p>
+        <p>أو اضغط للاختيار من جهازك</p>
       </div>
-      <div id="recentBox" style="display:none;">
-        <h3>آخر الملفات</h3>
-        <div id="recentList"></div>
-      </div>
+      <div id="recentBox" style="display:none;"><h3>آخر الملفات</h3><div id="recentList"></div></div>
     </div>
-
     <div id="viewer" style="display:none;"></div>
   </div>
 
-  <div id="navBar" title="اسحبي للتنقل في الملف">
+  <!-- ★ شريط التنقل الرأسي -->
+  <div id="navBar" title="اسحب للتنقل في الملف">
+    <span class="nav-cap nav-cap-top"></span>
     <div id="navThumb"></div>
+    <span class="nav-cap nav-cap-bottom"></span>
     <div id="navTooltip">صفحة 1</div>
   </div>
 
   <input type="file" id="fileInput" accept="application/pdf" style="display:none;">
 </div>
 
-<!-- ★ شاشة الانتظار -->
-<div id="waitingForParent">
-  <div class="spinner"></div>
-  <h3>⏳ بانتظار الملف من الصفحة الرئيسية...</h3>
-  <p>لو الشاشة فضلت كده، ارجعي للصفحة الرئيسية وأعيدي فتح قلم PDF</p>
+<!-- ============ CONTEXT MENU ============ -->
+<div id="pdfCtxMenu">
+
+  <div class="ctx-item" data-act="copy"><span class="ctx-icon">📋</span><span>نسخ النص</span><span class="ctx-shortcut">Ctrl+C</span></div>
+  <div class="ctx-item" data-act="comment"><span class="ctx-icon">📝</span><span>إضافة كتعليق</span></div>
+  <div class="ctx-item" data-act="search"><span class="ctx-icon">🔍</span><span>ابحث في جوجل</span></div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item ctx-has-submenu" data-act="highlight" data-markup="text-highlight">
+    <span class="ctx-icon">🖍️</span><span>تظليل</span>
+    <span class="ctx-check">✓</span>
+    <div class="ctx-swatches" id="highlightSwatches">
+      <span class="sw selected" data-color="#FFE066" style="background:#FFE066;" title="أصفر"></span>
+      <span class="sw" data-color="#8CE99A" style="background:#8CE99A;" title="أخضر"></span>
+      <span class="sw" data-color="#FFA8C5" style="background:#FFA8C5;" title="وردي"></span>
+      <span class="sw" data-color="#74C0FC" style="background:#74C0FC;" title="أزرق"></span>
+      <span class="sw" data-color="#FFC9C9" style="background:#FFC9C9;" title="أحمر فاتح"></span>
+      <span class="sw" data-color="#D0BFFF" style="background:#D0BFFF;" title="بنفسجي"></span>
+      <span class="sw-sep"></span>
+      <button class="mk-btn" data-act="underline" data-markup="text-underline" title="تسطير"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4v6a6 6 0 0012 0V4M4 20h16"/></svg></button>
+      <button class="mk-btn" data-act="strike" data-markup="text-strike" title="شطب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4v4a6 6 0 0012 0V4M4 12h16M4 20h16"/></svg></button>
+    </div>
+  </div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" data-act="translate"><span class="ctx-icon">🌐</span><span>ترجمة عربي ↔ إنجليزي</span></div>
 </div>
 
-<!-- لوحة الاختصارات -->
+<!-- ============ TRANSLATE PANEL ============ -->
+<div id="translatePanel">
+  <div class="tp-header"><span>🌐 الترجمة</span><button id="tpClose">✕</button></div>
+  <div class="tp-body">
+    <div class="tp-langs">
+      <select id="tpFrom">
+        <option value="auto">كشف تلقائي</option>
+        <option value="ar">العربية</option>
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="es">Español</option>
+        <option value="de">Deutsch</option>
+        <option value="tr">Türkçe</option>
+      </select>
+      <button class="tp-swap" id="tpSwap">⇄</button>
+      <select id="tpTo">
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+        <option value="fr">Français</option>
+        <option value="es">Español</option>
+        <option value="de">Deutsch</option>
+        <option value="tr">Türkçe</option>
+      </select>
+    </div>
+    <textarea id="tpInput" placeholder="اكتب أو الصق النص هنا…"></textarea>
+    <div class="tp-actions">
+      <button id="tpTranslate">ترجم الآن</button>
+      <button class="ghost" id="tpClear">مسح</button>
+    </div>
+    <div class="tp-result" id="tpResult">الترجمة ستظهر هنا…</div>
+    <div class="tp-actions">
+      <button class="ghost" id="tpCopy">📋 نسخ</button>
+      <button id="tpInsert">📄 إدراج في الملف</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TEXT INPUT ============ -->
+<div id="textInputBox">
+  <span class="ti-badge">تعديل</span>
+  <textarea id="tiTextarea" placeholder="اكتب هنا… (عربي / English)"></textarea>
+  <div class="ti-actions">
+    <div class="ti-dir">
+      <button data-dir="rtl">RTL</button>
+      <button data-dir="ltr">LTR</button>
+    </div>
+    <div style="display:flex;gap:6px;align-items:center;">
+      <button class="danger" id="tiDelete" style="display:none;">🗑️ حذف</button>
+      <button class="ghost" id="tiCancel">إلغاء</button>
+      <button id="tiOk">إضافة</button>
+    </div>
+  </div>
+</div>
+
+<div id="waitingForParent">
+  <div class="spinner"></div>
+  <h3>⏳ بانتظار الملف...</h3>
+</div>
+
+<!-- ============ HELP ============ -->
 <div id="helpOverlay">
   <div id="helpPanel">
-    <h3>⌨️ اختصارات سريعة
-      <button onclick="document.getElementById('helpOverlay').classList.remove('show')">✕</button>
-    </h3>
-    <div class="hk-row"><span>🔲 تصفّح + سحب</span><span><span class="kbd">1</span><span class="kbd">S</span></span></div>
+    <h3>⌨️ اختصارات <button id="helpClose">✕</button></h3>
+    <div class="hk-row"><span>🔲 تحديد / سحب / تعديل النص</span><span><span class="kbd">1</span><span class="kbd">S</span></span></div>
     <div class="hk-row"><span>✏️ قلم</span><span><span class="kbd">2</span><span class="kbd">P</span></span></div>
-    <div class="hk-row"><span>🖍️ تظليل</span><span><span class="kbd">3</span><span class="kbd">H</span></span></div>
+    <div class="hk-row"><span>🖍️ تظليل حر</span><span><span class="kbd">3</span><span class="kbd">H</span></span></div>
+    <div class="hk-row"><span>▁ تسطير / ╳ شطب</span><span><span class="kbd">U</span><span class="kbd">K</span></span></div>
     <div class="hk-row"><span>🧹 ممحاة</span><span><span class="kbd">4</span><span class="kbd">E</span></span></div>
+    <div class="hk-row"><span>📏 خط</span><span><span class="kbd">L</span></span></div>
+    <div class="hk-row"><span>➡️ سهم</span><span><span class="kbd">A</span></span></div>
+    <div class="hk-row"><span>▭ مستطيل / ◯ دائرة</span><span><span class="kbd">R</span><span class="kbd">C</span></span></div>
+    <div class="hk-row"><span>⬡ مضلع / ☁️ سحابة / 💬 فقاعة</span><span><span class="kbd">Y</span><span class="kbd">O</span><span class="kbd">Q</span></span></div>
+    <div class="hk-row"><span>🅰️ نص جديد</span><span><span class="kbd">T</span></span></div>
+    <div class="hk-row"><span>🌐 ترجمة</span><span><span class="kbd">G</span></span></div>
     <div class="hk-row"><span>↩️ تراجع / ↪️ إعادة</span><span><span class="kbd">Ctrl+Z</span><span class="kbd">Ctrl+Y</span></span></div>
-    <div class="hk-row"><span>🔍 زوم / تصغير</span><span><span class="kbd">+</span><span class="kbd">−</span></span></div>
-    <div class="hk-row"><span>🎯 ملاءمة</span><span><span class="kbd">0</span></span></div>
-    <div class="hk-row"><span>📄 صفحة لتحت / لفوق</span><span><span class="kbd">Space</span><span class="kbd">Shift+Space</span></span></div>
+    <div class="hk-row"><span>🔍 زوم</span><span><span class="kbd">+</span><span class="kbd">−</span><span class="kbd">0</span></span></div>
+    <div class="hk-row"><span>📄 تنقل</span><span><span class="kbd">Space</span><span class="kbd">Shift+Space</span></span></div>
     <div class="hk-row"><span>🖥️ ملء الشاشة</span><span><span class="kbd">F</span><span class="kbd">Esc</span></span></div>
-    <div class="hk-row"><span>📊 التنقل في الملف</span><span>اسحبي شريط التمرير يمين</span></div>
-    <div class="hk-row"><span>🔲 سحب الصفحة</span><span>اسحبي بالماوس في وضع التصفّح</span></div>
-    <p style="margin:14px 0 0;font-size:11px;color:var(--muted);text-align:center;">اضغطي في أي مكان بره اللوحة للإغلاق</p>
+    <p style="margin:14px 0 0;font-size:11px;color:var(--muted);text-align:center;line-height:1.7;">
+      🖱️ بالماوس:<br>
+      • <b>اسحب النص</b> لتحريكه<br>
+      • <b>انقر مرتين</b> على النص لتعديله<br>
+      • <b>حدّد نص PDF</b> ← زر الماوس الأيمن للخيارات<br>
+      • <b>اسحب شريط التنقل</b> يمين الشاشة
+    </p>
   </div>
 </div>
 
@@ -551,280 +553,152 @@
 
   pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 
-  const PDF_URL_DEFAULT = "";
   const urlParam = new URLSearchParams(location.search).get("file");
   const VIA_POST = new URLSearchParams(location.search).get("viapost") === "1";
-  const PDF_URL = VIA_POST ? "" : (urlParam ? urlParam : PDF_URL_DEFAULT);
-
+  const PDF_URL = VIA_POST ? "" : (urlParam || "");
   const NORM_W = 1000;
 
-  let pdfDoc = null;
-  let pdfBytes = null;
-  let currentFile = null;
-  let numPages = 0;
+  let pdfDoc = null, pdfBytes = null, currentFile = null, numPages = 0;
   let pageMeta = [];
-  let strokesByPage = {};
-  let redoByPage = {};
-  let zoom = 1.0;
-  let baseScale = 1.0;
-  let renderedZoom = 1.0;
+  let strokesByPage = {}, redoByPage = {};
+  let zoom = 1.0, baseScale = 1.0, renderedZoom = 1.0;
   let currentTool = "select";
   let currentColor = "#1B2430";
   let currentWidth = 4;
   let currentHiOpacity = 0.38;
-  let drawing = false;
-  let activeStroke = null;
-  let activePageNum = null;
-  let saveTimer = null;
-  let fsHandle = null;
-  let pageObserver = null;
-  let renderedPages = new Set();
-  let renderDebounce = null;
-  let resizeTimer = null;
-  let pinchState = null;
-  let panState = null;
-  let navDragging = false;
-  let navSync = true;
+  let currentFontSize = 24;
+  let currentTextDir = "auto";
+  let drawing = false, activeStroke = null, activePageNum = null;
+  let saveTimer = null, fsHandle = null, pageObserver = null;
+  let renderedPages = new Set(), renderDebounce = null, resizeTimer = null;
+  let pinchState = null, panState = null;
+  let pendingInsertText = null;
+  let selectedRange = null;
+  let ctxMenu = null;
+  let ctxHighlightColor = "#FFE066";
+  let currentMarkupMode = "text-highlight";
+  let textDragState = null;
+  let navDragging = false, navSyncTimer = null;
 
   const MIN_ZOOM = 0.25, MAX_ZOOM = 4;
-
-  // ═══════════════════════════════════════════════════════════
-  // ★★★ الألوان — سريعة + مخصصة ★★★
-  // ═══════════════════════════════════════════════════════════
   const PEN_COLORS = ["#1B2430", "#D1495B", "#2F6FED", "#2F9E44", "#E8793C"];
   const HI_COLORS  = ["#FFE066", "#8CE99A", "#FFA8C5", "#74C0FC", "#FFD43B"];
-
   const CUSTOM_COLORS_KEY = "pdfqalam:custom-colors";
-  function loadCustomColors(){
-    try{
-      var raw = localStorage.getItem(CUSTOM_COLORS_KEY);
-      var arr = raw ? JSON.parse(raw) : [];
-      return Array.isArray(arr) ? arr : [];
-    }catch(e){ return []; }
-  }
-  function saveCustomColor(color){
-    try{
-      var arr = loadCustomColors();
-      arr = arr.filter(function(c){ return String(c).toLowerCase() !== String(color).toLowerCase(); });
-      arr.unshift(color);
-      if(arr.length > 8) arr = arr.slice(0, 8);
-      localStorage.setItem(CUSTOM_COLORS_KEY, JSON.stringify(arr));
-    }catch(e){}
-  }
+  const TEXT_FONT_FAMILY = "'IBM Plex Sans Arabic','JetBrains Mono',system-ui,Arial,sans-serif";
 
-  const $ = (s)=>document.querySelector(s);
-  const btnOpen = $("#btnOpen");
-  const fileInput = $("#fileInput");
-  const dropZone = $("#dropZone");
-  const emptyState = $("#emptyState");
-  const viewer = $("#viewer");
-  const toolbar = $("#toolbar");
-  const colorRack = $("#colorRack");
-  const widthRange = $("#widthRange");
-  const opRange = $("#opRange");
-  const saveStatus = $("#saveStatus");
-  const btnExport = $("#btnExport");
-  const zoomLabel = $("#zoomLabel");
-  const recentBox = $("#recentBox");
-  const recentList = $("#recentList");
-  const loadingOverlay = $("#loadingOverlay");
-  const loadingText = $("#loadingText");
-  const mainEl = $("#main");
-  const navBar = $("#navBar");
-  const navThumb = $("#navThumb");
-  const navTooltip = $("#navTooltip");
-  const pageIndicator = $("#pageIndicator");
-  const pgNum = $("#pgNum");
-  const pgTotal = $("#pgTotal");
-  const waitingForParent = $("#waitingForParent");
+  function loadCustomColors(){ try{ const a = JSON.parse(localStorage.getItem(CUSTOM_COLORS_KEY)||"[]"); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
+  function saveCustomColor(c){ try{ let a=loadCustomColors(); a=a.filter(x=>String(x).toLowerCase()!==String(c).toLowerCase()); a.unshift(c); if(a.length>8)a=a.slice(0,8); localStorage.setItem(CUSTOM_COLORS_KEY,JSON.stringify(a)); }catch(e){} }
+
+  const $ = s => document.querySelector(s);
+  const btnOpen=$("#btnOpen"), fileInput=$("#fileInput"), dropZone=$("#dropZone");
+  const emptyState=$("#emptyState"), viewer=$("#viewer"), toolbar=$("#toolbar");
+  const colorRack=$("#colorRack"), widthRange=$("#widthRange"), opRange=$("#opRange");
+  const fontRange=$("#fontRange"), saveStatus=$("#saveStatus"), btnExport=$("#btnExport"), btnClearAll=$("#btnClearAll");
+  const zoomLabel=$("#zoomLabel"), recentBox=$("#recentBox"), recentList=$("#recentList");
+  const loadingOverlay=$("#loadingOverlay"), loadingText=$("#loadingText");
+  const mainEl=$("#main"), pageIndicator=$("#pageIndicator");
+  const pgNum=$("#pgNum"), pgTotal=$("#pgTotal"), waitingForParent=$("#waitingForParent");
+  const textInputBox=$("#textInputBox"), tiTextarea=$("#tiTextarea");
+  const translatePanel=$("#translatePanel"), helpOverlay=$("#helpOverlay");
+  const navBar=$("#navBar"), navThumb=$("#navThumb"), navTooltip=$("#navTooltip");
 
   function toast(msg){
-    const t = $("#toast");
-    t.textContent = msg;
-    t.classList.add("show");
+    const t = $("#toast"); if(!t) return;
+    t.textContent = msg; t.classList.add("show");
     clearTimeout(t._timer);
     t._timer = setTimeout(()=>t.classList.remove("show"), 2200);
   }
-  function showLoading(msg){ loadingText.textContent = msg||"جاري التحميل..."; loadingOverlay.classList.add("show"); }
+  function showLoading(m){ if(loadingText) loadingText.textContent = m||"جاري التحميل..."; loadingOverlay.classList.add("show"); }
   function hideLoading(){ loadingOverlay.classList.remove("show"); }
+  function canvasDpr(c){ return parseFloat(c.dataset.dpr)||1; }
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 
-  function canvasDpr(canvas){ return parseFloat(canvas.dataset.dpr) || 1; }
-
-  // ═══════════════════════════════════════════════════════════
-  // ★★★ نظام postMessage ★★★
-  // ═══════════════════════════════════════════════════════════
+  // ============ postMessage ============
   window.addEventListener("message", function(e){
-    var data = e.data;
-    if(!data || typeof data !== "object") return;
-
-    if(data.type === "load-pdf" && data.bytes){
+    var d = e.data; if(!d || typeof d !== "object") return;
+    if(d.type === "load-pdf" && d.bytes){
       try{
         waitingForParent.classList.remove("show");
-        var blob = new Blob([data.bytes], {type: "application/pdf"});
-        var file = new File([blob], data.name || "document.pdf", {type: "application/pdf"});
+        var blob = new Blob([d.bytes], {type:"application/pdf"});
+        var file = new File([blob], d.name||"document.pdf", {type:"application/pdf"});
         loadFile(file, null).then(function(){
-          if(e.source && e.source.postMessage){
-            e.source.postMessage({type: "load-pdf-ack", success: true}, "*");
-          }
+          if(e.source && e.source.postMessage) e.source.postMessage({type:"load-pdf-ack",success:true},"*");
         }).catch(function(err){
-          console.error("postMessage load error:", err);
-          if(e.source && e.source.postMessage){
-            e.source.postMessage({type: "load-pdf-ack", success: false, error: String(err)}, "*");
-          }
+          if(e.source && e.source.postMessage) e.source.postMessage({type:"load-pdf-ack",success:false,error:String(err)},"*");
         });
-      }catch(err){
-        console.error("postMessage prepare error:", err);
-      }
+      }catch(err){}
       return;
     }
-
-    if(data.type === "ping" && e.source){
-      try{ e.source.postMessage({type: "pong", ready: true}, "*"); }catch(err){}
-    }
+    if(d.type === "ping" && e.source){ try{ e.source.postMessage({type:"pong",ready:true},"*"); }catch(err){} }
   });
+  function announceReady(){ if(window.parent && window.parent !== window){ try{ window.parent.postMessage({type:"annotator-ready"},"*"); }catch(e){} } }
 
-  function announceReady(){
-    if(window.parent && window.parent !== window){
-      try{
-        window.parent.postMessage({type: "annotator-ready"}, "*");
-        console.log("📤 Annotator: أرسلت إشارة ready للأب");
-      }catch(err){ console.warn("postMessage failed:", err); }
-    }
-  }
-
-  // ---------------- Storage ----------------
+  // ============ Storage ============
   const STORAGE_PREFIX = "pdfqalam:";
-  async function storeGet(key){
-    try{ const raw = localStorage.getItem(STORAGE_PREFIX + key); return raw ? JSON.parse(raw) : null; }catch(e){ return null; }
-  }
-  async function storeSet(key, value){
-    try{ localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value)); return true; }catch(e){ return false; }
-  }
-  function fileId(name, size){
-    return "f_" + size + "_" + name.replace(/[^a-zA-Z0-9_\-\.]/g,"_").slice(0,80);
-  }
+  async function storeGet(k){ try{ const r = localStorage.getItem(STORAGE_PREFIX+k); return r ? JSON.parse(r) : null; }catch(e){ return null; } }
+  async function storeSet(k,v){ try{ localStorage.setItem(STORAGE_PREFIX+k, JSON.stringify(v)); return true; }catch(e){ return false; } }
+  function fileId(n,s){ return "f_"+s+"_"+n.replace(/[^a-zA-Z0-9_\-\.]/g,"_").slice(0,80); }
 
   function idbOpen(){
     return new Promise((res,rej)=>{
-      const req = indexedDB.open("pdf-annotator-db", 1);
-      req.onupgradeneeded = ()=>{ req.result.createObjectStore("handles"); };
-      req.onsuccess = ()=>res(req.result);
-      req.onerror = ()=>rej(req.error);
+      const r = indexedDB.open("pdf-annotator-db", 1);
+      r.onupgradeneeded = () => { if(!r.result.objectStoreNames.contains("handles")) r.result.createObjectStore("handles"); };
+      r.onsuccess = () => res(r.result);
+      r.onerror = () => rej(r.error);
     });
   }
-  async function idbSetHandle(id, handle){
-    try{
-      const db = await idbOpen();
-      return new Promise((res)=>{
-        const tx = db.transaction("handles","readwrite");
-        tx.objectStore("handles").put(handle, id);
-        tx.oncomplete = ()=>res(true);
-        tx.onerror = ()=>res(false);
-      });
-    }catch(e){ return false; }
-  }
-  async function idbGetHandle(id){
-    try{
-      const db = await idbOpen();
-      return new Promise((res)=>{
-        const tx = db.transaction("handles","readonly");
-        const req = tx.objectStore("handles").get(id);
-        req.onsuccess = ()=>res(req.result||null);
-        req.onerror = ()=>res(null);
-      });
-    }catch(e){ return null; }
-  }
+  async function idbSetHandle(id,h){ try{ const db=await idbOpen(); return new Promise(r=>{ const t=db.transaction("handles","readwrite"); t.objectStore("handles").put(h,id); t.oncomplete=()=>r(true); t.onerror=()=>r(false); }); }catch(e){ return false; } }
+  async function idbGetHandle(id){ try{ const db=await idbOpen(); return new Promise(r=>{ const t=db.transaction("handles","readonly"); const rq=t.objectStore("handles").get(id); rq.onsuccess=()=>r(rq.result||null); rq.onerror=()=>r(null); }); }catch(e){ return null; } }
 
-  // ---------------- Recent files ----------------
-  async function getRecentList(){
-    const list = await storeGet("recent-files-list");
-    return Array.isArray(list) ? list : [];
-  }
-  async function upsertRecent(entry){
-    let list = await getRecentList();
-    list = list.filter(x=>x.id!==entry.id);
-    list.unshift(entry);
-    list = list.slice(0,10);
-    await storeSet("recent-files-list", list);
-    return list;
-  }
-  function fmtSize(bytes){
-    if(bytes>1024*1024) return (bytes/1024/1024).toFixed(1)+" MB";
-    return Math.round(bytes/1024)+" KB";
-  }
-  function fmtDate(ts){
-    const d = new Date(ts);
-    return d.toLocaleDateString("ar-EG",{day:"numeric",month:"short"}) + " " + d.toLocaleTimeString("ar-EG",{hour:"2-digit",minute:"2-digit"});
-  }
+  // ============ Recent ============
+  async function getRecentList(){ const l = await storeGet("recent-files-list"); return Array.isArray(l)?l:[]; }
+  async function upsertRecent(e){ let l=await getRecentList(); l=l.filter(x=>x.id!==e.id); l.unshift(e); l=l.slice(0,10); await storeSet("recent-files-list",l); return l; }
+  function fmtSize(b){ return b>1048576?(b/1048576).toFixed(1)+" MB":Math.round(b/1024)+" KB"; }
+  function fmtDate(ts){ const d=new Date(ts); return d.toLocaleDateString("ar-EG",{day:"numeric",month:"short"})+" "+d.toLocaleTimeString("ar-EG",{hour:"2-digit",minute:"2-digit"}); }
   async function renderRecentList(){
-    const list = await getRecentList();
-    if(!list.length){ recentBox.style.display="none"; return; }
+    const l = await getRecentList();
+    if(!l.length){ recentBox.style.display="none"; return; }
     recentBox.style.display = "block";
     recentList.innerHTML = "";
-    for(const item of list){
-      const div = document.createElement("div");
-      div.className = "recent-item";
-      div.innerHTML = `<div class="ric">PDF</div><div class="ri-meta"><div class="ri-name">${escapeHtml(item.name)}</div><div class="ri-sub">${fmtSize(item.size)} · آخر حفظ ${fmtDate(item.savedAt)}</div></div>`;
-      div.addEventListener("click", ()=>openRecent(item));
-      recentList.appendChild(div);
+    for(const it of l){
+      const d = document.createElement("div");
+      d.className = "recent-item";
+      d.innerHTML = '<div class="ric">PDF</div><div class="ri-meta"><div class="ri-name">'+escapeHtml(it.name)+'</div><div class="ri-sub">'+fmtSize(it.size)+' · '+fmtDate(it.savedAt)+'</div></div>';
+      d.addEventListener("click", ()=>openRecent(it));
+      recentList.appendChild(d);
     }
   }
-  function escapeHtml(s){
-    return s.replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-  }
-
   async function openRecent(item){
-    const handle = await idbGetHandle(item.id);
-    if(handle){
+    const h = await idbGetHandle(item.id);
+    if(h){
       try{
-        const perm = await handle.requestPermission({mode:"read"});
-        if(perm === "granted"){
-          const file = await handle.getFile();
-          await loadFile(file, handle);
-          return;
-        }
+        const p = await h.requestPermission({mode:"read"});
+        if(p==="granted"){ const f=await h.getFile(); await loadFile(f,h); return; }
       }catch(e){}
     }
-    toast("اختر نفس الملف \""+item.name+"\" من جهازك لمتابعة التعديل عليه");
-    fileInput.onchange = async (ev)=>{
-      const f = ev.target.files[0];
-      if(f) await loadFile(f, null);
-      fileInput.onchange = defaultFileInputHandler;
-    };
+    toast('اختر نفس الملف "'+item.name+'"');
+    fileInput.onchange = async ev => { const f=ev.target.files[0]; if(f) await loadFile(f,null); fileInput.onchange=defaultFileInputHandler; };
     fileInput.click();
   }
 
-  // ---------------- File opening ----------------
+  // ============ Open file ============
   async function pickFile(){
     if(window.showOpenFilePicker){
-      try{
-        const [handle] = await window.showOpenFilePicker({
-          types:[{description:"PDF", accept:{"application/pdf":[".pdf"]}}]
-        });
-        const file = await handle.getFile();
-        await loadFile(file, handle);
-        return;
-      }catch(e){
-        if(e && e.name === "AbortError") return;
-      }
+      try{ const [h]=await window.showOpenFilePicker({types:[{description:"PDF",accept:{"application/pdf":[".pdf"]}}]}); const f=await h.getFile(); await loadFile(f,h); return; }
+      catch(e){ if(e && e.name==="AbortError") return; }
     }
     fileInput.click();
   }
-  function defaultFileInputHandler(ev){
-    const f = ev.target.files[0];
-    if(f) loadFile(f, null);
-  }
+  function defaultFileInputHandler(ev){ const f=ev.target.files[0]; if(f) loadFile(f,null); }
   fileInput.addEventListener("change", defaultFileInputHandler);
-
   btnOpen.addEventListener("click", pickFile);
   dropZone.addEventListener("click", pickFile);
-  dropZone.addEventListener("dragover", (e)=>{ e.preventDefault(); dropZone.classList.add("drag"); });
-  dropZone.addEventListener("dragleave", ()=> dropZone.classList.remove("drag"));
-  dropZone.addEventListener("drop", (e)=>{
-    e.preventDefault();
-    dropZone.classList.remove("drag");
+  dropZone.addEventListener("dragover", e => { e.preventDefault(); dropZone.classList.add("drag"); });
+  dropZone.addEventListener("dragleave", () => dropZone.classList.remove("drag"));
+  dropZone.addEventListener("drop", e => {
+    e.preventDefault(); dropZone.classList.remove("drag");
     const f = e.dataTransfer.files[0];
-    if(f && f.type === "application/pdf") loadFile(f, null);
+    if(f && f.type==="application/pdf") loadFile(f,null);
     else if(f) toast("من فضلك اسحب ملف PDF فقط");
   });
 
@@ -837,21 +711,16 @@
       currentFile = { id: fileId(file.name, file.size), name: file.name, size: file.size };
       fsHandle = handle || null;
       if(handle) await idbSetHandle(currentFile.id, handle);
-
-      const loadingTask = pdfjsLib.getDocument({ data: buf.slice(0) });
-      pdfDoc = await loadingTask.promise;
+      const task = pdfjsLib.getDocument({ data: buf.slice(0) });
+      pdfDoc = await task.promise;
       numPages = pdfDoc.numPages;
-
       const saved = await storeGet("annot:" + currentFile.id);
       strokesByPage = (saved && saved.pages) ? saved.pages : {};
       redoByPage = {};
-      zoom = 1.0;
-      renderedZoom = 1.0;
+      zoom = 1.0; renderedZoom = 1.0;
       zoomLabel.textContent = "100%";
       pgTotal.textContent = numPages;
-
       await renderAllPages();
-
       emptyState.style.display = "none";
       viewer.style.display = "flex";
       toolbar.classList.add("show");
@@ -859,231 +728,263 @@
       navBar.classList.add("show");
       saveStatus.style.display = "inline";
       btnExport.style.display = "flex";
+      btnClearAll.style.display = "flex";
       setSaveStatus(saved ? "تم تحميل تعليقاتك السابقة" : "جاهز");
-
       await upsertRecent({ id: currentFile.id, name: currentFile.name, size: currentFile.size, savedAt: Date.now() });
       hideLoading();
-      toast("💡 1-4 للأدوات — Space للصفحات — ؟ للاختصارات");
+      toast("💡 اسحب النص لتحريكه — انقر مرتين لتعديله");
     }catch(err){
-      console.error(err);
-      hideLoading();
-      toast("تعذّر فتح الملف، حاول مرة أخرى");
+      console.error(err); hideLoading(); toast("تعذّر فتح الملف");
     }
   }
 
-  // ---------------- Zoom system ----------------
+  // ============ Zoom ============
   function clampZoom(z){ return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z)); }
-
-  function setZoom(newZoom, anchor){
-    newZoom = clampZoom(newZoom);
-    if(Math.abs(newZoom - zoom) < 0.001) return;
-
+  function setZoom(nz, anchor){
+    nz = clampZoom(nz);
+    if(Math.abs(nz-zoom)<0.001) return;
     const rect = mainEl.getBoundingClientRect();
-    let ax=null, ay=null, vx=rect.width/2, vy=rect.height/2;
-    if(anchor){
-      ax = anchor.x - rect.left + mainEl.scrollLeft;
-      ay = anchor.y - rect.top  + mainEl.scrollTop;
-      vx = anchor.x - rect.left;
-      vy = anchor.y - rect.top;
-    }
-    const layoutZoom = renderedZoom;
-
-    zoom = newZoom;
-    zoomLabel.textContent = Math.round(zoom*100) + "%";
-
+    let ax=null,ay=null,vx=rect.width/2,vy=rect.height/2;
+    if(anchor){ ax=anchor.x-rect.left+mainEl.scrollLeft; ay=anchor.y-rect.top+mainEl.scrollTop; vx=anchor.x-rect.left; vy=anchor.y-rect.top; }
+    const lz = renderedZoom;
+    zoom = nz; zoomLabel.textContent = Math.round(zoom*100)+"%";
     clearTimeout(renderDebounce);
     renderDebounce = setTimeout(async ()=>{
       await renderAllPages();
-      if(ax !== null){
-        const ratio = zoom / layoutZoom;
-        mainEl.scrollLeft = Math.max(0, ax * ratio - vx);
-        mainEl.scrollTop  = Math.max(0, ay * ratio - vy);
-      }
+      if(ax!==null){ const r=zoom/lz; mainEl.scrollLeft=Math.max(0,ax*r-vx); mainEl.scrollTop=Math.max(0,ay*r-vy); }
     }, 130);
   }
+  function zoomBy(f){ const r=mainEl.getBoundingClientRect(); setZoom(zoom*f,{x:r.left+r.width/2,y:r.top+r.height/2}); }
+  $("#btnZoomIn").addEventListener("click",()=>zoomBy(1.2));
+  $("#btnZoomOut").addEventListener("click",()=>zoomBy(1/1.2));
+  $("#btnZoomFit").addEventListener("click",()=>setZoom(1,null));
+  zoomLabel.addEventListener("click",()=>setZoom(1,null));
 
-  function zoomBy(factor){
-    const rect = mainEl.getBoundingClientRect();
-    setZoom(zoom * factor, {x: rect.left + rect.width/2, y: rect.top + rect.height/2});
-  }
-  $("#btnZoomIn").addEventListener("click", ()=>zoomBy(1.2));
-  $("#btnZoomOut").addEventListener("click", ()=>zoomBy(1/1.2));
-  $("#btnZoomFit").addEventListener("click", ()=>setZoom(1, null));
-  zoomLabel.addEventListener("click", ()=>setZoom(1, null));
-
-  mainEl.addEventListener("wheel", (e)=>{
+  mainEl.addEventListener("wheel", e => {
     if(!e.ctrlKey && !e.metaKey) return;
     e.preventDefault();
-    let dy = e.deltaY;
-    if(e.deltaMode === 1) dy *= 16;
-    const factor = Math.exp(-dy * 0.0018);
-    setZoom(zoom * factor, {x: e.clientX, y: e.clientY});
+    let dy = e.deltaY; if(e.deltaMode===1) dy*=16;
+    setZoom(zoom*Math.exp(-dy*0.0018), {x:e.clientX, y:e.clientY});
   }, {passive:false});
 
-  function tDist(e){
-    return Math.hypot(
-      e.touches[0].clientX - e.touches[1].clientX,
-      e.touches[0].clientY - e.touches[1].clientY
-    );
-  }
-  mainEl.addEventListener("touchstart", (e)=>{
-    if(e.touches.length === 2){ pinchState = { d: tDist(e), z: zoom }; panState = null; }
-  }, {passive:true});
-  mainEl.addEventListener("touchmove", (e)=>{
-    if(!pinchState || e.touches.length !== 2) return;
+  function tDist(e){ return Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY); }
+  mainEl.addEventListener("touchstart", e => { if(e.touches.length===2){ pinchState={d:tDist(e),z:zoom}; panState=null; } }, {passive:true});
+  mainEl.addEventListener("touchmove", e => {
+    if(!pinchState || e.touches.length!==2) return;
     e.preventDefault();
-    const d = tDist(e);
-    const mx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-    const my = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-    setZoom(pinchState.z * (d / pinchState.d), {x: mx, y: my});
+    const d=tDist(e); const mx=(e.touches[0].clientX+e.touches[1].clientX)/2; const my=(e.touches[0].clientY+e.touches[1].clientY)/2;
+    setZoom(pinchState.z*(d/pinchState.d), {x:mx,y:my});
   }, {passive:false});
-  mainEl.addEventListener("touchend", (e)=>{
-    if(e.touches.length < 2) pinchState = null;
-  }, {passive:true});
+  mainEl.addEventListener("touchend", e => { if(e.touches.length<2) pinchState=null; }, {passive:true});
 
-  // ---------------- افتح بره + ملء الشاشة + المساعدة ----------------
-  const btnExternal = $("#btnExternal");
-  const btnFullscreen = $("#btnFullscreen");
-
-  btnExternal.addEventListener("click", ()=>{
+  // ============ External / FS / Help ============
+  $("#btnExternal").addEventListener("click",()=>{
     if(!pdfBytes){ toast("مفيش ملف مفتوح"); return; }
-    const blob = new Blob([pdfBytes], { type: "application/pdf" });
+    const blob = new Blob([pdfBytes],{type:"application/pdf"});
     const url = URL.createObjectURL(blob);
-    const w = window.open(url, "_blank");
-    if(!w){ toast("المتصفح حجب النافذة — اسمحي بالنوافذ المنبثقة"); }
-    setTimeout(()=>{ try{ URL.revokeObjectURL(url); }catch(e){} }, 60000);
+    const w = window.open(url,"_blank");
+    if(!w) toast("المتصفح حجب النافذة");
+    setTimeout(()=>{ try{URL.revokeObjectURL(url);}catch(e){} },60000);
   });
-
-  function fsActive(){ return !!(document.fullscreenElement || document.webkitFullscreenElement); }
+  function fsActive(){ return !!(document.fullscreenElement||document.webkitFullscreenElement); }
   function toggleFullscreen(){
     const root = document.documentElement;
-    if(!fsActive()){
-      const req = root.requestFullscreen || root.webkitRequestFullscreen;
-      if(req){
-        const p = req.call(root);
-        if(p && p.catch) p.catch(()=>toast("تعذّر ملء الشاشة"));
-      }else{
-        toast("المتصفح ده مش بيدعم ملء الشاشة");
-      }
-    }else{
-      const ex = document.exitFullscreen || document.webkitExitFullscreen;
-      if(ex) ex.call(document);
-    }
+    if(!fsActive()){ const req=root.requestFullscreen||root.webkitRequestFullscreen; if(req){ const p=req.call(root); if(p&&p.catch) p.catch(()=>toast("تعذّر")); } }
+    else { const ex=document.exitFullscreen||document.webkitExitFullscreen; if(ex) ex.call(document); }
   }
-  btnFullscreen.addEventListener("click", toggleFullscreen);
+  $("#btnFullscreen").addEventListener("click", toggleFullscreen);
+  ["fullscreenchange","webkitfullscreenchange"].forEach(ev=>document.addEventListener(ev,()=>{
+    const on = fsActive(); $("#btnFullscreen").classList.toggle("active",on);
+    if(pdfDoc){ clearTimeout(resizeTimer); resizeTimer=setTimeout(()=>renderAllPages(),150); }
+  }));
+  $("#btnHelp").addEventListener("click",()=>helpOverlay.classList.add("show"));
+  $("#helpClose").addEventListener("click",()=>helpOverlay.classList.remove("show"));
+  helpOverlay.addEventListener("click", e => { if(e.target===helpOverlay) helpOverlay.classList.remove("show"); });
 
-  ["fullscreenchange","webkitfullscreenchange"].forEach(ev=>{
-    document.addEventListener(ev, ()=>{
-      const on = fsActive();
-      btnFullscreen.classList.toggle("active", on);
-      btnFullscreen.title = on ? "الخروج من ملء الشاشة (Esc)" : "ملء الشاشة (F)";
-      if(pdfDoc){
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(()=>{ renderAllPages(); }, 150);
+  // ============ Text-annotation bounding box ============
+  function getTextAnnotationBBox(s){
+    const fs = s.fontSize || 24;
+    const lines = String(s.text||"").split("\n");
+    let maxLen = 0;
+    for(const ln of lines) if(ln.length > maxLen) maxLen = ln.length;
+    const approxW = Math.max(60, maxLen * fs * 0.6);
+    const totalH = Math.max(fs * 1.35, lines.length * fs * 1.35);
+    return { x: s.x, y: s.y, w: approxW, h: totalH };
+  }
+
+  function findTextAnnotationAt(clientX, clientY){
+    if(!pdfDoc) return null;
+    const wraps = viewer.querySelectorAll(".page-wrap");
+    for(const wrap of wraps){
+      const rect = wrap.getBoundingClientRect();
+      if(clientX < rect.left || clientX > rect.right) continue;
+      if(clientY < rect.top  || clientY > rect.bottom) continue;
+      const p = parseInt(wrap.dataset.page, 10);
+      if(!pageMeta[p]) continue;
+      const scale = pageMeta[p].width / NORM_W;
+      const nx = (clientX - rect.left) / scale;
+      const ny = (clientY - rect.top)  / scale;
+      const list = strokesByPage[p] || [];
+      for(let i = list.length - 1; i >= 0; i--){
+        const s = list[i];
+        if(s.tool !== "text") continue;
+        const bb = getTextAnnotationBBox(s);
+        if(nx >= bb.x - 10 && nx <= bb.x + bb.w + 10 &&
+           ny >= bb.y - 10 && ny <= bb.y + bb.h + 10){
+          return { stroke: s, page: p, offsetX: nx - s.x, offsetY: ny - s.y };
+        }
       }
-    });
-  });
+    }
+    return null;
+  }
 
-  const helpOverlay = $("#helpOverlay");
-  $("#btnHelp").addEventListener("click", ()=> helpOverlay.classList.add("show"));
-  helpOverlay.addEventListener("click", (e)=>{
-    if(e.target === helpOverlay) helpOverlay.classList.remove("show");
-  });
-
-  // ---------------- السحب بالماوس ----------------
-  mainEl.addEventListener("pointerdown", (e)=>{
-    if(currentTool !== "select" || !pdfDoc) return;
+  // ============ Pan / drag text ============
+  mainEl.addEventListener("pointerdown", e => {
+    if(!pdfDoc) return;
     if(e.pointerType !== "mouse" || e.button !== 0) return;
-    if(e.target.closest("#emptyState") || e.target.closest("button") || e.target.closest("input")) return;
-    panState = { x: e.clientX, y: e.clientY, sl: mainEl.scrollLeft, st: mainEl.scrollTop };
+    if(e.target.closest("#emptyState")||e.target.closest("button")||e.target.closest("input")) return;
+    if(e.target.closest(".ink-canvas")) return;
+
+    // 1) فحص سحب نص مُضاف
+    const hit = findTextAnnotationAt(e.clientX, e.clientY);
+    if(hit){
+      e.preventDefault();
+      try{ window.getSelection().removeAllRanges(); }catch(_){}
+      textDragState = { stroke: hit.stroke, page: hit.page, offsetX: hit.offsetX, offsetY: hit.offsetY };
+      mainEl.classList.add("dragging-text");
+      mainEl.style.cursor = "grabbing";
+      return;
+    }
+
+    if(currentTool !== "select") return;
+    if(e.target.closest(".textLayer")) return;
+
+    panState = {x:e.clientX, y:e.clientY, sl:mainEl.scrollLeft, st:mainEl.scrollTop};
     mainEl.classList.add("grabbing");
   });
-  window.addEventListener("pointermove", (e)=>{
+
+  window.addEventListener("pointermove", e => {
+    if(textDragState){
+      const wrap = viewer.querySelector('.page-wrap[data-page="'+textDragState.page+'"]');
+      if(!wrap) return;
+      const rect = wrap.getBoundingClientRect();
+      const scale = pageMeta[textDragState.page].width / NORM_W;
+      const nx = (e.clientX - rect.left) / scale - textDragState.offsetX;
+      const ny = (e.clientY - rect.top)  / scale - textDragState.offsetY;
+      textDragState.stroke.x = nx;
+      textDragState.stroke.y = ny;
+      drawPageStrokes(textDragState.page);
+      return;
+    }
     if(!panState) return;
     mainEl.scrollLeft = panState.sl - (e.clientX - panState.x);
-    mainEl.scrollTop  = panState.st - (e.clientY - panState.y);
+    mainEl.scrollTop = panState.st - (e.clientY - panState.y);
   });
-  window.addEventListener("pointerup", ()=>{ panState = null; mainEl.classList.remove("grabbing"); });
-  window.addEventListener("pointercancel", ()=>{ panState = null; mainEl.classList.remove("grabbing"); });
 
-  // ---------------- الصفحة الحالية + العداد ----------------
+  window.addEventListener("pointerup", () => {
+    if(textDragState){
+      textDragState.stroke.x = r1(textDragState.stroke.x);
+      textDragState.stroke.y = r1(textDragState.stroke.y);
+      textDragState = null;
+      mainEl.classList.remove("dragging-text");
+      mainEl.style.cursor = "";
+      scheduleSave();
+      return;
+    }
+    panState = null;
+    mainEl.classList.remove("grabbing");
+  });
+  window.addEventListener("pointercancel", () => {
+    if(textDragState){
+      textDragState = null;
+      mainEl.classList.remove("dragging-text");
+      mainEl.style.cursor = "";
+    }
+    panState = null;
+    mainEl.classList.remove("grabbing");
+  });
+
+  // Hover cursor + Double-click to edit
+  mainEl.addEventListener("pointermove", e => {
+    if(textDragState || panState) return;
+    if(!pdfDoc) return;
+    if(currentTool !== "select"){ if(mainEl.style.cursor === "move") mainEl.style.cursor = ""; return; }
+    const hit = findTextAnnotationAt(e.clientX, e.clientY);
+    if(hit){ mainEl.style.cursor = "move"; }
+    else if(mainEl.style.cursor === "move"){ mainEl.style.cursor = ""; }
+  }, {passive:true});
+
+  mainEl.addEventListener("dblclick", e => {
+    if(currentTool !== "select" || !pdfDoc) return;
+    const hit = findTextAnnotationAt(e.clientX, e.clientY);
+    if(!hit || hit.stroke.tool !== "text") return;
+    e.preventDefault();
+    e.stopPropagation();
+    openTextInputForEdit(hit.stroke, hit.page, e.clientX, e.clientY);
+  });
+
+  // ============ Current page ============
   function currentPage(){
     if(!pdfDoc) return 1;
     const mr = mainEl.getBoundingClientRect();
     let cur = 1;
-    viewer.querySelectorAll(".page-wrap").forEach(w=>{
+    viewer.querySelectorAll(".page-wrap").forEach(w => {
       const r = w.getBoundingClientRect();
-      if(r.top < mr.top + mr.height * 0.45) cur = parseInt(w.dataset.page, 10);
+      if(r.top < mr.top + mr.height*0.45) cur = parseInt(w.dataset.page,10);
     });
     return cur;
   }
   function updatePageIndicator(){
     const p = currentPage();
-    pgNum.textContent = p;
-    pgTotal.textContent = numPages;
-    navTooltip.textContent = "صفحة " + p;
+    if(pgNum) pgNum.textContent = p;
+    if(pgTotal) pgTotal.textContent = numPages;
+    if(navTooltip) navTooltip.textContent = "صفحة " + p;
   }
   function goToPage(p){
     if(!pdfDoc) return;
     p = Math.max(1, Math.min(numPages, p));
-    const wrap = viewer.querySelector('.page-wrap[data-page="'+p+'"]');
-    if(!wrap) return;
+    const w = viewer.querySelector('.page-wrap[data-page="'+p+'"]');
+    if(!w) return;
     const mr = mainEl.getBoundingClientRect();
-    const wr = wrap.getBoundingClientRect();
-    mainEl.scrollBy({ top: wr.top - mr.top - 8, behavior: "smooth" });
-    pgNum.textContent = p;
+    const wr = w.getBoundingClientRect();
+    mainEl.scrollBy({top: wr.top - mr.top - 8, behavior:"smooth"});
+    if(pgNum) pgNum.textContent = p;
   }
-  $("#btnPrevPage").addEventListener("click", ()=> goToPage(currentPage() - 1));
-  $("#btnNextPage").addEventListener("click", ()=> goToPage(currentPage() + 1));
-  pageIndicator.addEventListener("click", ()=>{
+  pageIndicator.addEventListener("click",()=>{
     if(!pdfDoc) return;
-    const n = prompt("اكتبي رقم الصفحة (1 - " + numPages + "):", String(currentPage()));
-    if(n === null) return;
-    const p = parseInt(n, 10);
-    if(p >= 1 && p <= numPages) goToPage(p);
+    const n = prompt("رقم الصفحة (1 - "+numPages+"):", String(currentPage()));
+    if(n===null) return;
+    const p = parseInt(n,10); if(p>=1 && p<=numPages) goToPage(p);
   });
 
-  let scrollSyncTimer = null;
-  mainEl.addEventListener("scroll", ()=>{
-    if(!pdfDoc) return;
-    clearTimeout(scrollSyncTimer);
-    scrollSyncTimer = setTimeout(()=>{
-      updatePageIndicator();
-      updateNavBar();
-    }, 60);
-  });
+  let scrollSyncTimer=null;
+  mainEl.addEventListener("scroll",()=>{ if(!pdfDoc) return; clearTimeout(scrollSyncTimer); scrollSyncTimer=setTimeout(()=>{ updatePageIndicator(); updateNavBar(); },60); });
 
-  // ---------------- الشريط الرأسي ----------------
+  // ============ ★ شريط التنقل الرأسي ============
   function navMetrics(){
-    const trackH = Math.max(30, navBar.clientHeight - 4);
-    const ratio = Math.max(0.1, Math.min(1, mainEl.clientHeight / Math.max(1, mainEl.scrollHeight)));
-    const thumbH = Math.max(24, Math.round(ratio * trackH));
+    const trackH = Math.max(30, navBar.clientHeight - 6);
+    const ratio = Math.max(0.08, Math.min(1, mainEl.clientHeight / Math.max(1, mainEl.scrollHeight)));
+    const thumbH = Math.max(28, Math.round(ratio * trackH));
     const maxScroll = Math.max(1, mainEl.scrollHeight - mainEl.clientHeight);
     const pct = mainEl.scrollTop / maxScroll;
     const maxTop = Math.max(0, trackH - thumbH);
-    return { trackH: trackH, thumbH: thumbH, maxScroll: maxScroll, pct: pct, maxTop: maxTop };
+    return { trackH, thumbH, maxScroll, pct, maxTop };
   }
-
   function updateNavBar(){
     if(!pdfDoc || navDragging) return;
     const m = navMetrics();
     navThumb.style.height = m.thumbH + "px";
-    navThumb.style.top = (2 + m.pct * m.maxTop) + "px";
+    navThumb.style.top = (3 + m.pct * m.maxTop) + "px";
   }
-
   function pageFromNavY(y){
     const m = navMetrics();
     const rect = navBar.getBoundingClientRect();
-    const pct = Math.max(0, Math.min(1, (y - rect.top - 2) / Math.max(1, m.trackH)));
-    navThumb.style.top = (2 + pct * m.maxTop) + "px";
-    navSync = false;
+    const pct = Math.max(0, Math.min(1, (y - rect.top - 3) / Math.max(1, m.trackH)));
+    navThumb.style.top = (3 + pct * m.maxTop) + "px";
     mainEl.scrollTop = pct * m.maxScroll;
     updatePageIndicator();
-    clearTimeout(updateNavBar._t);
-    updateNavBar._t = setTimeout(function(){ navSync = true; }, 250);
   }
-
-  navBar.addEventListener("pointerdown", (e)=>{
+  navBar.addEventListener("pointerdown", e => {
     if(!pdfDoc) return;
     e.preventDefault();
     e.stopPropagation();
@@ -1092,7 +993,7 @@
     navBar.classList.add("dragging");
     pageFromNavY(e.clientY);
   });
-  navBar.addEventListener("pointermove", (e)=>{
+  navBar.addEventListener("pointermove", e => {
     if(!navDragging) return;
     pageFromNavY(e.clientY);
   });
@@ -1100,58 +1001,42 @@
     if(!navDragging) return;
     navDragging = false;
     navBar.classList.remove("dragging");
-    navSync = true;
     updateNavBar();
   }
   navBar.addEventListener("pointerup", endNavDrag);
   navBar.addEventListener("pointercancel", endNavDrag);
-  navBar.addEventListener("click", (e)=>{
-    e.stopPropagation();
-  });
+  navBar.addEventListener("click", e => e.stopPropagation());
 
-  // ---------------- Rendering ----------------
+  // ============ Rendering ============
   async function renderAllPages(){
     if(!pdfDoc) return;
-    if(pageObserver){ pageObserver.disconnect(); }
+    if(pageObserver) pageObserver.disconnect();
     viewer.innerHTML = "";
     renderedPages.clear();
-
-    const containerWidth = Math.min(mainEl.clientWidth - 60, 900);
-    const baseDpr = Math.min(3, Math.max(window.devicePixelRatio || 1, 2));
-
+    const cw = Math.min(mainEl.clientWidth-60, 900);
+    const dpr = Math.min(3, Math.max(window.devicePixelRatio||1, 2));
     for(let p=1; p<=numPages; p++){
       const page = await pdfDoc.getPage(p);
-      const vp1 = page.getViewport({ scale: 1 });
-      if(p===1) baseScale = containerWidth / vp1.width;
-      const w = Math.round(vp1.width  * baseScale * zoom);
-      const h = Math.round(vp1.height * baseScale * zoom);
-
+      const vp1 = page.getViewport({scale:1});
+      if(p===1) baseScale = cw/vp1.width;
+      const w = Math.round(vp1.width*baseScale*zoom);
+      const h = Math.round(vp1.height*baseScale*zoom);
       const wrap = document.createElement("div");
-      wrap.className = "page-wrap";
-      wrap.dataset.page = p;
-      wrap.style.width = w + "px";
-      wrap.style.height = h + "px";
-
+      wrap.className = "page-wrap"; wrap.dataset.page = p;
+      wrap.style.width = w+"px"; wrap.style.height = h+"px";
       const ph = document.createElement("div");
-      ph.className = "page-ph";
-      ph.textContent = p + " / " + numPages;
+      ph.className = "page-ph"; ph.textContent = p+" / "+numPages;
       wrap.appendChild(ph);
-
       viewer.appendChild(wrap);
-      pageMeta[p] = { width:w, height:h, page:page, ptW:vp1.width, ptH:vp1.height, dpr:baseDpr };
+      pageMeta[p] = { width:w, height:h, page:page, ptW:vp1.width, ptH:vp1.height, dpr:dpr };
     }
-
-    pageObserver = new IntersectionObserver((entries)=>{
-      for(const en of entries){
-        if(en.isIntersecting){
-          const p = parseInt(en.target.dataset.page, 10);
-          if(p && !renderedPages.has(p)) renderPageContent(p);
-        }
+    pageObserver = new IntersectionObserver(entries => {
+      for(const en of entries) if(en.isIntersecting){
+        const p = parseInt(en.target.dataset.page,10);
+        if(p && !renderedPages.has(p)) renderPageContent(p);
       }
-    }, { root: mainEl, rootMargin: "500px 0px" });
-
-    viewer.querySelectorAll(".page-wrap").forEach(w=> pageObserver.observe(w));
-
+    }, {root:mainEl, rootMargin:"500px 0px"});
+    viewer.querySelectorAll(".page-wrap").forEach(w => pageObserver.observe(w));
     renderedZoom = zoom;
     updateCanvasInteractivity();
     updatePageIndicator();
@@ -1166,92 +1051,276 @@
     renderedPages.add(p);
     try{
       const scale = meta.width / meta.ptW;
-      const scaledViewport = meta.page.getViewport({ scale });
-
+      const vp = meta.page.getViewport({scale});
       let dpr = meta.dpr;
       const MAX_PIX = 6000;
-      if(scaledViewport.width  * dpr > MAX_PIX) dpr = MAX_PIX / scaledViewport.width;
-      if(scaledViewport.height * dpr > MAX_PIX) dpr = Math.min(dpr, MAX_PIX / scaledViewport.height);
+      if(vp.width*dpr > MAX_PIX) dpr = MAX_PIX/vp.width;
+      if(vp.height*dpr > MAX_PIX) dpr = Math.min(dpr, MAX_PIX/vp.height);
 
       const pdfCanvas = document.createElement("canvas");
       pdfCanvas.className = "pdf-canvas";
-      pdfCanvas.width  = Math.round(scaledViewport.width  * dpr);
-      pdfCanvas.height = Math.round(scaledViewport.height * dpr);
-      pdfCanvas.style.width  = meta.width + "px";
-      pdfCanvas.style.height = meta.height + "px";
+      pdfCanvas.width = Math.round(vp.width*dpr);
+      pdfCanvas.height = Math.round(vp.height*dpr);
+      pdfCanvas.style.width = meta.width+"px";
+      pdfCanvas.style.height = meta.height+"px";
       const pctx = pdfCanvas.getContext("2d");
       pctx.imageSmoothingEnabled = true;
       pctx.imageSmoothingQuality = "high";
-      pctx.scale(dpr, dpr);
-      await meta.page.render({ canvasContext: pctx, viewport: scaledViewport }).promise;
+      pctx.scale(dpr,dpr);
+      await meta.page.render({canvasContext:pctx, viewport:vp}).promise;
 
       const inkCanvas = document.createElement("canvas");
       inkCanvas.className = "ink-canvas";
       inkCanvas.dataset.page = p;
       inkCanvas.dataset.dpr = dpr;
-      inkCanvas.width  = Math.round(scaledViewport.width  * dpr);
-      inkCanvas.height = Math.round(scaledViewport.height * dpr);
-      inkCanvas.style.width  = meta.width + "px";
-      inkCanvas.style.height = meta.height + "px";
+      inkCanvas.width = Math.round(vp.width*dpr);
+      inkCanvas.height = Math.round(vp.height*dpr);
+      inkCanvas.style.width = meta.width+"px";
+      inkCanvas.style.height = meta.height+"px";
       const ictx = inkCanvas.getContext("2d");
-      ictx.scale(dpr, dpr);
+      ictx.scale(dpr,dpr);
+
+      const textLayerDiv = document.createElement("div");
+      textLayerDiv.className = "textLayer";
+      textLayerDiv.dataset.page = p;
+      textLayerDiv.style.width = meta.width+"px";
+      textLayerDiv.style.height = meta.height+"px";
 
       const pnum = document.createElement("div");
       pnum.className = "page-num mono";
-      pnum.textContent = p + " / " + numPages;
+      pnum.textContent = p+" / "+numPages;
 
       wrap.innerHTML = "";
       wrap.appendChild(pdfCanvas);
       wrap.appendChild(inkCanvas);
+      wrap.appendChild(textLayerDiv);
       wrap.appendChild(pnum);
 
       attachPointerEvents(inkCanvas, p);
       drawPageStrokes(p);
       updateCanvasInteractivity();
+
+      try{
+        const textContent = await meta.page.getTextContent();
+        pdfjsLib.renderTextLayer({
+          textContent: textContent,
+          container: textLayerDiv,
+          viewport: vp,
+          textDivs: []
+        }).promise.then(() => {
+          textLayerDiv.querySelectorAll("span").forEach(sp => sp.setAttribute("data-page", p));
+        }).catch(err => console.warn("text layer err", err));
+      }catch(err){ console.warn("textContent err", p, err); }
     }catch(err){
       console.error("render page", p, err);
       renderedPages.delete(p);
     }
   }
 
-  // ---------------- Drawing helpers ----------------
+  // ============ Drawing helpers ============
   function pageScale(p){ return pageMeta[p].width / NORM_W; }
-
-  function toNorm(p, clientX, clientY, canvas){
-    const rect = canvas.getBoundingClientRect();
+  function r1(n){ return Math.round(n*10)/10; }
+  function toNorm(p, cx, cy, canvas){
+    const r = canvas.getBoundingClientRect();
     const s = pageScale(p);
-    return { x: (clientX - rect.left) / s, y: (clientY - rect.top) / s };
+    return {x: r1((cx-r.left)/s), y: r1((cy-r.top)/s)};
   }
-
-  function strokeStyleFor(stroke){
-    if(stroke.tool === "highlighter"){
-      const op = (typeof stroke.opacity === "number") ? stroke.opacity : 0.38;
-      return { opacity: op, comp: "multiply" };
-    }
-    return { opacity: 1, comp: "source-over" };
+  function getInkCanvas(p){ return viewer.querySelector('canvas.ink-canvas[data-page="'+p+'"]'); }
+  // Points may be stored as a flat array [x1,y1,x2,y2,...] (compact — current
+  // format) or as legacy [{x,y},{x,y},...] objects from older saved data.
+  // These helpers read either transparently.
+  function ptCount(pts){ return (typeof pts[0] === "number") ? (pts.length/2) : pts.length; }
+  function ptAt(pts, i){ return (typeof pts[0] === "number") ? {x:pts[i*2], y:pts[i*2+1]} : pts[i]; }
+  function flattenPoints(pts){
+    const out = [];
+    for(const pt of pts){ out.push(r1(pt.x), r1(pt.y)); }
+    return out;
   }
 
   function drawStrokeOnCtx(ctx, stroke, scale){
-    if(!stroke.points || stroke.points.length < 2) return;
-    const style = strokeStyleFor(stroke);
+    const pts = stroke.points;
+    if(!pts || ptCount(pts) < 2) return;
+    const n = ptCount(pts);
+    const isHi = stroke.tool === "highlighter";
     ctx.save();
-    ctx.globalAlpha = style.opacity;
-    ctx.globalCompositeOperation = style.comp;
+    ctx.globalAlpha = isHi ? (stroke.opacity ?? 0.38) : 1;
+    ctx.globalCompositeOperation = isHi ? "multiply" : "source-over";
     ctx.strokeStyle = stroke.color;
-    ctx.lineWidth = Math.max(stroke.width * scale, 0.6);
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
+    ctx.lineWidth = Math.max(stroke.width*scale, 0.6);
+    ctx.lineCap = "round"; ctx.lineJoin = "round";
     ctx.beginPath();
-    ctx.moveTo(stroke.points[0].x*scale, stroke.points[0].y*scale);
-    for(let i=1;i<stroke.points.length;i++){
-      ctx.lineTo(stroke.points[i].x*scale, stroke.points[i].y*scale);
-    }
+    const p0 = ptAt(pts, 0);
+    ctx.moveTo(p0.x*scale, p0.y*scale);
+    for(let i=1; i<n; i++){ const pi = ptAt(pts, i); ctx.lineTo(pi.x*scale, pi.y*scale); }
     ctx.stroke();
     ctx.restore();
   }
 
-  function getInkCanvas(p){
-    return viewer.querySelector('canvas.ink-canvas[data-page="'+p+'"]');
+  function drawLineShape(ctx,x1,y1,x2,y2){ ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); }
+
+  // ★ سهم V مفتوح — الخط يبدأ من نقطة السحب وينتهي عند طرف الرأس
+  function drawArrowShape(ctx, x1, y1, x2, y2, width){
+    const a = Math.atan2(y2 - y1, x2 - x1);
+    const headLen = Math.max(14, width * 4.5);
+    const headAng = Math.PI / 7;
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+    const ax1 = x2 - headLen * Math.cos(a - headAng);
+    const ay1 = y2 - headLen * Math.sin(a - headAng);
+    const ax2 = x2 - headLen * Math.cos(a + headAng);
+    const ay2 = y2 - headLen * Math.sin(a + headAng);
+    ctx.beginPath();
+    ctx.moveTo(ax1, ay1);
+    ctx.lineTo(x2, y2);
+    ctx.lineTo(ax2, ay2);
+    ctx.stroke();
+  }
+
+  function drawRectShape(ctx,x1,y1,x2,y2){
+    const x=Math.min(x1,x2),y=Math.min(y1,y2),w=Math.abs(x2-x1),h=Math.abs(y2-y1);
+    ctx.beginPath(); ctx.rect(x,y,w,h); ctx.stroke();
+  }
+  function drawCircleShape(ctx,x1,y1,x2,y2){
+    const cx=(x1+x2)/2,cy=(y1+y2)/2,rx=Math.abs(x2-x1)/2,ry=Math.abs(y2-y1)/2;
+    ctx.beginPath(); ctx.ellipse(cx,cy,Math.max(rx,2),Math.max(ry,2),0,0,Math.PI*2); ctx.stroke();
+  }
+  function drawPolygonShape(ctx,x1,y1,x2,y2){
+    const cx=(x1+x2)/2,cy=(y1+y2)/2,rx=Math.abs(x2-x1)/2,ry=Math.abs(y2-y1)/2;
+    const n=6; ctx.beginPath();
+    for(let i=0;i<n;i++){ const a=-Math.PI/2+i*2*Math.PI/n; const px=cx+rx*Math.cos(a),py=cy+ry*Math.sin(a); if(i===0)ctx.moveTo(px,py); else ctx.lineTo(px,py); }
+    ctx.closePath(); ctx.stroke();
+  }
+  // ★ سحابة بمنحنيات ناعمة
+  function drawCloudShape(ctx, x1, y1, x2, y2){
+    const cx = (x1 + x2) / 2;
+    const cy = (y1 + y2) / 2;
+    const rx = Math.abs(x2 - x1) / 2;
+    const ry = Math.abs(y2 - y1) / 2;
+    if(rx < 4 || ry < 4) return;
+    const nBumps = 10;
+    const bulge = 0.32;
+    const pt = (i) => {
+      const a = (i / nBumps) * Math.PI * 2 - Math.PI / 2;
+      return { a, x: cx + rx * Math.cos(a), y: cy + ry * Math.sin(a) };
+    };
+    ctx.beginPath();
+    const p0 = pt(0);
+    ctx.moveTo(p0.x, p0.y);
+    for(let i = 1; i <= nBumps; i++){
+      const pPrev = pt(i - 1);
+      const pCur  = pt(i);
+      const midA  = (pPrev.a + pCur.a) / 2;
+      const cpx = cx + rx * (1 + bulge) * Math.cos(midA);
+      const cpy = cy + ry * (1 + bulge) * Math.sin(midA);
+      ctx.quadraticCurveTo(cpx, cpy, pCur.x, pCur.y);
+    }
+    ctx.closePath();
+    ctx.stroke();
+  }
+  function drawCalloutShape(ctx,x1,y1,x2,y2){
+    const x=Math.min(x1,x2),y=Math.min(y1,y2),w=Math.abs(x2-x1),h=Math.abs(y2-y1);
+    const tailW=Math.min(w,h)*0.25;
+    ctx.beginPath();
+    ctx.moveTo(x+10,y); ctx.lineTo(x+w-10,y); ctx.quadraticCurveTo(x+w,y,x+w,y+10);
+    ctx.lineTo(x+w,y+h-10); ctx.quadraticCurveTo(x+w,y+h,x+w-10,y+h);
+    const tailX=x+w*0.28;
+    ctx.lineTo(tailX+tailW*0.35,y+h); ctx.lineTo(tailX,y+h+tailW); ctx.lineTo(tailX-tailW*0.35,y+h);
+    ctx.lineTo(x+10,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-10);
+    ctx.lineTo(x,y+10); ctx.quadraticCurveTo(x,y,x+10,y);
+    ctx.closePath(); ctx.stroke();
+  }
+  function drawTextShape(ctx, anno, scale){
+    const fs = (anno.fontSize||24)*scale;
+    ctx.font = "600 "+fs+"px "+TEXT_FONT_FAMILY;
+    ctx.textBaseline = "top";
+    ctx.direction = anno.dir==="ltr"?"ltr":(anno.dir==="rtl"?"rtl":"auto");
+    ctx.fillStyle = anno.color || "#000";
+    const lines = String(anno.text||"").split("\n");
+    const lh = fs*1.35;
+    lines.forEach((line,i)=>{ ctx.fillText(line, (anno.x||0)*scale, (anno.y||0)*scale + i*lh); });
+  }
+
+  // ★ تظليل احترافي بزوايا دائرية
+  function drawTextHighlight(ctx, anno, scale){
+    ctx.save();
+    ctx.globalAlpha = anno.opacity ?? 0.42;
+    ctx.globalCompositeOperation = "multiply";
+    const padX = 2;
+    const padY = anno.h * 0.15;
+    const x = (anno.x - padX / scale) * scale;
+    const y = (anno.y - padY) * scale;
+    const w = (anno.w + (2 * padX) / scale) * scale;
+    const h = (anno.h + 2 * padY) * scale;
+    const r = Math.min(3 * scale, h / 3);
+    ctx.fillStyle = anno.color || "#FFE066";
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawTextUnderline(ctx, anno, scale){
+    ctx.save();
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = anno.color || "#1B2430";
+    ctx.lineWidth = Math.max((anno.lineWidth||2)*scale, 1);
+    ctx.beginPath();
+    const y = (anno.y + anno.h) * scale - ctx.lineWidth/2;
+    ctx.moveTo(anno.x*scale, y);
+    ctx.lineTo((anno.x+anno.w)*scale, y);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawTextStrike(ctx, anno, scale){
+    ctx.save();
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = anno.color || "#D1495B";
+    ctx.lineWidth = Math.max((anno.lineWidth||2)*scale, 1);
+    ctx.beginPath();
+    const y = (anno.y + anno.h*0.55) * scale;
+    ctx.moveTo(anno.x*scale, y);
+    ctx.lineTo((anno.x+anno.w)*scale, y);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawAnnotation(ctx, anno, scale){
+    const t = anno.tool;
+    ctx.save();
+    const isHi = t === "highlighter";
+    ctx.globalAlpha = isHi ? (anno.opacity ?? 0.38) : (anno.opacity ?? 1);
+    ctx.globalCompositeOperation = isHi ? "multiply" : "source-over";
+    ctx.strokeStyle = anno.color || "#000";
+    ctx.fillStyle = anno.color || "#000";
+    ctx.lineWidth = Math.max((anno.width||4)*scale, 0.6);
+    ctx.lineCap = "round"; ctx.lineJoin = "round";
+    switch(t){
+      case "pen": case "highlighter": ctx.restore(); drawStrokeOnCtx(ctx, anno, scale); return;
+      case "line": case "underline": case "strike": drawLineShape(ctx, anno.x1*scale, anno.y1*scale, anno.x2*scale, anno.y2*scale); break;
+      case "arrow": drawArrowShape(ctx, anno.x1*scale, anno.y1*scale, anno.x2*scale, anno.y2*scale, ctx.lineWidth); break;
+      case "rect": drawRectShape(ctx, anno.x1*scale, anno.y1*scale, anno.x2*scale, anno.y2*scale); break;
+      case "circle": drawCircleShape(ctx, anno.x1*scale, anno.y1*scale, anno.x2*scale, anno.y2*scale); break;
+      case "polygon": drawPolygonShape(ctx, anno.x1*scale, anno.y1*scale, anno.x2*scale, anno.y2*scale); break;
+      case "cloud": drawCloudShape(ctx, anno.x1*scale, anno.y1*scale, anno.x2*scale, anno.y2*scale); break;
+      case "callout": drawCalloutShape(ctx, anno.x1*scale, anno.y1*scale, anno.x2*scale, anno.y2*scale); break;
+      case "text": ctx.restore(); drawTextShape(ctx, anno, scale); return;
+      case "text-highlight": ctx.restore(); drawTextHighlight(ctx, anno, scale); return;
+      case "text-underline": ctx.restore(); drawTextUnderline(ctx, anno, scale); return;
+      case "text-strike": ctx.restore(); drawTextStrike(ctx, anno, scale); return;
+    }
+    ctx.restore();
   }
 
   function drawPageStrokes(p){
@@ -1264,251 +1333,628 @@
     ctx.clearRect(0,0,canvas.width/dpr, canvas.height/dpr);
     const scale = pageScale(p);
     const list = strokesByPage[p] || [];
-    for(const stroke of list) drawStrokeOnCtx(ctx, stroke, scale);
+    for(const s of list) drawAnnotation(ctx, s, scale);
     ctx.restore();
   }
 
-  function distToSegment(p, a, b){
+  function distToSegment(p,a,b){
     const ax=a.x,ay=a.y,bx=b.x,by=b.y,px=p.x,py=p.y;
-    const abx=bx-ax, aby=by-ay;
-    const len2 = abx*abx+aby*aby;
-    let t = len2 ? ((px-ax)*abx+(py-ay)*aby)/len2 : 0;
+    const abx=bx-ax,aby=by-ay;
+    const l2 = abx*abx+aby*aby;
+    let t = l2 ? ((px-ax)*abx+(py-ay)*aby)/l2 : 0;
     t = Math.max(0, Math.min(1, t));
-    const cx = ax+t*abx, cy = ay+t*aby;
-    return Math.hypot(px-cx, py-cy);
+    return Math.hypot(px-(ax+t*abx), py-(ay+t*aby));
   }
-  function strokeNear(stroke, pt, radius){
-    const pts = stroke.points;
-    if(pts.length===1) return Math.hypot(pt.x-pts[0].x, pt.y-pts[0].y) < radius;
-    for(let i=1;i<pts.length;i++){
-      if(distToSegment(pt, pts[i-1], pts[i]) < radius) return true;
+  function strokeNear(stroke, pt, r){
+    if(stroke.tool === "text"){
+      const bb = getTextAnnotationBBox(stroke);
+      return pt.x >= bb.x - 10 && pt.x <= bb.x + bb.w + 10 &&
+             pt.y >= bb.y - 10 && pt.y <= bb.y + bb.h + 10;
+    }
+    if(stroke.tool === "text-highlight" || stroke.tool === "text-underline" || stroke.tool === "text-strike"){
+      return pt.x >= stroke.x - 5 && pt.x <= stroke.x + stroke.w + 5 &&
+             pt.y >= stroke.y - 5 && pt.y <= stroke.y + stroke.h + 5;
+    }
+    if(stroke.points){
+      const pts = stroke.points;
+      const n = ptCount(pts);
+      if(n === 0) return false;
+      if(n === 1){ const p0 = ptAt(pts,0); return Math.hypot(pt.x-p0.x, pt.y-p0.y)<r; }
+      for(let i=1;i<n;i++) if(distToSegment(pt, ptAt(pts,i-1), ptAt(pts,i))<r) return true;
+      return false;
+    }
+    if(typeof stroke.x1 === "number"){
+      return distToSegment(pt,{x:stroke.x1,y:stroke.y1},{x:stroke.x2,y:stroke.y2}) < r;
     }
     return false;
   }
 
+  // ============ Pointer handling (drawing) ============
   function attachPointerEvents(canvas, p){
-    canvas.addEventListener("pointerdown", (e)=>{
+    canvas.addEventListener("pointerdown", e => {
+      if(currentTool === "select") return;
       e.preventDefault();
       canvas.setPointerCapture(e.pointerId);
       const pt = toNorm(p, e.clientX, e.clientY, canvas);
       activePageNum = p;
-
-      if(currentTool === "eraser"){
+      if(currentTool === "eraser"){ drawing=true; eraseAt(p, pt); return; }
+      if(currentTool === "text"){ openTextInput(p, pt, e.clientX, e.clientY); return; }
+      if(currentTool === "pen" || currentTool === "highlighter"){
         drawing = true;
-        eraseAt(p, pt);
+        activeStroke = {
+          tool: currentTool, color: currentColor,
+          width: currentTool==="highlighter"?Math.max(currentWidth,12):currentWidth,
+          opacity: currentTool==="highlighter"?currentHiOpacity:1,
+          points: [pt]
+        };
         return;
       }
-      drawing = true;
-      activeStroke = {
-        tool: currentTool,
-        color: currentColor,
-        width: currentTool==="highlighter" ? Math.max(currentWidth,10) : currentWidth,
-        opacity: currentTool==="highlighter" ? currentHiOpacity : 1,
-        points: [pt]
-      };
+      if(["line","arrow","rect","circle","polygon","cloud","callout"].includes(currentTool)){
+        drawing = true;
+        activeStroke = { tool: currentTool, color: currentColor, width: currentWidth, opacity: 1, x1:pt.x, y1:pt.y, x2:pt.x, y2:pt.y };
+      }
     });
-
-    canvas.addEventListener("pointermove", (e)=>{
+    canvas.addEventListener("pointermove", e => {
       if(!drawing || activePageNum !== p) return;
       const pt = toNorm(p, e.clientX, e.clientY, canvas);
-      if(currentTool === "eraser"){
-        eraseAt(p, pt);
+      if(currentTool === "eraser"){ eraseAt(p, pt); return; }
+      if(currentTool === "pen" || currentTool === "highlighter"){
+        if(!activeStroke) return;
+        activeStroke.points.push(pt);
+        const ctx = canvas.getContext("2d");
+        const dpr = canvasDpr(canvas);
+        ctx.save(); ctx.setTransform(dpr,0,0,dpr,0,0);
+        const scale = pageScale(p);
+        const n = activeStroke.points.length;
+        drawAnnotation(ctx, {tool:activeStroke.tool,color:activeStroke.color,width:activeStroke.width,opacity:activeStroke.opacity,points:activeStroke.points.slice(Math.max(0,n-2))}, scale);
+        ctx.restore();
         return;
       }
-      if(!activeStroke) return;
-      activeStroke.points.push(pt);
-      const ctx = canvas.getContext("2d");
-      const dpr = canvasDpr(canvas);
-      ctx.save();
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-      const scale = pageScale(p);
-      const n = activeStroke.points.length;
-      drawStrokeOnCtx(ctx, {
-        tool: activeStroke.tool, color: activeStroke.color,
-        width: activeStroke.width, opacity: activeStroke.opacity,
-        points: activeStroke.points.slice(Math.max(0,n-2))
-      }, scale);
-      ctx.restore();
+      if(["line","arrow","rect","circle","polygon","cloud","callout"].includes(currentTool)){
+        activeStroke.x2 = pt.x; activeStroke.y2 = pt.y;
+        drawPageStrokes(p);
+        const ctx = canvas.getContext("2d");
+        const dpr = canvasDpr(canvas);
+        ctx.save(); ctx.setTransform(dpr,0,0,dpr,0,0);
+        drawAnnotation(ctx, activeStroke, pageScale(p));
+        ctx.restore();
+      }
     });
-
-    function endStroke(e){
+    function endStroke(){
       if(!drawing || activePageNum !== p) return;
       drawing = false;
-      if(currentTool !== "eraser" && activeStroke && activeStroke.points.length>1){
-        strokesByPage[p] = strokesByPage[p] || [];
-        strokesByPage[p].push(activeStroke);
-        redoByPage[p] = [];
-        drawPageStrokes(p);
-        scheduleSave();
+      if(currentTool === "eraser"){ activeStroke=null; return; }
+      if(currentTool === "pen" || currentTool === "highlighter"){
+        if(activeStroke && activeStroke.points.length>1){
+          strokesByPage[p] = strokesByPage[p] || [];
+          strokesByPage[p].push({
+            tool: activeStroke.tool, color: activeStroke.color,
+            width: r1(activeStroke.width), opacity: activeStroke.opacity,
+            points: flattenPoints(activeStroke.points)
+          });
+          redoByPage[p] = [];
+          drawPageStrokes(p);
+          scheduleSave();
+        }
+      } else if(["line","arrow","rect","circle","polygon","cloud","callout"].includes(currentTool)){
+        const a = activeStroke;
+        if(a && Math.hypot(a.x2-a.x1, a.y2-a.y1) > 4){
+          a.width = r1(a.width);
+          strokesByPage[p] = strokesByPage[p] || [];
+          strokesByPage[p].push(a);
+          redoByPage[p] = [];
+          drawPageStrokes(p);
+          scheduleSave();
+        }
       }
       activeStroke = null;
     }
     canvas.addEventListener("pointerup", endStroke);
     canvas.addEventListener("pointercancel", endStroke);
-    canvas.addEventListener("pointerleave", (e)=>{ if(e.buttons===0) endStroke(e); });
+    canvas.addEventListener("pointerleave", e => { if(e.buttons === 0) endStroke(); });
   }
 
   function eraseAt(p, pt){
     const list = strokesByPage[p] || [];
     const before = list.length;
-    strokesByPage[p] = list.filter(s => !strokeNear(s, pt, 18));
-    if(strokesByPage[p].length !== before){
-      drawPageStrokes(p);
-      scheduleSave();
+    strokesByPage[p] = list.filter(s => !strokeNear(s, pt, 20));
+    if(strokesByPage[p].length !== before){ drawPageStrokes(p); scheduleSave(); }
+  }
+
+  // ============ Context menu ============
+  ctxMenu = $("#pdfCtxMenu");
+
+  function updateMarkupChecks(){
+    document.querySelectorAll("#pdfCtxMenu .ctx-item[data-markup]").forEach(el => {
+      el.classList.toggle("active-markup", el.dataset.markup === currentMarkupMode);
+    });
+  }
+
+  function showContextMenu(x, y){
+    ctxMenu.classList.add("show");
+    updateMarkupChecks();
+    const rect = ctxMenu.getBoundingClientRect();
+    const w = rect.width, h = rect.height;
+    let left = x, top = y;
+    if(left + w > window.innerWidth - 8) left = window.innerWidth - w - 8;
+    if(top + h > window.innerHeight - 8) top = y - h;
+    if(top < 8) top = 8;
+    if(left < 8) left = 8;
+    ctxMenu.style.left = left + "px";
+    ctxMenu.style.top = top + "px";
+  }
+  function hideContextMenu(){ ctxMenu.classList.remove("show"); }
+
+  mainEl.addEventListener("contextmenu", e => {
+    const sel = window.getSelection();
+    if(!sel || sel.rangeCount === 0 || sel.isCollapsed) return;
+    const range = sel.getRangeAt(0);
+    const cont = range.commonAncestorContainer;
+    const el = cont.nodeType === 1 ? cont : cont.parentElement;
+    if(!el || !el.closest(".textLayer")) return;
+    e.preventDefault();
+    selectedRange = range.cloneRange();
+    showContextMenu(e.clientX, e.clientY);
+  });
+
+  // When the highlighter / underline / strike tool is active, applying the
+  // mark happens automatically as soon as you release a text selection —
+  // no right-click needed, matching how these tools work in reference apps.
+  function tryAutoApplyTextMark(){
+    if(!["highlighter","underline","strike"].includes(currentTool)) return;
+    const sel = window.getSelection();
+    if(!sel || sel.rangeCount === 0 || sel.isCollapsed) return;
+    const range = sel.getRangeAt(0);
+    const cont = range.commonAncestorContainer;
+    const el = cont.nodeType === 1 ? cont : cont.parentElement;
+    if(!el || !el.closest(".textLayer")) return;
+    selectedRange = range.cloneRange();
+    const type = currentTool === "highlighter" ? "text-highlight" : (currentTool === "underline" ? "text-underline" : "text-strike");
+    applyTextMark(type, currentColor, currentWidth);
+  }
+  document.addEventListener("mouseup", tryAutoApplyTextMark);
+  document.addEventListener("touchend", () => setTimeout(tryAutoApplyTextMark, 0));
+
+  document.addEventListener("pointerdown", e => {
+    if(!e.target.closest("#pdfCtxMenu")) hideContextMenu();
+  }, true);
+
+  document.addEventListener("keydown", e => { if(e.key === "Escape") hideContextMenu(); });
+
+  ctxMenu.addEventListener("click", e => {
+    // ضغط على بقعة لون → طبّق فوراً
+    const sw = e.target.closest(".ctx-swatches .sw");
+    if(sw){
+      e.preventDefault();
+      e.stopPropagation();
+      ctxHighlightColor = sw.dataset.color;
+      document.querySelectorAll("#highlightSwatches .sw").forEach(x => {
+        x.classList.toggle("selected", x === sw);
+      });
+      if(selectedRange) applyTextMark("text-highlight", ctxHighlightColor);
+      return;
+    }
+    const item = e.target.closest("[data-act]");
+    if(!item || !selectedRange) return;
+    handleCtxAction(item.dataset.act);
+  });
+
+  function handleCtxAction(act){
+    if(!selectedRange) return;
+    const text = selectedRange.toString();
+    switch(act){
+      case "copy": {
+        navigator.clipboard.writeText(text).then(
+          () => toast("تم نسخ النص ✓"),
+          () => toast("تعذّر النسخ")
+        );
+        hideContextMenu();
+        break;
+      }
+      case "comment": {
+        const cont = selectedRange.commonAncestorContainer;
+        const el = cont.nodeType === 1 ? cont : cont.parentElement;
+        const textLayer = el.closest(".textLayer");
+        if(!textLayer) return;
+        const p = parseInt(textLayer.dataset.page, 10);
+        const pageWrap = textLayer.closest(".page-wrap");
+        const pwRect = pageWrap.getBoundingClientRect();
+        const scale = pageScale(p);
+        const rects = Array.from(selectedRange.getClientRects());
+        if(!rects.length) return;
+        const r = rects[0];
+        const x = (r.left - pwRect.left) / scale;
+        const y = (r.top - pwRect.top) / scale;
+        pendingInsertText = text;
+        openTextInput(p, {x:x, y:y}, r.left, r.top);
+        hideContextMenu();
+        break;
+      }
+      case "search": {
+        const url = "https://www.google.com/search?q=" + encodeURIComponent(text);
+        window.open(url, "_blank");
+        hideContextMenu();
+        break;
+      }
+      case "highlight": applyTextMark("text-highlight", ctxHighlightColor); break;
+      case "underline": applyTextMark("text-underline"); break;
+      case "strike": applyTextMark("text-strike"); break;
+      case "translate": {
+        $("#tpInput").value = text;
+        const isArabic = /[\u0600-\u06FF]/.test(text);
+        $("#tpFrom").value = isArabic ? "ar" : "en";
+        $("#tpTo").value = isArabic ? "en" : "ar";
+        translatePanel.classList.add("show");
+        hideContextMenu();
+        setTimeout(runTranslate, 150);
+        break;
+      }
     }
   }
 
-  // ═══════════════════════════════════════════════════════════
-  // ★★★ Toolbar — Color Picker الجديد ★★★
-  // ═══════════════════════════════════════════════════════════
+  function applyTextMark(type, overrideColor, overrideWidth){
+    if(!selectedRange) return;
+    currentMarkupMode = type;
+    const cont = selectedRange.commonAncestorContainer;
+    const el = cont.nodeType === 1 ? cont : cont.parentElement;
+    const textLayer = el.closest(".textLayer");
+    if(!textLayer) return;
+    const p = parseInt(textLayer.dataset.page, 10);
+    const pageWrap = textLayer.closest(".page-wrap");
+    const pwRect = pageWrap.getBoundingClientRect();
+    const scale = pageScale(p);
+    const rects = Array.from(selectedRange.getClientRects()).filter(r => r.width > 2 && r.height > 2);
+    if(!rects.length){ hideContextMenu(); return; }
+
+    const newAnnos = [];
+    for(const r of rects){
+      const padX = 2;
+      const padY = r.height * 0.12;
+      const anno = {
+        tool: type,
+        x: r1((r.left - pwRect.left) / scale - padX / scale),
+        y: r1((r.top - pwRect.top) / scale - padY / scale),
+        w: r1(r.width / scale + (2 * padX) / scale),
+        h: r1(r.height / scale + (2 * padY) / scale)
+      };
+      if(type === "text-highlight"){
+        anno.color = overrideColor || ctxHighlightColor || "#FFE066";
+        anno.opacity = 0.42;
+      } else if(type === "text-underline"){
+        anno.color = overrideColor || "#1B2430";
+        anno.lineWidth = overrideWidth || 2;
+      } else {
+        anno.color = overrideColor || "#D1495B";
+        anno.lineWidth = overrideWidth || 2;
+      }
+      newAnnos.push(anno);
+    }
+    strokesByPage[p] = strokesByPage[p] || [];
+    strokesByPage[p].push(...newAnnos);
+    redoByPage[p] = [];
+    drawPageStrokes(p);
+    scheduleSave();
+
+    try{ window.getSelection().removeAllRanges(); }catch(e){}
+    hideContextMenu();
+
+    const msgs = {
+      "text-highlight": "تم التظليل ✓",
+      "text-underline": "تم التسطير ✓",
+      "text-strike": "تم الشطب ✓"
+    };
+    toast(msgs[type] || "تم");
+  }
+
+  // ============ Text input (add & edit) ============
+  let textInputCtx = null;
+  function openTextInput(p, pt, clientX, clientY, editingStroke){
+    textInputCtx = { p: p, pt: pt, editingStroke: editingStroke || null };
+    textInputBox.style.display = "block";
+    textInputBox.classList.toggle("editing", !!editingStroke);
+    const boxW = 300;
+    let left = clientX;
+    let top = clientY;
+    if(left + boxW > window.innerWidth - 10) left = window.innerWidth - boxW - 10;
+    if(left < 10) left = 10;
+    if(top + 240 > window.innerHeight - 10) top = window.innerHeight - 250;
+    if(top < 10) top = 10;
+    textInputBox.style.left = left + "px";
+    textInputBox.style.top = top + "px";
+
+    if(editingStroke){
+      tiTextarea.value = editingStroke.text || "";
+      currentTextDir = editingStroke.dir || "auto";
+      currentFontSize = editingStroke.fontSize || 24;
+      currentColor = editingStroke.color || "#1B2430";
+      fontRange.value = currentFontSize;
+      $("#tiOk").textContent = "تحديث";
+      $("#tiDelete").style.display = "inline-block";
+    } else {
+      tiTextarea.value = pendingInsertText || "";
+      pendingInsertText = null;
+      if(!tiTextarea.value){
+        currentTextDir = "auto";
+      } else {
+        currentTextDir = /[\u0600-\u06FF]/.test(tiTextarea.value) ? "rtl" : "ltr";
+      }
+      $("#tiOk").textContent = "إضافة";
+      $("#tiDelete").style.display = "none";
+    }
+    tiTextarea.style.direction = currentTextDir === "rtl" ? "rtl" : "ltr";
+    setTimeout(() => {
+      tiTextarea.focus();
+      try{ tiTextarea.setSelectionRange(tiTextarea.value.length, tiTextarea.value.length); }catch(e){}
+    }, 50);
+    document.querySelectorAll("#textInputBox .ti-dir button").forEach(b => b.classList.toggle("active", b.dataset.dir === currentTextDir));
+  }
+
+  function openTextInputForEdit(stroke, p, clientX, clientY){
+    const wrap = viewer.querySelector('.page-wrap[data-page="'+p+'"]');
+    if(!wrap) return;
+    const rect = wrap.getBoundingClientRect();
+    const scale = pageMeta[p].width / NORM_W;
+    const screenX = rect.left + stroke.x * scale;
+    const screenY = rect.top  + stroke.y * scale;
+    openTextInput(p, {x: stroke.x, y: stroke.y}, screenX, screenY, stroke);
+  }
+
+  function deleteEditingStroke(){
+    if(!textInputCtx || !textInputCtx.editingStroke) return;
+    const p = textInputCtx.p;
+    const list = strokesByPage[p] || [];
+    const idx = list.indexOf(textInputCtx.editingStroke);
+    if(idx >= 0){
+      list.splice(idx, 1);
+      redoByPage[p] = [];
+      drawPageStrokes(p);
+      scheduleSave();
+      toast("تم حذف النص");
+    }
+    textInputBox.style.display = "none";
+    textInputBox.classList.remove("editing");
+    textInputCtx = null;
+  }
+
+  function closeTextInput(save){
+    if(!textInputCtx){ textInputBox.style.display = "none"; return; }
+    const txt = tiTextarea.value.trim();
+    const ctx = textInputCtx;
+
+    if(save && ctx.editingStroke){
+      if(txt){
+        ctx.editingStroke.text = txt;
+        ctx.editingStroke.dir = currentTextDir;
+        ctx.editingStroke.fontSize = currentFontSize;
+        ctx.editingStroke.color = currentColor;
+        redoByPage[ctx.p] = [];
+        drawPageStrokes(ctx.p);
+        scheduleSave();
+        toast("تم تحديث النص ✓");
+      } else {
+        const list = strokesByPage[ctx.p] || [];
+        const idx = list.indexOf(ctx.editingStroke);
+        if(idx >= 0){ list.splice(idx, 1); drawPageStrokes(ctx.p); scheduleSave(); }
+        toast("تم حذف النص");
+      }
+    } else if(save && txt){
+      const anno = { tool:"text", color:currentColor, width:1, fontSize:currentFontSize, x:ctx.pt.x, y:ctx.pt.y, text:txt, dir:currentTextDir };
+      strokesByPage[ctx.p] = strokesByPage[ctx.p] || [];
+      strokesByPage[ctx.p].push(anno);
+      redoByPage[ctx.p] = [];
+      drawPageStrokes(ctx.p);
+      scheduleSave();
+      toast("تمت إضافة النص — حرّكه بالماوس أو انقر مرتين لتعديله");
+    }
+
+    textInputBox.style.display = "none";
+    textInputBox.classList.remove("editing");
+    textInputCtx = null;
+  }
+
+  document.querySelectorAll("#textInputBox .ti-dir button").forEach(b => {
+    b.addEventListener("click", () => {
+      currentTextDir = b.dataset.dir;
+      tiTextarea.style.direction = currentTextDir === "rtl" ? "rtl" : "ltr";
+      document.querySelectorAll("#textInputBox .ti-dir button").forEach(x => x.classList.toggle("active", x.dataset.dir === currentTextDir));
+      tiTextarea.focus();
+    });
+  });
+  $("#tiCancel").addEventListener("click", () => closeTextInput(false));
+  $("#tiOk").addEventListener("click", () => closeTextInput(true));
+  $("#tiDelete").addEventListener("click", deleteEditingStroke);
+  tiTextarea.addEventListener("keydown", e => {
+    if(e.key === "Escape"){ e.preventDefault(); closeTextInput(false); }
+    if(e.key === "Enter" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); closeTextInput(true); }
+  });
+
+  // ============ Translation ============
+  let translationCache = {};
+  async function translateText(text, from, to){
+    if(!text.trim()) return "";
+    const key = from+"|"+to+"|"+text;
+    if(translationCache[key]) return translationCache[key];
+    try{
+      const url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl="+encodeURIComponent(from)+"&tl="+encodeURIComponent(to)+"&dt=t&q="+encodeURIComponent(text);
+      const res = await fetch(url);
+      if(res.ok){
+        const data = await res.json();
+        if(Array.isArray(data) && Array.isArray(data[0])){
+          const out = data[0].map(x => x[0]).filter(Boolean).join("");
+          if(out){ translationCache[key] = out; return out; }
+        }
+      }
+    }catch(e){}
+    try{
+      const url = "https://api.mymemory.translated.net/get?q="+encodeURIComponent(text)+"&langpair="+encodeURIComponent(from)+"|"+encodeURIComponent(to);
+      const res = await fetch(url);
+      const data = await res.json();
+      const out = data && data.responseData && data.responseData.translatedText;
+      if(out){ translationCache[key] = out; return out; }
+    }catch(e){}
+    throw new Error("تعذّر الاتصال بخدمة الترجمة");
+  }
+  $("#btnTranslate").addEventListener("click", () => {
+    translatePanel.classList.toggle("show");
+    if(translatePanel.classList.contains("show")) setTimeout(() => $("#tpInput").focus(), 100);
+  });
+  $("#tpClose").addEventListener("click", () => translatePanel.classList.remove("show"));
+  $("#tpSwap").addEventListener("click", () => {
+    const f = $("#tpFrom").value === "auto" ? "ar" : $("#tpFrom").value;
+    const t = $("#tpTo").value;
+    $("#tpFrom").value = t; $("#tpTo").value = f;
+    runTranslate();
+  });
+  $("#tpClear").addEventListener("click", () => { $("#tpInput").value = ""; $("#tpResult").textContent = "الترجمة ستظهر هنا…"; });
+  $("#tpCopy").addEventListener("click", async () => {
+    try{ await navigator.clipboard.writeText($("#tpResult").textContent); toast("تم النسخ ✓"); }catch(e){ toast("تعذّر"); }
+  });
+  $("#tpInsert").addEventListener("click", () => {
+    const txt = $("#tpResult").textContent;
+    if(!txt || txt === "الترجمة ستظهر هنا…"){ toast("لا يوجد نص"); return; }
+    selectTool("text");
+    currentTextDir = /[\u0600-\u06FF]/.test(txt) ? "rtl" : "ltr";
+    pendingInsertText = txt;
+    translatePanel.classList.remove("show");
+    toast("اضغط على المكان في الصفحة");
+  });
+  async function runTranslate(){
+    const txt = $("#tpInput").value.trim();
+    const btn = $("#tpTranslate");
+    if(!txt){ $("#tpResult").textContent = "الترجمة ستظهر هنا…"; return; }
+    const from = $("#tpFrom").value, to = $("#tpTo").value;
+    btn.disabled = true; btn.textContent = "…";
+    $("#tpResult").textContent = "…";
+    try{
+      const out = await translateText(txt, from, to);
+      $("#tpResult").textContent = out;
+    }catch(e){ $("#tpResult").textContent = "⚠️ تعذّرت الترجمة"; }
+    finally{ btn.disabled = false; btn.textContent = "ترجم الآن"; }
+  }
+  let translateDebounce = null;
+  $("#tpInput").addEventListener("input", () => {
+    clearTimeout(translateDebounce);
+    translateDebounce = setTimeout(runTranslate, 500);
+  });
+  $("#tpFrom").addEventListener("change", runTranslate);
+  $("#tpTo").addEventListener("change", runTranslate);
+  $("#tpTranslate").addEventListener("click", runTranslate);
+
+  // ============ Color rack ============
   function buildColorRack(){
     colorRack.innerHTML = "";
-
     const isHi = (currentTool === "highlighter");
-    const quickColors = isHi ? HI_COLORS : PEN_COLORS;
+    const quick = isHi ? HI_COLORS : PEN_COLORS;
 
-    // ═══════════════════════════════════════
-    // 1) ★ Color Picker الرئيسي
-    // ═══════════════════════════════════════
-    const pickerWrap = document.createElement("div");
-    pickerWrap.className = "color-picker-btn";
-    pickerWrap.title = "🎨 افتحي منتقي الألوان الكامل";
-    pickerWrap.style.color = currentColor;
+    const picker = document.createElement("div");
+    picker.className = "color-picker-btn";
+    picker.title = "🎨 منتقي الألوان";
+    picker.style.color = currentColor;
+    picker.innerHTML = '<div class="c-swatch"></div><span class="c-icon">🎨</span><input type="color" value="'+currentColor+'">';
+    const inp = picker.querySelector('input');
+    inp.addEventListener("input", e => { currentColor = e.target.value; picker.style.color = currentColor; updateSelectedPen(); });
+    inp.addEventListener("change", e => { currentColor = e.target.value; picker.style.color = currentColor; saveCustomColor(currentColor); refreshCustomColors(); updateSelectedPen(); });
+    colorRack.appendChild(picker);
 
-    pickerWrap.innerHTML =
-      '<div class="c-swatch"></div>' +
-      '<span class="c-icon">🎨</span>' +
-      '<input type="color" value="' + currentColor + '">';
-
-    const pickerInput = pickerWrap.querySelector('input[type="color"]');
-    pickerInput.addEventListener("input", function(e){
-      currentColor = e.target.value;
-      pickerWrap.style.color = currentColor;
-      updateSelectedPen();
-    });
-    pickerInput.addEventListener("change", function(e){
-      currentColor = e.target.value;
-      pickerWrap.style.color = currentColor;
-      saveCustomColor(currentColor);
-      refreshCustomColors();
-      updateSelectedPen();
-    });
-
-    colorRack.appendChild(pickerWrap);
-
-    // فاصل
     const sep = document.createElement("span");
     sep.style.cssText = "width:1px;height:20px;background:rgba(255,255,255,.15);flex:none;margin:0 2px;";
     colorRack.appendChild(sep);
 
-    // ═══════════════════════════════════════
-    // 2) ألوان سريعة
-    // ═══════════════════════════════════════
-    quickColors.forEach(function(c){
+    quick.forEach(c => {
       const el = document.createElement("span");
-      el.className = "pen";
-      el.style.background = c;
-      el.title = c;
-      el.dataset.color = c;
-      if(String(c).toLowerCase() === String(currentColor).toLowerCase()){
-        el.classList.add("selected");
-      }
-      el.addEventListener("click", function(){
-        currentColor = c;
-        updateSelectedPen();
-      });
+      el.className = "pen"; el.style.background = c; el.title = c; el.dataset.color = c;
+      if(String(c).toLowerCase() === String(currentColor).toLowerCase()) el.classList.add("selected");
+      el.addEventListener("click", () => { currentColor = c; updateSelectedPen(); });
       colorRack.appendChild(el);
     });
 
-    // ═══════════════════════════════════════
-    // 3) ألوان مخصصة
-    // ═══════════════════════════════════════
     const customs = loadCustomColors();
-    const uniqueCustoms = customs.filter(function(c){
-      return !quickColors.some(function(q){ return q.toLowerCase() === c.toLowerCase(); });
-    });
-
-    if(uniqueCustoms.length){
-      const sep2 = document.createElement("span");
-      sep2.style.cssText = "width:1px;height:20px;background:rgba(255,255,255,.15);flex:none;margin:0 2px;";
-      colorRack.appendChild(sep2);
-
-      uniqueCustoms.forEach(function(c){
+    const unique = customs.filter(c => !quick.some(q => q.toLowerCase() === c.toLowerCase()));
+    if(unique.length){
+      const s2 = document.createElement("span");
+      s2.style.cssText = "width:1px;height:20px;background:rgba(255,255,255,.15);flex:none;margin:0 2px;";
+      colorRack.appendChild(s2);
+      unique.forEach(c => {
         const el = document.createElement("span");
-        el.className = "pen";
-        el.style.background = c;
-        el.style.width = "16px";
-        el.style.height = "16px";
-        el.title = "مخصص: " + c;
-        el.dataset.color = c;
-        if(String(c).toLowerCase() === String(currentColor).toLowerCase()){
-          el.classList.add("selected");
-        }
-        el.addEventListener("click", function(){
-          currentColor = c;
-          updateSelectedPen();
-        });
+        el.className = "pen"; el.style.background = c;
+        el.style.width="16px"; el.style.height="16px"; el.title = "مخصص: "+c; el.dataset.color = c;
+        if(String(c).toLowerCase() === String(currentColor).toLowerCase()) el.classList.add("selected");
+        el.addEventListener("click", () => { currentColor = c; updateSelectedPen(); });
         colorRack.appendChild(el);
       });
     }
   }
-
   function updateSelectedPen(){
-    const pickerWrap = colorRack.querySelector('.color-picker-btn');
-    if(pickerWrap){
-      pickerWrap.style.color = currentColor;
-      const inp = pickerWrap.querySelector('input[type="color"]');
-      if(inp) inp.value = currentColor;
-    }
-    colorRack.querySelectorAll('.pen').forEach(function(p){
-      const c = p.dataset.color || '';
+    const pw = colorRack.querySelector('.color-picker-btn');
+    if(pw){ pw.style.color = currentColor; const i = pw.querySelector('input'); if(i) i.value = currentColor; }
+    colorRack.querySelectorAll('.pen').forEach(p => {
+      const c = p.dataset.color||'';
       p.classList.toggle('selected', String(c).toLowerCase() === String(currentColor).toLowerCase());
     });
   }
+  function refreshCustomColors(){ buildColorRack(); }
 
-  function refreshCustomColors(){
-    buildColorRack();
-  }
-
-  // ---------------- Tools ----------------
+  // ============ Tool selection ============
   function selectTool(tool){
     currentTool = tool;
-    document.querySelectorAll("[data-tool]").forEach(b=>b.classList.toggle("active", b.dataset.tool === tool));
-    if(currentTool === "highlighter"){ currentWidth = Math.max(currentWidth, 14); widthRange.value = currentWidth; }
-    if(currentTool === "pen" && currentWidth>14){ currentWidth=4; widthRange.value=4; }
+    document.querySelectorAll("[data-tool]").forEach(b => b.classList.toggle("active", b.dataset.tool === tool));
+    if(currentTool === "highlighter"){
+      currentWidth = Math.max(currentWidth, 14); widthRange.value = currentWidth;
+      if(!HI_COLORS.includes(currentColor)) currentColor = HI_COLORS[0];
+    }
+    if(currentTool === "pen" && currentWidth > 14){ currentWidth = 4; widthRange.value = 4; }
+    if(currentTool === "underline"){ currentColor = "#1B2430"; currentWidth = 3; widthRange.value = 3; }
+    if(currentTool === "strike"){ currentColor = "#D1495B"; currentWidth = 3; widthRange.value = 3; }
     buildColorRack();
     updateToolUIVisibility();
     updateCanvasInteractivity();
+    if(currentTool !== "text") closeTextInput(false);
+    mainEl.style.cursor = "";
   }
-
-  document.querySelectorAll("[data-tool]").forEach(btn=>{
-    btn.addEventListener("click", ()=> selectTool(btn.dataset.tool));
-  });
+  document.querySelectorAll("[data-tool]").forEach(btn => btn.addEventListener("click", () => selectTool(btn.dataset.tool)));
   selectTool("select");
 
   function updateToolUIVisibility(){
-    const showDrawControls = (currentTool === "pen" || currentTool === "highlighter");
+    const showColor = ["pen","highlighter","line","arrow","rect","circle","polygon","cloud","callout","text","underline","strike"].includes(currentTool);
+    const showWidth = ["pen","highlighter","line","arrow","rect","circle","polygon","cloud","callout","underline","strike"].includes(currentTool);
     const showHi = (currentTool === "highlighter");
-    colorRack.style.display = showDrawControls ? "flex" : "none";
-    widthRange.style.display = showDrawControls ? "inline-block" : "none";
-    $("#widthLabel").style.display = showDrawControls ? "inline" : "none";
+    const showFont = (currentTool === "text");
+    const showShapes = ["pen","line","arrow","rect","circle","polygon","cloud","callout"].includes(currentTool);
+    const showHiTools = ["highlighter","underline","strike"].includes(currentTool);
+    $("#hiGroup").style.display = showHiTools ? "flex" : "none";
+    $("#hiSepStart").style.display = showHiTools ? "block" : "none";
+    $("#hiSepEnd").style.display = showHiTools ? "block" : "none";
+    $("#shapesGroup").style.display = showShapes ? "flex" : "none";
+    $("#shapesSepStart").style.display = showShapes ? "block" : "none";
+    $("#shapesSepEnd").style.display = showShapes ? "block" : "none";
+    colorRack.style.display = showColor ? "flex" : "none";
+    widthRange.style.display = showWidth ? "inline-block" : "none";
+    $("#widthLabel").style.display = showWidth ? "inline" : "none";
     opRange.style.display = showHi ? "inline-block" : "none";
     $("#opLabel").style.display = showHi ? "inline" : "none";
+    fontRange.style.display = showFont ? "inline-block" : "none";
+    $("#fontLabel").style.display = showFont ? "inline" : "none";
   }
 
   function updateCanvasInteractivity(){
-    const interactive = currentTool !== "select";
-    viewer.querySelectorAll("canvas.ink-canvas").forEach(c=>{
+    const textSelectTools = ["select","highlighter","underline","strike"];
+    const isTextSelectTool = textSelectTools.includes(currentTool);
+    const interactive = !isTextSelectTool;
+    viewer.querySelectorAll("canvas.ink-canvas").forEach(c => {
       c.style.pointerEvents = interactive ? "auto" : "none";
-      c.style.cursor = interactive ? (currentTool==="eraser" ? "cell" : "crosshair") : "default";
+      c.style.cursor = interactive ? (currentTool === "eraser" ? "cell" : (currentTool === "text" ? "text" : "crosshair")) : "default";
     });
     mainEl.classList.toggle("grab", currentTool === "select" && !!pdfDoc);
+    document.querySelectorAll(".textLayer").forEach(t => {
+      t.classList.toggle("selectable", isTextSelectTool);
+    });
   }
 
-  widthRange.addEventListener("input", ()=>{ currentWidth = parseInt(widthRange.value,10); });
-  opRange.addEventListener("input", ()=>{ currentHiOpacity = parseInt(opRange.value,10)/100; });
+  widthRange.addEventListener("input", () => { currentWidth = parseInt(widthRange.value,10); });
+  opRange.addEventListener("input", () => { currentHiOpacity = parseInt(opRange.value,10)/100; });
+  fontRange.addEventListener("input", () => { currentFontSize = parseInt(fontRange.value,10); });
 
-  $("#btnUndo").addEventListener("click", ()=>{
+  $("#btnUndo").addEventListener("click", () => {
     const p = lastActivePageWithStrokes();
     if(!p) return;
     const list = strokesByPage[p] || [];
@@ -1519,12 +1965,12 @@
     drawPageStrokes(p);
     scheduleSave();
   });
-  $("#btnRedo").addEventListener("click", ()=>{
+  $("#btnRedo").addEventListener("click", () => {
     const p = lastActivePageWithStrokes(true);
     if(!p) return;
-    const rlist = redoByPage[p] || [];
-    if(!rlist.length) return;
-    const s = rlist.pop();
+    const rl = redoByPage[p] || [];
+    if(!rl.length) return;
+    const s = rl.pop();
     strokesByPage[p] = strokesByPage[p] || [];
     strokesByPage[p].push(s);
     drawPageStrokes(p);
@@ -1538,42 +1984,58 @@
     return found;
   }
 
-  // ---------------- اختصارات ----------------
-  document.addEventListener("keydown", (e)=>{
+  // ============ Keyboard ============
+  document.addEventListener("keydown", e => {
+    const tag = (e.target && e.target.tagName) || "";
+    if(tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
     if(e.key === "Escape"){
       helpOverlay.classList.remove("show");
+      translatePanel.classList.remove("show");
+      hideContextMenu();
+      closeTextInput(false);
       return;
     }
     if(!pdfDoc){
-      if(e.key === "؟" || (e.shiftKey && e.key === "/")){ helpOverlay.classList.add("show"); }
-      if(e.key.toLowerCase() === "f"){ toggleFullscreen(); }
+      if(e.key === "؟" || (e.shiftKey && e.key === "/")) helpOverlay.classList.add("show");
+      if(e.key.toLowerCase() === "f") toggleFullscreen();
       return;
     }
     if(e.ctrlKey || e.metaKey){
       const k = e.key.toLowerCase();
       if(k === "z"){ e.preventDefault(); $("#btnUndo").click(); return; }
       if(k === "y"){ e.preventDefault(); $("#btnRedo").click(); return; }
+      if(k === "c" && selectedRange && !selectedRange.collapsed){ return; }
       return;
     }
-    const key = e.key;
-    const lower = key.toLowerCase();
+    const key = e.key, lower = key.toLowerCase();
     if(key === "1" || lower === "s") selectTool("select");
     else if(key === "2" || lower === "p") selectTool("pen");
     else if(key === "3" || lower === "h") selectTool("highlighter");
     else if(key === "4" || lower === "e") selectTool("eraser");
+    else if(lower === "l") selectTool("line");
+    else if(lower === "u") selectTool("underline");
+    else if(lower === "k") selectTool("strike");
+    else if(lower === "a") selectTool("arrow");
+    else if(lower === "r") selectTool("rect");
+    else if(lower === "c") selectTool("circle");
+    else if(lower === "y") selectTool("polygon");
+    else if(lower === "o") selectTool("cloud");
+    else if(lower === "q") selectTool("callout");
+    else if(lower === "t") selectTool("text");
+    else if(lower === "g"){ translatePanel.classList.toggle("show"); if(translatePanel.classList.contains("show")) setTimeout(()=>$("#tpInput").focus(),100); }
     else if(key === "+" || key === "=") zoomBy(1.2);
     else if(key === "-" || key === "_") zoomBy(1/1.2);
     else if(key === "0") setZoom(1, null);
     else if(lower === "f") toggleFullscreen();
-    else if(key === "PageDown" || (key === " " && !e.shiftKey)){ e.preventDefault(); goToPage(currentPage() + 1); }
-    else if(key === "PageUp"   || (key === " " && e.shiftKey)){ e.preventDefault(); goToPage(currentPage() - 1); }
+    else if(key === "PageDown" || (key === " " && !e.shiftKey)){ e.preventDefault(); goToPage(currentPage()+1); }
+    else if(key === "PageUp" || (key === " " && e.shiftKey)){ e.preventDefault(); goToPage(currentPage()-1); }
     else if(key === "Home"){ e.preventDefault(); goToPage(1); }
     else if(key === "End"){ e.preventDefault(); goToPage(numPages); }
     else if(key === "؟" || (e.shiftKey && key === "/")) helpOverlay.classList.toggle("show");
   });
 
-  // ---------------- Save ----------------
-  function setSaveStatus(text){ saveStatus.textContent = text; }
+  // ============ Save / Export ============
+  function setSaveStatus(t){ saveStatus.textContent = t; }
   function scheduleSave(){
     setSaveStatus("جاري الحفظ...");
     clearTimeout(saveTimer);
@@ -1587,23 +2049,20 @@
     if(ok) await upsertRecent({ id: currentFile.id, name: currentFile.name, size: currentFile.size, savedAt: Date.now() });
   }
 
-  // ---------------- Export ----------------
   btnExport.addEventListener("click", exportPdf);
   async function exportPdf(){
-    if(!pdfBytes || !currentFile) return;
+    if(!pdfBytes || !currentFile) return false;
     showLoading("جاري إنشاء ملف PDF...");
     try{
       const { PDFDocument } = PDFLib;
       const outDoc = await PDFDocument.load(pdfBytes.slice(0));
       const pages = outDoc.getPages();
-
-      for(let i=0;i<pages.length;i++){
+      for(let i=0; i<pages.length; i++){
         const pnum = i+1;
         const list = strokesByPage[pnum] || [];
         if(!list.length) continue;
         const page = pages[i];
         const { width, height } = page.getSize();
-
         const exportScale = 3;
         const cw = Math.round(width * exportScale);
         const ch = Math.round(height * exportScale);
@@ -1611,37 +2070,49 @@
         off.width = cw; off.height = ch;
         const ctx = off.getContext("2d");
         const scale = cw / NORM_W;
-        for(const stroke of list) drawStrokeOnCtx(ctx, stroke, scale);
-
+        for(const s of list) drawAnnotation(ctx, s, scale);
         const pngDataUrl = off.toDataURL("image/png");
-        const pngBytes = await fetch(pngDataUrl).then(r=>r.arrayBuffer());
+        const pngBytes = await fetch(pngDataUrl).then(r => r.arrayBuffer());
         const pngImage = await outDoc.embedPng(pngBytes);
         page.drawImage(pngImage, { x:0, y:0, width, height });
       }
-
       const outBytes = await outDoc.save();
       const blob = new Blob([outBytes], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      const baseName = currentFile.name.replace(/\.pdf$/i,"");
+      const baseName = currentFile.name.replace(/\.pdf$/i, "");
       a.href = url;
       a.download = baseName + "-معلّم.pdf";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(()=>URL.revokeObjectURL(url), 4000);
-      toast("تم تنزيل الملف مع التعليقات");
-    }catch(err){
-      console.error(err);
-      toast("حدث خطأ أثناء إنشاء الملف");
-    }finally{
-      hideLoading();
-    }
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      toast("تم تنزيل الملف ✓");
+      return true;
+    }catch(err){ console.error(err); toast("حدث خطأ"); return false; }
+    finally{ hideLoading(); }
   }
 
-  // ---------------- Auto load ----------------
+  // ============ حذف كل التعديلات في هذا الملف ============
+  btnClearAll.addEventListener("click", async () => {
+    if(!pdfDoc) return;
+    const hasAny = Object.keys(strokesByPage).some(p => (strokesByPage[p]||[]).length);
+    if(!hasAny){ toast("مفيش تعديلات لحذفها"); return; }
+    const ok = confirm("هتتمسح كل التعديلات (الرسم/التظليل/التسطير/الكتابة) في هذا الملف نهائيًا.\n\nهل أنت متأكد؟");
+    if(!ok) return;
+    const saved = await exportPdf();
+    if(!saved){
+      toast("لم يتم حذف أي شيء — احفظ التعديلات أولاً");
+      return;
+    }
+    strokesByPage = {};
+    redoByPage = {};
+    for(let p = 1; p <= pdfDoc.numPages; p++) drawPageStrokes(p);
+    scheduleSave();
+    toast("تم حذف كل التعديلات ✓");
+  });
+
+  // ============ Auto load ============
   async function autoLoadFromUrl(url){
-    showLoading("جاري تحميل الملف من الرابط...");
+    showLoading("جاري تحميل الملف...");
     try{
       const res = await fetch(url);
       if(!res.ok) throw new Error("HTTP " + res.status);
@@ -1649,64 +2120,46 @@
       const name = decodeURIComponent(url.split("/").pop().split("?")[0]) || "document.pdf";
       const file = new File([blob], name, { type: "application/pdf" });
       await loadFile(file, null);
-    }catch(e){
-      console.error(e);
-      hideLoading();
-      toast("تعذّر تحميل الملف (شغّلي من localhost/استضافة)");
-    }
+    }catch(e){ console.error(e); hideLoading(); toast("تعذّر تحميل الملف"); }
   }
-
   function showQuickResume(item){
     const box = document.getElementById("quickResume");
-    box.innerHTML = `<button class="tbtn primary" id="quickResumeBtn" style="margin-bottom:16px;padding:12px 20px;font-size:14px;border-radius:10px;">▶ &nbsp;فتح آخر ملف: ${escapeHtml(item.name)}</button>`;
+    box.innerHTML = '<button class="tbtn primary" id="quickResumeBtn" style="margin-bottom:16px;padding:12px 20px;font-size:14px;border-radius:10px;">▶ &nbsp;فتح آخر ملف: '+escapeHtml(item.name)+'</button>';
     box.style.display = "block";
-    document.getElementById("quickResumeBtn").addEventListener("click", ()=>openRecent(item));
+    document.getElementById("quickResumeBtn").addEventListener("click", () => openRecent(item));
   }
-
   async function tryAutoResume(){
     const list = await getRecentList();
     if(!list.length) return;
     const last = list[0];
     const handle = await idbGetHandle(last.id);
-    if(!handle){ return; }
+    if(!handle) return;
     try{
       const perm = await handle.queryPermission({ mode: "read" });
-      if(perm === "granted"){
-        const file = await handle.getFile();
-        await loadFile(file, handle);
-        return;
-      }
+      if(perm === "granted"){ const f = await handle.getFile(); await loadFile(f, handle); return; }
     }catch(e){}
     showQuickResume(last);
   }
 
-  // ---------------- Init ----------------
+  // ============ Init ============
   (async function init(){
     await renderRecentList();
-
-    if(PDF_URL){
-      await autoLoadFromUrl(PDF_URL);
-    }else if(VIA_POST){
-      console.log("⏳ Annotator: في وضع postMessage — بانتظار الملف من الأب...");
+    if(PDF_URL){ await autoLoadFromUrl(PDF_URL); }
+    else if(VIA_POST){
       waitingForParent.classList.add("show");
       setTimeout(announceReady, 100);
       setTimeout(announceReady, 500);
       setTimeout(announceReady, 1200);
       setTimeout(announceReady, 2500);
-      setTimeout(function(){
-        if(!pdfDoc){
-          waitingForParent.classList.remove("show");
-          console.warn("⚠️ Annotator: مجاش ملف من الأب خلال 8 ثواني");
-        }
-      }, 8000);
-    }else{
+      setTimeout(() => { if(!pdfDoc) waitingForParent.classList.remove("show"); }, 8000);
+    } else {
       await tryAutoResume();
     }
-
-    window.addEventListener("resize", ()=>{
+    window.addEventListener("resize", () => {
       if(!pdfDoc) return;
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(()=>{ renderAllPages(); }, 200);
+      resizeTimer = setTimeout(() => renderAllPages(), 200);
+      updateNavBar();
     });
   })();
 

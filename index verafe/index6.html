@@ -691,29 +691,10 @@ function normalizeSubject(s){
       ];
     }
   });
-  if(s.midtermsCategories && s.midtermsCategories.length) flattenExamCategories(s, 'midtermsCategories', 'midterms');
   if(!s.midterms || !s.midterms.length) s.midterms = [{t:"ميدتيرم (المحاضرات 1-2)", d:"أسئلة من المحاضرتين الأولى والثانية", lectures:[0,1]}];
-  if(s.finalsCategories && s.finalsCategories.length) flattenExamCategories(s, 'finalsCategories', 'finals');
   if(!s.finals || !s.finals.length) s.finals = [{t:"الفاينل الشامل", d:"أسئلة من جميع محاضرات المادة", lectures:[0,1,2,3]}];
   if(!s.testBanks || !s.testBanks.length) s.testBanks = [{t:"بنك أسئلة المادة", d:"جميع أسئلة المحاضرات في اختبار واحد", lectures:[0,1,2,3]}];
   if(!s.linkCategories) s.linkCategories = [];
-}
-
-// يحوّل مصفوفة فئات (زي linkCategories بالظبط) لمصفوفة أسئلة مسطحة عادية + خريطة فئة موازية لكل عنصر.
-// كل حاجة تانية في الكود (الحفظ، الدرجات، فتح الاختبار، النسخ الاحتياطي) بتفضل شغالة زي ما هي تمامًا
-// لأنها كلها بتشتغل على s.midterms / s.finals المسطحة زي الأول.
-function flattenExamCategories(s, catProp, flatProp){
-  var cats = s[catProp] || [];
-  var flat = [];
-  var groups = [];
-  cats.forEach(function(cat){
-    (cat.items || []).forEach(function(item){
-      flat.push(item);
-      groups.push({category: cat.category || 'عام', icon: cat.icon || '📁'});
-    });
-  });
-  s[flatProp] = flat;
-  s['_' + flatProp + 'Groups'] = groups;
 }
 
 var _loadingPromises = {};
@@ -1237,9 +1218,9 @@ function renderActiveSubList(){
     }).join('');
     document.getElementById('questions-lectures-list').innerHTML = html || '<p style="color:var(--text-hint)">لا توجد أسئلة محاضرات بعد.</p>';
   }else if(active.id === 'sub-mid'){
-    document.getElementById('midterms-list').innerHTML = examCategorizedHTML(s, 'midterms');
+    document.getElementById('midterms-list').innerHTML = examListHTML(s, 'midterms');
   }else if(active.id === 'sub-final'){
-    document.getElementById('finals-list').innerHTML = examCategorizedHTML(s, 'finals');
+    document.getElementById('finals-list').innerHTML = examListHTML(s, 'finals');
   }else if(active.id === 'sub-test-bank'){
     document.getElementById('test-banks-list').innerHTML = examListHTML(s, 'testBanks');
   }else if(active.id === 'sub-links'){
@@ -1275,38 +1256,6 @@ function examListHTML(s, prop){
   if(!arr.length) return '<p style="color:var(--text-hint)">لا توجد عناصر هنا.</p>';
   return arr.map(function(e, i){
     return examCardHTML(s, e, prop, i, getQuizData(s, e).length, e.t);
-  }).join('');
-}
-
-// زي examListHTML بالظبط، لكن لو المادة معرّفة midtermsCategories / finalsCategories
-// بتقسم الامتحانات لمجموعات قابلة للطي (دكتور / سنة / أي تقسيم) بنفس شكل فئات الروابط.
-// لو مفيش فئات معرّفة، بترجع القائمة العادية زي ما هي (متوافقة مع أي مادة قديمة).
-function examCategorizedHTML(s, prop){
-  var arr = s[prop] || [];
-  if(!arr.length) return '<p style="color:var(--text-hint)">لا توجد عناصر هنا.</p>';
-
-  var groups = s['_' + prop + 'Groups'];
-  if(!groups || !groups.length) return examListHTML(s, prop);
-
-  var order = [];
-  var byCat = {};
-  arr.forEach(function(e, i){
-    var g = groups[i] || {category: 'عام', icon: '📁'};
-    var key = g.category;
-    if(!byCat[key]){ byCat[key] = {category: key, icon: g.icon, rows: []}; order.push(key); }
-    byCat[key].rows.push(examCardHTML(s, e, prop, i, getQuizData(s, e).length, e.t));
-  });
-
-  return order.map(function(key){
-    var grp = byCat[key];
-    return '<div class="lc-cat">'+
-      '<div class="lc-cat-head" onclick="toggleLcCat(this)">'+
-        '<span class="lc-cat-icon">'+(grp.icon || '📁')+'</span>'+
-        '<span class="lc-cat-main"><span class="lc-cat-tt">'+esc(grp.category)+'</span></span>'+
-        '<span class="link-arrow">▶</span>'+
-      '</div>'+
-      '<div class="lc-cat-body"><div class="lc-cat-links">'+grp.rows.join('')+'</div></div>'+
-    '</div>';
   }).join('');
 }
 

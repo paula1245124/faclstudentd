@@ -17,7 +17,7 @@ var SUBJECTS_INDEX = [
     name: "Visual Programming",
     en: "البرمجة المرئية",
     file: "data/2-visual-programming.js",
-    active: false,
+    active: true,
   },
   {
     slug: "networks",
@@ -57,6 +57,14 @@ var SUBJECTS_INDEX = [
     name: "Field Training - .NET",
     en: "التدريب الميداني",
     file: "data/7-field-net.js",
+    active: false,
+  },
+  {
+    slug: "field-net",
+    icon: "🔷",
+    name: "Field Training - .NET",
+    en: "التدريب الميداني",
+    file: "data/tesrnew.js",
     active: false,
   },
 ];
