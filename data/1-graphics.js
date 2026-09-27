@@ -62,19 +62,7 @@ subjects.push({
                 },
               ],
             },
-            {
-              t: "GAMES101 - Introduction to Computer Graphics",
-              d: "كورس أكاديمي ممتاز يغطي: التحويلات ثلاثية الأبعاد، نموذج الكاميرا المنظورية، الإسقاط، والـ Rasterization — مرجع تكميلي قوي",
-              icon: "🌍",
-              actions: [
-                {
-                  label: "📖 الشرح",
-                  url: "https://www.youtube.com/playlist?list=PLlrATfBNZ98edc5GshPRIJ9gU1CC6zEV0",
-                  type: "view",
-                  color: "red",
-                },
-              ],
-            },
+
           ],
         },
         {
