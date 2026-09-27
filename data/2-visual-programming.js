@@ -9,6 +9,8 @@ subjects.push({
       pdf: "Visual Programming/lectures/Chapter 1.pdf",
       pdf2: "Visual Programming/Questions/Questions on each lecture/Chapter 1 - Questions - Visual Programming.pdf",
 
+      // فئات روابط ومنهج منظّم - Chapter 1: Introduction to Visual C# (د. سارة طارق)
+
       linkCategories: [
         {
           category: "فيديوهات عربية",
