@@ -7,7 +7,7 @@ subjects.push({
       t: "المحاضرة 1: مقدمة الرسوميات، الإسقاط المنظوري، والـ Rasterization",
       d: "تغطي المفاهيم الأساسية لرسوميات الحاسوب، تحويل المجسمات من 3D إلى 2D باستخدام الإسقاط المنظوري (Perspective Projection)، وخوارزميات تحويل الخطوط إلى بيكسلات (Rasterization).",
       pdf: "Computer Graphics/lectures/Lec1-Computer Graphics.pdf",
-      //   pdf2: "Computer Graphics/Questions/Questions on each lecture/Lecture 1 - Questions - Computer Graphics.pdf",
+      pdf2: "Computer Graphics/Questions/new/Questions on each lecture/Lecture_1_Questions_Intro_to_Computer_Graphics.pdf",
       // فئات روابط منظمة لمادة رسوميات الحاسوب (Computer Graphics - Lecture 1)
       linkCategories: [
         {
@@ -152,208 +152,414 @@ subjects.push({
       questions: [
         // ─── MCQ ───
         {
-          q: "What was the primary method of input/output for early computers like ENIAC (1945) before graphical displays?",
+          q: "What are the two main objectives stated at the start of the lecture?",
           options: [
-            "Touchscreens",
-            "Punch cards",
-            "Voice commands",
-            "3D printers",
+            "Learn a graphics API and write shader code",
+            "Understand broadly what computer graphics is about, and implement the first algorithm for making images of 3D shapes",
+            "Study hardware architecture and GPU pipelines",
+            "Review linear algebra and calculus",
           ],
           correct: 1,
         },
         {
-          q: "According to the lecture, why is visual information considered so important for humans?",
+          q: "According to the lecture's definition, computer graphics is:",
           options: [
-            "Because it is easier to program",
-            "Because about 30% of the brain is dedicated to visual processing, and eyes are the highest-bandwidth port",
-            "Because it requires no energy",
-            "Because it only works with VR headsets",
-          ],
-          correct: 1,
-        },
-        {
-          q: "What is the approximate data rate required for a 2020 Virtual Reality headset (2x 2160x2160 @ 90Hz) as mentioned in the lecture?",
-          options: ["95 MB", "2.3 GB/s", "1 TB/s", "30 MB/s"],
-          correct: 1,
-        },
-        {
-          q: "Which of the following is NOT listed as a component of the 'richer model of the world' needed for more realistic pictures?",
-          options: ["Geometry", "Materials", "Lights", "Sound"],
-          correct: 3,
-        },
-        {
-          q: "Which field uses Computer Graphics for crash simulations, as shown with the Mercedes-Benz example?",
-          options: [
-            "Computer-Aided Engineering (CAE)",
-            "Entertainment",
-            "Medical Visualization",
-            "Navigation",
+            "The use of computers to synthesize visual information",
+            "The study of pixel manipulation only",
+            "A branch of computer hardware engineering",
+            "The science of image compression",
           ],
           correct: 0,
         },
         {
-          q: "Which of the following is considered a 'System' foundation of Computer Graphics rather than a 'Theory' foundation?",
+          q: "The lecture later revises the definition of graphics to include:",
           options: [
-            "Sampling & Aliasing",
-            "Radiometry & Light Transport",
-            "Parallel & Heterogeneous Processing",
-            "Perception",
+            "Only visual information",
+            "The use of computation to turn digital information into sensory stimuli",
+            "Only sound and touch",
+            "Only 3D geometry",
           ],
+          correct: 1,
+        },
+        {
+          q: "Roughly what fraction of the brain is dedicated to visual processing, according to the lecture?",
+          options: ["About 5%", "About 30%", "About 60%", "About 90%"],
+          correct: 1,
+        },
+        {
+          q: "Why are eyes described as important in the lecture?",
+          options: [
+            "They are the slowest input to the brain",
+            "They are the highest-bandwidth port into the head",
+            "They only process color, not shape",
+            "They are not relevant to computer graphics",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Which historical device is mentioned as an early computer (1945)?",
+          options: ["Sketchpad", "ENIAC", "Apple II", "IBM PC"],
+          correct: 1,
+        },
+        {
+          q: "Punch cards, as referenced in the lecture, stored roughly how much data?",
+          options: ["~12 bytes", "~120 bytes", "~1.2 KB", "~12 KB"],
+          correct: 1,
+        },
+        {
+          q: "Sketchpad, an early interactive graphics system, was created by:",
+          options: [
+            "Alan Turing",
+            "Ivan Sutherland",
+            "John von Neumann",
+            "Douglas Engelbart",
+          ],
+          correct: 1,
+        },
+        {
+          q: "In what year was Sketchpad created?",
+          options: ["1945", "1955", "1963", "1980"],
           correct: 2,
         },
         {
-          q: "In the pinhole camera model, if the camera is at c=(2,3,5) and a vertex is at (4,4,6), what is the resulting z-coordinate for projection?",
-          options: ["1", "2", "3", "6"],
+          q: "An 8K monitor (7680x4320) produces an image of roughly what size, per the lecture?",
+          options: ["~9.5 MB", "~95 MB", "~950 MB", "~9.5 GB"],
+          correct: 1,
+        },
+        {
+          q: "According to the lecture, a 2020 VR headset with two 2160x2160 displays at 90Hz produces data at roughly:",
+          options: ["2.3 MB/s", "23 MB/s", "2.3 GB/s", "23 GB/s"],
+          correct: 2,
+        },
+        {
+          q: "Which of the following is NOT listed as an application area of computer graphics in the lecture?",
+          options: [
+            "Entertainment (movies, games)",
+            "Architecture",
+            "Scientific/mathematical visualization",
+            "Database indexing",
+          ],
+          correct: 3,
+        },
+        {
+          q: "Which visualization type is specifically mentioned alongside scientific visualization?",
+          options: [
+            "Medical/anatomical visualization",
+            "Financial visualization",
+            "Network visualization",
+            "Weather visualization",
+          ],
           correct: 0,
         },
         {
-          q: "After subtracting the camera position and getting (x, y, z), how do you calculate the 2D image coordinates (u, v)?",
+          q: "Which of the following is listed under the 'Theory' foundations of computer graphics?",
           options: [
-            "u = x + z, v = y + z",
-            "u = x / z, v = y / z",
-            "u = x * z, v = y * z",
-            "u = z / x, v = z / y",
+            "Sampling & aliasing",
+            "Compiler design",
+            "Operating systems",
+            "Database theory",
           ],
-          correct: 1,
-        },
-        {
-          q: "What rule do modern GPUs use to decide which pixels to light up when rasterizing a line?",
-          options: [
-            "The Square Rule",
-            "The Diamond Rule",
-            "The Triangle Rule",
-            "The Bresenham Rule",
-          ],
-          correct: 1,
-        },
-        {
-          q: "What is the complexity of checking every single pixel in the image to see if it satisfies a rasterization condition?",
-          options: ["O(n)", "O(n²)", "O(log n)", "O(1)"],
-          correct: 1,
-        },
-        {
-          q: "In the incremental line rasterization special case, what is the condition for the slope (s)?",
-          options: ["0 < s < 1", "s > 1", "s < 0", "s = 0"],
           correct: 0,
         },
         {
-          q: "Which definition best represents the expanded modern definition of Computer Graphics provided in the lecture?",
+          q: "Which of the following is listed under the 'Theory' foundations of computer graphics?",
           options: [
-            "The use of computers to draw 3D models only",
-            "The use of computation to turn digital information into sensory stimuli",
-            "The study of how to build faster GPUs",
-            "The process of printing digital images on paper",
+            "Radiometry & light transport",
+            "Network protocols",
+            "File systems",
+            "Cryptography",
+          ],
+          correct: 0,
+        },
+        {
+          q: "Which of the following is listed under the 'Systems' foundations of computer graphics?",
+          options: [
+            "Parallel, heterogeneous processing",
+            "Radiometry",
+            "Perception",
+            "Sampling & aliasing",
+          ],
+          correct: 0,
+        },
+        {
+          q: "In the cube-modeling activity, the cube is assumed to be centered at:",
+          options: ["(1,1,1)", "The origin (0,0,0)", "(2,2,2)", "(-1,-1,-1)"],
+          correct: 1,
+        },
+        {
+          q: "What are the dimensions of the cube used in the modeling activity?",
+          options: ["1x1x1", "2x2x2", "3x3x3", "4x4x4"],
+          correct: 1,
+        },
+        {
+          q: "How many vertices does the cube in the activity have?",
+          options: ["4", "6", "8", "12"],
+          correct: 2,
+        },
+        {
+          q: "How many edges does the cube in the activity have?",
+          options: ["6", "8", "10", "12"],
+          correct: 3,
+        },
+        {
+          q: "In the cube-drawing activity, what is the basic two-step strategy for turning a 3D cube into a 2D image?",
+          options: [
+            "Rotate the cube, then scale it",
+            "Map 3D vertices to 2D points, then connect them with straight lines",
+            "Apply color, then shade the faces",
+            "Compute normals, then apply lighting",
           ],
           correct: 1,
         },
-
-        // ─── Essay ───
         {
-          type: "essay",
-          q: "Compare the traditional definition of Computer Graphics with the expanded definition presented in the lecture. How does the concept of 'sensory stimuli' change the scope of the field?",
-          answer:
-            "Traditional Definition:\n" +
-            "• Early definitions focused on 'turning on pixels' or simply synthesizing visual information.\n" +
-            "• It was limited to displaying images on a screen.\n\n" +
-            "Expanded Definition:\n" +
-            "• The lecture defines Computer Graphics as 'the use of computation to turn digital information into sensory stimuli.'\n" +
-            "• This includes not just visual information, but also sound (e.g., in animations) and touch (haptic feedback).\n" +
-            "• The lecture even poses the question of expanding to taste and smell.\n" +
-            "• It also extends to turning digital information into physical matter (e.g., 3D printing).\n\n" +
-            "Impact:\n" +
-            "• This broader definition moves CG beyond just screen displays and into VR/AR, robotics, and physical fabrication, making it a truly interdisciplinary field.",
-          tags: ["Definition", "Sensory Stimuli", "Evolution"],
-          ref: "Lecture 1 — Pages 13, 16, 18",
+          q: "The lecture explains perspective projection using which simple camera model?",
+          options: [
+            "Lens camera",
+            "Pinhole camera",
+            "Fisheye camera",
+            "Orthographic camera",
+          ],
+          correct: 1,
         },
         {
-          type: "essay",
-          q: "List and briefly describe at least four distinct application areas of Computer Graphics mentioned in the lecture.",
-          answer:
-            "1. Entertainment (Movies, Games):\n" +
-            "• Used for creating animated films (e.g., Pixar) and video games (e.g., Zelda).\n" +
-            "• Includes both cartoon-style and photorealistic rendering (e.g., digital humans).\n\n" +
-            "2. Computer-Aided Engineering (CAE):\n" +
-            "• Used for simulating physical tests like car crashes (e.g., Mercedes-Benz simulation vs. real crash test).\n" +
-            "• Allows engineers to visualize stress, deformation, and safety without physical prototypes.\n\n" +
-            "3. Scientific and Medical Visualization:\n" +
-            "• Visualizing complex mathematical surfaces (e.g., bubbles) and fluid dynamics (e.g., smoke/fire simulations).\n" +
-            "• Medical imaging and anatomical visualization for diagnosis and research.\n\n" +
-            "4. Art, Design, and Communication:\n" +
-            "• Industrial design, architecture, and digital art.\n" +
-            "• Navigation systems (GPS) and communication tools (e.g., facial tracking for avatars).",
-          tags: ["Applications", "CAE", "Medical", "Entertainment"],
-          ref: "Lecture 1 — Pages 21–31",
+          q: "In perspective projection, objects appear smaller as they:",
+          options: [
+            "Get closer to the camera",
+            "Get further away from the camera",
+            "Rotate faster",
+            "Change color",
+          ],
+          correct: 1,
         },
         {
-          type: "essay",
-          q: "Explain the concept of Rasterization and discuss the complexity issue (O(n²) vs O(n)) when drawing a line.",
-          answer:
-            "Rasterization Definition:\n" +
-            "• Rasterization is the process of converting a continuous object (like a mathematically perfect line) into a discrete representation on a raster grid (a pixel grid).\n\n" +
-            "The Complexity Problem:\n" +
-            "• A naive approach would be to check every single pixel in the image to see if the line passes through it.\n" +
-            "• If the image has n² pixels, and the line only lights up O(n) pixels, checking all n² pixels is inefficient.\n" +
-            "• We must be able to do better, working proportional to the number of pixels in the drawing of the line, not the entire image.\n\n" +
-            "Incremental Line Rasterization:\n" +
-            "• An efficient algorithm for simple cases (e.g., slope 0 < s < 1).\n" +
-            "• It iterates through the x-coordinates (u) from start to end, incrementally adding the slope to the y-coordinate (v) and rounding it to the nearest pixel.\n" +
-            "• This ensures we only visit the pixels that actually need to be drawn, achieving O(n) complexity.",
-          tags: ["Rasterization", "Complexity", "Line Drawing"],
-          ref: "Lecture 1 — Pages 47–52",
+          q: "In the side-view derivation, the image point is called:",
+          options: ["p = (x,y,z)", "q = (u,v)", "c = (2,3,5)", "s = slope"],
+          correct: 1,
         },
         {
-          type: "essay",
-          q: "Detail the mathematical steps for projecting a 3D cube onto a 2D image using the pinhole camera model.",
-          answer:
-            "1. Modeling the Cube:\n" +
-            "• Define the 3D vertices (e.g., A: (1,1,1), B: (-1,1,1), etc.).\n" +
-            "• Define the edges connecting these vertices (e.g., AB, CD, EF, etc.).\n\n" +
-            "2. Perspective Projection (Pinhole Camera Model):\n" +
-            "• Assume the camera has a unit size and the origin is at the pinhole c.\n" +
-            "• For each vertex (X, Y, Z), subtract the camera position c to get (x, y, z).\n" +
-            "• Use similar triangles to derive the projection equations.\n" +
-            "• The vertical coordinate v is the slope y/z, and the horizontal coordinate u is x/z.\n" +
-            "• Formula: u = x / z, v = y / z.\n\n" +
-            "3. Drawing:\n" +
-            "• Convert the resulting 2D coordinates (u, v) into rasterized lines on the pixel grid.\n" +
-            "• This turns purely digital information (vertex coordinates) into visual information (a 2D image of a cube).",
-          tags: ["Modeling", "Perspective Projection", "Cube Activity"],
-          ref: "Lecture 1 — Pages 33–41",
+          q: "Under the assumption that the camera has unit size with origin at the pinhole c, the vertical image coordinate v is derived as:",
+          options: [
+            "v = y + z",
+            "v = y/z (the slope y/z)",
+            "v = y * z",
+            "v = z/y",
+          ],
+          correct: 1,
         },
         {
-          type: "essay",
-          q: "What are the theoretical and systemic foundations of Computer Graphics? Provide examples for each category.",
-          answer:
-            "Theoretical Foundations:\n" +
-            "• Basic Representations: How to digitally encode shape and motion (e.g., vertices and edges of a cube).\n" +
-            "• Sampling & Aliasing: How to acquire and reproduce a signal (e.g., converting a continuous line to discrete pixels).\n" +
-            "• Numerical Methods: How to manipulate signals numerically (e.g., matrix transformations).\n" +
-            "• Radiometry & Light Transport: How light behaves and interacts with surfaces.\n" +
-            "• Perception: How visual information relates to human biology and psychology.\n\n" +
-            "Systemic Foundations:\n" +
-            "• Parallel, Heterogeneous Processing: Utilizing GPUs and multi-core processors for rendering.\n" +
-            "• Graphics-Specific Programming Languages: Languages and APIs designed specifically for rendering (e.g., OpenGL, DirectX, shading languages).",
-          tags: ["Foundations", "Theory", "Systems"],
-          ref: "Lecture 1 — Page 32",
+          q: "Following the same logic, the horizontal image coordinate u is given by:",
+          options: ["u = x/z", "u = z/x", "u = x*z", "u = x+z"],
+          correct: 0,
         },
         {
-          type: "essay",
-          q: "How has the history of computer graphics evolved from ENIAC and punch cards to modern VR and 3D printing? Include the 'Why visual information?' argument in your answer.",
-          answer:
-            "Historical Evolution:\n" +
-            "• Early computing (ENIAC, 1945) relied on punch cards and physical wiring, with very limited output (e.g., blinking lights).\n" +
-            "• There was a clear need for a better way to visualize data, leading to early computer displays (e.g., the Whirlwind computer).\n" +
-            "• Modern displays have advanced to 8K monitors (7680x4320, ~95MB per frame) and VR headsets requiring massive bandwidth (2.3 GB/s).\n\n" +
-            "Why Visual Information?\n" +
-            "• About 30% of the brain is dedicated to visual processing.\n" +
-            "• The eyes are the highest-bandwidth port into the head.\n" +
-            "• This makes visual output the most efficient way to convey complex information to humans.\n\n" +
-            "Modern Frontiers:\n" +
-            "• VR and AR for immersive experiences.\n" +
-            "• 3D printing, which turns digital information into physical matter.\n" +
-            "• Haptic feedback, which turns digital information into touch sensations.",
-          tags: ["History", "Visual Information", "VR", "3D Printing"],
-          ref: "Lecture 1 — Pages 6–12, 16–17",
+          q: "In the 'draw the cube' activity, what camera position is assumed?",
+          options: ["c = (0,0,0)", "c = (1,1,1)", "c = (2,3,5)", "c = (5,3,2)"],
+          correct: 2,
+        },
+        {
+          q: "To project each 3D vertex to 2D in the activity, the first step is to:",
+          options: [
+            "Divide (x,y) by z directly",
+            "Subtract the camera position c from the vertex to get (x,y,z)",
+            "Multiply the vertex by the camera position",
+            "Add the camera position to the vertex",
+          ],
+          correct: 1,
+        },
+        {
+          q: "After subtracting the camera position, the second step to get (u,v) is to:",
+          options: [
+            "Multiply (x,y) by z",
+            "Divide (x,y) by z",
+            "Add z to (x,y)",
+            "Take the square root of z",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Once the two endpoints of an edge have been projected to (u1,v1) and (u2,v2), what does the algorithm do next?",
+          options: [
+            "Fill the polygon between them",
+            "Draw a line between the two 2D points",
+            "Compute a normal vector",
+            "Apply a color gradient",
+          ],
+          correct: 1,
+        },
+        {
+          q: "According to the lecture, what did the cube-drawing exercise successfully demonstrate?",
+          options: [
+            "Turning visual information into digital information",
+            "Turning purely digital information into purely visual information using a completely algorithmic procedure",
+            "Compressing an image",
+            "Simulating lighting",
+          ],
+          correct: 1,
+        },
+        {
+          q: "The lecture describes a raster display using which common abstraction?",
+          options: [
+            "A continuous vector canvas",
+            "A 2D grid of pixels, each with a color value",
+            "A single scanning laser beam",
+            "A 1D array of intensities",
+          ],
+          correct: 1,
+        },
+        {
+          q: "The process of converting a continuous object (like a line) into a discrete pixel-grid representation is called:",
+          options: [
+            "Aliasing",
+            "Rasterization",
+            "Tessellation",
+            "Quantization",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Which rule for choosing which pixels to light up for a line is specifically named in the lecture, and used by modern GPUs?",
+          options: [
+            "The midpoint rule",
+            "The diamond rule",
+            "The Bresenham rule",
+            "The scanline rule",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Under the diamond rule, a pixel is lit up if:",
+          options: [
+            "The line passes through the pixel's associated diamond",
+            "The line touches any corner of the pixel",
+            "The pixel is closer to the camera",
+            "The pixel's color matches the line's color",
+          ],
+          correct: 0,
+        },
+        {
+          q: "Why is naively checking every pixel in the image to rasterize a line considered inefficient?",
+          options: [
+            "It only works for horizontal lines",
+            "It costs O(n^2) work in the number of image pixels, versus at most O(n) pixels actually lit up",
+            "It cannot represent color",
+            "It requires floating-point hardware that doesn't exist",
+          ],
+          correct: 1,
+        },
+        {
+          q: "In the incremental line rasterization algorithm described, the slope s of the line is computed as:",
+          options: [
+            "s = (u2-u1) / (v2-v1)",
+            "s = (v2-v1) / (u2-u1)",
+            "s = (u2+u1) / (v2+v1)",
+            "s = u2 * v2",
+          ],
+          correct: 1,
+        },
+        {
+          q: "The easy special case handled by the incremental algorithm assumes:",
+          options: [
+            "u1 > u2 and v1 > v2",
+            "u1 < u2, v1 < v2, and 0 < s < 1",
+            "The line is vertical",
+            "The slope is greater than 1",
+          ],
+          correct: 1,
+        },
+        {
+          q: "In the incremental algorithm's loop, what is updated on every iteration as u increases by 1?",
+          options: [
+            "v is incremented by s, then rounded to draw the pixel",
+            "u is divided by s",
+            "The camera position is updated",
+            "The color is incremented",
+          ],
+          correct: 0,
+        },
+        {
+          q: "The lecture notes that although the incremental algorithm is easy to implement, it is:",
+          options: [
+            "Exactly how lines are drawn in modern software/hardware",
+            "Not how lines are actually drawn in modern software/hardware",
+            "Only usable for 3D lines",
+            "The fastest possible method",
+          ],
+          correct: 1,
+        },
+        {
+          q: "After completing the simple line-drawing algorithm for the cube, what does the lecture say is needed for more realistic pictures?",
+          options: [
+            "Only better monitors",
+            "A richer model of the world, including geometry, materials, lights, cameras, and motion",
+            "Faster punch card readers",
+            "More pixels per inch only",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Which of the following is explicitly listed as part of the 'richer model of the world' needed for realism?",
+          options: ["Materials", "Punch cards", "Compilers", "Databases"],
+          correct: 0,
+        },
+        {
+          q: "Which of the following is explicitly listed as part of the 'richer model of the world' needed for realism?",
+          options: [
+            "Motion",
+            "Networking",
+            "Cryptography",
+            "Operating systems",
+          ],
+          correct: 0,
+        },
+        {
+          q: "The lecture frames the whole cube-drawing exercise as fundamentally illustrating:",
+          options: [
+            "What computer graphics is all about",
+            "How to compress an image",
+            "How compilers work",
+            "How networks transmit images",
+          ],
+          correct: 0,
+        },
+        {
+          q: "What footnote does the lecture add about the idea of a pixel as 'a little square'?",
+          options: [
+            "It is completely accurate and never questioned",
+            "The notion will be strongly challenged later in the course",
+            "Pixels are always circular",
+            "Pixels do not have color",
+          ],
+          correct: 1,
+        },
+        {
+          q: "The lecture references a SIGGRAPH trailer to make which point?",
+          options: [
+            "That computer graphics is a narrow, niche field",
+            "That even the broadened definition of graphics is still too narrow",
+            "That SIGGRAPH only covers hardware",
+            "That graphics has not changed since the 1960s",
+          ],
+          correct: 1,
+        },
+        {
+          q: "The lecture mentions turning digital information into physical matter as an example of graphics evolving beyond:",
+          options: [
+            "Just turning on pixels",
+            "Just writing text",
+            "Just playing sound",
+            "Just 2D drawing",
+          ],
+          correct: 0,
+        },
+        {
+          q: "Where does the lecture say students can find all logistics for the course?",
+          options: [
+            "In the lecture slides only",
+            "On the course webpage",
+            "By email only",
+            "In the textbook appendix",
+          ],
+          correct: 1,
         },
       ],
     },

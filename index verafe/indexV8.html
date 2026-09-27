@@ -618,11 +618,10 @@ body.quiz-mode .qn-sidebar{display:block}
                     <h2 style="margin:0;">بنك الأسئلة</h2>
                     <button class="btn-sm" onclick="downloadQuestionsPageHTML()" style="font-size:14px;padding:8px 18px;">📥 تحميل الصفحة كـ HTML</button>
                 </div>
-                <!-- ★★★ التعديل هنا: إضافة id لأزرار الميدتيرم والفاينل ★★★ -->
                 <div class="sub-tabs" id="sub-tabs-container">
                     <button class="sub-tab-button active" onclick="openSubTab(event, 'sub-lectures')">📚 أسئلة المحاضرات</button>
-                    <button class="sub-tab-button" id="tab-btn-mid" onclick="openSubTab(event, 'sub-mid')">📝 الميدتيرم</button>
-                    <button class="sub-tab-button" id="tab-btn-final" onclick="openSubTab(event, 'sub-final')">🎓 الفاينل</button>
+                    <button class="sub-tab-button" onclick="openSubTab(event, 'sub-mid')">📝 الميدتيرم</button>
+                    <button class="sub-tab-button" onclick="openSubTab(event, 'sub-final')">🎓 الفاينل</button>
                     <button class="sub-tab-button" onclick="openSubTab(event, 'sub-test-bank')">🏦 بنك الأسئلة</button>
                 </div>
                 <div id="sub-lectures" class="sub-content active"><div id="questions-lectures-list"></div></div>
@@ -711,31 +710,17 @@ function normalizeSubject(s){
       ];
     }
   });
-  
-  // 1. تهيئة المصفوفات فارغة (عشان لو مفيش بيانات ميد أو فاينل متظهرش)
-  if(!s.midterms) s.midterms = [];
-  if(!s.finals) s.finals = [];
-
-  // 2. إضافة الميدتيرم فقط لو فيه تصنيفات (Categories) موجودة
-  if(s.midtermsCategories && s.midtermsCategories.length) {
-      flattenExamCategories(s, 'midtermsCategories', 'midterms');
-  }
-
-  // 3. إضافة الفاينل فقط لو فيه تصنيفات (Categories) موجودة
-  if(s.finalsCategories && s.finalsCategories.length) {
-      flattenExamCategories(s, 'finalsCategories', 'finals');
-  }
-
-  // 4. بنك الأسئلة (لو مش موجود بيتم إنشاؤه تلقائياً)
-  if(!s.testBanks || !s.testBanks.length) {
-      s.testBanks = [{t:"بنك أسئلة المادة", d:"جميع أسئلة المحاضرات في اختبار واحد", lectures:[0,1,2,3]}];
-  }
-
-  // 5. الروابط
+  if(s.midtermsCategories && s.midtermsCategories.length) flattenExamCategories(s, 'midtermsCategories', 'midterms');
+  if(!s.midterms || !s.midterms.length) s.midterms = [{t:"ميدتيرم (المحاضرات 1-2)", d:"أسئلة من المحاضرتين الأولى والثانية", lectures:[0,1]}];
+  if(s.finalsCategories && s.finalsCategories.length) flattenExamCategories(s, 'finalsCategories', 'finals');
+  if(!s.finals || !s.finals.length) s.finals = [{t:"الفاينل الشامل", d:"أسئلة من جميع محاضرات المادة", lectures:[0,1,2,3]}];
+  if(!s.testBanks || !s.testBanks.length) s.testBanks = [{t:"بنك أسئلة المادة", d:"جميع أسئلة المحاضرات في اختبار واحد", lectures:[0,1,2,3]}];
   if(!s.linkCategories) s.linkCategories = [];
 }
 
 // يحوّل مصفوفة فئات (زي linkCategories بالظبط) لمصفوفة أسئلة مسطحة عادية + خريطة فئة موازية لكل عنصر.
+// كل حاجة تانية في الكود (الحفظ، الدرجات، فتح الاختبار، النسخ الاحتياطي) بتفضل شغالة زي ما هي تمامًا
+// لأنها كلها بتشتغل على s.midterms / s.finals المسطحة زي الأول.
 function flattenExamCategories(s, catProp, flatProp){
   var cats = s[catProp] || [];
   var flat = [];
@@ -1095,7 +1080,6 @@ function selectSubject(i){
     showSubjectLoading();
     loadSubject(i).then(function(){
       resetSubTabs();
-      updateSubTabsVisibility(subjects[i]); // ★★★ التعديل هنا ★★★
       renderAllLists();
       saveLS({subject:i, view:'main', lecture:-1, prop:null, qidx:null, tab:'section1', subTab:'sub-lectures'});
     }).catch(function(err){
@@ -1106,7 +1090,6 @@ function selectSubject(i){
     });
   }else{
     resetSubTabs();
-    updateSubTabsVisibility(subjects[i]); // ★★★ التعديل هنا ★★★
     renderAllLists();
     saveLS({subject:i, view:'main', lecture:-1, prop:null, qidx:null, tab:'section1', subTab:'sub-lectures'});
   }
@@ -1136,32 +1119,6 @@ function openSubTab(evt, id){
   document.querySelectorAll('#section2 .sub-content').forEach(function(d){ d.classList.toggle('active', d.id === id); });
   saveLS({subTab:id});
   renderActiveSubList();
-}
-
-// ★★★ التعديل هنا: دالة إخفاء/إظهار أزرار الميدتيرم والفاينل ★★★
-function updateSubTabsVisibility(s) {
-    if (!s) return;
-    var btnMid = document.getElementById('tab-btn-mid');
-    var btnFinal = document.getElementById('tab-btn-final');
-
-    if (btnMid) {
-        btnMid.style.display = (s.midterms && s.midterms.length > 0) ? 'inline-block' : 'none';
-    }
-    if (btnFinal) {
-        btnFinal.style.display = (s.finals && s.finals.length > 0) ? 'inline-block' : 'none';
-    }
-
-    // لو المستخدم واقف على تاب الميد أو الفاينل ودول اتخفوا، نرجعه لتاب المحاضرات تلقائياً
-    var activeSubContent = document.querySelector('#section2 .sub-content.active');
-    if (activeSubContent) {
-        if ((activeSubContent.id === 'sub-mid' && (!s.midterms || s.midterms.length === 0)) ||
-            (activeSubContent.id === 'sub-final' && (!s.finals || s.finals.length === 0))) {
-            var defaultTabBtn = document.querySelector('#sub-tabs-container .sub-tab-button');
-            if (defaultTabBtn) {
-                openSubTab({ currentTarget: defaultTabBtn }, 'sub-lectures');
-            }
-        }
-    }
 }
 
 function resetSubTabs(){
@@ -1343,6 +1300,9 @@ function examListHTML(s, prop){
   }).join('');
 }
 
+// زي examListHTML بالظبط، لكن لو المادة معرّفة midtermsCategories / finalsCategories
+// بتقسم الامتحانات لمجموعات قابلة للطي (دكتور / سنة / أي تقسيم) بنفس شكل فئات الروابط.
+// لو مفيش فئات معرّفة، بترجع القائمة العادية زي ما هي (متوافقة مع أي مادة قديمة).
 function examCategorizedHTML(s, prop){
   var arr = s[prop] || [];
   if(!arr.length) return '<p style="color:var(--text-hint)">لا توجد عناصر هنا.</p>';
@@ -3346,7 +3306,6 @@ function importProgress(ev){
   showSubjectLoading();
   loadSubject(startIdx).then(function(){
     var s = subjects[startIdx];
-    updateSubTabsVisibility(s); // ★★★ التعديل هنا ★★★
 
     var restored = false;
     if(last && last.view === 'lecture' && typeof last.lecture === 'number' && s.lectures && s.lectures[last.lecture]){
