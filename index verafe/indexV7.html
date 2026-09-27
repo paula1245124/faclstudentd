@@ -223,24 +223,7 @@ iframe{width:100%;height:600px;border:none;display:block}
 .scroll-to-top{position:fixed;bottom:50px;left:20px;width:46px;height:46px;background:var(--scroll-btn-bg);color:#fff;border:none;border-radius:50%;font-size:22px;cursor:pointer;z-index:999;box-shadow:0 4px 15px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);pointer-events:none;transition:all .3s}
 .scroll-to-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
 .scroll-to-top:hover{filter:brightness(1.2);transform:scale(1.1) translateY(-4px)}
-.status-bar{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:35px;
-  line-height:19px;
-  box-sizing:border-box;
-  background:var(--status-bg);
-  color:var(--status-text);
-  text-align:center;
-  padding:8px 15px;
-  font-size:13px;
-  font-weight:bold;
-  z-index:998;
-  transition:background .6s,color .4s;
-  overflow:hidden;
-}
+.status-bar{position:fixed;bottom:0;left:0;right:0;background:var(--status-bg);color:var(--status-text);text-align:center;padding:8px 15px;font-size:13px;font-weight:bold;z-index:998;transition:background .6s,color .4s}
 .status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--success-light);margin-left:8px;vertical-align:middle}
 .toast{position:fixed;bottom:50px;left:50%;transform:translateX(-50%);background:var(--bg-header);color:#fff;border:1px solid var(--border);padding:12px 22px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:3000;box-shadow:0 6px 20px var(--shadow)}
 .toast.show{opacity:1}
@@ -687,9 +670,7 @@ body.quiz-mode .qn-sidebar{display:block}
     </div>
 </div>
 
-<div class="status-bar" id="status-bar">
-  Theme Sync: <span id="sb-theme">Light</span> — <span id="sb-time"> </span><span class="status-dot"></span>
-</div>
+<div class="status-bar" id="status-bar">Theme Sync: Light <span class="status-dot"></span></div>
 <div class="toast" id="toast"></div>
 
 <script>var subjects = [];</script>
@@ -846,18 +827,15 @@ function formatTime(d){
 }
 
 function updateStatusBar(fakeTime){
-  var themeSpan = document.getElementById('sb-theme');
-  var timeSpan  = document.getElementById('sb-time');
-
+  var el = document.getElementById('status-bar');
+  if(!el._timeSpan){
+    el.innerHTML = 'Theme Sync: <span id="sb-theme"></span> — <span id="sb-time"></span> <span class="status-dot"></span>';
+    el._timeSpan = document.getElementById('sb-time');
+    el._themeSpan = document.getElementById('sb-theme');
+  }
   var cur = document.documentElement.getAttribute('data-theme') || 'noon';
-
-  if(themeSpan){
-    themeSpan.textContent = themeNames[cur] || cur;
-  }
-
-  if(timeSpan){
-    timeSpan.textContent = fakeTime || formatTime(new Date());
-  }
+  el._themeSpan.textContent = themeNames[cur] || cur;
+  el._timeSpan.textContent = fakeTime || formatTime(new Date());
 }
 
 function runDemo(){

@@ -148,1026 +148,212 @@ subjects.push({
         },
       ],
 
+      // الأسئلة
       questions: [
+        // ─── MCQ ───
         {
-          q: "Which of the following is enough on its own to create the appearance of three dimensions on a 2D screen?",
-          options: ["Color", "Perspective", "Texture mapping", "Fog"],
-          correct: 1,
-        },
-        {
-          q: "Hiding the back sides of solid geometry mainly helps in:",
+          q: "What was the primary method of input/output for early computers like ENIAC (1945) before graphical displays?",
           options: [
-            "Saving memory",
-            "Enhancing the 3D illusion",
-            "Avoiding transparency issues",
-            "Increasing color realism",
+            "Touchscreens",
+            "Punch cards",
+            "Voice commands",
+            "3D printers",
           ],
           correct: 1,
         },
         {
-          q: "Adding different colors to objects increases:",
+          q: "According to the lecture, why is visual information considered so important for humans?",
           options: [
-            "Realism",
-            "Processing time",
-            "The illusion of three dimensions",
-            "Anti-aliasing",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Proper shading creates the illusion of:",
-          options: ["Motion", "Illumination", "Depth buffer", "Antialiasing"],
-          correct: 1,
-        },
-        {
-          q: "Which effect provides a convincing illusion for wide-open spaces?",
-          options: ["Antialiasing", "Fog", "Shading", "Blending"],
-          correct: 1,
-        },
-        {
-          q: "Blending in 3D graphics is commonly used to achieve:",
-          options: [
-            "Polygon filling",
-            "Reflection effects",
-            "Hidden surface removal",
-            "Line stippling",
+            "Because it is easier to program",
+            "Because about 30% of the brain is dedicated to visual processing, and eyes are the highest-bandwidth port",
+            "Because it requires no energy",
+            "Because it only works with VR headsets",
           ],
           correct: 1,
         },
         {
-          q: "Antialiasing is mainly used to:",
-          options: [
-            "Add shadows",
-            "Remove background noise",
-            "Smooth jagged edges",
-            "Increase frame rate",
-          ],
-          correct: 2,
+          q: "What is the approximate data rate required for a 2020 Virtual Reality headset (2x 2160x2160 @ 90Hz) as mentioned in the lecture?",
+          options: ["95 MB", "2.3 GB/s", "1 TB/s", "30 MB/s"],
+          correct: 1,
         },
         {
-          q: "Which of the following is NOT a common real-time 3D application?",
-          options: [
-            "Flight simulator",
-            "CAD",
-            "Medical imaging",
-            "Movie rendering like Shrek",
-          ],
+          q: "Which of the following is NOT listed as a component of the 'richer model of the world' needed for more realistic pictures?",
+          options: ["Geometry", "Materials", "Lights", "Sound"],
           correct: 3,
         },
         {
-          q: "Non-real-time 3D rendering is typically used for:",
+          q: "Which field uses Computer Graphics for crash simulations, as shown with the Mercedes-Benz example?",
           options: [
-            "Games",
-            "Scientific visualization",
-            "Movies",
-            "Flight simulators",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Rendering a single high-quality movie frame may take:",
-          options: ["Seconds", "Minutes", "Hours", "Days"],
-          correct: 2,
-        },
-        {
-          q: "What does GPU stand for?",
-          options: [
-            "General Processing Unit",
-            "Graphics Processing Unit",
-            "Graphic Program Utility",
-            "General Pixel Utility",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Shaders allow for:",
-          options: [
-            "Slower rendering",
-            "Hardware-only lighting",
-            "Real-time realism",
-            "Only color adjustment",
-          ],
-          correct: 2,
-        },
-        {
-          q: "OpenGL is best described as:",
-          options: [
-            "A programming language",
-            "A software interface to graphics hardware",
-            "A Windows-only API",
-            "A 3D rendering engine",
-          ],
-          correct: 1,
-        },
-        {
-          q: "OpenGL is designed as:",
-          options: [
-            "Hardware-dependent",
-            "Hardware-independent",
-            "CPU-based only",
-            "GPU-based only",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which of the following is NOT true about OpenGL?",
-          options: [
-            "It is not a programming language like C++",
-            "It provides high-level commands for complex shapes",
-            "Models must be built from primitives like points, lines, and polygons",
-            "It works across platforms",
-          ],
-          correct: 1,
-        },
-        {
-          q: "OpenGL commands usually start with:",
-          options: ["op", "gl", "og", "gx"],
-          correct: 1,
-        },
-        {
-          q: "Which of the following OpenGL auxiliary libraries was the first to exist?",
-          options: ["freeglut", "GLUT", "AUX", "GLU"],
-          correct: 2,
-        },
-        {
-          q: "AUX was later replaced by:",
-          options: ["GLX", "GLUT", "Direct3D", "OpenGL ES"],
-          correct: 1,
-        },
-        {
-          q: "GLUT stands for:",
-          options: [
-            "General Light Utility Toolkit",
-            "Graphics Layer Unified Tool",
-            "OpenGL Utility Toolkit",
-            "General Library for Utility Textures",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Which operating system discontinued GLUT development?",
-          options: ["Linux", "Windows", "MacOS", "Solaris"],
-          correct: 1,
-        },
-        {
-          q: "The modern replacement for GLUT is:",
-          options: ["Freeglut", "GLU", "DirectX", "Vulkan"],
-          correct: 0,
-        },
-        {
-          q: "OpenGL does not directly handle:",
-          options: [
-            "Keyboard input",
-            "Mouse input",
-            "Window management",
-            "All of the above",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Which company originally created OpenGL?",
-          options: ["Microsoft", "Apple", "Silicon Graphics (SGI)", "Intel"],
-          correct: 2,
-        },
-        {
-          q: "OpenGL's cross-platform mobile subset is called:",
-          options: ["OpenGL Mini", "OpenGL ES", "OpenGL Lite", "OpenGL Mobile"],
-          correct: 1,
-        },
-        {
-          q: "A hardware OpenGL implementation is often referred to as:",
-          options: [
-            "Native implementation",
-            "Accelerated implementation",
-            "Compact implementation",
-            "Local implementation",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which function is used in OpenGL to clear the screen?",
-          options: ["glClearWindow()", "glClear()", "glReset()", "glWipe()"],
-          correct: 1,
-        },
-        {
-          q: "Which buffer is cleared using GL_COLOR_BUFFER_BIT?",
-          options: [
-            "Color buffer",
-            "Depth buffer",
-            "Stencil buffer",
-            "Texture buffer",
+            "Computer-Aided Engineering (CAE)",
+            "Entertainment",
+            "Medical Visualization",
+            "Navigation",
           ],
           correct: 0,
         },
         {
-          q: "Which OpenGL command sets the window clearing color?",
+          q: "Which of the following is considered a 'System' foundation of Computer Graphics rather than a 'Theory' foundation?",
           options: [
-            "glSetClear()",
-            "glClearColor()",
-            "glColorBuffer()",
-            "glClear()",
-          ],
-          correct: 1,
-        },
-        {
-          q: "The glFlush() command is used to:",
-          options: [
-            "Stop OpenGL execution",
-            "Clear the screen",
-            "Force all issued commands to execute",
-            "Reset color settings",
+            "Sampling & Aliasing",
+            "Radiometry & Light Transport",
+            "Parallel & Heterogeneous Processing",
+            "Perception",
           ],
           correct: 2,
         },
         {
-          q: "The GLUT function glutMainLoop() is used to:",
-          options: [
-            "Initialize OpenGL",
-            "Enter the event processing loop",
-            "Exit the program",
-            "Set the window size",
-          ],
-          correct: 1,
-        },
-        {
-          q: "In OpenGL, the suffix f in a function name usually indicates:",
-          options: [
-            "Boolean data type",
-            "Integer data type",
-            "Float data type",
-            "Double data type",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Which suffix corresponds to a 64-bit floating-point in OpenGL?",
-          options: ["f", "d", "i", "s"],
-          correct: 1,
-        },
-        {
-          q: "The suffix i in OpenGL corresponds to which data type?",
-          options: [
-            "8-bit integer",
-            "16-bit integer",
-            "32-bit integer",
-            "Boolean",
-          ],
-          correct: 2,
-        },
-        {
-          q: "The command glVertex2i(1, 3); is equivalent to:",
-          options: [
-            "glVertex2f(1, 3)",
-            "glVertex2f(1.0, 3.0)",
-            "glVertex2d(1, 3)",
-            "glVertex2s(1, 3)",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which OpenGL function sets the viewport size?",
-          options: [
-            "glSetViewport()",
-            "glViewport()",
-            "glWindowSize()",
-            "glOrtho()",
-          ],
-          correct: 1,
-        },
-        {
-          q: "The purpose of redefining the clipping volume in ChangeSize is to:",
-          options: [
-            "Adjust window color",
-            "Keep the aspect ratio consistent",
-            "Enable depth testing",
-            "Reduce CPU usage",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which function defines the clipping volume in OpenGL?",
-          options: [
-            "glClearDepth()",
-            "glViewport()",
-            "glOrtho()",
-            "glPolygonMode()",
-          ],
-          correct: 2,
-        },
-        {
-          q: "In glOrtho(left, right, bottom, top, near, far), the near and far parameters control:",
-          options: [
-            "Lighting",
-            "The z-axis range",
-            "The background color",
-            "The polygon fill mode",
-          ],
-          correct: 1,
-        },
-        {
-          q: "If a viewport is rectangular but mapped to a square clipping volume, the image appears:",
-          options: ["Enlarged", "Distorted", "Antialiased", "Transparent"],
-          correct: 1,
-        },
-        {
-          q: "In the bouncing square example, what is used to reverse direction when reaching an edge?",
-          options: [
-            "glClear()",
-            "Changing step sign (xstep/ystep)",
-            "glOrtho()",
-            "glEnable()",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which GLUT function is used to register a timer callback?",
-          options: [
-            "glutIdleFunc()",
-            "glutTimerFunc()",
-            "glutReshapeFunc()",
-            "glutPostRedisplay()",
-          ],
-          correct: 1,
-        },
-        {
-          q: "The parameter msecs in glutTimerFunc specifies:",
-          options: [
-            "Seconds",
-            "Milliseconds",
-            "Nanoseconds",
-            "Frames per second",
-          ],
-          correct: 1,
-        },
-        {
-          q: "In the timer callback, the function prototype must be:",
-          options: [
-            "void TimerFunction();",
-            "void TimerFunction(int value);",
-            "void TimerFunc(float value);",
-            "void TimerFunc();",
-          ],
-          correct: 1,
-        },
-        {
-          q: "In OpenGL, the command glutPostRedisplay() is used to:",
-          options: [
-            "Force the scene to redraw",
-            "Initialize the main loop",
-            "Clear the screen",
-            "Resize the viewport",
-          ],
+          q: "In the pinhole camera model, if the camera is at c=(2,3,5) and a vertex is at (4,4,6), what is the resulting z-coordinate for projection?",
+          options: ["1", "2", "3", "6"],
           correct: 0,
         },
         {
-          q: "Which display mode flag enables double buffering in GLUT?",
-          options: ["GLUT_SINGLE", "GLUT_DOUBLE", "GLUT_RGBA", "GLUT_DEPTH"],
-          correct: 1,
-        },
-        {
-          q: "In the bouncing square program, double buffering is needed because:",
+          q: "After subtracting the camera position and getting (x, y, z), how do you calculate the 2D image coordinates (u, v)?",
           options: [
-            "It improves performance",
-            "It avoids flickering",
-            "It supports transparency",
-            "It reduces memory usage",
+            "u = x + z, v = y + z",
+            "u = x / z, v = y / z",
+            "u = x * z, v = y * z",
+            "u = z / x, v = z / y",
           ],
           correct: 1,
         },
         {
-          q: "OpenGL is described as a:",
+          q: "What rule do modern GPUs use to decide which pixels to light up when rasterizing a line?",
           options: [
-            "Shader compiler",
-            "State machine",
-            "Rendering engine",
-            "Scene graph library",
+            "The Square Rule",
+            "The Diamond Rule",
+            "The Triangle Rule",
+            "The Bresenham Rule",
           ],
           correct: 1,
         },
         {
-          q: "In OpenGL, the current drawing color is an example of a:",
-          options: [
-            "State variable",
-            "Function",
-            "Shader program",
-            "Texture coordinate",
-          ],
+          q: "What is the complexity of checking every single pixel in the image to see if it satisfies a rasterization condition?",
+          options: ["O(n)", "O(n²)", "O(log n)", "O(1)"],
+          correct: 1,
+        },
+        {
+          q: "In the incremental line rasterization special case, what is the condition for the slope (s)?",
+          options: ["0 < s < 1", "s > 1", "s < 0", "s = 0"],
           correct: 0,
         },
         {
-          q: "To enable a mode in OpenGL, which function is used?",
-          options: ["glEnable()", "glActivate()", "glSetMode()", "glRunMode()"],
-          correct: 0,
-        },
-        {
-          q: "Which command disables a specific OpenGL mode?",
+          q: "Which definition best represents the expanded modern definition of Computer Graphics provided in the lecture?",
           options: [
-            "glModeOff()",
-            "glDisable()",
-            "glExitMode()",
-            "glResetMode()",
+            "The use of computers to draw 3D models only",
+            "The use of computation to turn digital information into sensory stimuli",
+            "The study of how to build faster GPUs",
+            "The process of printing digital images on paper",
           ],
           correct: 1,
         },
-        {
-          q: "To query the value of an OpenGL float state variable, you use:",
-          options: [
-            "glGetFloat()",
-            "glGetInteger()",
-            "glGetBoolean()",
-            "glGetDouble()",
-          ],
-          correct: 0,
-        },
-        {
-          q: "The command glPushAttrib(GL_TEXTURE_BIT | GL_LIGHTING_BIT) is used to:",
-          options: [
-            "Enable texture and lighting",
-            "Save texture and lighting states",
-            "Reset all attributes",
-            "Clear the depth buffer",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which function restores previously saved OpenGL attributes?",
-          options: [
-            "glRestore()",
-            "glPopAttrib()",
-            "glEnable()",
-            "glPopState()",
-          ],
-          correct: 1,
-        },
-        {
-          q: "The command glColor3f(1.0, 0.0, 0.0) sets the current color to:",
-          options: ["Green", "Blue", "Red", "White"],
-          correct: 2,
-        },
-        {
-          q: "The command glColor3f(0.0, 0.0, 0.0) sets the current color to:",
-          options: ["White", "Black", "Cyan", "Magenta"],
-          correct: 1,
-        },
-        {
-          q: "If you call glColor3f(0.0, 1.0, 0.0), the color is:",
-          options: ["Red", "Blue", "Green", "Yellow"],
-          correct: 2,
-        },
-        {
-          q: "The color cyan is represented in OpenGL by:",
-          options: [
-            "(0.0, 1.0, 0.0)",
-            "(1.0, 0.0, 1.0)",
-            "(0.0, 1.0, 1.0)",
-            "(1.0, 1.0, 0.0)",
-          ],
-          correct: 2,
-        },
-        {
-          q: "The process of ensuring only visible surfaces are drawn is called:",
-          options: [
-            "Antialiasing",
-            "Hidden-surface removal",
-            "Fogging",
-            "Culling",
-          ],
-          correct: 1,
-        },
-        {
-          q: "OpenGL uses which algorithm for hidden-surface removal?",
-          options: [
-            "Painter's algorithm",
-            "Z-buffer algorithm",
-            "Scanline algorithm",
-            "Ray tracing",
-          ],
-          correct: 1,
-        },
-        {
-          q: "In z-buffering, the z-buffer stores:",
-          options: [
-            "Colors of each pixel",
-            "Depth values of each pixel",
-            "Lighting coefficients",
-            "Texture coordinates",
-          ],
-          correct: 1,
-        },
-        {
-          q: "The z-buffer algorithm is also known as:",
-          options: [
-            "Depth-buffering",
-            "Scanline algorithm",
-            "Ray tracing",
-            "Back-face culling",
-          ],
-          correct: 0,
-        },
-        {
-          q: "In z-buffering, if a new pixel is closer than the stored value, it:",
-          options: [
-            "Is ignored",
-            "Replaces the buffered value",
-            "Causes an error",
-            "Makes the frame flicker",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which GLUT flag should be set to enable depth buffering?",
-          options: ["GLUT_RGBA", "GLUT_DEPTH", "GLUT_SINGLE", "GLUT_DOUBLE"],
-          correct: 1,
-        },
-        {
-          q: "The OpenGL command to enable depth testing is:",
-          options: [
-            "glEnable(GL_DEPTH_TEST)",
-            "glDepthBufferOn()",
-            "glInitDepth()",
-            "glCheckDepth()",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Which OpenGL error occurs if the enum argument is out of range?",
-          options: [
-            "GL_INVALID_VALUE",
-            "GL_INVALID_ENUM",
-            "GL_STACK_OVERFLOW",
-            "GL_OUT_OF_MEMORY",
-          ],
-          correct: 1,
-        },
-        {
-          q: "The OpenGL error GL_STACK_UNDERFLOW occurs when:",
-          options: [
-            "The color stack is full",
-            "A stack is popped when empty",
-            "The memory is low",
-            "An enum is out of range",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which error code indicates insufficient memory?",
-          options: [
-            "GL_OUT_OF_MEMORY",
-            "GL_NO_ERROR",
-            "GL_INVALID_OPERATION",
-            "GL_STACK_OVERFLOW",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Which function retrieves the latest error in OpenGL?",
-          options: [
-            "glError()",
-            "glCheckError()",
-            "glGetError()",
-            "gluError()",
-          ],
-          correct: 2,
-        },
-        {
-          q: "To get a human-readable string for an OpenGL error, use:",
-          options: [
-            "glErrorString()",
-            "gluErrorString()",
-            "glGetErrorText()",
-            "glMessageError()",
-          ],
-          correct: 1,
-        },
-        {
-          q: "In OpenGL, geometric shapes are built using:",
-          options: [
-            "High-level primitives",
-            "Points, lines, and polygons",
-            "Meshes only",
-            "Texture maps",
-          ],
-          correct: 1,
-        },
-        {
-          q: "To start drawing a primitive, the OpenGL command is:",
-          options: ["glBegin()", "glDraw()", "glPrimitive()", "glInitShape()"],
-          correct: 0,
-        },
-        {
-          q: "To end the definition of a primitive, use:",
-          options: ["glStop()", "glEnd()", "glFlush()", "glCloseShape()"],
-          correct: 1,
-        },
-        {
-          q: "The primitive GL_POINTS is used to:",
-          options: [
-            "Draw filled polygons",
-            "Draw vertices as points",
-            "Draw connected lines",
-            "Draw triangle strips",
-          ],
-          correct: 1,
-        },
-        {
-          q: "The function glPointSize(size) sets:",
-          options: [
-            "Point size in world units",
-            "Point size in pixels",
-            "Point size in depth values",
-            "Point color intensity",
-          ],
-          correct: 1,
-        },
-        {
-          q: "By default, points drawn in OpenGL are:",
-          options: ["Round", "Rectangular", "Square pixels", "Depth-scaled"],
-          correct: 2,
-        },
-        {
-          q: "To set line width, which command is used?",
-          options: [
-            "glSetLineWidth()",
-            "glLineSize()",
-            "glLineWidth()",
-            "glStrokeWidth()",
-          ],
-          correct: 2,
-        },
-        {
-          q: "The Microsoft OpenGL implementation allows line widths from:",
-          options: ["0.1 to 5.0", "0.5 to 10.0", "1.0 to 20.0", "2.0 to 15.0"],
-          correct: 1,
-        },
-        {
-          q: "The function to enable line stippling is:",
-          options: [
-            "glEnable(GL_LINE_STIPPLE)",
-            "glLineStyle()",
-            "glEnableLinePattern()",
-            "glPatternOn()",
-          ],
-          correct: 0,
-        },
-        {
-          q: "The function glLineStipple(factor, pattern) uses:",
-          options: [
-            "A 32-bit color value",
-            "A 16-bit pattern of 0s and 1s",
-            "A float range",
-            "A boolean argument",
-          ],
-          correct: 1,
-        },
-        {
-          q: "In line stippling, a bit 1 means:",
-          options: ["Skip pixel", "Draw pixel", "Draw twice", "Erase pixel"],
-          correct: 1,
-        },
-        {
-          q: "Which primitive is used to draw connected lines?",
-          options: ["GL_LINE_LOOP", "GL_LINE_STRIP", "GL_LINES", "GL_POINTS"],
-          correct: 1,
-        },
-        {
-          q: "Which primitive closes the loop by connecting the last vertex to the first?",
-          options: [
-            "GL_LINE_STRIP",
-            "GL_LINE_LOOP",
-            "GL_POLYGON",
-            "GL_TRIANGLES",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which OpenGL primitive is preferred for hardware acceleration?",
-          options: ["Quads", "Polygons", "Triangles", "Points"],
-          correct: 2,
-        },
-        {
-          q: "By default, OpenGL considers which winding order as front-facing?",
-          options: [
-            "Clockwise (CW)",
-            "Counterclockwise (CCW)",
-            "Both CW and CCW",
-            "Random",
-          ],
-          correct: 1,
-        },
-        {
-          q: "To change front-facing winding to clockwise, call:",
-          options: [
-            "glFrontFace(GL_CCW)",
-            "glFrontFace(GL_CW)",
-            "glEnable(GL_CULL_FACE)",
-            "glPolygonMode(GL_CW)",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which primitive type draws a connected strip of triangles?",
-          options: [
-            "GL_TRIANGLES",
-            "GL_TRIANGLE_STRIP",
-            "GL_TRIANGLE_FAN",
-            "GL_POLYGON",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which primitive type draws triangles radiating out from a central point?",
-          options: [
-            "GL_TRIANGLE_STRIP",
-            "GL_TRIANGLE_FAN",
-            "GL_TRIANGLES",
-            "GL_QUADS",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which OpenGL primitive draws a four-sided polygon?",
-          options: ["GL_QUADS", "GL_QUAD_STRIP", "GL_POLYGON", "GL_RECT"],
-          correct: 0,
-        },
-        {
-          q: "When using GL_QUADS, what must be true about the four vertices?",
-          options: [
-            "They must be convex",
-            "They must be planar",
-            "They must be normalized",
-            "They must be clockwise",
-          ],
-          correct: 1,
-        },
-        {
-          q: "A GL_QUAD_STRIP requires how many vertices for the first quad?",
-          options: ["2", "3", "4", "5"],
-          correct: 2,
-        },
-        {
-          q: "Polygon stippling uses which size bitmap for its pattern?",
-          options: ["16×16", "32×32", "64×64", "8×8"],
-          correct: 1,
-        },
-        {
-          q: "To enable polygon stippling in OpenGL, use:",
-          options: [
-            "glEnable(GL_LINE_STIPPLE)",
-            "glEnable(GL_POLYGON_STIPPLE)",
-            "glEnable(GL_TEXTURE)",
-            "glEnable(GL_FILL_PATTERN)",
-          ],
-          correct: 1,
-        },
-        {
-          q: "A polygon is valid in OpenGL only if:",
-          options: [
-            "Its vertices are round numbers",
-            "It is convex and planar",
-            "It is colored",
-            "It is stippled",
-          ],
-          correct: 1,
-        },
-        {
-          q: "If a polygon's edges intersect, the polygon is considered:",
-          options: ["Convex", "Concave", "Invalid", "Hidden"],
-          correct: 2,
-        },
-        {
-          q: "OpenGL can directly draw only:",
-          options: [
-            "Concave polygons",
-            "Convex polygons",
-            "Arbitrary polygons",
-            "High-level meshes",
-          ],
-          correct: 1,
-        },
-        {
-          q: "By default, polygons are drawn in OpenGL as:",
-          options: ["Wireframe", "Points", "Filled solids", "Transparent"],
-          correct: 2,
-        },
-        {
-          q: "The command glPolygonMode(GL_BACK, GL_LINE) makes the back faces appear as:",
-          options: [
-            "Filled polygons",
-            "Outlined polygons",
-            "Transparent",
-            "Points",
-          ],
-          correct: 1,
-        },
-        {
-          q: "The function to discard back-facing polygons is:",
-          options: [
-            "glCullFace()",
-            "glBackFace()",
-            "glDiscardFace()",
-            "glHiddenFace()",
-          ],
-          correct: 0,
-        },
-        {
-          q: "To enable polygon culling, you must also call:",
-          options: [
-            "glEnable(GL_CULL_FACE)",
-            "glCullOn()",
-            "glPolygonMode(GL_CULL)",
-            "glEnable(GL_HIDDEN_SURFACE)",
-          ],
-          correct: 0,
-        },
-        {
-          q: "By default, OpenGL assumes front-facing polygons are:",
-          options: ["CW", "CCW", "Random", "Both"],
-          correct: 1,
-        },
-        {
-          q: "Which command manually controls boundary edges?",
-          options: [
-            "glPolygonMode()",
-            "glEdgeFlag()",
-            "glCullFace()",
-            "glLineStipple()",
-          ],
-          correct: 1,
-        },
-        {
-          q: "The main purpose of normal vectors in OpenGL is:",
-          options: [
-            "Hidden-surface removal",
-            "Texture mapping",
-            "Lighting calculations",
-            "Antialiasing",
-          ],
-          correct: 2,
-        },
-        {
-          q: "For a polygon, the normal vector can be computed using:",
-          options: [
-            "Addition of vertices",
-            "Cross product of edges",
-            "Dot product of vertices",
-            "Average of coordinates",
-          ],
-          correct: 1,
-        },
-        {
-          q: "If four polygons meet at a point P, the normal for P is usually:",
-          options: [
-            "Chosen randomly",
-            "The longest normal vector",
-            "The average of the four normals",
-            "The shortest normal vector",
-          ],
-          correct: 2,
-        },
-        {
-          q: "The gradient of an implicit surface equation F(x,y,z) = 0 gives:",
-          options: [
-            "Tangent vector",
-            "Normal vector",
-            "Vertex coordinates",
-            "Light direction",
-          ],
-          correct: 1,
-        },
-        {
-          q: "The unit normal vector is obtained by:",
-          options: [
-            "Taking the dot product",
-            "Normalizing the vector",
-            "Adding vectors",
-            "Multiplying by z-buffer",
-          ],
-          correct: 1,
-        },
-        {
-          q: "An icosahedron is often used as:",
-          options: [
-            "A cube substitute",
-            "An approximation of a sphere",
-            "A tetrahedron replacement",
-            "A pyramid model",
-          ],
-          correct: 1,
-        },
-        {
-          q: "The OpenGL primitive used for constructing the icosahedron faces is:",
-          options: ["GL_QUADS", "GL_TRIANGLES", "GL_POLYGON", "GL_LINES"],
-          correct: 1,
-        },
-        {
-          q: "When drawing an icosahedron, adding different colors to each face helps to:",
-          options: [
-            "Reduce z-buffer usage",
-            "Show its 3D quality",
-            "Eliminate culling",
-            "Smooth edges",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Normal vectors for an icosahedron can be calculated using:",
-          options: [
-            "Vector addition",
-            "Normalized cross product",
-            "Scalar multiplication",
-            "Dot product",
-          ],
-          correct: 1,
-        },
-        {
-          q: "The OpenGL command glNormal3fv() is used to:",
-          options: [
-            "Define texture coordinates",
-            "Specify normal vectors",
-            "Query state variables",
-            "Initialize lighting",
-          ],
-          correct: 1,
-        },
-        {
-          q: "In the cube rotation program, which function rotates the cube?",
-          options: [
-            "glTranslatef()",
-            "glRotatef()",
-            "glScalef()",
-            "glColor3f()",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which GLUT function handles mouse input in the cube program?",
-          options: [
-            "glutMouseFunc()",
-            "glutKeyboardFunc()",
-            "glutMotionFunc()",
-            "glutPassiveMouseFunc()",
-          ],
-          correct: 0,
-        },
-        {
-          q: "In the cube program, which key exits the program?",
-          options: ["W", "Q", "E", "ESC"],
-          correct: 1,
-        },
-        {
-          q: "The cube program uses which projection function to define a 3D box space?",
-          options: [
-            "glFrustum()",
-            "glPerspective()",
-            "glOrtho()",
-            "gluLookAt()",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Which OpenGL function swaps the front and back buffers?",
-          options: [
-            "glFlush()",
-            "glutSwapBuffers()",
-            "glBufferSwap()",
-            "glClearBuffer()",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which OpenGL matrix mode is used for setting projection transformations?",
-          options: [
-            "GL_MODELVIEW",
-            "GL_TEXTURE",
-            "GL_PROJECTION",
-            "GL_VIEWPORT",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Which OpenGL matrix mode is typically used for camera transformations?",
-          options: [
-            "GL_MODELVIEW",
-            "GL_TEXTURE",
-            "GL_PROJECTION",
-            "GL_NORMALS",
-          ],
-          correct: 0,
-        },
-        {
-          q: "In the cube program, rotating with the left mouse button does what?",
-          options: [
-            "Rotates cube clockwise",
-            "Rotates cube counterclockwise",
-            "Stops rotation",
-            "Resets view",
-          ],
-          correct: 0,
-        },
-        {
-          q: "The glClearColor(0.0, 0.0, 0.0, 0.0) in the cube program sets the background to:",
-          options: ["White", "Red", "Blue", "Black"],
-          correct: 3,
+
+        // ─── Essay ───
+        {
+          type: "essay",
+          q: "Compare the traditional definition of Computer Graphics with the expanded definition presented in the lecture. How does the concept of 'sensory stimuli' change the scope of the field?",
+          answer:
+            "Traditional Definition:\n" +
+            "• Early definitions focused on 'turning on pixels' or simply synthesizing visual information.\n" +
+            "• It was limited to displaying images on a screen.\n\n" +
+            "Expanded Definition:\n" +
+            "• The lecture defines Computer Graphics as 'the use of computation to turn digital information into sensory stimuli.'\n" +
+            "• This includes not just visual information, but also sound (e.g., in animations) and touch (haptic feedback).\n" +
+            "• The lecture even poses the question of expanding to taste and smell.\n" +
+            "• It also extends to turning digital information into physical matter (e.g., 3D printing).\n\n" +
+            "Impact:\n" +
+            "• This broader definition moves CG beyond just screen displays and into VR/AR, robotics, and physical fabrication, making it a truly interdisciplinary field.",
+          tags: ["Definition", "Sensory Stimuli", "Evolution"],
+          ref: "Lecture 1 — Pages 13, 16, 18",
+        },
+        {
+          type: "essay",
+          q: "List and briefly describe at least four distinct application areas of Computer Graphics mentioned in the lecture.",
+          answer:
+            "1. Entertainment (Movies, Games):\n" +
+            "• Used for creating animated films (e.g., Pixar) and video games (e.g., Zelda).\n" +
+            "• Includes both cartoon-style and photorealistic rendering (e.g., digital humans).\n\n" +
+            "2. Computer-Aided Engineering (CAE):\n" +
+            "• Used for simulating physical tests like car crashes (e.g., Mercedes-Benz simulation vs. real crash test).\n" +
+            "• Allows engineers to visualize stress, deformation, and safety without physical prototypes.\n\n" +
+            "3. Scientific and Medical Visualization:\n" +
+            "• Visualizing complex mathematical surfaces (e.g., bubbles) and fluid dynamics (e.g., smoke/fire simulations).\n" +
+            "• Medical imaging and anatomical visualization for diagnosis and research.\n\n" +
+            "4. Art, Design, and Communication:\n" +
+            "• Industrial design, architecture, and digital art.\n" +
+            "• Navigation systems (GPS) and communication tools (e.g., facial tracking for avatars).",
+          tags: ["Applications", "CAE", "Medical", "Entertainment"],
+          ref: "Lecture 1 — Pages 21–31",
+        },
+        {
+          type: "essay",
+          q: "Explain the concept of Rasterization and discuss the complexity issue (O(n²) vs O(n)) when drawing a line.",
+          answer:
+            "Rasterization Definition:\n" +
+            "• Rasterization is the process of converting a continuous object (like a mathematically perfect line) into a discrete representation on a raster grid (a pixel grid).\n\n" +
+            "The Complexity Problem:\n" +
+            "• A naive approach would be to check every single pixel in the image to see if the line passes through it.\n" +
+            "• If the image has n² pixels, and the line only lights up O(n) pixels, checking all n² pixels is inefficient.\n" +
+            "• We must be able to do better, working proportional to the number of pixels in the drawing of the line, not the entire image.\n\n" +
+            "Incremental Line Rasterization:\n" +
+            "• An efficient algorithm for simple cases (e.g., slope 0 < s < 1).\n" +
+            "• It iterates through the x-coordinates (u) from start to end, incrementally adding the slope to the y-coordinate (v) and rounding it to the nearest pixel.\n" +
+            "• This ensures we only visit the pixels that actually need to be drawn, achieving O(n) complexity.",
+          tags: ["Rasterization", "Complexity", "Line Drawing"],
+          ref: "Lecture 1 — Pages 47–52",
+        },
+        {
+          type: "essay",
+          q: "Detail the mathematical steps for projecting a 3D cube onto a 2D image using the pinhole camera model.",
+          answer:
+            "1. Modeling the Cube:\n" +
+            "• Define the 3D vertices (e.g., A: (1,1,1), B: (-1,1,1), etc.).\n" +
+            "• Define the edges connecting these vertices (e.g., AB, CD, EF, etc.).\n\n" +
+            "2. Perspective Projection (Pinhole Camera Model):\n" +
+            "• Assume the camera has a unit size and the origin is at the pinhole c.\n" +
+            "• For each vertex (X, Y, Z), subtract the camera position c to get (x, y, z).\n" +
+            "• Use similar triangles to derive the projection equations.\n" +
+            "• The vertical coordinate v is the slope y/z, and the horizontal coordinate u is x/z.\n" +
+            "• Formula: u = x / z, v = y / z.\n\n" +
+            "3. Drawing:\n" +
+            "• Convert the resulting 2D coordinates (u, v) into rasterized lines on the pixel grid.\n" +
+            "• This turns purely digital information (vertex coordinates) into visual information (a 2D image of a cube).",
+          tags: ["Modeling", "Perspective Projection", "Cube Activity"],
+          ref: "Lecture 1 — Pages 33–41",
+        },
+        {
+          type: "essay",
+          q: "What are the theoretical and systemic foundations of Computer Graphics? Provide examples for each category.",
+          answer:
+            "Theoretical Foundations:\n" +
+            "• Basic Representations: How to digitally encode shape and motion (e.g., vertices and edges of a cube).\n" +
+            "• Sampling & Aliasing: How to acquire and reproduce a signal (e.g., converting a continuous line to discrete pixels).\n" +
+            "• Numerical Methods: How to manipulate signals numerically (e.g., matrix transformations).\n" +
+            "• Radiometry & Light Transport: How light behaves and interacts with surfaces.\n" +
+            "• Perception: How visual information relates to human biology and psychology.\n\n" +
+            "Systemic Foundations:\n" +
+            "• Parallel, Heterogeneous Processing: Utilizing GPUs and multi-core processors for rendering.\n" +
+            "• Graphics-Specific Programming Languages: Languages and APIs designed specifically for rendering (e.g., OpenGL, DirectX, shading languages).",
+          tags: ["Foundations", "Theory", "Systems"],
+          ref: "Lecture 1 — Page 32",
+        },
+        {
+          type: "essay",
+          q: "How has the history of computer graphics evolved from ENIAC and punch cards to modern VR and 3D printing? Include the 'Why visual information?' argument in your answer.",
+          answer:
+            "Historical Evolution:\n" +
+            "• Early computing (ENIAC, 1945) relied on punch cards and physical wiring, with very limited output (e.g., blinking lights).\n" +
+            "• There was a clear need for a better way to visualize data, leading to early computer displays (e.g., the Whirlwind computer).\n" +
+            "• Modern displays have advanced to 8K monitors (7680x4320, ~95MB per frame) and VR headsets requiring massive bandwidth (2.3 GB/s).\n\n" +
+            "Why Visual Information?\n" +
+            "• About 30% of the brain is dedicated to visual processing.\n" +
+            "• The eyes are the highest-bandwidth port into the head.\n" +
+            "• This makes visual output the most efficient way to convey complex information to humans.\n\n" +
+            "Modern Frontiers:\n" +
+            "• VR and AR for immersive experiences.\n" +
+            "• 3D printing, which turns digital information into physical matter.\n" +
+            "• Haptic feedback, which turns digital information into touch sensations.",
+          tags: ["History", "Visual Information", "VR", "3D Printing"],
+          ref: "Lecture 1 — Pages 6–12, 16–17",
         },
       ],
     },

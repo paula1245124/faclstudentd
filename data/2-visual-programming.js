@@ -6,168 +6,992 @@ subjects.push({
     {
       t: "المحاضرة الأولى",
       d: "مقدمة في البرمجة المرئية وواجهات المستخدم الرسومية (GUI).",
-      pdf: "Visual Programming/lectures/Lecture 1.pdf",
-      pdf2: "Visual Programming/lectures/Lecture 2.pdf",
-      links: [
+      pdf: "Visual Programming/lectures/Chapter 1.pdf",
+      pdf2: "Visual Programming/Questions/Questions on each lecture/Chapter 1 - Questions - Visual Programming.pdf",
+
+      // فئات روابط ومنهج منظّم - Chapter 1: Introduction to Visual C# (د. سارة طارق)
+      linkCategories: [
         {
-          t: "دليل المحاضرة الوظيفي",
-          d: "شرح تفصيلي لمحاور المحاضرة",
-          icon: "📘",
-          actions: [
+          category: "فيديوهات عربية",
+          icon: "🇪🇬",
+          description:
+            "شروحات باللغة العربية لأساسيات Visual C# وتطبيقات Windows Forms والـ Controls",
+          links: [
             {
-              label: "📖 الشرح",
-              url: "https://youtube.com/watch?v=XXXX",
-              type: "view",
+              t: "د. سارة طارق - Chapter 1: Introduction to Visual C#",
+              d: "تغطية بيئة Visual Studio، إنشاء مشروع Windows Forms، والتعامل مع Controls (Button, Label, PictureBox) والـ Event Handlers",
+              icon: "🇪🇬",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://www.youtube.com/results?search_query=Visual+C%23+Windows+Forms+Arabic",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+            {
+              t: "شرح C# Windows Forms - الأساسيات والواجهات",
+              d: "شرح الخصائص (Properties)، الأحداث (Events)، صندوق الرسائل MessageBox، وإخفاء وإظهار العناصر (Visible Property)",
+              icon: "🇪🇬",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://www.youtube.com/playlist?list=PLv1B2sO_m836mU_N1WcE_xLqM90A0lOqZ",
+                  type: "view",
+                  color: "red",
+                },
+              ],
             },
           ],
         },
         {
-          t: "الاسلايدات التعليمية (Slides)",
-          d: "عرض شرائح المحاضرة",
-          icon: "📑",
-          actions: [
+          category: "فيديوهات عالمية",
+          icon: "🌍",
+          description:
+            "دروس عالمية معتمدة لتعلم Visual Studio وC# Windows Forms",
+          links: [
             {
-              label: "PDF ⭳ تحميل",
-              url: "Computer Graphics/slides/Slides 1.pdf",
-              type: "download",
-              color: "green",
+              t: "Microsoft Visual Studio - Getting Started with C# & Windows Forms",
+              d: "شرح واجهة بيئة التطوير: Solution Explorer, Designer Window, Properties Window, Toolbox",
+              icon: "🌍",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://www.youtube.com/results?search_query=C%23+Windows+Forms+App+for+Beginners",
+                  type: "view",
+                  color: "red",
+                },
+              ],
             },
             {
-              label: "PowerPoint ⭳ تحميل",
-              url: "Computer Graphics/slides/Slides 1.pptx",
-              type: "download",
-              color: "orange",
+              t: "C# Windows Forms Application Tutorial for Beginners",
+              d: "تطبيقات عمليّة على Button Click, Label Text, PictureBox SizeMode, and Form Closing",
+              icon: "🌍",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://www.youtube.com/results?search_query=C%23+Windows+Forms+Tutorial+Beginners",
+                  type: "view",
+                  color: "red",
+                },
+              ],
             },
           ],
         },
         {
-          t: "موقع الإنترنت التفاعلي",
-          d: "محاكاة تجريبية للمحاضرة",
-          icon: "🌐",
-          actions: [
+          category: "مواقع ومراجع",
+          icon: "📚",
+          description: "توثيقات ومقالات رسمية لشرح مفاهيم C# وWindows Forms",
+          links: [
             {
-              label: "🚀 فتح الموقع",
-              url: "https://example.com",
-              type: "view",
+              t: "Microsoft Learn - Create a Windows Forms app in Visual Studio with C#",
+              d: "التوثيق الرسمي من مايكروسوفت لإنشاء تطبيقات Windows Forms وفهم هيكلية الكود (Namespace, Class, Methods)",
+              icon: "📚",
+              actions: [
+                {
+                  label: "🚀 فتح المقال",
+                  url: "https://learn.microsoft.com/en-us/visualstudio/ide/create-a-visual-csharp-winform-app",
+                  type: "view",
+                  color: "green",
+                },
+              ],
+            },
+            {
+              t: "GeeksforGeeks - C# Windows Forms Controls & Properties",
+              d: "شرح مفصل لعناصر Label, Button, PictureBox والخواص Font, BorderStyle, AutoSize, SizeMode",
+              icon: "📚",
+              actions: [
+                {
+                  label: "🌐 فتح الموقع",
+                  url: "https://www.geeksforgeeks.org/c-sharp-windows-forms/",
+                  type: "view",
+                  color: "blue",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          category: "أدوات ومحاكاة",
+          icon: "🔧",
+          description: "بيئات التطوير والأدوات البرمجية المطلوبة",
+          links: [
+            {
+              t: "Visual Studio Community - Download IDE",
+              d: "تحميل بيئة التطوير المتكاملة Visual Studio لبناء تطبيقات Visual C#",
+              icon: "🔧",
+              actions: [
+                {
+                  label: "⭳ تحميل الأداة",
+                  url: "https://visualstudio.microsoft.com/downloads/",
+                  type: "download",
+                  color: "blue",
+                },
+              ],
+            },
+            {
+              t: "NET Fiddle - Online C# Compiler",
+              d: "محرر أونلاين لتجربة وتجريب كود C# مباشرة",
+              icon: "🔧",
+              actions: [
+                {
+                  label: "🚀 فتح الأداة",
+                  url: "https://dotnetfiddle.net/",
+                  type: "view",
+                  color: "orange",
+                },
+              ],
             },
           ],
         },
       ],
+
       questions: [
+        // ─── MCQ ───
         {
-          q: "المقصود بالبرمجة المرئية هو:",
+          q: "What is Visual Studio primarily described as in the lecture?",
           options: [
-            "كتابة الأكواد النصية فقط",
-            "بناء البرامج بسحب وإفلات مكونات جاهزة",
-            "برمجة قواعد البيانات",
-            "تصميم صور الحاسب",
+            "A simple text editor",
+            "A professional integrated development environment (IDE)",
+            "A web browser",
+            "A graphics design tool",
           ],
           correct: 1,
         },
         {
-          q: "اختصار RAD يعني:",
+          q: "Which languages can Visual Studio be used to create applications with, besides Visual C#?",
           options: [
-            "Rapid Application Development",
-            "Random Access Data",
-            "Runtime Application Design",
-            "Recursive Algorithm Definition",
+            "Java and Python",
+            "Visual Basic and C++",
+            "HTML and CSS",
+            "SQL and PHP",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is the first step to creating a new project in Visual Studio?",
+          options: [
+            "Click Save All",
+            "Open Visual Studio and select Create a new project from the Start Window",
+            "Open the Toolbox",
+            "Change the form's Text property",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What type of application is selected in the lecture for creating a new project?",
+          options: [
+            "Console App",
+            "Windows Forms Application",
+            "Web Application",
+            "Class Library",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is the default name filled in the project name text box when creating a new Windows Forms App?",
+          options: [
+            "MyFirstProject",
+            "Project1",
+            "WindowsFormsApp1",
+            "AppDefault",
+          ],
+          correct: 2,
+        },
+        {
+          q: "What is a solution in Visual Studio?",
+          options: [
+            "A single file containing code",
+            "A container that holds a project",
+            "A type of control",
+            "An event handler",
+          ],
+          correct: 1,
+        },
+        {
+          q: "By default, what is the relationship between the solution name and project name?",
+          options: [
+            "They are always different",
+            "The solution name is the same as the project name",
+            "The solution name is longer",
+            "There is no relationship",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Where is the project name displayed after creating a new project?",
+          options: [
+            "In the Toolbox",
+            "In the title bar at the top of the Visual Studio window",
+            "In the Properties window",
+            "In the menu bar",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Which windows appear within the Visual Studio environment as mentioned in the lecture?",
+          options: [
+            "Code Editor, Debugger, Compiler",
+            "Designer window, Solution Explorer window, Properties window",
+            "Toolbox, Menu Bar, Toolbar",
+            "Form, Button, Label",
+          ],
+          correct: 1,
+        },
+        {
+          q: "How do you open the Solution Explorer window if it is not visible?",
+          options: [
+            "Click File > Open",
+            "Click View on the menu bar, then Solution Explorer",
+            "Press F5",
+            "Double-click the form",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What feature allows windows in Visual Studio to be displayed as tabs along the edges when turned on?",
+          options: ["Auto Save", "Auto Hide", "Auto Size", "Auto Align"],
+          correct: 1,
+        },
+        {
+          q: "How do you turn Auto Hide on or off for a window?",
+          options: [
+            "Click the pushpin icon in the window's title bar",
+            "Press Ctrl+H",
+            "Right-click the window and select Hide",
+            "Change the Visible property",
           ],
           correct: 0,
         },
         {
-          q: "من أشهر بيئات التطوير المرئي:",
-          options: ["Visual Studio", "Notepad", "Paint", "Excel"],
+          q: "What appears below the menu bar in Visual Studio?",
+          options: [
+            "The Toolbox",
+            "The standard toolbar",
+            "The Designer window",
+            "The code editor",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Which toolbar button moves to the previously active tab in the Designer window?",
+          options: [
+            "Navigate Forward",
+            "New Project",
+            "Navigate Backward",
+            "Save All",
+          ],
+          correct: 2,
+        },
+        {
+          q: "What does the Undo button on the toolbar do?",
+          options: [
+            "Saves the project",
+            "Undoes the most recent operation",
+            "Starts debugging",
+            "Configures the project",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Which button lets you select the platform on which the application will run?",
+          options: [
+            "Solution Configurations",
+            "Solution Platform",
+            "Start Debugging",
+            "Find",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is the purpose of the Toolbox window?",
+          options: [
+            "To edit code",
+            "To select controls for the user interface",
+            "To view properties",
+            "To explore solutions",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Where does the Toolbox typically appear in Visual Studio?",
+          options: [
+            "On the right side",
+            "On the bottom",
+            "On the left side",
+            "On the top",
+          ],
+          correct: 2,
+        },
+        {
+          q: "What is a ToolTip in Visual Studio?",
+          options: [
+            "A button on the toolbar",
+            "A small box with a description that pops up when hovering over a button",
+            "A property in the Properties window",
+            "A control in the Toolbox",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is a Visual C# project composed of?",
+          options: [
+            "Only code files",
+            "Several related files such as code and images",
+            "A single image",
+            "Only forms",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What can a solution hold in Visual Studio?",
+          options: [
+            "Only one project",
+            "One or more Visual C# projects",
+            "Only images",
+            "Only code files",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Why might you store several related projects in the same solution?",
+          options: [
+            "For small organizations only",
+            "For convenience in large organizations",
+            "To reduce file size",
+            "To hide code",
+          ],
+          correct: 1,
+        },
+        {
+          q: "How do you display a project's form in the Designer if it's not shown?",
+          options: [
+            "Double-click the form",
+            "Right-click Form1.cs in Solution Explorer and click View Designer",
+            "Press F5",
+            "Click the Toolbox",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is the initial size of a form in pixels?",
+          options: ["200 x 200", "300 x 300", "400 x 400", "100 x 100"],
+          correct: 1,
+        },
+        {
+          q: "What indicates that an object is selected in the Designer?",
+          options: [
+            "A solid line around it",
+            "A bounding box with sizing handles",
+            "A red color",
+            "A tooltip",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is the default name of the blank form created in a new project?",
+          options: ["MainForm", "Form1", "MyForm", "DefaultForm"],
+          correct: 1,
+        },
+        {
+          q: "What determines the appearance and characteristics of a GUI object?",
+          options: ["Its name", "Its properties", "Its code", "Its location"],
+          correct: 1,
+        },
+        {
+          q: "Where are an object's properties displayed when selected?",
+          options: [
+            "In the Toolbox",
+            "In the Properties window",
+            "In the code editor",
+            "In the menu bar",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What does the Text property of a form determine?",
+          options: [
+            "The form's size",
+            "The text in the title bar",
+            "The form's color",
+            "The form's name",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Changing a form's Text property does what to its name?",
+          options: [
+            "Changes the name",
+            "Does not change the name",
+            "Deletes the name",
+            "Hides the name",
+          ],
+          correct: 1,
+        },
+        {
+          q: "How can you change a form's size using the Properties window?",
+          options: [
+            "Edit the Name property",
+            "Edit the Size property",
+            "Edit the Text property",
+            "Edit the Visible property",
+          ],
+          correct: 1,
+        },
+        {
+          q: "How do you add a control to a form from the Toolbox?",
+          options: [
+            "Right-click it",
+            "Double-click it or drag it",
+            "Press Enter",
+            "Change its properties",
+          ],
+          correct: 1,
+        },
+        {
+          q: "How do you delete a control from a form?",
+          options: [
+            "Select it and press Delete",
+            "Change its Visible property to False",
+            "Resize it to zero",
+            "Change its name",
+          ],
           correct: 0,
+        },
+        {
+          q: "What is the default name for the first Button control created?",
+          options: ["button Default", "button1", "myButton", "clickButton"],
+          correct: 1,
+        },
+        {
+          q: "What property holds the text displayed on a Button's face?",
+          options: ["Name", "Size", "Text", "Visible"],
+          correct: 2,
+        },
+        {
+          q: "Changing a Button's Text property affects what?",
+          options: [
+            "Its name",
+            "The text on its face",
+            "Its size",
+            "Its visibility",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is the first character rule for C# identifiers (control names)?",
+          options: [
+            "Must be a digit",
+            "Must be a letter or underscore",
+            "Must be a space",
+            "Must be a symbol",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Can control names contain spaces in C#?",
+          options: ["Yes", "No", "Only at the end", "Only if quoted"],
+          correct: 1,
+        },
+        {
+          q: "What naming convention is recommended for multi-word control names?",
+          options: ["Snake case", "Camel case", "Pascal case", "Kebab case"],
+          correct: 1,
+        },
+        {
+          q: "In camelCase, how is the first word written?",
+          options: [
+            "All uppercase",
+            "All lowercase",
+            "First letter uppercase",
+            "With underscores",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What file contains the application's start-up code in a C# project?",
+          options: ["Form1.cs", "Program.cs", "Main.cs", "Startup.cs"],
+          correct: 1,
+        },
+        {
+          q: "What should you not modify in the Program.cs file?",
+          options: [
+            "The comments",
+            "The contents, as it could prevent execution",
+            "The namespace",
+            "The class name",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Which file contains code associated with the Form1 form?",
+          options: ["Program.cs", "Form1.cs", "Designer.cs", "App.cs"],
+          correct: 1,
+        },
+        {
+          q: "How is C# code primarily organized?",
+          options: [
+            "Functions, loops, variables",
+            "Namespaces, classes, methods",
+            "Forms, controls, properties",
+            "Files, folders, projects",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What do using directives at the top of a C# file indicate?",
+          options: [
+            "Classes to create",
+            "Namespaces from .NET Framework to use",
+            "Methods to call",
+            "Controls to add",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What marks the beginning of a namespace in code?",
+          options: [
+            "class namespaceName",
+            "namespace namespaceName",
+            "using namespaceName",
+            "public namespaceName",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is a class declaration in C#?",
+          options: [
+            "A container for methods",
+            "A container for namespaces",
+            "A group of statements",
+            "An event handler",
+          ],
+          correct: 0,
+        },
+        {
+          q: "What is the entry point method in a form class?",
+          options: [
+            "Main()",
+            "public Form1()",
+            "InitializeComponent()",
+            "Click()",
+          ],
+          correct: 1,
+        },
+        {
+          q: "How do you switch between the code editor and Designer using tabs?",
+          options: [
+            "Click Form1.cs for code, Form1.cs [Design] for Designer",
+            "Press F7 for code, F6 for Designer",
+            "Right-click and select",
+            "Use the menu bar",
+          ],
+          correct: 0,
+        },
+        {
+          q: "How can you detach the code editor to see it and the Designer simultaneously?",
+          options: [
+            "Press Ctrl + D",
+            "Drag the code editor tab to another location",
+            "Click View > Detach",
+            "Change Auto Hide",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is an event handler?",
+          options: [
+            "A property of a control",
+            "A method that executes when a specific event occurs",
+            "A namespace",
+            "A class declaration",
+          ],
+          correct: 1,
+        },
+        {
+          q: "How do you create a Click event handler for a button?",
+          options: [
+            "Write it manually in code",
+            "Double-click the button in the Designer",
+            "Change the Click property",
+            "Use the Toolbox",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What method displays a message box?",
+          options: [
+            "Label.Show()",
+            "MessageBox.Show()",
+            "Form.Message()",
+            "Button.Display()",
+          ],
+          correct: 1,
+        },
+        {
+          q: "In the Hello World app, what is the form's Text property set to?",
+          options: [
+            "Hello World",
+            "My First Program",
+            "Display Message",
+            "Form1",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is the Button's Name property in the Hello World app?",
+          options: ["button1", "displayButton", "messageButton", "helloButton"],
+          correct: 2,
+        },
+        {
+          q: "What statement is written in the Hello World app's event handler?",
+          options: [
+            'MessageBox.Show("Hello World");',
+            'Label.Text = "Hello World";',
+            "this.Close();",
+            "Visible = true;",
+          ],
+          correct: 0,
+        },
+        {
+          q: "What is a Label control used for?",
+          options: [
+            "To input text",
+            "To display text",
+            "To show images",
+            "To close the form",
+          ],
+          correct: 1,
+        },
+        {
+          q: "How do you change the font of a Label's text?",
+          options: [
+            "Edit Text property",
+            "Click ellipses in Font property",
+            "Set AutoSize to True",
+            "Change BorderStyle",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What BorderStyle value outlines the Label's text with a thin border?",
+          options: ["None", "FixedSingle", "Fixed3D", "Auto"],
+          correct: 1,
+        },
+        {
+          q: "What happens when a Label's AutoSize is True?",
+          options: [
+            "It cannot be resized manually",
+            "It becomes invisible",
+            "It centers the text",
+            "It adds a border",
+          ],
+          correct: 0,
+        },
+        {
+          q: "What TextAlign value aligns text in the middle center of a Label?",
+          options: ["TopLeft", "MiddleCenter", "BottomRight", "MiddleLeft"],
+          correct: 1,
+        },
+        {
+          q: "Can numbers be assigned directly to a Label's Text property without quotes?",
+          options: [
+            "Yes",
+            "No, they must be strings",
+            "Only if positive",
+            "Only in code",
+          ],
+          correct: 1,
+        },
+        {
+          q: "How do you clear a Label's text in code?",
+          options: [
+            "label.Text = null;",
+            'label.Text = "";',
+            "label.Visible = false;",
+            "label.AutoSize = false;",
+          ],
+          correct: 1,
+        },
+        {
+          q: "In Example 1, what is displayed when the button is clicked?",
+          options: [
+            "Hello World",
+            "Fundamentals of Programming 2",
+            "Course Name",
+            "Show Answer",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is the purpose of a PictureBox control?",
+          options: [
+            "To display text",
+            "To display a graphic image",
+            "To input data",
+            "To close the form",
+          ],
+          correct: 1,
+        },
+        {
+          q: "How do you select an image for a PictureBox?",
+          options: [
+            "Edit Text property",
+            "Click ellipses in Image property and import",
+            "Set Visible to true",
+            "Change SizeMode",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What SizeMode value resizes the image to fit without stretching?",
+          options: ["Normal", "StretchImage", "Zoom", "AutoSize"],
+          correct: 2,
+        },
+        {
+          q: "What does the Visible property do for a PictureBox?",
+          options: [
+            "Changes its size",
+            "Determines if it's shown at runtime",
+            "Sets the image",
+            "Aligns the text",
+          ],
+          correct: 1,
+        },
+        {
+          q: "In Example 2, what happens when clicking the cat image?",
+          options: [
+            'Displays "Hello World"',
+            'Displays "Hello I\'m a cat"',
+            "Flips the card",
+            "Shows a flag",
+          ],
+          correct: 1,
+        },
+        {
+          q: "In Example 3, how many PictureBox controls are used?",
+          options: ["1", "2", "3", "4"],
+          correct: 2,
+        },
+        {
+          q: "What is displayed when clicking the Egypt flag in Example 3?",
+          options: ["Palestine", "UAE", "Egypt", "Flag"],
+          correct: 2,
+        },
+        {
+          q: "In Example 4, what is the initial Visible setting for cardFace PictureBox?",
+          options: ["True", "False", "Auto", "None"],
+          correct: 1,
+        },
+        {
+          q: "What statement closes an application's form?",
+          options: [
+            "this.Exit();",
+            "this.Close();",
+            "Form.Close();",
+            "Application.Close();",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What starts a single-line comment in C#?",
+          options: ["/*", "//", "#", "--"],
+          correct: 1,
+        },
+        {
+          q: "What encloses a block comment in C#?",
+          options: ["// and //", "/* and */", "# and #", "-- and --"],
+          correct: 1,
+        },
+        {
+          q: "In the lecture, what is the email in the template?",
+          options: [
+            "info@example.com",
+            "example@example.com",
+            "support@example.com",
+            "admin@example.com",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What button saves all files in the current project?",
+          options: ["Save", "Save All", "Undo", "Redo"],
+          correct: 1,
+        },
+        {
+          q: "What does the Find button on the toolbar do?",
+          options: [
+            "Starts debugging",
+            "Searches for text in code",
+            "Creates a new project",
+            "Configures platform",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Why should you not modify Program.cs?",
+          options: [
+            "It prevents compilation",
+            "It could prevent execution",
+            "It deletes the project",
+            "It hides the form",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is the default AutoSize for a Label?",
+          options: ["False", "True", "None", "Auto"],
+          correct: 1,
+        },
+        {
+          q: "What TextAlign is default for Labels?",
+          options: ["MiddleCenter", "TopLeft", "BottomRight", "MiddleLeft"],
+          correct: 1,
+        },
+        {
+          q: "In Example 1, what is answerLabel's initial Text?",
+          options: [
+            "Fundamentals of Programming 2",
+            "Empty",
+            "What is the name of this course?",
+            "Show the Answer",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is the SizeMode for flags in Example 3?",
+          options: ["Normal", "StretchImage", "Zoom", "CenterImage"],
+          correct: 2,
+        },
+        {
+          q: "In Example 4, what happens when clicking Show the Card Face?",
+          options: [
+            "Hides back, shows face",
+            "Shows back, hides face",
+            "Closes form",
+            "Displays message",
+          ],
+          correct: 0,
+        },
+        {
+          q: "What is the web address in the template?",
+          options: [
+            "www.example.org",
+            "www.example.com",
+            "www.example.net",
+            "www.example.edu",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is the pushpin icon for?",
+          options: [
+            "Saving files",
+            "Turning Auto Hide on/off",
+            "Resizing windows",
+            "Adding controls",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is the default BorderStyle for Labels?",
+          options: ["FixedSingle", "Fixed3D", "None", "Auto"],
+          correct: 2,
+        },
+        {
+          q: "How do you import an image for PictureBox?",
+          options: [
+            "Drag from desktop",
+            "Click Import in Select Resource",
+            "Edit Text property",
+            "Set Visible",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What SizeMode clips large images?",
+          options: ["Zoom", "Normal", "AutoSize", "StretchImage"],
+          correct: 1,
+        },
+        {
+          q: "What does CenterImage SizeMode do?",
+          options: [
+            "Resizes to fit",
+            "Centers without resizing",
+            "Stretches",
+            "Auto resizes control",
+          ],
+          correct: 1,
+        },
+        {
+          q: "To make a PictureBox clickable, what do you create?",
+          options: [
+            "Text property",
+            "Click event handler",
+            "SizeMode",
+            "BorderStyle",
+          ],
+          correct: 1,
+        },
+        {
+          q: "In Example 2, what is the PictureBox name?",
+          options: ["imageBox", "catPictureBox", "clickableImage", "petBox"],
+          correct: 1,
+        },
+        {
+          q: "What is countryLabel's TextAlign in Example 3?",
+          options: ["TopLeft", "MiddleCenter", "BottomRight", "MiddleLeft"],
+          correct: 1,
+        },
+        {
+          q: "In Example 4, what is cardBackPictureBox's initial Visible?",
+          options: ["False", "True", "Hidden", "None"],
+          correct: 1,
+        },
+        {
+          q: "What statement sets Visible to false?",
+          options: [
+            "control.Visible = true;",
+            "control.Visible = false;",
+            "control.Hide();",
+            "control.Show();",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is a block comment example?",
+          options: [
+            "// Comment",
+            "/* Multi line comment */",
+            "# Comment",
+            "-- Comment",
+          ],
+          correct: 1,
+        },
+        {
+          q: "In the Hello World writing code part, what is the event handler name?",
+          options: [
+            "button_Click",
+            "messageButton_Click",
+            "form_Load",
+            "app_Run",
+          ],
+          correct: 1,
+        },
+        {
+          q: "How do you run an application in Visual Studio?",
+          options: [
+            "Press F1",
+            "Press F5 or click Start Debugging",
+            "Press Ctrl + S",
+            "Click Save All",
+          ],
+          correct: 1,
         },
       ],
     },
   ],
-  // midterms: [
-  //   {
-  //     t: "ميدتيرم 1 (المحاضرات 1-2)",
-  //     d: "امتحان منتصف الترم الأول",
-  //     pdf: "Visual Programming/exams/Midterm 1.pdf",
-  //     questions: [
-  //       {
-  //         q: "النموذج Form يمثل:",
-  //         options: [
-  //           "نافذة التطبيق",
-  //           "زر أوامر",
-  //           "مربع إدخال نص",
-  //           "مؤقتاً زمنياً",
-  //         ],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "ينطلق الحدث Load عند:",
-  //         options: [
-  //           "تحميل النافذة لأول مرة",
-  //           "الضغط على زر",
-  //           "إغلاق النافذة",
-  //           "تحريك الماوس",
-  //         ],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "خاصية BackColor تحدد:",
-  //         options: [
-  //           "لون خلفية الأداة",
-  //           "النص الظاهر",
-  //           "حجم الأداة",
-  //           "اسم الأداة",
-  //         ],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "الخاصية التي تجعل الأداة غير مرئية للمستخدم:",
-  //         options: ["Visible = False", "Text فارغ", "Name فارغ", "Tab = False"],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "الأداة المناسبة لعرض صورة:",
-  //         options: ["PictureBox", "TextBox", "Label", "Timer"],
-  //         correct: 0,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     t: "ميدتيرم 2 (المحاضرات 2-3)",
-  //     d: "امتحان منتصف الترم الثاني",
-  //     pdf: "Visual Programming/exams/Midterm 2.pdf",
-  //     questions: [
-  //       {
-  //         q: "الخاصية التي تحمل النص المكتوب داخل TextBox:",
-  //         options: ["Text", "Name", "BackColor", "Font"],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "ينطلق الحدث TextChanged عند:",
-  //         options: [
-  //           "تغيير محتوى مربع النص",
-  //           "الضغط عليه",
-  //           "الخروج من البرنامج",
-  //           "تحميل صورة",
-  //         ],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "الأداة التي تنفذ كوداً على فترات زمنية منتظمة:",
-  //         options: ["Timer", "Button", "Label", "ComboBox"],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "لعرض قائمة منسدلة يختار المستخدم منها:",
-  //         options: ["ComboBox", "PictureBox", "Timer", "Panel"],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "الواجهة التي توحّد أساليب الوصول للبيانات في .NET:",
-  //         options: ["ADO.NET", "GDI+", "DirectX", "OpenGL"],
-  //         correct: 0,
-  //       },
-  //     ],
-  //   },
-  // ],
 
   midtermsCategories: [
     {

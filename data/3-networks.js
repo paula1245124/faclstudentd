@@ -1076,1814 +1076,1582 @@ subjects.push({
     },
   ],
 
-  midterms: [
-    {
-      t: "MidTerm 2024",
-      d: "امتحان منتصف الترم 2024",
-      pdf: "MidTerm 2024 - Questions - Networks.pdf",
-      questions: [
-        {
-          q: "Which of the following statements is true about Client-Server Architecture?",
-          options: [
-            "In Client-Server Architecture, the server waits for incoming requests while the client Initiates contact with server.",
-            "In Client-Server Architecture, the client waits for incoming requests while the server Initiates contact with server.",
-            "In Client-Server Architecture, the server typically requests service from the client while the client provides requested service to server.",
-            "All of the options.",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Which of the following layers doesn't appear in the Internet Protocol Stack?",
-          options: [
-            "Application layer",
-            "Network layer",
-            "Transport layer",
-            "Session layer",
-          ],
-          correct: 3,
-        },
-        {
-          q: "In circuit switching, circuit segment is idle if not used by call.",
-          options: ["True", "False"],
-          correct: 0,
-        },
-        {
-          q: "Which of the following statements about DNS is TRUE?",
-          options: [
-            "TLD servers store all the hostname to IP mappings of the Internet.",
-            "Every Web server must have a canonical name.",
-            "Local DNS server sometimes may provide out-of-date hostname-to-IP-address mapping.",
-            "DNS server listens to TCP port 53.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "In Go-back-N protocol, what are the size of the respective sender and receiver buffers required for a window size of N?",
-          options: ["1;1", "N-1;1", "N-1;N-1", "N;1"],
-          correct: 3,
-        },
-        {
-          q: "Consider the following Python code snippet. s1.bind('', 8080)) s2, addr = s1.accept(). Suppose no exception is raised, which of the following statements is TRUE?",
-          options: [
-            "s1 is a UDP socket",
-            "Server uses s1 to transmit application data to client",
-            "s2 listens to port 8080",
-            "s2 listens to a random port number assigned by operation system",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Using Conditional GET in HTTP Protocol, the number of RTT is reduced if the object is not modified since the date of the cached copy!",
-          options: ["True", "False"],
-          correct: 1,
-        },
-        {
-          q: "End-to-end delay is the time taken for a packet to travel from source to destination. It consists of which of the following delays?",
-          options: [
-            "Transmission delay.",
-            "Propagation delay.",
-            "Queuing and Processing delays.",
-            "All of the options",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Which of the following statements is true?",
-          options: [
-            "Both the Internet and traditional telephone networks use packet-switching.",
-            "Performance metrics such as end-to-end delay and throughput can be guaranteed in the Internet, if TCP is chosen as the transport layer protocol.",
-            "The Internet uses packet switching and traditional telephone networks uses circuit switching.",
-            "In the Internet, packets from the same source always take the same path to reach destination.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "A Web server stores a webpage that comprises a base HTML file and 2 images referenced by the base HTML file. The HTML file is 100 bytes and each image is 200 bytes. A client is connected to the Web server through a direct link of 1 Mbps. Propagation delay between the Web server and the client is 50 milliseconds. The client downloads the webpage using persistent HTTP but without pipelining. How long (in milliseconds) does it take for the client to download the entire webpage?",
-          options: ["404", "604", "204", "402.4"],
-          correct: 3,
-        },
-        {
-          q: "HTTP protocol keeps state information at the server side about past client requests.",
-          options: ["True", "False"],
-          correct: 1,
-        },
-        {
-          q: "Which of the following statements is true about TCP and not true about UDP?",
-          options: [
-            "Provides timing service.",
-            "Provides minimum throughput guarantee service.",
-            "Provides security service.",
-            "Provides reliable transport service.",
-          ],
-          correct: 3,
-        },
-        {
-          q: "A browser requests to download index.html from a Web server. The HTTP response header received by the browser is shown below. Which of the following statements is TRUE? (HTTP/1.1 200 OK ... Set-Cookie: PHPSESSID=... Content-Length: 1256)",
-          options: [
-            "In the HTTP request, browser has requested for a non-persistent connection.",
-            "Suppose TCP header is 20 bytes, the length of the TCP segment containing the HTTP response is 1276 bytes.",
-            "The index.html file received by the browser may have been corrupted during transmission.",
-            "The Web server uses a cookie to keep the state information of the client.",
-          ],
-          correct: 3,
-        },
-        {
-          q: "How many sockets are there in a TCP server communicating with 13 clients concurrently?",
-          options: ["13", "14", "15", "12"],
-          correct: 1,
-        },
-        {
-          q: "Consider the transmission between a UDP sender and a UDP receiver. Which of the following will never happen?",
-          options: [
-            "UDP receiver fails to receive any packet from UDP sender.",
-            "UDP receiver receives out-of-order packets from UDP sender.",
-            "UDP receiver receives duplicate packets from UDP sender.",
-            "UDP receiver receives corrupted packets from UDP sender but fails to detect bit errors.",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Which of the following statements is true about packet switching?",
-          options: [
-            'In packet switching, bandwidth is divided into "pieces" between the nodes.',
-            "In packet switching, dedicated allocation is done between nodes.",
-            "In packet switching, resources are reserved for nodes.",
-            "None of the options.",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Consider a sender and a receiver communicating using Selective Repeat protocol. Every packet embeds a 4-bit sequence number field. Sender window size is 4. The third data packet and the second ACK packet are lost. What is the sender window over the sequence number space at time t?",
-          options: [
-            "12, 13, 14, 15",
-            "13, 14, 0, 1",
-            "13, 14, 15, 0",
-            "13, 14, 15, 16",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Top-level domain (TLD) servers are organization's own DNS server(s), providing authoritative hostname to IP mappings for organization's named hosts.",
-          options: ["Yes", "No"],
-          correct: 1,
-        },
-        {
-          q: "Which of the following is present in both HTTP request line and status line?",
-          options: [
-            "HTTP version number",
-            "Request method",
-            "Status code",
-            "URL",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Which of the following HTTP protocols does the given figure represent to fetch a web page with 2 reference objects?",
-          options: [
-            "Non-persistent HTTP.",
-            "Persistent HTTP.",
-            "Non-persistent HTTP with parallel connection.",
-            "Persistent HTTP with pipelining.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "A packet switch receives a packet and determines the outbound link. When the packet arrives, x bits of the currently-being-transmitted packet have been transmitted and n other packets are waiting. What is the queuing delay?",
-          options: ["nL/R", "(nL+(x-L))/R", "n(L-x)/R", "(nL+(L-x))/R"],
-          correct: 3,
-        },
-        {
-          q: "Assume a sender and a receiver connected via one packet-switch. The sender sends a message of size 24 KBytes using packets of length 1000 Bytes. The bit rates are 2 kbps and 5 kbps for the first and the second link, respectively. Using store and forward, what is the end-to-end delay (in seconds)?",
-          options: ["16.8", "134.4", "0.1008", "16800"],
-          correct: 1,
-        },
-        {
-          q: "In Non-persistent HTTP, the client closes the TCP connection after fetching one object (one pair of HTTP request and HTTP response)",
-          options: ["True", "False"],
-          correct: 0,
-        },
-        {
-          q: "A source and a destination are separated by 3*10^5 kilometers and are connected by a direct link of 2 Kbps. The propagation speed over the link is 2*10^8 meters/second. The source sends 100 packets to the destination using RDT 2.2. Each packet is of 2*10^3 bits long. Suppose ACK packets are of negligible size and transmission channel is perfectly reliable. What is the throughput (in bps) of transmission?",
-          options: ["200", "500", "100", "400"],
-          correct: 1,
-        },
-        {
-          q: "Which of the following statements is true about circuit switching?",
-          options: [
-            "Resources are pre-allocated regardless of demand",
-            "Packet transmission can use the full link bandwidth",
-            "The path between a source and a destination is not fixed",
-            "All of the options",
-          ],
-          correct: 0,
-        },
-        {
-          q: "A Selective Repeat sender just receives an ACK packet with ACK number 7. This ACK number falls within sender window which has the window size 3. Every data packet embeds a k-bit sequence number field. Which of the following definitely CANNOT be the sequence number of the next packet transmitted by the sender?",
-          options: ["0", "2", "3", "6"],
-          correct: 2,
-        },
-        {
-          q: "Can HTTP response message contains an empty body? If yes, When can this happen?",
-          options: [
-            "No, an HTTP response message can never have an empty body.",
-            "Yes, if the requested object has been moved to a new location.",
-            "Yes, if the requested object is recently modified.",
-            "Yes, if the requested object is very small in size.",
-          ],
-          correct: 1,
-        },
-      ],
-    },
-    {
-      t: "MidTerm 2023",
-      d: "امتحان منتصف الترم 2023",
-      pdf: "MidTerm 2023 - Questions - Networks.pdf",
-      questions: [
-        {
-          q: "How many sockets are there in a TCP server communicating with 13 clients concurrently?",
-          options: ["15", "None of the options", "13", "12", "14"],
-          correct: 4,
-        },
-        {
-          q: "A source and a destination are separated by 3*10^4 kilometers and are connected by a direct link of 2 Kbps. The propagation speed over the link is 2*10^4 meters/second. The source sends 100 packets using RDT 2.2. Each packet is of 2*10^4 bits long. What is the throughput (in bps) of transmission?",
-          options: ["100", "500", "400", "None of the options", "200"],
-          correct: 4,
-        },
-        {
-          q: "Which of the following statements is true about TCP and not true about UDP?",
-          options: [
-            "Provides timing service.",
-            "Provides reliable transport service.",
-            "Provides security service.",
-            "Provides minimum throughput guarantee service.",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Top-level domain (TLD) servers are organization's own DNS server(s), providing authoritative hostname to IP mappings for organization's named hosts.",
-          options: ["No", "Yes"],
-          correct: 0,
-        },
-        {
-          q: "Which of the following layers doesn't appear in the Internet Protocol Stack?",
-          options: [
-            "Physical layer",
-            "Session layer",
-            "Application layer",
-            "None of the options",
-            "Network layer",
-            "Transport layer",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Consider pseudo-code for rdt 3.0 receiver. Which of the following statements is TRUE?",
-          options: [
-            "A single loss ACK packet is sufficient to cause the sender to loop forever.",
-            "A single corrupted data packet is sufficient to cause the sender to loop forever.",
-            "A single corrupted data packet is sufficient to cause the receiver to wait forever.",
-            "A single premature timeout is sufficient to cause the sender to loop forever.",
-          ],
-          correct: -1,
-        },
-        {
-          q: "Which of the following statements is true about circuit switching?",
-          options: [
-            "The path between a source and a destination is not fixed",
-            "Packet transmission can use the full link bandwidth",
-            "None of the options",
-            "Resources are pre-allocated regardless of demand",
-            "All of the options",
-          ],
-          correct: 3,
-        },
-        {
-          q: "A packet switch receives a packet. When the packet arrives, x bits of the currently-being-transmitted packet have been transmitted and n other packets are waiting. What is the queuing delay?",
-          options: [
-            "(nL + (L - x)) / R",
-            "nL / R",
-            "n(L - x) / R",
-            "nL + (L - x) / R",
-            "(nL + (x - L)) / R",
-          ],
-          correct: 0,
-        },
-        {
-          q: "In Go-back-N protocol, what are the size of the respective sender and receiver buffers required for a window size of N?",
-          options: ["N; N", "N; 1", "1; 1", "N - 1; N - 1", "N - 1; 1"],
-          correct: 1,
-        },
-        {
-          q: "Which of the following statements about DNS is TRUE?",
-          options: [
-            "None of the options",
-            "Every Web server must have a canonical name.",
-            "Local DNS server sometimes may provide out-of-date hostname-to-IP-address mapping.",
-            "DNS server listens to TCP port 53.",
-            "TLD servers store all the hostname to IP mappings of the Internet.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "A Web server stores a webpage that comprises a base HTML file and 2 images. The client downloads using persistent HTTP but without pipelining. How long does it take?",
-          options: ["604", "204", "402.4", "404"],
-          correct: 3,
-        },
-        {
-          q: "HTTP protocol keeps state information at the server side about past client requests.",
-          options: ["True", "False"],
-          correct: 1,
-        },
-        {
-          q: "Which of the following statements is true about packet switching?",
-          options: [
-            "In packet switching, dedicated allocation is done between nodes.",
-            'In packet switching, time is divided into "slots" between the nodes.',
-            'In packet switching, bandwidth is divided into "pieces" between the nodes.',
-            "In packet switching, resources are reserved for nodes.",
-            "None of the options.",
-          ],
-          correct: 4,
-        },
-        {
-          q: "In Non-persistent HTTP, the client closes the TCP connection after fetching one object.",
-          options: ["False", "True"],
-          correct: 1,
-        },
-        {
-          q: "Can HTTP response message contains an empty body? If yes, When can this happen?",
-          options: [
-            "No, an HTTP response message can never have an empty body.",
-            "Yes, if the requested object is recently modified.",
-            "Yes, if the requested object is very small in size.",
-            "Yes, if the requested object has been moved to a new location.",
-          ],
-          correct: 3,
-        },
-        {
-          q: "In circuit switching, circuit segment is idle if not used by call.",
-          options: ["True", "False"],
-          correct: 0,
-        },
-        {
-          q: "A browser requests to download index.html. The HTTP response header is shown. Which statement is TRUE?",
-          options: [
-            "Suppose TCP header is 20 bytes, the length of the TCP segment containing the HTTP response is 1276 bytes.",
-            "In the HTTP request, browser has requested for a non-persistent connection.",
-            "None of the options.",
-            "The index.html file received by the browser may have been corrupted during transmission.",
-            "The Web server uses a cookie to keep the state information of the client.",
-          ],
-          correct: 4,
-        },
-        {
-          q: "Assume a sender and a receiver connected via one packet-switch. The sender sends a message of size 24 KBytes using packets of length 1000 Bytes. The bit rates are 2 kbps and 5 kbps. Using store and forward, what is the end-to-end delay (in seconds)?",
-          options: ["16800", "134.4", "16.8", "None of the options", "0.1008"],
-          correct: 1,
-        },
-        {
-          q: "End-to-end delay is the time taken for a packet to travel from source to destination. It consists of which of the following delays?",
-          options: [
-            "Propagation delay.",
-            "Queuing delay.",
-            "Processing delay.",
-            "All the options.",
-            "Transmission delay.",
-            "None of the options.",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Which of the following statements is true?",
-          options: [
-            "The Internet uses packet switching and traditional telephone networks uses circuit switching.",
-            "Performance metrics such as end-to-end delay and throughput can be guaranteed in the Internet, if TCP is chosen as the transport layer protocol.",
-            "None of the options",
-            "In the Internet, packets from the same source always take the same path to reach destination.",
-            "Both the Internet and traditional telephone networks use packet-switching.",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Which of the following HTTP protocols does the given figure represent to fetch a web page with 2 reference objects?",
-          options: [
-            "Persistent HTTP with pipelining.",
-            "Non-persistent HTTP.",
-            "Persistent HTTP.",
-            "Non-persistent HTTP with parallel connection.",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Which of the following statements about socket programming with TCP is true?",
-          options: [
-            "Server cannot send data to client after a client initiates TCP connection to the server.",
-            "Client explicitly attaches destination IP address and port number to every packet",
-            "Server extracts sender IP address and port number from the received packet.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Which of the following statements is true about Client-Server Architecture?",
-          options: [
-            "In Client-Server Architecture, the server typically requests service from the client while the client provides requested service to server.",
-            "In Client-Server Architecture, the server waits for incoming requests while the client initiates contact with server.",
-            "In Client-Server Architecture, the client waits for incoming requests while the server initiates contact with server.",
-            "All of the options.",
-            "None of the options.",
-          ],
-          correct: 1,
-        },
-        {
-          q: "A Selective Repeat sender just receives an ACK packet with ACK number 7. This ACK number falls within sender window which has the window size 3. Which of the following definitely CANNOT be the sequence number of the next packet transmitted by the sender?",
-          options: ["3", "0", "10", "2", "6"],
-          correct: 0,
-        },
-        {
-          q: "Using Conditional GET in HTTP Protocol, the number of RTT is reduced if the object is not modified since the date of the cached copy!",
-          options: ["True", "False"],
-          correct: 1,
-        },
-        {
-          q: "Consider the transmission between a UDP sender and a UDP receiver. Which of the following will never happen?",
-          options: [
-            "UDP receiver receives duplicate packets from UDP sender.",
-            "None of the above",
-            "UDP receiver receives out-of-order packets from UDP sender.",
-            "UDP receiver fails to receive any packet from UDP sender.",
-            "UDP receiver receives corrupted packets from UDP sender but fails to detect bit errors.",
-          ],
-          correct: 4,
-        },
-        {
-          q: "What is the checksum (1's complement of the sum) of the following 3 bytes? 10010011 10011001 11011101",
-          options: ["11011110", "00100010", "11011111"],
-          correct: -1,
-        },
-        {
-          q: "Which of the following is present in both HTTP request line and status line?",
-          options: [
-            "Status code",
-            "None of the options",
-            "URL",
-            "HTTP version number",
-            "Request method",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Consider the following Python code snippet. Suppose no exception is raised, which of the following statements is TRUE?",
-          options: [
-            "s2 listens to a random port number assigned by operation system",
-            "s1 is a UDP socket",
-            "None of the options.",
-            "Server uses s1 to transmit application data to client",
-            "s2 listens to port 8080",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Consider a sender and a receiver communicating using Selective Repeat protocol. Every packet embeds a 4-bit sequence number field. Sender window size is 4. The third data packet and the second ACK packet are lost. What is the sender window over the sequence number space at time t?",
-          options: [
-            "13, 14, 0, 1",
-            "12, 13, 14, 15",
-            "13, 14, 15, 0",
-            "13, 14, 15, 16",
-          ],
-          correct: 2,
-        },
-      ],
-    },
-    {
-      t: "MidTerm 2024 (Short)",
-      d: "امتحان منتصف الترم 2024 (أسئلة قصيرة/صح وخطأ)",
-      pdf: "MidTerm 2024 - Questions - Networks(2).pdf",
-      questions: [
-        {
-          q: "In BitTorrent, if Alice has a subset of chunks and knows which chunks her neighbors have, then Alice requests small size chunks first from her neighbors. In this manner she gets chunks more quickly and will have a lot of chunks which helps her to be one of the top 4 for other pears",
-          options: ["True", "False"],
-          correct: 1,
-        },
-        {
-          q: "Dial-up and DSL are both dedicated access technology, where HFC and FTTH(PON) are completely shared along the path.",
-          options: ["True", "False"],
-          correct: 0,
-        },
-        {
-          q: "Assume that a file of size F is to be distributed to N clients in client-server architecture. If the upload rate of the server's access link is us, then the time to distribute the file to N clients is equal to NF / us",
-          options: ["True", "False"],
-          correct: 0,
-        },
-        {
-          q: "UDP socket is fully identified by a source port number, and a destination port number while TCP socket is fully identified by a source port number, a destination port number, a source IP address and a destination IP address",
-          options: ["True", "False"],
-          correct: 1,
-        },
-        {
-          q: "In packet switching, end-end resources along path are reserved for the duration of communication session",
-          options: ["True", "False"],
-          correct: 1,
-        },
-        {
-          q: "Given that the requested information is not available at any intermediate databases, a recursive DNS query from a requesting host would follow the path.",
-          options: [
-            "root DNS server, TLD server, local DNS server, authoritative DNS server",
-            "authoritative DNS server, root server, TLD server, local DNS server",
-            "local DNS server, root DNS server, local DNS server, TLD server, local DNS server, authoritative DNS server",
-            "local DNS server, root DNS server, TLD server, authoritative DNS server",
-            "None of the above",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Consider that there is a shared link of 1 Mb/s. In case of using TDM with 10 slots per frame and each slot 1000 bit, then the number of frames per second will be 100000.",
-          options: ["True", "False"],
-          correct: 1,
-        },
-        {
-          q: "When the server side receives a command for a file transfer over the control connection (either to, or from, the remote host), the server side initiates a TCP data connection to the client side, then FTP sends exactly one file over the data connection, and then closes the data connection.",
-          options: ["True", "False"],
-          correct: 0,
-        },
-        {
-          q: "Because many firewalls are configured to block (most types of) UDP traffic, designers have increasingly chosen to run multimedia and real-time applications over TCP.",
-          options: ["True", "False"],
-          correct: 0,
-        },
-      ],
-    },
-    {
-      t: "مقدمة في شبكات الحاسب 10:00-11:00 26/11/2022 د/طارق محمد عبدالقادر",
-      d: "Midterm Exam - 26/11/2022 - Dr. Tarek Mohamed Abdelkader",
-      pdf: "مقدمة في شبكات الحاسب 10_00-11_00 26_11_2022 د_طارق محمد عبدالقادر  (Preview) Microsoft Forms.pdf",
-      questions: [
-        {
-          q: "The only control that the application developer has on the transport-layer side is",
-          options: [
-            "the choice of transport protocol",
-            "perhaps the ability to fix a few transport-layer parameters",
-            "all of the mentioned",
-          ],
-          correct: 2,
-        },
-        {
-          q: "When this client-server interaction is taking place over TCP, the application developer needs to make an important decision—should each request/response pair be sent over a separate TCP connection, or should all of the requests and their corresponding responses be sent over the same TCP connection? In the former approach, the application is said to use ---",
-          options: [
-            "non-persistent connections",
-            "persistent connections",
-            "none of the above",
-          ],
-          correct: 0,
-        },
-        {
-          q: "In the layer hierarchy as the data packet moves from the upper to the lower layers, headers are",
-          options: ["Added", "Removed", "Rearranged"],
-          correct: 0,
-        },
-        {
-          q: "Processes on two different end systems communicate with each other",
-          options: [
-            "by exchanging messages",
-            "across the computer network",
-            "with interprocess communication",
-            "all of the mentioned",
-          ],
-          correct: 3,
-        },
-        {
-          q: "The number of layers in ISO / OSI reference model is",
-          options: ["10", "7", "5"],
-          correct: 1,
-        },
-        {
-          q: "What is client process",
-          options: [
-            "Process that initiates communication",
-            "Process that waits to be contacted",
-            "protocol in the application layer",
-          ],
-          correct: 0,
-        },
-        {
-          q: "A is the physical path over which a message travels",
-          options: ["Path", "Medium"],
-          correct: 1,
-        },
-        {
-          q: "The RTT includes",
-          options: [
-            "packet-propagation delays",
-            "packet-queuing delays",
-            "all of the mentioned",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Two devices are in network if",
-          options: [
-            "a process in one device is able to exchange information with a process in another device",
-            "a process is running on both devices",
-            "PIDs of the processes running of different devices are same",
-          ],
-          correct: 0,
-        },
-        {
-          q: "the rate at which data is transferred is referred to",
-          options: ["transmission rate", "transfer ratio", "compression rate"],
-          correct: 0,
-        },
-        {
-          q: "Which is not a application layer protocol",
-          options: ["HTTP", "SMTP", "TCP"],
-          correct: 2,
-        },
-        {
-          q: "A set of rules that governs data communication",
-          options: ["Protocols", "Standards", "RFCs"],
-          correct: 0,
-        },
-        {
-          q: "malware can record keystrokes, web sites visited, upload info to collection site",
-          options: ["virus", "worm", "spyware"],
-          correct: 2,
-        },
-        {
-          q: "Which protocol is a protocol of application layer",
-          options: ["HTTP", "TCP", "IP"],
-          correct: 0,
-        },
-        {
-          q: "data over DSL phone line goes to",
-          options: ["internet", "telephone net", "none of the above"],
-          correct: 0,
-        },
-        {
-          q: "Which of this is not a network edge device",
-          options: ["PC", "Smartphones", "Switch"],
-          correct: 2,
-        },
-        {
-          q: "can make use of as much, or as little, throughput as happens to be available",
-          options: [
-            "bandwidth-sensitive applications",
-            "elastic applications",
-            "all of the mentioned",
-          ],
-          correct: 1,
-        },
-        {
-          q: "A list of protocols used by a system, one protocol per layer, is called",
-          options: [
-            "protocol architecture",
-            "protocol stack",
-            "protocol suite",
-          ],
-          correct: 1,
-        },
-        {
-          q: "What is the HTTP port number",
-          options: ["25", "110", "80"],
-          correct: 2,
-        },
-        {
-          q: "End systems access the Internet through",
-          options: [
-            "Internet Service Providers ISPs",
-            "Customer premises Equipment CBE",
-            "Digital subscriber line DSL",
-          ],
-          correct: 0,
-        },
-        {
-          q: "A is a device that forwards packets between networks by processing the routing information included in the packet",
-          options: ["bridge", "firewall", "router"],
-          correct: 2,
-        },
-        {
-          q: "Network congestion occurs",
-          options: [
-            "in case of traffic overloading",
-            "when a system terminates",
-            "when connection between two nodes terminates",
-          ],
-          correct: 0,
-        },
-        {
-          q: "The structure or format of data is called",
-          options: ["Syntax", "Semantics", "Struct"],
-          correct: 0,
-        },
-      ],
-    },
-  ],
-  finals: [
-    {
-      t: "Final 2026 - National - Dr.Tarek",
-      d: "Final exam - National - Dr. Tarek",
-      pdf: "Final 2026 - National - Dr.Tarek.pdf",
-      questions: [
-        {
-          q: "What is an HTTP cookie used for?",
-          options: [
-            "Like dessert, cookies are used at the end of a transaction, to indicate the end of the transaction",
-            "A cookies is a code used by a server, carried on a client's HTTP request, to access information the server had earlier stored about an earlier interaction with this person. [Think about the distinction between a browser and a person.]",
-            "A cookie is a code used by a server, carried on a client's HTTP request, to access information the server had earlier stored about an earlier interaction with this Web browser. [Think about the distinction between a browser and a person.]",
-            "A cookie is a code used by a client to authenticate a person's identity to an HTTP server.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "an IPv4 datagram has a",
-          options: ["4- byte header", "8- byte header", "20- byte header"],
-          correct: 2,
-        },
-        {
-          q: "Which of the characteristics below are associated with a client-server approach to structuring network applications (as opposed to a P2P approach)",
-          options: [
-            "A process requests service from those it contacts and will provide service to processes that contact it.",
-            "There is a server with a well known server IP address.",
-            "There is not a server that is always on",
-            "None of the above",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Transfer of a bit into and out of a transmission media",
-          options: [
-            "Application Layer",
-            "Transport layer",
-            "Network layer",
-            "Physical layer",
-          ],
-          correct: 3,
-        },
-        {
-          q: "What specifies the format of packets that are sent and received among routers and end systems",
-          options: ["TCP", "UDP", "IP", "DNS"],
-          correct: 2,
-        },
-        {
-          q: 'Which of the following descriptions below correspond to a "services" view of the Internet?',
-          options: [
-            "A platform for building network applications",
-            "A collection of billions of computing devices, and packet switches interconnected by links",
-            'A "network of networks".',
-            "A collection of hardware and software components executing protocols that define the format and the order of messages exchanged between two or more communicating entities, as well as the actions taken on the transmission and/or receipt of a message or other event.",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Match the function of a server to a given type of DNS server in the DNS server hierarchy. Replies to DNS query by local host, by contacting other DNS servers to answer the query.",
-          options: [
-            "Local DNS server",
-            "Authoritative DNS server",
-            "DNS root servers",
-            "Top Level Domain (TLD) servers",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Time spent transmitting packets bits into the link",
-          options: [
-            "Processing delay",
-            "Propagation delay",
-            "Transmission delay",
-            "Queueing delay",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Which of the following are changes between HTTP 1.1 and HTTP/2?",
-          options: [
-            "HTTP/2 allows a large object to be broken down into smaller pieces, and the transmission of those pieces to be interleaved with transmission other smaller objects, thus preventing a large object from forcing many smaller objects to wait their turn for transmission.",
-            "HTTP/2 provides enhanced security by using transport layer security (TLS).",
-            "HTTP/2 has many new HTTP methods and status codes.",
-            "All of the above",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Match the name of an Internet layer with unit of data that is exchanged among protocol entities at that layer, Application layer",
-          options: ["Datagram", "Message", "Bit", "Segment"],
-          correct: 1,
-        },
-        {
-          q: "Forwarding is the local action of moving arriving packets from router's input link to appropriate router output link, while routing is the global action of determining the source- destination paths taken by packets.",
-          options: ["True", "False"],
-          correct: 0,
-        },
-        {
-          q: "When an application uses a UDP socket, what transport services are provided to the application by UDP?",
-          options: [
-            "Throughput guarantee. The socket can be configured to provide a minimum throughput guarantee between sender and receiver.",
-            "Congestion control. The service will control senders so that the senders do not collectively send more data than links in the network can handle.",
-            "Best effort service. The service will make a best effort to deliver data to the destination but makes no guarantees that any particular segment of data will actually get there.",
-            "Flow Control. The provided service will ensure that the sender does not send so fast as to overflow receiver buffers.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "What is the purpose of a cookie value in the HTTP GET request?",
-          options: [
-            "The cookie value encodes a default set of preferences that the user has previously specified for this web site",
-            "The cookie value encodes the format of the reply preferred by the client in the response to this GET request",
-            "The cookie value itself doesn't mean anything. It is just a value that was returned by a web server to this client during an earlier interaction",
-            "The cookie value indicates whether the user wants to use HTTP/1, HTTP/1.1, or HTTP/2 for this GET request.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "What is the purpose of the HTTP GET message?",
-          options: [
-            "The HTTP GET request message is sent by a web server to a web client to get the identity of the web client.",
-            "The HTTP GET request message is sent by a web server to a web client to get the next request from the web client.",
-            "The HTTP GET request message is used by a web client to request a web server to send the requested object from the server to the client.",
-            "The HTTP GET request message is used by a web client to post an object on a web server.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Which of the fields below are in a UDP segment header",
-          options: [
-            "Internet checksum",
-            "Upper layer protocol",
-            "Data (payload)",
-            "Sequence number",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Time spent waiting in packet buffers for link transmission",
-          options: [
-            "Processing delay",
-            "Propagation delay",
-            "Transmission delay",
-            "Queueing delay",
-          ],
-          correct: 3,
-        },
-        {
-          q: 'What do we mean when we say "HTTP is stateless"? In answering this question, assume that cookies are not used',
-          options: [
-            "The HTTP protocol is not licensed in any country.",
-            "An HTTP client does not remember anything about what happened during earlier steps in interacting with any HTTP server.",
-            "An HTTP server does not remember anything about what happened during earlier steps in interacting with this HTTP client",
-            "An HTTP client does not remember the identities of the servers with which it has interacted.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "What is the purpose of the HTTP GET message?",
-          options: [
-            "The HTTP GET request message is sent by a web server to a web client to get the identity of the web client.",
-            "The HTTP GET request message is sent by a web server to a web client to get the next request from the web client.",
-            "The HTTP GET request message is used by a web client to request a web server to send the requested object from the server to the client.",
-            "The HTTP GET request message is used by a web client to post an object on a web server.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Time spent waiting in packet buffers for link transmission",
-          options: [
-            "Processing delay",
-            "Propagation delay",
-            "Transmission delay",
-            "Queueing delay",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Which of the characteristics below are associated with the technique of circuit switching?",
-          options: [
-            "This technique is used in the Internet",
-            "Congestion loss and variable end- end delays are possible with this technique",
-            "Resources are used on demand, not reserved in advance",
-            "Frequency Division Multiplexing (FDM) and Time Division Multiplexing (TDM) are two approaches for implementing this technique",
-          ],
-          correct: 3,
-        },
-        {
-          q: 'When we say that the Internet is a "network of networks," we mean?',
-          options: [
-            "The Internet is the largest network ever built",
-            "The Internet is made up of a lot of different networks that are interconnected to each other",
-            "The Internet is the fastest network ever built",
-            "All of the above",
-          ],
-          correct: 1,
-        },
-        {
-          q: "What is the purpose of the conditional HTTP GET request message?",
-          options: [
-            "To allow a server to only send the requested object to the client if the server is not overloaded.",
-            "To allow a server to only send the requested object to the client if this object has changed since the server last sent this object to the client",
-            "To allow a server to only send the requested object to the client if the client is authorized to received that object.",
-            "To allow a server to only send the requested object to the client if the client has never requested that object before",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Time need for bits to physically propagate through the transmission medium from end one of a link to the other",
-          options: [
-            "Processing delay",
-            "Propagation delay",
-            "Transmission delay",
-            "Queueing delay",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Match the name of an Internet layer with unit of data that is exchanged among protocol entities at that layer, Link layer",
-          options: ["Datagram", "Message", "Segment", "Frame"],
-          correct: 3,
-        },
-        {
-          q: "Match the name of an Internet layer with unit of data that is exchanged among protocol entities at that layer, Transport layer",
-          options: ["Datagram", "Message", "Bit", "Segment"],
-          correct: 3,
-        },
-        {
-          q: "What is the purpose of the conditional HTTP GET request message?",
-          options: [
-            "To allow a server to only send the requested object to the client if the server is not overloaded.",
-            "To allow a server to only send the requested object to the client if this object has changed since the server last sent this object to the client",
-            "To allow a server to only send the requested object to the client if the client is authorized to received that object.",
-            "To allow a server to only send the requested object to the client if the client has never requested that object before",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Delivery of datagrams from a source host to a destination host (typically)",
-          options: [
-            "Link layer",
-            "Application Layer",
-            "Transport layer",
-            "Network layer",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Which of the characteristics below are associated with the technique of packet switching?",
-          options: [
-            "Frequency Division Multiplexing (FDM) and Time Division Multiplexing (TDM) are two approaches for implementing this technique.",
-            "This technique was the basis for the telephone call switching during the 20th century and into the beginning of this current century.",
-            "Data may be queued before being transmitted due to other user's data that's also queueing for transmission.",
-            "Reserves resources needed for a call from source to destination",
-          ],
-          correct: 2,
-        },
-        {
-          q: "P2P networks do not need a server",
-          options: ["True", "False"],
-          correct: 0,
-        },
-        {
-          q: "When an application uses a UDP socket, what transport services are provided to the application by UDP?",
-          options: [
-            "Throughput guarantee. The socket can be configured to provide a minimum throughput guarantee between sender and receiver.",
-            "Congestion control. The service will control senders so that the senders do not collectively send more data than links in the network can handle.",
-            "Best effort service. The service will make a best effort to deliver data to the destination but makes no guarantees that any particular segment of data will actually get there.",
-            "Flow Control. The provided service will ensure that the sender does not send so fast as to overflow receiver buffers.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Match the function of a server to a given type of DNS server in the DNS server hierarchy. Provides authoritative hostname to IP mappings for organization's named hosts.",
-          options: [
-            "Local DNS server",
-            "Authoritative DNS server",
-            "DNS root servers",
-            "Top Level Domain (TLD) servers",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Transfer of data between one process and another process (typically on different hosts)",
-          options: [
-            "Link layer",
-            "Application Layer",
-            "Transport layer",
-            "Network layer",
-          ],
-          correct: 2,
-        },
-        {
-          q: 'Which of the following descriptions below correspond to a "nuts-and-bolts" view of the Internet?',
-          options: [
-            "A platform for building network applications",
-            'A "network of networks"',
-            "A place I go for information, entertainment, and to communicate with people",
-            "All of the above",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Where is transport-layer functionality primarily implemented",
-          options: [
-            'Transport layer functions are implemented primarily at the hosts at the "edge" of the network',
-            "Transport layer functions are implemented primarily at the routers and switches in the network",
-            "Transport layer functions are implemented primarily at each end of a physical link connecting one host/router/switch to another one host/router/switch",
-            "None of the above",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Match the name of an Internet layer with unit of data that is exchanged among protocol entities at that layer, Network layer",
-          options: ["Datagram", "Message", "Segment", "Frame"],
-          correct: 0,
-        },
-        {
-          q: "UDP packet has",
-          options: [
-            "2 byte header",
-            "8 byte header",
-            "12 byte header",
-            "16 byte header",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which of the characteristics below are associated with a P2P approach to structuring network applications (as opposed to a client-server approach)?",
-          options: [
-            "There is a server that is always on",
-            "HTTP uses this application structure",
-            "There is a server with a well known server IP address",
-            "There is not a server that is always on",
-          ],
-          correct: 3,
-        },
-        {
-          q: "What is the purpose of a cookie value in the HTTP GET request?",
-          options: [
-            "The cookie value encodes a default set of preferences that the user has previously specified for this web site.",
-            "The cookie value encodes the format of the reply preferred by the client in the response to this GET request.",
-            "The cookie value itself doesn't mean anything. It is just a value that was returned by a web server to this client during an earlier interaction.",
-            "The cookie value indicates whether the user wants to use HTTP/1, HTTP/1.1, or HTTP/2 for this GET request.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Match the name of an Internet layer with unit of data that is exchanged among protocol entities at that layer, Physical layer",
-          options: ["Datagram", "Message", "Bit", "Segment"],
-          correct: 2,
-        },
-        {
-          q: "Match the function of a server to a given type of DNS server in the DNS server hierarchy. Responsible for a domain (e.g., *.com, *.edu); knows how to contact authoritative name servers",
-          options: [
-            "Local DNS server",
-            "Authoritative DNS server",
-            "DNS root servers",
-            "Top Level Domain (TLD) servers",
-          ],
-          correct: 3,
-        },
-        {
-          q: 'Which of the definitions below describe what is meant by the term "encapsulation"?',
-          options: [
-            "Determining the name of the destination host, translating that name to an IP address and then placing that value in a packet header field.",
-            "Starting a transport layer timer for a transmitted segment, and then if an ACK segment isn't received before the timeout, placing that segment in a retransmission queue.",
-            'Taking data from the layer above, adding header fields appropriate for this layer, and then placing the data in the payload field of the "packet" for that layer.',
-            'Receiving a "packet" from the layer below, extracting the payload field, and after some internal actions possibly delivering that payload to an upper layer protocol.',
-          ],
-          correct: 2,
-        },
-        {
-          q: "Match the function of a server to a given type of DNS server in the DNS server hierarchy. Highest level of the DNS hierarchy, knows how to reach servers responsible for a given domain (e.g., *.com, *.edu)",
-          options: [
-            "Local DNS server",
-            "Authoritative DNS server",
-            "DNS root servers",
-            "Top Level Domain (TLD) servers",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Which of the characteristics below are associated with a client-server approach to structuring network applications (as opposed to a P2P approach)",
-          options: [
-            "A process requests service from those it contacts and will provide service to processes that contact it.",
-            "There is a server with a well known server IP address",
-            "There is not a server that is always on",
-            "All of the above",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Transfer of data between neighboring network devices",
-          options: [
-            "Link layer",
-            "Application Layer",
-            "Transport layer",
-            "Network layer",
-          ],
-          correct: 0,
-        },
-        {
-          q: "When there is not enough memory to buffer an incoming packet, a decision must be made to either drop the arriving packet (a policy known as drop-tail) or remove one or more already-queued packets to make room for the newly arrived packet.",
-          options: ["True", "False"],
-          correct: 0,
-        },
-        {
-          q: "Time needed to perform an integrity check, lookup packet information in a local table and move the packet from an input link to an output link in a router.",
-          options: [
-            "Processing delay",
-            "Propagation delay",
-            "Transmission delay",
-            "Queueing delay",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Protocols that are part of a distributed network application",
-          options: [
-            "Link layer",
-            "Application Layer",
-            "Transport layer",
-            "Network layer",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which of the following physical layer technologies has the highest transmission rate and lowest bit error rate in practice?",
-          options: [
-            "Twisted pair (e.g., CAT5, CAT6)",
-            "Coaxial cable",
-            "Satellite channel",
-            "Fiber optic cable",
-          ],
-          correct: 3,
-        },
-        {
-          q: "When an application uses a TCP socket, what transport services are provided to the application by TCP?",
-          options: [
-            "Throughput guarantee. The socket can be configured to provide a minimum throughput guarantee between sender and receiver.",
-            "Real- time delivery. The service will guarantee that data will be delivered to the receiver within a specified time bound.",
-            "Congestion control. The service will control senders so that the senders do not collectively send more data than links in the network can handle",
-            "Best effort service. The service will make a best effort to deliver data to the destination but makes no guarantees that any particular segment of data will actually get there.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "When an application uses a TCP socket, what transport services are provided to the application by TCP?",
-          options: [
-            "Throughout guarantee. The socket can be configured to provide a minimum throughput guarantee between sender and receiver.",
-            "Real- time delivery. The service will guarantee that data will be delivered to the receiver within a specified time bound.",
-            "Congestion control. The service will control senders so that the senders do not collectively send more data than links in the network can handle.",
-            "Best effort service. The service will make a best effort to deliver data to the destination but makes no guarantees that any particular segment of data will actually get there.",
-          ],
-          correct: 2,
-        },
-      ],
-    },
-    {
-      t: "Final 2026 - National - Dr.Tarek",
-      d: "Final exam - National - Dr. Tarek",
-      pdf: "Final 2026 - National - Dr.Tarek.pdf",
-      questions: [
-        {
-          q: "What is an HTTP cookie used for?",
-          options: [
-            "Like dessert, cookies are used at the end of a transaction, to indicate the end of the transaction",
-            "A cookies is a code used by a server, carried on a client's HTTP request, to access information the server had earlier stored about an earlier interaction with this person. [Think about the distinction between a browser and a person.]",
-            "A cookie is a code used by a server, carried on a client's HTTP request, to access information the server had earlier stored about an earlier interaction with this Web browser. [Think about the distinction between a browser and a person.]",
-            "A cookie is a code used by a client to authenticate a person's identity to an HTTP server.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "an IPv4 datagram has a",
-          options: ["4- byte header", "8- byte header", "20- byte header"],
-          correct: 2,
-        },
-        {
-          q: "Which of the characteristics below are associated with a client-server approach to structuring network applications (as opposed to a P2P approach)",
-          options: [
-            "A process requests service from those it contacts and will provide service to processes that contact it.",
-            "There is a server with a well known server IP address.",
-            "There is not a server that is always on",
-            "None of the above",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Transfer of a bit into and out of a transmission media",
-          options: [
-            "Application Layer",
-            "Transport layer",
-            "Network layer",
-            "Physical layer",
-          ],
-          correct: 3,
-        },
-        {
-          q: "What specifies the format of packets that are sent and received among routers and end systems",
-          options: ["TCP", "UDP", "IP", "DNS"],
-          correct: 2,
-        },
-        {
-          q: 'Which of the following descriptions below correspond to a "services" view of the Internet?',
-          options: [
-            "A platform for building network applications",
-            "A collection of billions of computing devices, and packet switches interconnected by links",
-            'A "network of networks".',
-            "A collection of hardware and software components executing protocols that define the format and the order of messages exchanged between two or more communicating entities, as well as the actions taken on the transmission and/or receipt of a message or other event.",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Match the function of a server to a given type of DNS server in the DNS server hierarchy. Replies to DNS query by local host, by contacting other DNS servers to answer the query.",
-          options: [
-            "Local DNS server",
-            "Authoritative DNS server",
-            "DNS root servers",
-            "Top Level Domain (TLD) servers",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Time spent transmitting packets bits into the link",
-          options: [
-            "Processing delay",
-            "Propagation delay",
-            "Transmission delay",
-            "Queueing delay",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Which of the following are changes between HTTP 1.1 and HTTP/2?",
-          options: [
-            "HTTP/2 allows a large object to be broken down into smaller pieces, and the transmission of those pieces to be interleaved with transmission other smaller objects, thus preventing a large object from forcing many smaller objects to wait their turn for transmission.",
-            "HTTP/2 provides enhanced security by using transport layer security (TLS).",
-            "HTTP/2 has many new HTTP methods and status codes.",
-            "All of the above",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Match the name of an Internet layer with unit of data that is exchanged among protocol entities at that layer, Application layer",
-          options: ["Datagram", "Message", "Bit", "Segment"],
-          correct: 1,
-        },
-        {
-          q: "Forwarding is the local action of moving arriving packets from router's input link to appropriate router output link, while routing is the global action of determining the source- destination paths taken by packets.",
-          options: ["True", "False"],
-          correct: 0,
-        },
-        {
-          q: "When an application uses a UDP socket, what transport services are provided to the application by UDP?",
-          options: [
-            "Throughput guarantee. The socket can be configured to provide a minimum throughput guarantee between sender and receiver.",
-            "Congestion control. The service will control senders so that the senders do not collectively send more data than links in the network can handle.",
-            "Best effort service. The service will make a best effort to deliver data to the destination but makes no guarantees that any particular segment of data will actually get there.",
-            "Flow Control. The provided service will ensure that the sender does not send so fast as to overflow receiver buffers.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "What is the purpose of a cookie value in the HTTP GET request?",
-          options: [
-            "The cookie value encodes a default set of preferences that the user has previously specified for this web site",
-            "The cookie value encodes the format of the reply preferred by the client in the response to this GET request",
-            "The cookie value itself doesn't mean anything. It is just a value that was returned by a web server to this client during an earlier interaction",
-            "The cookie value indicates whether the user wants to use HTTP/1, HTTP/1.1, or HTTP/2 for this GET request.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "What is the purpose of the HTTP GET message?",
-          options: [
-            "The HTTP GET request message is sent by a web server to a web client to get the identity of the web client.",
-            "The HTTP GET request message is sent by a web server to a web client to get the next request from the web client.",
-            "The HTTP GET request message is used by a web client to request a web server to send the requested object from the server to the client.",
-            "The HTTP GET request message is used by a web client to post an object on a web server.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Which of the fields below are in a UDP segment header",
-          options: [
-            "Internet checksum",
-            "Upper layer protocol",
-            "Data (payload)",
-            "Sequence number",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Time spent waiting in packet buffers for link transmission",
-          options: [
-            "Processing delay",
-            "Propagation delay",
-            "Transmission delay",
-            "Queueing delay",
-          ],
-          correct: 3,
-        },
-        {
-          q: 'What do we mean when we say "HTTP is stateless"? In answering this question, assume that cookies are not used',
-          options: [
-            "The HTTP protocol is not licensed in any country.",
-            "An HTTP client does not remember anything about what happened during earlier steps in interacting with any HTTP server.",
-            "An HTTP server does not remember anything about what happened during earlier steps in interacting with this HTTP client",
-            "An HTTP client does not remember the identities of the servers with which it has interacted.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "What is the purpose of the HTTP GET message?",
-          options: [
-            "The HTTP GET request message is sent by a web server to a web client to get the identity of the web client.",
-            "The HTTP GET request message is sent by a web server to a web client to get the next request from the web client.",
-            "The HTTP GET request message is used by a web client to request a web server to send the requested object from the server to the client.",
-            "The HTTP GET request message is used by a web client to post an object on a web server.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Time spent waiting in packet buffers for link transmission",
-          options: [
-            "Processing delay",
-            "Propagation delay",
-            "Transmission delay",
-            "Queueing delay",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Which of the characteristics below are associated with the technique of circuit switching?",
-          options: [
-            "This technique is used in the Internet",
-            "Congestion loss and variable end- end delays are possible with this technique",
-            "Resources are used on demand, not reserved in advance",
-            "Frequency Division Multiplexing (FDM) and Time Division Multiplexing (TDM) are two approaches for implementing this technique",
-          ],
-          correct: 3,
-        },
-        {
-          q: 'When we say that the Internet is a "network of networks," we mean?',
-          options: [
-            "The Internet is the largest network ever built",
-            "The Internet is made up of a lot of different networks that are interconnected to each other",
-            "The Internet is the fastest network ever built",
-            "All of the above",
-          ],
-          correct: 1,
-        },
-        {
-          q: "What is the purpose of the conditional HTTP GET request message?",
-          options: [
-            "To allow a server to only send the requested object to the client if the server is not overloaded.",
-            "To allow a server to only send the requested object to the client if this object has changed since the server last sent this object to the client",
-            "To allow a server to only send the requested object to the client if the client is authorized to received that object.",
-            "To allow a server to only send the requested object to the client if the client has never requested that object before",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Time need for bits to physically propagate through the transmission medium from end one of a link to the other",
-          options: [
-            "Processing delay",
-            "Propagation delay",
-            "Transmission delay",
-            "Queueing delay",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Match the name of an Internet layer with unit of data that is exchanged among protocol entities at that layer, Link layer",
-          options: ["Datagram", "Message", "Segment", "Frame"],
-          correct: 3,
-        },
-        {
-          q: "Match the name of an Internet layer with unit of data that is exchanged among protocol entities at that layer, Transport layer",
-          options: ["Datagram", "Message", "Bit", "Segment"],
-          correct: 3,
-        },
-        {
-          q: "What is the purpose of the conditional HTTP GET request message?",
-          options: [
-            "To allow a server to only send the requested object to the client if the server is not overloaded.",
-            "To allow a server to only send the requested object to the client if this object has changed since the server last sent this object to the client",
-            "To allow a server to only send the requested object to the client if the client is authorized to received that object.",
-            "To allow a server to only send the requested object to the client if the client has never requested that object before",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Delivery of datagrams from a source host to a destination host (typically)",
-          options: [
-            "Link layer",
-            "Application Layer",
-            "Transport layer",
-            "Network layer",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Which of the characteristics below are associated with the technique of packet switching?",
-          options: [
-            "Frequency Division Multiplexing (FDM) and Time Division Multiplexing (TDM) are two approaches for implementing this technique.",
-            "This technique was the basis for the telephone call switching during the 20th century and into the beginning of this current century.",
-            "Data may be queued before being transmitted due to other user's data that's also queueing for transmission.",
-            "Reserves resources needed for a call from source to destination",
-          ],
-          correct: 2,
-        },
-        {
-          q: "P2P networks do not need a server",
-          options: ["True", "False"],
-          correct: 0,
-        },
-        {
-          q: "When an application uses a UDP socket, what transport services are provided to the application by UDP?",
-          options: [
-            "Throughput guarantee. The socket can be configured to provide a minimum throughput guarantee between sender and receiver.",
-            "Congestion control. The service will control senders so that the senders do not collectively send more data than links in the network can handle.",
-            "Best effort service. The service will make a best effort to deliver data to the destination but makes no guarantees that any particular segment of data will actually get there.",
-            "Flow Control. The provided service will ensure that the sender does not send so fast as to overflow receiver buffers.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Match the function of a server to a given type of DNS server in the DNS server hierarchy. Provides authoritative hostname to IP mappings for organization's named hosts.",
-          options: [
-            "Local DNS server",
-            "Authoritative DNS server",
-            "DNS root servers",
-            "Top Level Domain (TLD) servers",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Transfer of data between one process and another process (typically on different hosts)",
-          options: [
-            "Link layer",
-            "Application Layer",
-            "Transport layer",
-            "Network layer",
-          ],
-          correct: 2,
-        },
-        {
-          q: 'Which of the following descriptions below correspond to a "nuts-and-bolts" view of the Internet?',
-          options: [
-            "A platform for building network applications",
-            'A "network of networks"',
-            "A place I go for information, entertainment, and to communicate with people",
-            "All of the above",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Where is transport-layer functionality primarily implemented",
-          options: [
-            'Transport layer functions are implemented primarily at the hosts at the "edge" of the network',
-            "Transport layer functions are implemented primarily at the routers and switches in the network",
-            "Transport layer functions are implemented primarily at each end of a physical link connecting one host/router/switch to another one host/router/switch",
-            "None of the above",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Match the name of an Internet layer with unit of data that is exchanged among protocol entities at that layer, Network layer",
-          options: ["Datagram", "Message", "Segment", "Frame"],
-          correct: 0,
-        },
-        {
-          q: "UDP packet has",
-          options: [
-            "2 byte header",
-            "8 byte header",
-            "12 byte header",
-            "16 byte header",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which of the characteristics below are associated with a P2P approach to structuring network applications (as opposed to a client-server approach)?",
-          options: [
-            "There is a server that is always on",
-            "HTTP uses this application structure",
-            "There is a server with a well known server IP address",
-            "There is not a server that is always on",
-          ],
-          correct: 3,
-        },
-        {
-          q: "What is the purpose of a cookie value in the HTTP GET request?",
-          options: [
-            "The cookie value encodes a default set of preferences that the user has previously specified for this web site.",
-            "The cookie value encodes the format of the reply preferred by the client in the response to this GET request.",
-            "The cookie value itself doesn't mean anything. It is just a value that was returned by a web server to this client during an earlier interaction.",
-            "The cookie value indicates whether the user wants to use HTTP/1, HTTP/1.1, or HTTP/2 for this GET request.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Match the name of an Internet layer with unit of data that is exchanged among protocol entities at that layer, Physical layer",
-          options: ["Datagram", "Message", "Bit", "Segment"],
-          correct: 2,
-        },
-        {
-          q: "Match the function of a server to a given type of DNS server in the DNS server hierarchy. Responsible for a domain (e.g., *.com, *.edu); knows how to contact authoritative name servers",
-          options: [
-            "Local DNS server",
-            "Authoritative DNS server",
-            "DNS root servers",
-            "Top Level Domain (TLD) servers",
-          ],
-          correct: 3,
-        },
-        {
-          q: 'Which of the definitions below describe what is meant by the term "encapsulation"?',
-          options: [
-            "Determining the name of the destination host, translating that name to an IP address and then placing that value in a packet header field.",
-            "Starting a transport layer timer for a transmitted segment, and then if an ACK segment isn't received before the timeout, placing that segment in a retransmission queue.",
-            'Taking data from the layer above, adding header fields appropriate for this layer, and then placing the data in the payload field of the "packet" for that layer.',
-            'Receiving a "packet" from the layer below, extracting the payload field, and after some internal actions possibly delivering that payload to an upper layer protocol.',
-          ],
-          correct: 2,
-        },
-        {
-          q: "Match the function of a server to a given type of DNS server in the DNS server hierarchy. Highest level of the DNS hierarchy, knows how to reach servers responsible for a given domain (e.g., *.com, *.edu)",
-          options: [
-            "Local DNS server",
-            "Authoritative DNS server",
-            "DNS root servers",
-            "Top Level Domain (TLD) servers",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Which of the characteristics below are associated with a client-server approach to structuring network applications (as opposed to a P2P approach)",
-          options: [
-            "A process requests service from those it contacts and will provide service to processes that contact it.",
-            "There is a server with a well known server IP address",
-            "There is not a server that is always on",
-            "All of the above",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Transfer of data between neighboring network devices",
-          options: [
-            "Link layer",
-            "Application Layer",
-            "Transport layer",
-            "Network layer",
-          ],
-          correct: 0,
-        },
-        {
-          q: "When there is not enough memory to buffer an incoming packet, a decision must be made to either drop the arriving packet (a policy known as drop-tail) or remove one or more already-queued packets to make room for the newly arrived packet.",
-          options: ["True", "False"],
-          correct: 0,
-        },
-        {
-          q: "Time needed to perform an integrity check, lookup packet information in a local table and move the packet from an input link to an output link in a router.",
-          options: [
-            "Processing delay",
-            "Propagation delay",
-            "Transmission delay",
-            "Queueing delay",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Protocols that are part of a distributed network application",
-          options: [
-            "Link layer",
-            "Application Layer",
-            "Transport layer",
-            "Network layer",
-          ],
-          correct: 1,
-        },
-        {
-          q: "Which of the following physical layer technologies has the highest transmission rate and lowest bit error rate in practice?",
-          options: [
-            "Twisted pair (e.g., CAT5, CAT6)",
-            "Coaxial cable",
-            "Satellite channel",
-            "Fiber optic cable",
-          ],
-          correct: 3,
-        },
-        {
-          q: "When an application uses a TCP socket, what transport services are provided to the application by TCP?",
-          options: [
-            "Throughput guarantee. The socket can be configured to provide a minimum throughput guarantee between sender and receiver.",
-            "Real- time delivery. The service will guarantee that data will be delivered to the receiver within a specified time bound.",
-            "Congestion control. The service will control senders so that the senders do not collectively send more data than links in the network can handle",
-            "Best effort service. The service will make a best effort to deliver data to the destination but makes no guarantees that any particular segment of data will actually get there.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "When an application uses a TCP socket, what transport services are provided to the application by TCP?",
-          options: [
-            "Throughout guarantee. The socket can be configured to provide a minimum throughput guarantee between sender and receiver.",
-            "Real- time delivery. The service will guarantee that data will be delivered to the receiver within a specified time bound.",
-            "Congestion control. The service will control senders so that the senders do not collectively send more data than links in the network can handle.",
-            "Best effort service. The service will make a best effort to deliver data to the destination but makes no guarantees that any particular segment of data will actually get there.",
-          ],
-          correct: 2,
-        },
-      ],
-    },
-    {
-      t: "Final 2026 - Computer Networks - Credit - Dr. Ebram",
-      d: "Final exam - Computer Networks - Credit - Dr. Ebram",
-      pdf: "Final 2026 - Computer Networks - Credit - Dr. Ebram.pdf",
-      questions: [
-        {
-          q: "In Go-back-N protocol, what are the size of the respective sender and receiver buffers required for a window size of N?",
-          options: ["1; 1", "N - 1; 1", "N; N", "N; 1"],
-          correct: 3,
-        },
-        {
-          q: "Assume a sender and a receiver connected via one packet-switch. The sender sends a message of size 24 KBytes using packets of length 1000 Bytes. The bit rates are 2 kbps and 5 kbps for the first and the second link, respectively. Using store and forward, what is the end-to-end delay (in seconds)? You may ignore the propagation delay!",
-          options: ["16.8", "134.4", "124", "16800"],
-          correct: 1,
-        },
-        {
-          q: "Consider sending a 1500-byte IP datagram into a link that has an MTU of 500 bytes. Suppose that IP header is 20 bytes long. How many fragments will be generated?",
-          options: ["3", "4", "5", "2"],
-          correct: 1,
-        },
-        {
-          q: "The following diagram shows a simple network topology with 4 nodes. The links in the diagram are labeled with the cost of each link. The nodes run distance vector routing protocol. The protocol has just started, at node X, what is the cost to node z?",
-          options: ["6", "3", "5", "23"],
-          correct: 3,
-        },
-        {
-          q: "Router R3 received two datagrams, which router to deliver it to if the datagrams has a destination IP address 200.23.19.3 and 200.23.18.33?",
-          options: ["R2, R1", "R2, R2", "R1, R1", "R1, R2"],
-          correct: 3,
-        },
-        {
-          q: "Which of the following protocols can be used to get the mappings of IP address and MAC address of other nodes in a different subnet?",
-          options: ["ARP", "DNS", "DHCP", "None of the options"],
-          correct: 3,
-        },
-        {
-          q: "Consider the transmission between a UDP sender and a UDP receiver. Which of the following will never happen? You may assume that the application riding on UDP doesn't implement any reliability mechanisms.",
-          options: [
-            "UDP receiver fails to receive any packet from UDP sender.",
-            "UDP receiver receives out-of-order packets from UDP sender.",
-            "UDP receiver receives duplicate packets from UDP sender.",
-            "UDP receiver receives corrupted packets from UDP sender but fails to detect bit errors.",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Can HTTP response message contains an empty body? If yes, When can this happen?",
-          options: [
-            "No, an HTTP response message can never have an empty body.",
-            "Yes, if the requested object has been moved to a new location.",
-            "Yes, if the requested object is recently modified.",
-            "Yes, if the requested object is very small in size.",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Which of the following statements is true?",
-          options: [
-            "Both the Internet and traditional telephone networks use packet-switching.",
-            "Performance metrics such as end-to-end delay and throughput can be guaranteed in the Internet, if TCP is chosen as the transport layer protocol.",
-            "In the Internet, packets from the same source always take the same path to reach destination.",
-            "The Internet uses packet switching and traditional telephone networks uses circuit switching.",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Consider the following diagram, what is the destination MAC address in the frame transmitted from node A if node A is sending to node B?",
-          options: [
-            "74-29-9C-E8-FF-55",
-            "E6-E9-00-17-BB-4B",
-            "1A-23-F9-CD-06-9B",
-            "49-BD-D2-C7-56-2A",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Which of the following is present in both HTTP request line and status line?",
-          options: [
-            "HTTP version number",
-            "Request method",
-            "Status code",
-            "URL",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Which of the following HTTP protocols does the given figure represent to fetch a web page with 2 reference objects?",
-          options: [
-            "Non-persistent HTTP.",
-            "Persistent HTTP.",
-            "Non-persistent HTTP with parallel connection.",
-            "Persistent HTTP with pipelining.",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Considering the operation of a learning switch and its forwarding table in the following figure. Which interface will the switch forward a frame transmitted from node D to node A?",
-          options: ["1", "3", "4", "1, 2, 4"],
-          correct: 3,
-        },
-        {
-          q: "Consider a 4-bit generator G with value 1001, what is the CRC checksum R if data D has the value 10001100001?",
-          options: ["011", "100", "110", "0110"],
-          correct: 3,
-        },
-        {
-          q: "Given a subnet with network prefix 192.168.1.0/24, how many hosts can be connected to this subnet?",
-          options: ["256", "255", "253", "254"],
-          correct: 3,
-        },
-        {
-          q: "Which of the following statements is true about TCP and not true about UDP?",
-          options: [
-            "Provides timing service.",
-            "Provides minimum throughput guarantee service.",
-            "Provides security service.",
-            "Provides reliable transport service.",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Which of the following statements is true about circuit switching?",
-          options: [
-            "Resources are pre-allocated regardless of demand",
-            "Packet transmission can use the full link bandwidth",
-            "The path between a source and a destination is not fixed",
-            "All of the options",
-          ],
-          correct: 0,
-        },
-        {
-          q: "Which of the following layers doesn't appear in the Internet Protocol Stack?",
-          options: [
-            "Application layer",
-            "Network layer",
-            "Transport layer",
-            "Session layer",
-          ],
-          correct: 3,
-        },
-        {
-          q: "Which of the following statements about DNS is TRUE?",
-          options: [
-            "TLD servers store all the hostname to IP mappings of the Internet.",
-            "Every Web server must have a canonical name.",
-            "Local DNS server sometimes may provide out-of-date hostname-to-IP-address mapping.",
-            "DNS server listens to TCP port 53.",
-          ],
-          correct: 2,
-        },
-        {
-          q: "Which of the following protocols can be used by routers for error signaling?",
-          options: ["DHCP", "ICMP", "ARP", "NAT"],
-          correct: 1,
-        },
-        {
-          q: "A Web server stores a webpage that comprises a base HTML file and 2 images referenced by the base HTML file. The HTML file is 100 bytes and each image is 200 bytes. A client is connected to the Web server through a direct link of 1 Mbps. Propagation delay between the Web server and the client is 50 milliseconds. The client downloads the webpage using persistent HTTP but without pipelining (i.e. the next HTTP request is sent after the response for the previous HTTP request is received). Assume HTTP header, TCP header and ACK packets are of negligible size, transmission channel is perfectly reliable, time to establish and close TCP connection can be ignored. How long (in milliseconds) does it take for the client to download the entire webpage from the Web server?",
-          options: ["404", "604", "204", "402.4"],
-          correct: 0,
-        },
-        {
-          q: "A source and a destination are separated by 3*10^5 kilometers and are connected by a direct link of 2 Kbps. The propagation speed over the link is 2*10^8 meters/second. The source sends 100 packets to the destination using RDT 2.2. Each packet is of 2*10^3 bits long. Suppose ACK packets are of negligible size and transmission channel is perfectly reliable. What is the throughput (in bps) of transmission?",
-          options: ["200", "500", "100", "400"],
-          correct: 1,
-        },
-        {
-          q: "A Selective Repeat sender just receives an ACK packet with ACK number 7. This ACK number falls within sender window which has the window size 3. Every data packet embeds a k-bit sequence number field (k is a constant unknown to you). Which of the following definitely CANNOT be the sequence number of the next packet transmitted by the sender?",
-          options: ["0", "2", "3", "6"],
-          correct: 0,
-        },
-        {
-          q: "Consider a sender and a receiver communicating using Selective Repeat protocol. Every packet embeds a 4-bit sequence number field. Sender window size is 4. None of the packets shown in the following figure are corrupted packets. However, the third data packet and the second ACK packet are lost. What is the sender window over the sequence number space at time t?",
-          options: [
-            "12, 13, 14, 15",
-            "13, 14, 0, 1",
-            "13, 14, 15, 0",
-            "13, 14, 15, 16",
-          ],
-          correct: 2,
-        },
-        {
-          q: "The router in the following figure is a NAT enabled router, what is the source IP address when the router forwards a datagram transmitted from the host with IP address 172.26.184.3 to a server with IP address 128.119.40.186.",
-          options: [
-            "172.26.184.3",
-            "128.119.40.186",
-            "172.26.184.1",
-            "137.132.228.5",
-          ],
-          correct: 3,
-        },
-      ],
-    },
-  ],
+ midtermsCategories:[
+  {
+    "category": "Dr. Ebram Kamal",
+    "icon": "👨‍🏫",
+    "description": "Computer Networks midterms by Dr. Ebram Kamal",
+    "items": [
+      {
+        "t": "MidTerm 2023 — Dr. Ebram",
+        "d": "Questions & answers — IT351, 2023",
+        "pdf": "Computer Networks/Questions/Mid/Dr. Ebram/2023/MidTerm 2023 - Questions - Networks-Answers.pdf",
+        "questions": [
+          {
+            "q": "How many sockets are there in a TCP server communicating with 13 clients concurrently?",
+            "options": ["15", "None of the options", "13", "12", "14"],
+            "correct": 4
+          },
+          {
+            "q": "Which statement is true about TCP and not true about UDP?",
+            "options": [
+              "Provides timing service.",
+              "Provides reliable transport service.",
+              "Provides security service.",
+              "Provides minimum throughput guarantee service."
+            ],
+            "correct": 1
+          },
+          {
+            "q": "Top-level domain (TLD) servers are organization's own DNS server(s), providing authoritative hostname-to-IP mappings for organization's named hosts.",
+            "options": ["No", "Yes"],
+            "correct": 0
+          },
+          {
+            "q": "Which layer doesn't appear in the Internet Protocol Stack?",
+            "options": ["Physical layer", "Session layer", "Application layer", "None of the options"],
+            "correct": 1
+          },
+          {
+            "q": "Which statement is true about circuit switching?",
+            "options": [
+              "The path between a source and a destination is not fixed",
+              "Packet transmission can use the full link bandwidth",
+              "None of the options",
+              "Resources are pre-allocated regardless of demand",
+              "All of the options"
+            ],
+            "correct": 3
+          },
+          {
+            "q": "What is the queuing delay? (packets L bits, link rate R bps, n waiting packets, x bits of current packet transmitted)",
+            "options": [
+              "(nL + (L - x)) / R",
+              "nL / R",
+              "n(L - x) / R",
+              "nL + (L - x) / R",
+              "(nL + (x - L)) / R"
+            ],
+            "correct": 0
+          },
+          {
+            "q": "In Go-back-N protocol, what are the sizes of the sender and receiver buffers required for a window size of N?",
+            "options": ["N; N", "N; 1", "1; 1", "N - 1; N - 1", "N - 1; 1"],
+            "correct": 1
+          },
+          {
+            "q": "Which statement about DNS is TRUE?",
+            "options": [
+              "None of the options",
+              "Every Web server must have a canonical name.",
+              "Local DNS server sometimes may provide out-of-date hostname-to-IP-address mapping.",
+              "DNS server listens to TCP port 53.",
+              "TLD servers store all the hostname to IP mappings of the Internet."
+            ],
+            "correct": 2
+          },
+          {
+            "q": "HTTP protocol keeps state information at the server side about past client requests.",
+            "options": ["True", "False"],
+            "correct": 1
+          },
+          {
+            "q": "In Non-persistent HTTP, the client closes the TCP connection after fetching one object (one pair of HTTP request and HTTP response).",
+            "options": ["False", "True"],
+            "correct": 1
+          },
+          {
+            "q": "In circuit switching, a circuit segment is idle if not used by a call.",
+            "options": ["True", "False"],
+            "correct": 0
+          },
+          {
+            "q": "Which statement is true about packet switching?",
+            "options": [
+              "In packet switching, dedicated allocation is done between nodes.",
+              "In packet switching, time is divided into 'slots' between the nodes.",
+              "In packet switching, bandwidth is divided into 'pieces' between the nodes.",
+              "In packet switching, resources are reserved for nodes.",
+              "None of the options."
+            ],
+            "correct": 4
+          }
+        ]
+      },
+      {
+        "t": "MidTerm 2024 — Dr. Ebram",
+        "d": "Midterm questions — 2024",
+        "pdf": "Computer Networks/Questions/Mid/Dr. Ebram/2024/MidTerm 2024 - Questions - Networks.pdf",
+        "questions": [
+          {
+            "q": "Which statement is true about Client-Server Architecture?",
+            "options": [
+              "In Client-Server Architecture, the server waits for incoming requests while the client initiates contact with server.",
+              "In Client-Server Architecture, the client waits for incoming requests while the server initiates contact with server.",
+              "In Client-Server Architecture, the server typically requests service from the client while the client provides requested service to server.",
+              "All of the options."
+            ],
+            "correct": 0
+          },
+          {
+            "q": "Which layer doesn't appear in the Internet Protocol Stack?",
+            "options": ["Application layer", "Network layer", "Transport layer", "Session layer"],
+            "correct": 3
+          },
+          {
+            "q": "In circuit switching, a circuit segment is idle if not used by a call.",
+            "options": ["True", "False"],
+            "correct": 0
+          },
+          {
+            "q": "Which statement about DNS is TRUE?",
+            "options": [
+              "TLD servers store all the hostname-to-IP mappings of the Internet.",
+              "Every Web server must have a canonical name.",
+              "Local DNS server sometimes may provide out-of-date hostname-to-IP-address mapping.",
+              "DNS server listens to TCP port 53."
+            ],
+            "correct": 2
+          },
+          {
+            "q": "In Go-back-N protocol, what are the sizes of the sender and receiver buffers required for a window size of N?",
+            "options": ["1; 1", "N - 1; 1", "N - 1; N - 1", "N; 1"],
+            "correct": 3
+          },
+          {
+            "q": "Using Conditional GET in HTTP Protocol, the number of RTT is reduced if the object is not modified since the date of the cached copy!",
+            "options": ["True", "False"],
+            "correct": 0
+          },
+          {
+            "q": "End-to-end delay is the time taken for a packet to travel from source to destination. It consists of which of the following delays?",
+            "options": [
+              "Transmission delay.",
+              "Propagation delay.",
+              "Queuing and Processing delays.",
+              "All of the options"
+            ],
+            "correct": 3
+          },
+          {
+            "q": "Which statement is true?",
+            "options": [
+              "Both the Internet and traditional telephone networks use packet-switching.",
+              "Performance metrics such as end-to-end delay and throughput can be guaranteed in the Internet, if TCP is chosen as the transport layer protocol.",
+              "The Internet uses packet switching and traditional telephone networks use circuit switching.",
+              "In the Internet, packets from the same source always take the same path to reach destination."
+            ],
+            "correct": 2
+          },
+          {
+            "q": "HTTP protocol keeps state information at the server side about past client requests.",
+            "options": ["True", "False"],
+            "correct": 1
+          },
+          {
+            "q": "Which statement is true about TCP and not true about UDP?",
+            "options": [
+              "Provides timing service.",
+              "Provides minimum throughput guarantee service.",
+              "Provides security service.",
+              "Provides reliable transport service."
+            ],
+            "correct": 3
+          },
+          {
+            "q": "How many sockets are there in a TCP server communicating with 13 clients concurrently?",
+            "options": ["13", "14", "15", "12"],
+            "correct": 1
+          }
+        ]
+      },
+      {
+        "t": "MidTerm 2024 — Dr. Ebram (Version 2)",
+        "d": "Midterm questions — 2024, second set",
+        "pdf": "Computer Networks/Questions/Mid/Dr. Ebram/2024/MidTerm 2024 - Questions - Networks(2).pdf",
+        "questions": [
+          {
+            "q": "In BitTorrent, Alice requests small-size chunks first from her neighbors.",
+            "options": ["True", "False"],
+            "correct": 1
+          },
+          {
+            "q": "Which services can be guaranteed and cannot be guaranteed by TCP when it uses flow control and congestion control?",
+            "options": [
+              "TCP only guarantees reliability but does not guarantee security, timing, or throughput.",
+              "TCP guarantees security and timing.",
+              "TCP guarantees throughput and delay.",
+              "TCP guarantees all services."
+            ],
+            "correct": 0
+          },
+          {
+            "q": "Why is a Web cache considered both a server and a client at the same time?",
+            "options": [
+              "It sends requested messages to clients (acts as server) and requests pages from the main server to cache them (acts as client).",
+              "It only acts as a server.",
+              "It only acts as a client.",
+              "It acts as a router."
+            ],
+            "correct": 0
+          },
+          {
+            "q": "Why do Mail servers use SMTP handshaking in application layer although there is a TCP handshaking in the transport layer?",
+            "options": [
+              "To check if the sender is not blocked and to check if the receiver mail is in the mail server.",
+              "To encrypt the email.",
+              "To compress the email.",
+              "To route the email."
+            ],
+            "correct": 0
+          },
+          {
+            "q": "Dial-up and DSL are both dedicated access technology, where HFC and FTTH(PON) are completely shared along the path.",
+            "options": ["True", "False"],
+            "correct": 1
+          },
+          {
+            "q": "Assume that a file of size F is to be distributed to N clients in client-server architecture. If the upload rate of the server's access link is us, then the time to distribute the file to N clients is equal to NF / us.",
+            "options": ["True", "False"],
+            "correct": 0
+          }
+        ]
+      },
+      {
+        "t": "BIS 2025 — Dr. Ebram",
+        "d": "Fill in blanks + problems — 2025",
+        "pdf": "Computer Networks/Questions/Mid/Dr. Ebram/2025/BIS 2025 - Dr. Ebram - Computer Networks.pdf",
+        "questions": [
+          {
+            "q": "In a host sending data to the network, UDP receives data from the Transport layer and sends data to the Network layer.",
+            "options": ["True", "False"],
+            "correct": 0
+          },
+          {
+            "q": "HTTP is an Application layer protocol that typically runs on top of TCP.",
+            "options": ["True", "False"],
+            "correct": 0
+          },
+          {
+            "q": "UDP is a connectionless de-multiplexing while TCP is a connection-oriented de-multiplexing to dispatch incoming packets to different processes in the same host.",
+            "options": ["True", "False"],
+            "correct": 0
+          },
+          {
+            "q": "In client/server paradigm, the server must always be alive and offers service while the client requests for service from the server.",
+            "options": ["True", "False"],
+            "correct": 0
+          },
+          {
+            "q": "DNS provides hostname to IP address mapping and typically listens to port 53.",
+            "options": ["True", "False"],
+            "correct": 0
+          },
+          {
+            "q": "The transport layer of the Internet protocol stack is responsible for delivering data from sending process to receiving process while the Application layer is responsible for delivering data from sending host to receiving host.",
+            "options": ["True", "False"],
+            "correct": 1
+          }
+        ]
+      },
+      {
+        "t": "Mid 2025 National — Dr. Ebram",
+        "d": "Midterm 2025 National — Dr. Ebram",
+        "pdf": "Computer Networks/Questions/Mid/Dr. Ebram/2025/Mid 2025 National Dr. Ebram.pdf",
+        "questions": [
+          {
+            "q": "Which statement is true about Client-Server Architecture?",
+            "options": [
+              "The server waits for incoming requests while the client initiates contact with server.",
+              "The client waits for incoming requests while the server initiates contact with server.",
+              "The server typically requests service from the client while the client provides requested service to server.",
+              "All of the options."
+            ],
+            "correct": 0
+          },
+          {
+            "q": "Which layer doesn't appear in the Internet Protocol Stack?",
+            "options": ["Application layer", "Network layer", "Transport layer", "Session layer"],
+            "correct": 3
+          },
+          {
+            "q": "In circuit switching, a circuit segment is idle if not used by a call.",
+            "options": ["True", "False"],
+            "correct": 0
+          },
+          {
+            "q": "Which statement about DNS is TRUE?",
+            "options": [
+              "TLD servers store all the hostname-to-IP mappings of the Internet.",
+              "Every Web server must have a canonical name.",
+              "Local DNS server sometimes may provide out-of-date hostname-to-IP-address mapping.",
+              "DNS server listens to TCP port 53."
+            ],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "t": "Mid 2023 Summer — Dr. Ebram",
+        "d": "Summer midterm 2023",
+        "pdf": "Computer Networks/Questions/Mid/Dr. Ebram/2023/Mid 2023 Summer.pdf",
+        "questions": [
+          {
+            "q": "Which layer doesn't appear in the Internet Protocol Stack?",
+            "options": ["Application layer", "Network layer", "Transport layer", "Session layer", "Physical layer"],
+            "correct": 3
+          },
+          {
+            "q": "Which statement is true?",
+            "options": [
+              "Both the Internet and traditional telephone networks use packet-switching.",
+              "Performance metrics such as end-to-end delay and throughput can be guaranteed in the Internet, if TCP is chosen as the transport layer protocol.",
+              "In the Internet, packets from the same source always take the same path to reach destination.",
+              "The Internet uses packet switching and traditional telephone networks use circuit switching.",
+              "None of the above"
+            ],
+            "correct": 3
+          },
+          {
+            "q": "Which statement is true about circuit switching?",
+            "options": [
+              "Resources are pre-allocated regardless of demand",
+              "Packet transmission can use the full link bandwidth",
+              "The path between a source and a destination is not fixed",
+              "None of the above",
+              "All of the above"
+            ],
+            "correct": 0
+          },
+          {
+            "q": "Which of the following is present in both HTTP request line and status line?",
+            "options": ["HTTP version number", "Request method", "Status code", "URL", "None of the above"],
+            "correct": 0
+          },
+          {
+            "q": "Which statement about DNS is TRUE?",
+            "options": [
+              "TLD servers store all the hostname-to-IP mappings of the Internet.",
+              "Every Web server must have a canonical name.",
+              "Local DNS server sometimes may provide out-of-date hostname-to-IP-address mapping.",
+              "DNS server listens to TCP port 53.",
+              "None of the above"
+            ],
+            "correct": 2
+          },
+          {
+            "q": "What is the queuing delay? (packets L bits, link rate R bps, n waiting packets, x bits of current packet transmitted)",
+            "options": [
+              "nL / R",
+              "L / R",
+              "n(L - x) / R",
+              "nL + (L - x) / R",
+              "(nL + (L - x)) / R",
+              "(nL + (x - L)) / R"
+            ],
+            "correct": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Dr. Nago",
+    "icon": "👨‍🏫",
+    "description": "Computer Networks midterms by Dr. Nago",
+    "items": [
+      {
+        "t": "Review Before Exam — 2025",
+        "d": "Comprehensive review questions — Dr. Nago",
+        "pdf": "Computer Networks/Questions/Mid/Dr. Nago/2025/راجع نفسك قبل ما تفتحه.pdf",
+        "questions": [
+          {
+            "q": "Which statement is correct about Distance Vector routing?",
+            "options": [
+              "Nodes have to calculate the costs to only direct neighbouring nodes",
+              "Nodes have to calculate the costs to all the nodes in the network",
+              "None of the above"
+            ],
+            "correct": 0
+          },
+          {
+            "q": "Suppose there are M paths between server and client. Path k consists of N links with transmission rates R₁ᵏ, R₂ᵏ, …, Rₙᵏ. If server can use all M paths, the maximum throughput is:",
+            "options": [
+              "min(R₁ᵏ, R₂ᵏ, …, Rₙᵏ)",
+              "max(R₁ᵏ, R₂ᵏ, …, Rₙᵏ)",
+              "∑ₖ₌₁ᴹ min(R₁ᵏ, R₂ᵏ, …, Rₙᵏ)",
+              "max{min(R₁ᵏ, R₂ᵏ, …, Rₙᵏ), min(R₁ᵏ, R₂ᵏ, …, Rₙᵏ), …, min(R₁ᴹ, R₂ᴹ, …, Rₙᴹ)}",
+              "∑ₖ₌₁ᴹ max(R₁ᵏ, R₂ᵏ, …, Rₙᵏ)",
+              "None of the above"
+            ],
+            "correct": 3
+          },
+          {
+            "q": "To perform load distribution, when clients make a DNS query for a name mapped to a set of addresses, the server responds with the entire set of IP addresses, but rotates the ordering of the addresses within each reply.",
+            "options": ["True", "False"],
+            "correct": 0
+          },
+          {
+            "q": "Suppose that the TCP receiver computes the internet checksum for the received TCP segment and finds that it matches the value carried in the checksum field. Accordingly, the receiver should be certain that no bit errors have occurred.",
+            "options": ["True", "False"],
+            "correct": 1
+          },
+          {
+            "q": "A switch is a plug and play device that builds its table automatically. For each incoming frame, the switch stores: (1) MAC address in the frame destination address field, (2) the interface from which the frame arrived, (3) current time.",
+            "options": ["True", "False"],
+            "correct": 0
+          },
+          {
+            "q": "Consider that ISP has been allocated the address block 200.23.16.0/23 and wants to divide this block into 4 equal sized contiguous address blocks. Then the following are correct blocks addresses: 200.23.16.0/25; 200.23.16.128/25; 200.23.17.0/25; 200.23.17.128/25.",
+            "options": ["True", "False"],
+            "correct": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Dr. Tarek Mohamed",
+    "icon": "👨‍🏫",
+    "description": "Computer Networks midterms by Dr. Tarek Mohamed",
+    "items": [
+      {
+        "t": "MidTerm 2022 — Questions",
+        "d": "Introduction to Computer Networks — 2022 questions",
+        "pdf": "Computer Networks/Questions/Mid/Dr. Tarek/2022/MidTerm 2022 - Questions - Computer Networks.pdf",
+        "questions": [
+          {
+            "q": "The number of layers in ISO/OSI reference model is",
+            "options": ["5", "7", "6", "10"],
+            "correct": 1
+          },
+          {
+            "q": "A set of rules that governs data communication is called",
+            "options": ["Protocols", "Standards", "RFCs", "Servers"],
+            "correct": 0
+          },
+          {
+            "q": "The structure or format of data is called",
+            "options": ["Syntax", "Semantics", "Struct", "Formatting"],
+            "correct": 0
+          },
+          {
+            "q": "A ______ is a physical path over which a message travels.",
+            "options": ["Path", "Medium", "Protocol", "Route"],
+            "correct": 1
+          },
+          {
+            "q": "Which of these is not a network edge device?",
+            "options": ["PC", "Smartphones", "Servers", "Switch"],
+            "correct": 3
+          },
+          {
+            "q": "A ______ is a device that forwards packets between networks by processing the routing information included in the packet.",
+            "options": ["bridge", "firewall", "router", "hub"],
+            "correct": 2
+          },
+          {
+            "q": "A list of protocols used by a system, one protocol per layer, is called ______",
+            "options": ["protocol architecture", "protocol stack", "protocol suite", "protocol system"],
+            "correct": 1
+          },
+          {
+            "q": "Network congestion occurs ______",
+            "options": [
+              "in case of traffic overloading",
+              "when a system terminates",
+              "when connection between two nodes terminates",
+              "in case of transfer failure"
+            ],
+            "correct": 0
+          },
+          {
+            "q": "P2P applications face the challenge",
+            "options": ["ISP Friendly", "Security", "all of the mentioned"],
+            "correct": 1
+          },
+          {
+            "q": "The rate at which data is transferred is referred to as ______",
+            "options": ["transmission rate", "transfer ratio", "compression rate"],
+            "correct": 0
+          },
+          {
+            "q": "End systems access the Internet through",
+            "options": [
+              "Internet Service Providers ISPs",
+              "Customer premises Equipment CBE",
+              "Digital subscriber line DSL"
+            ],
+            "correct": 0
+          },
+          {
+            "q": "The only control that the application developer has on the transport-layer side is",
+            "options": [
+              "the choice of transport protocol",
+              "perhaps the ability to fix a few transport-layer parameters",
+              "all of the mentioned"
+            ],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "t": "MidTerm 2022 — Answers",
+        "d": "Introduction to Computer Networks — 2022 answers",
+        "pdf": "Computer Networks/Questions/Mid/Dr. Tarek/2022/MidTerm 2022 - Answers - Computer Networks.pdf",
+        "questions": [
+          {
+            "q": "The number of layers in ISO/OSI reference model is",
+            "options": ["5", "7", "6", "10"],
+            "correct": 1
+          },
+          {
+            "q": "A set of rules that governs data communication is called",
+            "options": ["Protocols", "Standards", "RFCs", "Servers"],
+            "correct": 0
+          },
+          {
+            "q": "The structure or format of data is called",
+            "options": ["Syntax", "Semantics", "Struct", "Formatting"],
+            "correct": 0
+          },
+          {
+            "q": "A ______ is a physical path over which a message travels.",
+            "options": ["Path", "Medium", "Protocol", "Route"],
+            "correct": 1
+          },
+          {
+            "q": "Which of these is not a network edge device?",
+            "options": ["PC", "Smartphones", "Servers", "Switch"],
+            "correct": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Other Midterms",
+    "icon": "📁",
+    "description": "Miscellaneous Computer Networks midterms",
+    "items": [
+      {
+        "t": "Exam.pdf",
+        "d": "Mixed question bank — layers, protocols, delays",
+        "pdf": "Computer Networks/Questions/Mid/Other/Exam.pdf",
+        "questions": [
+          {
+            "q": "The ......... moves the individual bits of a frame from one node to the next through communication links.",
+            "options": ["physical layer", "link layer", "network layer", "application layer"],
+            "correct": 0
+          },
+          {
+            "q": "Ethernet, 802.11 and PPP are ......... protocols.",
+            "options": ["application layer", "transport layer", "network layer", "link layer"],
+            "correct": 3
+          },
+          {
+            "q": "The ......... provides synchronization, checkpointing and data exchange recovery during communication between applications.",
+            "options": ["application layer", "presentation layer", "session layer", "link layer"],
+            "correct": 2
+          },
+          {
+            "q": "In the data link layer, what is the primary function of the framing process?",
+            "options": [
+              "To encapsulate data with header information for addressing and error detection.",
+              "To compress data for more efficient transmission.",
+              "To route data packets across different networks.",
+              "To establish and manage connections between applications."
+            ],
+            "correct": 0
+          },
+          {
+            "q": "What is port number for HTTP protocol?",
+            "options": ["80", "200", "25", "403"],
+            "correct": 0
+          },
+          {
+            "q": "What is port number for HTTPS protocol?",
+            "options": ["200", "25", "403", "80"],
+            "correct": 2
+          },
+          {
+            "q": "What is port number for SMTP protocol?",
+            "options": ["200", "25", "403", "80"],
+            "correct": 1
+          },
+          {
+            "q": "What are the main advantages of using a switched network compared to a shared media network?",
+            "options": [
+              "Switched networks are less expensive to implement and require simpler cabling.",
+              "Switched networks offer higher bandwidth and reduced collisions for individual devices.",
+              "Switched networks are easier to manage and troubleshoot compared to shared media networks.",
+              "Switched networks are inherently more secure due to isolated data paths."
+            ],
+            "correct": 1
+          }
+        ]
+      },
+      {
+        "t": "Mid Answers.pdf",
+        "d": "Midterm answers — set 1",
+        "pdf": "Computer Networks/Questions/Mid/Other/Mid Answers.pdf",
+        "questions": [
+          {
+            "q": "The number of layers in ISO OSI reference model is",
+            "options": ["5", "7", "6", "10"],
+            "correct": 1
+          },
+          {
+            "q": "A set of rules that governs data communication is called",
+            "options": ["Protocols", "Standards", "RFCs", "Servers"],
+            "correct": 0
+          },
+          {
+            "q": "The structure or format of data is called",
+            "options": ["Syntax", "Semantics", "Struct", "Formatting"],
+            "correct": 0
+          },
+          {
+            "q": "A ______ is a physical path over which a message travels.",
+            "options": ["Path", "Medium", "Protocol", "Route"],
+            "correct": 1
+          },
+          {
+            "q": "Which of these is not a network edge device?",
+            "options": ["PC", "Smartphones", "Servers", "Switch"],
+            "correct": 3
+          }
+        ]
+      },
+      {
+        "t": "MidTerm 2023 - Assessment - Computer Networks.pdf",
+        "d": "Assessment midterm 2023",
+        "pdf": "Computer Networks/Questions/Mid/Other/MidTerm 2023 - Assessment - Computer Networks.pdf",
+        "questions": [
+          {
+            "q": "Which of the following layers doesn't appear in the Internet Protocol Stack?",
+            "options": ["Application layer", "Network layer", "Transport layer", "Session layer"],
+            "correct": 3
+          },
+          {
+            "q": "Which of the following statements is true?",
+            "options": [
+              "Both the Internet and traditional telephone networks use packet-switching.",
+              "Performance metrics such as end-to-end delay and throughput can be guaranteed in the Internet, if TCP is chosen as the transport layer protocol.",
+              "In the Internet, packets from the same source always take the same path to reach destination.",
+              "The Internet uses packet switching and traditional telephone networks use circuit switching."
+            ],
+            "correct": 3
+          },
+          {
+            "q": "Which of the following statements is true about circuit switching?",
+            "options": [
+              "Resources are pre-allocated regardless of demand",
+              "Packet transmission can use the full link bandwidth",
+              "The path between a source and a destination is not fixed",
+              "None of the above",
+              "All of the above"
+            ],
+            "correct": 0
+          },
+          {
+            "q": "Which of the following is present in both HTTP request line and status line?",
+            "options": ["HTTP version number", "Request method", "Status code", "URL", "None of the above"],
+            "correct": 0
+          },
+          {
+            "q": "Which of the following statements about DNS is TRUE?",
+            "options": [
+              "TLD servers store all the hostname to IP mappings of the Internet.",
+              "Every Web server must have a canonical name.",
+              "Local DNS server sometimes may provide out-of-date hostname-to-IP-address mapping.",
+              "DNS server listens to TCP port 53.",
+              "None of the above"
+            ],
+            "correct": 2
+          }
+        ]
+      }
+    ]
+  }
+],
+finalsCategories: [
+  {
+    category: "Computer Networks 2026 - Credit - Dr. Ebram",
+    icon: "🌐",
+    description: "Final 2026 Computer Networks - Credit - Dr. Ebram",
+    items: [
+      {
+        t: "فاينل 2026 - Credit - د. إبرام — Computer Networks",
+        d: "اختبار الفاينل لمادة Computer Networks - Credit 2026 (د. إبرام)",
+        pdf: "Computer Networks/Questions/Final/2026/Final 2026 - Computer Networks - Credit - Dr. Ebram.pdf",
+        questions: [
+          {
+            q: "In Go-back-N protocol, what are the size of the respective sender and receiver buffers required for a window size of N?",
+            options: ["1; 1", "N - 1; 1", "N; N", "N; 1"],
+            correct: 3
+          },
+          {
+            q: "Assume a sender and a receiver connected via one packet-switch. The sender sends a message of size 24 KBytes using packets of length 1000 Bytes. The bit rates are 2 kbps and 5 kbps for the first and the second link, respectively. Using store and forward, what is the end-to-end delay (in seconds)? You may ignore the propagation delay!",
+            options: ["16.8", "134.4", "124", "16800"],
+            correct: 1
+          },
+          {
+            q: "Consider sending a 1500-byte IP datagram into a link that has an MTU of 500 bytes. Suppose that IP header is 20 bytes long. How many fragments will be generated?",
+            options: ["3", "4", "5", "2"],
+            correct: 1
+          },
+          {
+            q: "The following diagram shows a simple network topology with 4 nodes. The links in the diagram are labeled with the cost of each link. The nodes run distance vector routing protocol. The protocol has just started, at node X, what is the cost to node z?",
+            options: ["6", "3", "5", "23"],
+            correct: 0
+          },
+          {
+            q: "Router R3 received two datagrams, which router to deliver it to if the datagrams has a destination IP address 200.23.19.3 and 200.23.18.33?",
+            options: ["R2, R1", "R2, R2", "R1, R1", "R1, R2"],
+            correct: 3
+          },
+          {
+            q: "Which of the following protocols can be used to get the mappings of IP address and MAC address of other nodes in a different subnet?",
+            options: ["ARP", "DNS", "DHCP", "None of the options"],
+            correct: 0
+          },
+          {
+            q: "Consider the transmission between a UDP sender and a UDP receiver. Which of the following will never happen? You may assume that the application riding on UDP doesn't implement any reliability mechanisms.",
+            options: [
+              "UDP receiver fails to receive any packet from UDP sender.",
+              "UDP receiver receives out-of-order packets from UDP sender.",
+              "UDP receiver receives duplicate packets from UDP sender.",
+              "UDP receiver receives corrupted packets from UDP sender but fails to detect bit errors."
+            ],
+            correct: 3
+          },
+          {
+            q: "Can HTTP response message contains an empty body? If yes, When can this happen?",
+            options: [
+              "No, an HTTP response message can never have an empty body.",
+              "Yes, if the requested object has been moved to a new location.",
+              "Yes, if the requested object is recently modified.",
+              "Yes, if the requested object is very small in size."
+            ],
+            correct: 3
+          },
+          {
+            q: "Which of the following statements is true?",
+            options: [
+              "Both the Internet and traditional telephone networks use packet-switching.",
+              "Performance metrics such as end-to-end delay and throughput can be guaranteed in the Internet, if TCP is chosen as the transport layer protocol.",
+              "In the Internet, packets from the same source always take the same path to reach destination.",
+              "The Internet uses packet switching and traditional telephone networks uses circuit switching."
+            ],
+            correct: 3
+          },
+          {
+            q: "Consider the following diagram, what is the destination MAC address in the frame transmitted from node A if node A is sending to node B?",
+            options: ["74-29-9C-E8-FF-55", "E6-E9-00-17-BB-4B", "1A-23-F9-CD-06-9B", "49-BD-D2-C7-56-2A"],
+            correct: 3
+          },
+          {
+            q: "Which of the following is present in both HTTP request line and status line?",
+            options: ["HTTP version number", "Request method", "Status code", "URL"],
+            correct: 3
+          },
+          {
+            q: "Which of the following HTTP protocols does the given figure represent to fetch a web page with 2 reference objects?",
+            options: ["Non-persistent HTTP.", "Persistent HTTP.", "Non-persistent HTTP with parallel connection.", "Persistent HTTP with pipelining."],
+            correct: 3
+          },
+          {
+            q: "Considering the operation of a learning switch and its forwarding table in the following figure. Which interface will the switch forward a frame transmitted from node D to node A?",
+            options: ["1", "3", "4", "1, 2, 4"],
+            correct: 3
+          },
+          {
+            q: "Consider a 4-bit generator G with value 1001, what is the CRC checksum R if data D has the value 10001100001?",
+            options: ["011", "100", "110", "0110"],
+            correct: 3
+          },
+          {
+            q: "Given a subnet with network prefix 192.168.1.0/24, how many hosts can be connected to this subnet?",
+            options: ["256", "255", "253", "254"],
+            correct: 3
+          },
+          {
+            q: "Which of the following statements is true about TCP and not true about UDP?",
+            options: [
+              "Provides timing service.",
+              "Provides minimum throughput guarantee service.",
+              "Provides security service.",
+              "Provides reliable transport service."
+            ],
+            correct: 3
+          },
+          {
+            q: "Which of the following statements is true about circuit switching?",
+            options: [
+              "Resources are pre-allocated regardless of demand",
+              "Packet transmission can use the full link bandwidth",
+              "The path between a source and a destination is not fixed",
+              "All of the options"
+            ],
+            correct: 3
+          },
+          {
+            q: "Which of the following layers doesn't appear in the Internet Protocol Stack?",
+            options: ["Application layer", "Network layer", "Transport layer", "Session layer"],
+            correct: 3
+          },
+          {
+            q: "Which of the following statements about DNS is TRUE?",
+            options: [
+              "TLD servers store all the hostname to IP mappings of the Internet.",
+              "Every Web server must have a canonical name.",
+              "Local DNS server sometimes may provide out-of-date hostname-to-IP-address mapping.",
+              "DNS server listens to TCP port 53."
+            ],
+            correct: 3
+          },
+          {
+            q: "Which of the following protocols can be used by routers for error signaling?",
+            options: ["DHCP", "ICMP", "ARP", "NAT"],
+            correct: 1
+          },
+          {
+            q: "A Web server stores a webpage that comprises a base HTML file and 2 images referenced by the base HTML file. The HTML file is 100 bytes and each image is 200 bytes. A client is connected to the Web server through a direct link of 1 Mbps. Propagation delay between the Web server and the client is 50 milliseconds. The client downloads the webpage using persistent HTTP but without pipelining. Assume HTTP header, TCP header and ACK packets are of negligible size, transmission channel is perfectly reliable, time to establish and close TCP connection can be ignored. How long (in milliseconds) does it take for the client to download the entire webpage from the Web server?",
+            options: ["404", "604", "204", "402.4"],
+            correct: 3
+          },
+          {
+            q: "A source and a destination are separated by 3*10^5 kilometers and are connected by a direct link of 2 Kbps. The propagation speed over the link is 2*10^8 meters/second. The source sends 100 packets to the destination using RDT 2.2. Each packet is of 2*10^3 bits long. Suppose ACK packets are of negligible size and transmission channel is perfectly reliable. What is the throughput (in bps) of transmission?",
+            options: ["200", "500", "100", "400"],
+            correct: 3
+          },
+          {
+            q: "A Selective Repeat sender just receives an ACK packet with ACK number 7. This ACK number falls within sender window which has the window size 3. Every data packet embeds a k-bit sequence number field (k is a constant unknown to you). Which of the following definitely CANNOT be the sequence number of the next packet transmitted by the sender?",
+            options: ["0", "2", "3", "6"],
+            correct: 3
+          },
+          {
+            q: "Consider a sender and a receiver communicating using Selective Repeat protocol. Every packet embeds a 4-bit sequence number field. Sender window size is 4. None of the packets shown in the following figure are corrupted packets. However, the third data packet and the second ACK packet are lost. What is the sender window over the sequence number space at time t?",
+            options: ["12, 13, 14, 15", "13, 14, 0, 1", "13, 14, 15, 0", "13, 14, 15, 16"],
+            correct: 3
+          },
+          {
+            q: "The router in the following figure is a NAT enabled router, what is the source IP address when the router forwards a datagram transmitted from the host with IP address 172.26.184.3 to a server with IP address 128.119.40.186.",
+            options: ["172.26.184.3", "128.119.40.186", "172.26.184.1", "137.132.228.5"],
+            correct: 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    category: "Computer Networks 2026 - Dr. Nago",
+    icon: "🌐",
+    description: "Final 2026 Computer Networks - Dr. Nago",
+    items: [
+      {
+        t: "فاينل 2026 - د. ناجو — Computer Networks",
+        d: "اختبار الفاينل لمادة Computer Networks - 2026 (د. ناجو)",
+        pdf: "Computer Networks/Questions/Final/2026/Final 2026 - Computer Networks - Dr. Nago.pdf",
+        questions: [
+          {
+            q: "A NAT translation table typically maps:",
+            options: [
+              "Public IP address → Private IP address only",
+              "Public port number → Private port number only",
+              "(Private IP address, Private port number) ↔ (Public IP address, Public port number)",
+              "Private IP address → Public IP address only",
+              "Private port number → Public port number only",
+              "None of the above"
+            ],
+            correct: 5
+          },
+          {
+            q: "Suppose that there is exactly one packet switch \"X\" between a sending host \"A\" and a receiving host \"B\". The transmission rate of the link between \"A\" and \"X\" as well as the link between \"X\" and \"B\" is R bps. Assume that the packet switch \"X\" uses cut-through. If the processing, queuing, and propagation delays are ignored, what is the total end-to-end delay to send a packet of length L bits from \"A\" to \"B\"?",
+            options: ["Zero", "2L/R", "2R/L", "L/R", "R/L", "None of the above"],
+            correct: 3
+          },
+          {
+            q: "Which of the following statements correctly describe the advantages and disadvantages of switches and routers?",
+            options: [
+              "Switches always require manual configuration and cannot operate at full-duplex. Routers eliminate collisions and are faster because they process packets only up to link layer.",
+              "Switches support hierarchical addressing and firewall protection. Routers are plug-and-play and eliminate collision.",
+              "Switches are plug-and-play, do not offer any protection against broadcast storms, and the active topology of a switched network is restricted to spanning tree. Routers have a larger per-packet processing time than switches, support hierarchical addressing, but require configuration.",
+              "There is no restriction on switched network topology. But the active topology of the network that uses routers is restricted to spanning tree.",
+              "None of the above"
+            ],
+            correct: 2
+          },
+          {
+            q: "Assume Host A sends five consecutive data segments to Host B using GBN, or TCP (no delayed ACK). The timeout values for all protocols are sufficiently long such that all five data segments and their corresponding ACKs can be received by both hosts before any timeout event, if not lost in the channel. Suppose the second ACK from host B is lost and no further losses or errors occur after that. In the end, all five data segments have been correctly received by Host B. Which of the following correctly describes the total segments sent by Host A and total ACKs sent by Host B?",
+            options: [
+              "Number of (GBN, TCP) Segments sent by A is (GBN→6, TCP→6); Number of ACKs sent by B is (GBN→5, TCP→5)",
+              "Number of (GBN, TCP) Segments sent by A is (GBN→9, TCP→6); Number of ACKs sent by B is (GBN→7, TCP→5)",
+              "Number of (GBN, TCP) Segments sent by A is (GBN→5, TCP→5); Number of ACKs sent by B is (GBN→6, TCP→6)",
+              "Number of (GBN, TCP) Segments sent by A is (GBN→9, TCP→6); Number of ACKs sent by B is (GBN→5, TCP→5)",
+              "Number of (GBN, TCP) Segments sent by A is (GBN→5, TCP→5); Number of ACKs sent by B is (GBN→5, TCP→5)",
+              "Number of (GBN, TCP) Segments sent by A is (GBN→9, TCP→6); Number of ACKs sent by B is (GBN→8, TCP→5)",
+              "None of the above"
+            ],
+            correct: 5
+          },
+          {
+            q: "Which of the following correctly describes the characteristics of switching fabrics inside a router?",
+            options: [
+              "Switching via memory and bus forwards multiple packets simultaneously.",
+              "Switching via bus is faster than switching via interconnection network.",
+              "Switching via bus forwards only one packet at a time, while switching via standard interconnection network can forward multiple packets in parallel unless they target the same output.",
+              "Switching via memory forward packets without routing processor intervention.",
+              "All of the above",
+              "None of the above"
+            ],
+            correct: 2
+          },
+          {
+            q: "Which of the following best distinguishes forwarding from routing in the internet network layer?",
+            options: [
+              "Forwarding moves packets within a router; routing determines best end-to-end paths.",
+              "Forwarding is network-wide; routing is router-local.",
+              "Forwarding determines paths; routing moves packets between nodes on these paths.",
+              "Forwarding is fixed; routing is dynamic.",
+              "None of the above"
+            ],
+            correct: 0
+          },
+          {
+            q: "Why does a DHCP client initially send its discover message to 255.255.255.255?",
+            options: [
+              "Because the client does not yet know the IP address of DHCP server.",
+              "Because the DHCP server only listens to broadcast messages with broadcast IPs.",
+              "Because DHCP server does not know the IP address of the client.",
+              "None of the above"
+            ],
+            correct: 0
+          },
+          {
+            q: "Which of the following statements correctly describes circuit switching?",
+            options: [
+              "Circuit switching allows multiple users to share the same channel dynamically, providing high efficiency during idle periods, but it cannot guarantee bandwidth or delay.",
+              "Circuit switching eliminates the need for a dedicated path, uses packet-based transmission, and is highly efficient, but it suffers from high delay during congestion.",
+              "Circuit switching provides no dedicated resources, allows dynamic bandwidth allocation, and guarantees low delay, but is prone to packet loss.",
+              "Circuit switching can provide a dedicated path with guaranteed bandwidth and low delay for the duration of the connection, but it can be inefficient if the circuit is idle, and call setup introduces additional delay.",
+              "None of the above"
+            ],
+            correct: 3
+          },
+          {
+            q: "Which of the following is a disadvantage of TDM and FDM?",
+            options: [
+              "Collisions are frequent and unavoidable.",
+              "Nodes must use random backoff algorithm.",
+              "A master node is needed.",
+              "A node is limited to use a fraction of the channel even if it is the only active node.",
+              "None of the above"
+            ],
+            correct: 3
+          },
+          {
+            q: "Which of the following correctly lists Cookie technology components in the Web?",
+            options: [
+              "A cookie header in the HTTP response; a cookie header in the HTTP request; a proxy cache that stores cookies; and a DNS database at the server.",
+              "A cookie file in the HTTP response message; a cookie file in the HTTP request message; a cookie file stored on the user's end system; and a back-end database at the Web site.",
+              "A cookie header line in the HTTP response message; a cookie header line in the HTTP request message; a shared proxy cache managed by the ISP; and a back-end database at the Web site.",
+              "A cookie header line in the HTTP response; a cookie header line in the HTTP request; a cookie file kept on the user's end system and managed by the user's browser; and a back-end database at the Web site.",
+              "A cookie header line in the HTTP response; a cookie header line in the HTTP request; a cookie file kept on the user's end system; and a back-end DNS database at the server.",
+              "None of the above"
+            ],
+            correct: 3
+          },
+          {
+            q: "Which of the following correctly describes DNS servers?",
+            options: [
+              "Root servers store all DNS records; TLD servers map hostnames; authoritative servers are connected directly to local servers, which are connected to local users.",
+              "Root servers provide the IP addresses of TLD servers; TLD servers provide the IP addresses of authoritative servers; authoritative servers maintain host-to-IP mappings; and local servers are connected to local users.",
+              "Root servers map hostnames for TLD servers; TLD servers map hostnames for authoritative servers; and authoritative servers provide IP addresses of local servers.",
+              "Root servers maintain host-to-IP mappings of TLD servers; TLD servers maintain host-to-IP mappings of authoritative servers; authoritative servers maintain host-to-IP mappings of local servers; and local servers maintain host-to-IP mappings of local users.",
+              "None of the above"
+            ],
+            correct: 1
+          },
+          {
+            q: "A client retrieves a web page consisting of one base HTML file and two embedded objects, all stored on the same web server. The size of the HTML file and each embedded object is 100 Kbits. The round-trip time between the client and the server is 50 ms, and the data transmission rate is 10 Mbps. The client uses persistent HTTP with pipelining. Assume that the transmission time of control packets is negligible. What is the minimum time required for the client to completely receive the entire web page?",
+            options: ["80 ms", "130 ms", "150 ms", "180 ms", "200 ms", "230 ms", "330 ms", "None of the above"],
+            correct: 2
+          },
+          {
+            q: "In BitTorrent, why does a peer request the rarest chunk first from its neighbors?",
+            options: [
+              "To maximize the peer's individual download speed by selecting chunks that arrive fastest.",
+              "To prioritize sending chunks to peers that upload the fastest to others.",
+              "To give priority to chunks uploaded directly from the original server.",
+              "To force peers to remain in the torrent until everyone finishes.",
+              "To ensure that the rarest chunks are more quickly redistributed and are obtained early before the peers that own them leave the torrent.",
+              "None of the above"
+            ],
+            correct: 4
+          },
+          {
+            q: "In TCP, if the receiver window is zero, what can the sender do?",
+            options: [
+              "Stop sending segments until the receiver advertises a nonzero window",
+              "Continue to send segments with one data byte until the receiver advertises a nonzero window",
+              "Continue sending normal segment size",
+              "Ask the receiver to increase its window size",
+              "None of the above"
+            ],
+            correct: 0
+          },
+          {
+            q: "A host \"X\" on Subnet 1 wants to send a datagram to a host \"Y\" on Subnet 2. Which MAC address will the ARP module in host \"X\" request if it does not already have it?",
+            options: [
+              "The MAC address of the host \"Y\" interface",
+              "The MAC address of the last-hop router interface on Subnet 2",
+              "The MAC address of the first-hop router interface on Subnet 1",
+              "None of the above"
+            ],
+            correct: 2
+          },
+          {
+            q: "Which of the following statements about FTP is correct?",
+            options: [
+              "FTP uses a single TCP connection for both control and data.",
+              "The FTP control connection is persistent, but a new data connection is created for each file.",
+              "FTP data connection remains open throughout the session.",
+              "Both FTP control connection and data connection remain open throughout the session.",
+              "None of the above"
+            ],
+            correct: 1
+          },
+          {
+            q: "Which of the following best explains HTTP and SMTP?",
+            options: [
+              "HTTP connection can be persistent or non-persistent; SMTP connection is persistent.",
+              "SMTP sends each object in a separate response message; HTTP sends all objects in one message.",
+              "SMTP and HTTP require 7-bit ASCII encoding.",
+              "HTTP is push protocol; SMTP is pull protocol.",
+              "All of the above",
+              "None of the above"
+            ],
+            correct: 0
+          },
+          {
+            q: "Consider that a switch has the following forwarding table: MAC address 62-FE-F7-11-89-A3 is associated with interface 1, and MAC address 7C-BA-B2-B4-91-10 is associated with interface 3. A frame with source MAC address AA-BB-CC-DD-EE-FF arrives at interface 2 and has destination MAC address 11-22-33-44-55-66. What action does the switch take?",
+            options: [
+              "The switch broadcasts the frame to all interfaces except interface 2 and adds a new entry to the forwarding table that associates the MAC address AA-BB-CC-DD-EE-FF with interface 2.",
+              "The switch drops the frame (Filtering).",
+              "The switch forwards the frame only to interface 2.",
+              "The switch broadcasts the frame to all interfaces except interface 2 and adds a new entry to the forwarding table that associates the MAC address 11-22-33-44-55-66 with interface 2.",
+              "None of the above"
+            ],
+            correct: 0
+          },
+          {
+            q: "Which of the following is a key difference between TCP and UDP from the transport layer services perspective?",
+            options: [
+              "TCP provides de-multiplexing; UDP does not.",
+              "TCP provides reliable, connection-oriented service; UDP provides unreliable, connectionless service.",
+              "UDP guarantees timing and throughput; TCP does not.",
+              "UDP guarantees timing and throughput; TCP guarantees reliability and security."
+            ],
+            correct: 1
+          },
+          {
+            q: "A router interconnects three subnets (A, B, and C), all using addresses from 192.168.10.0/24, where Subnet A requires at least 100 interfaces, Subnet B requires at least 50 interfaces, and Subnet C requires at least 20 interfaces. Which of the following sets of subnet network addresses satisfies all these constraints if oversized subnets are allowed?",
+            options: [
+              "Subnet A uses 192.168.10.0/26, Subnet B uses 192.168.10.64/25, and Subnet C uses 192.168.10.192/28.",
+              "Subnet A uses 192.168.10.0/25, Subnet B uses 192.168.10.128/26, and Subnet C uses 192.168.10.192/26.",
+              "Subnet A uses 192.168.10.0/25, Subnet B uses 192.168.10.64/26, and Subnet C uses 192.168.10.128/27.",
+              "Subnet A uses 192.168.10.0/26, Subnet B uses 192.168.10.64/26, and Subnet C uses 192.168.10.128/27.",
+              "None of the above"
+            ],
+            correct: 3
+          },
+          {
+            q: "Consider the GBN protocol with a sender window size of 4 and a sequence number range of 1,024. Suppose that at time t, the next in-order packet that the receiver is expecting has a sequence number of k. Assume that the medium does not reorder messages. Which of the following is possible set of sequence numbers inside the sender's window at time t?",
+            options: [
+              "{k,k+1,k+2,k+3}",
+              "{k-1,k,k+1,k+2}",
+              "{k-2,k-1,k,k+1}",
+              "{k-3,k-2,k-1,k}",
+              "{k-4,k-3,k-2,k-1}",
+              "All of the above",
+              "None of the above"
+            ],
+            correct: 5
+          },
+          {
+            q: "An IP datagram of 3000 bytes (no options header) is transmitted over a link with an MTU of 1500 bytes. Which of the following option is correct?",
+            options: [
+              "Number of Fragments = 3 ; Frag#1: Offset=0, MF=1 ; Frag#2: Offset=1500, MF=1 ; Frag#3: Offset=3000, MF=0",
+              "Number of Fragments = 2 ; Frag#1: Offset=0, MF=1 ; Frag#2: Offset=185, MF=0",
+              "Number of Fragments = 3 ; Frag#1: Offset=0, MF=0 ; Frag#2: Offset=1480, MF=0 ; Frag#3: Offset=2960, MF=1",
+              "Number of Fragments = 2 ; Frag#1: Offset=0, MF=1 ; Frag#2: Offset=1500, MF=0",
+              "Number of Fragments = 3 ; Frag#1: Offset=0, MF=1 ; Frag#2: Offset=185, MF=1 ; Frag#3: Offset=370, MF=0",
+              "Number of Fragments = 2 ; Frag#1: Offset=0, MF=0 ; Frag#2: Offset=1500, MF=1",
+              "None of the above"
+            ],
+            correct: 4
+          },
+          {
+            q: "Consider TCP receiver waits for the segment with sequence number 1000. The sender sends two segments back-to-back with sequence numbers: 1000 contains 500 bytes, 1500 contains 500 bytes. If the first segment is lost and the second arrives, the receiver sends:",
+            options: ["ACK 1000", "ACK 1500", "ACK 2000", "ACK 2500", "None of the above"],
+            correct: 0
+          },
+          {
+            q: "Which of the following is NOT true about RIP?",
+            options: [
+              "RIP counts the number of subnets traversed along the shortest path from source router to destination subnet including the destination subnet.",
+              "The maximum cost of a path is limited to 15.",
+              "Routing updates are exchanged between neighbors approximately every 30 seconds using RIP response message.",
+              "RIP requires each node to first obtain a complete map of the network before running the algorithm.",
+              "None of the above"
+            ],
+            correct: 3
+          },
+          {
+            q: "A mail server runs an SMTP service on port 25. At a given time, the server has three active SMTP connections, all destined for port 25, established by three different clients. Which of the following is used to deliver incoming segments to the correct connection?",
+            options: [
+              "Matching only the destination IP address and destination port number",
+              "Matching only the source IP address and source port number",
+              "Matching only the source IP address and destination port number",
+              "Matching only the source port number and destination IP address",
+              "Matching the source IP address, source port number, destination IP address, and destination port number",
+              "None of the above"
+            ],
+            correct: 4
+          },
+          {
+            q: "Which of the following is correct ?",
+            options: [
+              "IMAP provides commands to allow users to create folders and move messages from one folder to another.",
+              "IMAP provides commands that allow users to search remote folders for messages matching specific criteria.",
+              "Unlike POP3, an IMAP server maintains state information across IMAP sessions.",
+              "IMAP has commands that permit a user agent to obtain components of messages.",
+              "All of the above",
+              "None of the above"
+            ],
+            correct: 4
+          },
+          {
+            q: "Three nodes X, Y, and Z share a common broadcast channel and use CSMA/CD. Node X starts transmitting at 0 ms, Nodes Y and Z attempt to transmit at 2 ms and 3 ms, respectively. The propagation delays between X-Y, Y-Z, and X-Z are 1 ms, 1 ms, and 2 ms, respectively. Assume the packet transmission time is 4 ms. Which statement is correct?",
+            options: [
+              "Node Y postpones transmission, node Z postpones transmission, and no collision occurs.",
+              "Node Y transmits at 2 ms, node Z transmits at 3 ms, and a collision occurs.",
+              "Node Y postpones transmission, node Z transmits at 3 ms, and no collision occurs.",
+              "Node Y transmits at 2 ms, node Z postpones transmission, and a collision occurs.",
+              "None of the above"
+            ],
+            correct: 0
+          },
+          {
+            q: "Which of the following is NOT a challenge of P2P application architecture?",
+            options: [
+              "Security due to the distributed and open nature",
+              "Incentivizing users to share bandwidth, storage, and computation",
+              "ISP friendliness and asymmetrical bandwidth usage",
+              "Infrastructure-intensive requirements such as data centers",
+              "All of the above",
+              "None of the above"
+            ],
+            correct: 3
+          },
+          {
+            q: "Which of the following statements correctly describes ISP network structures?",
+            options: [
+              "Network Structure#1 consists of multiple global ISPs, and Network Structure#3 extends the hierarchy by adding IXPs networks.",
+              "Network Structure#1 is based on dial-up access, Network Structure#2 is based on DSL access, Network Structure#3 uses cable networks, Network Structure#4 uses FTTH, and Network Structure#5 is entirely wireless.",
+              "Network Structure#2 introduces multiple global transit ISPs, Network Structure#3 introduces multiple competing regional ISPs, and Network Structure#5 allows large content provider networks to connect directly to access ISPs.",
+              "Network Structure#3 adds peering links through Internet Exchange Points, and Network Structure#4 allows content provider networks to connect directly to access ISPs.",
+              "None of the above"
+            ],
+            correct: 2
+          },
+          {
+            q: "Which of the following is a characteristic of P2P file distribution?",
+            options: [
+              "Distribution time increases linearly with the number of peers",
+              "The server must send a complete copy of the file to each peer.",
+              "Distribution is self-scalable due to peers acting as redistributors.",
+              "More secure than client-server distribution.",
+              "None of the above"
+            ],
+            correct: 2
+          },
+          {
+            q: "Which statement correctly compares HFC, FTTH, DSL, and Dial-Up?",
+            options: [
+              "DSL and Dial-Up are shared, while HFC and FTTH are dedicated",
+              "HFC and Dial-Up are dedicated, while DSL and FTTH are shared",
+              "HFC is shared, DSL is dedicated, Point-to-Point (Direct) FTTH is dedicated, while Dial-Up is dedicated and has the lowest rate",
+              "DSL and HFC are shared, while Dial-up and FTTH are dedicated",
+              "None of the above"
+            ],
+            correct: 2
+          },
+          {
+            q: "Consider router D, which is a neighbor of routers A and B. Router D has an existing path to subnet Z via router B with a hop count of 7 from D to Z. Later, router D receives a routing advertisement from router A indicating that subnet Z is 6 hops away from router A. In this case, classic RIP, which keeps the existing path unless the new one is better, will:",
+            options: [
+              "Keep the existing path.",
+              "Update the routing table to route via router A instead of router B.",
+              "Cause a count-to-infinity problem.",
+              "Cause an oscillation problem.",
+              "None of the above"
+            ],
+            correct: 1
+          },
+          {
+            q: "Which of the following is correct about IP and MAC addresses?",
+            options: [
+              "MAC address allows communication across different subnets, while IP address is used within a LAN.",
+              "IP address is used to identify interfaces on the same LAN, while MAC address is used globally.",
+              "Unlike IP address, MAC address enables device to receive frames at the link layer without the host being interrupted by irrelevant frames.",
+              "IP address has flat structure while MAC address has hierarchical structure.",
+              "All of the above",
+              "None of the above"
+            ],
+            correct: 2
+          },
+          {
+            q: "IPv6/IPv4 Node A wants to send data to IPv6/IPv4 Node B through an IPv4-only router. Which statement is TRUE for Tunneling Scenario?",
+            options: [
+              "Node A drops the datagram.",
+              "Node B must downgrade to IPv4.",
+              "Node A automatically converts IPv6 headers to IPv4 headers.",
+              "Node A encapsulates the IPv6 datagram inside an IPv4 datagram.",
+              "None of the above"
+            ],
+            correct: 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    category: "Computer Networks 2026 - National - Dr.Tarek",
+    icon: "🌐",
+    description: "Final 2026 Computer Networks - National - Dr.Tarek",
+    items: [
+      {
+        t: "فاينل 2026 - National - د. طارق — Computer Networks",
+        d: "اختبار الفاينل لمادة Computer Networks - National 2026 (د. طارق)",
+        pdf: "Computer Networks/Questions/Final/2026/Final 2026 - National - Dr.Tarek.pdf",
+        questions: [
+          {
+            q: "What is an HTTP cookie used for?",
+            options: [
+              "Like dessert, cookies are used at the end of a transaction, to indicate the end of the transaction",
+              "A cookies is a code used by a server, carried on a client's HTTP request, to access information the server had earlier stored about an earlier interaction with this person. [Think about the distinction between a browser and a person.]",
+              "A cookie is a code used by a server, carried on a client's HTTP request, to access information the server had earlier stored about an earlier interaction with this Web browser. [Think about the distinction between a browser and a person.]",
+              "A cookie is a code used by a client to authenticate a person's identity to an HTTP server."
+            ],
+            correct: 2
+          },
+          {
+            q: "an IPv4 datagram has a",
+            options: ["4-byte header", "8-byte header", "20-byte header"],
+            correct: 2
+          },
+          {
+            q: "Which of the characteristics below are associated with a client-server approach to structuring network applications (as opposed to a P2P approach)",
+            options: [
+              "A process requests service from those it contacts and will provide service to processes that contact it.",
+              "There is a server with a well known server IP address.",
+              "There is not a server that is always on",
+              "None of the above"
+            ],
+            correct: 1
+          },
+          {
+            q: "Transfer of a bit into and out of a transmission media",
+            options: ["Application Layer", "Transport layer", "Network layer", "Physical layer"],
+            correct: 3
+          },
+          {
+            q: "What specifies the format of packets that are sent and received among routers and end systems",
+            options: ["TCP", "UDP", "IP", "DNS"],
+            correct: 2
+          },
+          {
+            q: "Which of the following descriptions below correspond to a \"services\" view of the Internet?",
+            options: [
+              "A platform for building network applications",
+              "A collection of billions of computing devices, and packet switches interconnected by links",
+              "A \"network of networks\".",
+              "A collection of hardware and software components executing protocols that define the format and the order of messages exchanged between two or more communicating entities, as well as the actions taken on the transmission and/or receipt of a message or other event."
+            ],
+            correct: 0
+          },
+          {
+            q: "Match the function of a server to a given type of DNS server in the DNS server hierarchy. Replies to DNS query by local host, by contacting other DNS servers to answer the query.",
+            options: ["Local DNS server", "Authoritative DNS server", "DNS root servers", "Top Level Domain (TLD) servers"],
+            correct: 0
+          },
+          {
+            q: "Time spent transmitting packets bits into the link",
+            options: ["Processing delay", "Propagation delay", "Transmission delay", "Queueing delay"],
+            correct: 2
+          },
+          {
+            q: "Which of the following are changes between HTTP 1.1 and HTTP/2?",
+            options: [
+              "HTTP/2 allows a large object to be broken down into smaller pieces, and the transmission of those pieces to be interleaved with transmission other smaller objects, thus preventing a large object from forcing many smaller objects to wait their turn for transmission.",
+              "HTTP/2 provides enhanced security by using transport layer security (TLS).",
+              "HTTP/2 has many new HTTP methods and status codes.",
+              "All of the above"
+            ],
+            correct: 0
+          },
+          {
+            q: "Match the name of an Internet layer with unit of data that is exchanged among protocol entities at that layer, Application layer",
+            options: ["Datagram", "Message", "Bit", "Segment"],
+            correct: 1
+          },
+          {
+            q: "Forwarding is the local action of moving arriving packets from router's input link to appropriate router output link, while routing is the global action of determining the source-destination paths taken by packets.",
+            options: ["True", "False"],
+            correct: 0
+          },
+          {
+            q: "When an application uses a UDP socket, what transport services are provided to the application by UDP?",
+            options: [
+              "Throughput guarantee. The socket can be configured to provide a minimum throughput guarantee between sender and receiver.",
+              "Congestion control. The service will control senders so that the senders do not collectively send more data than links in the network can handle.",
+              "Best effort service. The service will make a best effort to deliver data to the destination but makes no guarantees that any particular segment of data will actually get there.",
+              "Flow Control. The provided service will ensure that the sender does not send so fast as to overflow receiver buffers."
+            ],
+            correct: 2
+          },
+          {
+            q: "What is the purpose of a cookie value in the HTTP GET request?",
+            options: [
+              "The cookie value encodes a default set of preferences that the user has previously specified for this web site",
+              "The cookie value encodes the format of the reply preferred by the client in the response to this GET request",
+              "The cookie value itself doesn't mean anything. It is just a value that was returned by a web server to this client during an earlier interaction",
+              "The cookie value indicates whether the user wants to use HTTP/1, HTTP/1.1, or HTTP/2 for this GET request."
+            ],
+            correct: 2
+          },
+          {
+            q: "What is the purpose of the HTTP GET message?",
+            options: [
+              "The HTTP GET request message is sent by a web server to a web client to get the identity of the web client.",
+              "The HTTP GET request message is sent by a web server to a web client to get the next request from the web client.",
+              "The HTTP GET request message is used by a web client to request a web server to send the requested object from the server to the client.",
+              "The HTTP GET request message is used by a web client to post an object on a web server."
+            ],
+            correct: 2
+          },
+          {
+            q: "Which of the fields below are in a UDP segment header",
+            options: ["Internet checksum", "Upper layer protocol", "Data (payload)", "Sequence number"],
+            correct: 0
+          },
+          {
+            q: "Time spent waiting in packet buffers for link transmission",
+            options: ["Processing delay", "Propagation delay", "Transmission delay", "Queueing delay"],
+            correct: 3
+          },
+          {
+            q: "What do we mean when we say \"HTTP is stateless\"? In answering this question, assume that cookies are not used",
+            options: [
+              "The HTTP protocol is not licensed in any country.",
+              "An HTTP client does not remember anything about what happened during earlier steps in interacting with any HTTP server.",
+              "An HTTP server does not remember anything about what happened during earlier steps in interacting with this HTTP client",
+              "An HTTP client does not remember the identities of the servers with which it has interacted."
+            ],
+            correct: 2
+          },
+          {
+            q: "Which of the characteristics below are associated with the technique of circuit switching?",
+            options: [
+              "This technique is used in the Internet",
+              "Congestion loss and variable end-end delays are possible with this technique",
+              "Resources are used on demand, not reserved in advance",
+              "Frequency Division Multiplexing (FDM) and Time Division Multiplexing (TDM) are two approaches for implementing this technique"
+            ],
+            correct: 3
+          },
+          {
+            q: "When we say that the Internet is a \"network of networks,\" we mean?",
+            options: [
+              "The Internet is the largest network ever built",
+              "The Internet is made up of a lot of different networks that are interconnected to each other",
+              "The Internet is the fastest network ever built",
+              "All of the above"
+            ],
+            correct: 1
+          },
+          {
+            q: "What is the purpose of the conditional HTTP GET request message?",
+            options: [
+              "To allow a server to only send the requested object to the client if the server is not overloaded.",
+              "To allow a server to only send the requested object to the client if this object has changed since the server last sent this object to the client",
+              "To allow a server to only send the requested object to the client if the client is authorized to received that object.",
+              "To allow a server to only send the requested object to the client if the client has never requested that object before"
+            ],
+            correct: 1
+          },
+          {
+            q: "Time need for bits to physically propagate through the transmission medium from end one of a link to the other",
+            options: ["Processing delay", "Propagation delay", "Transmission delay", "Queueing delay"],
+            correct: 1
+          },
+          {
+            q: "Match the name of an Internet layer with unit of data that is exchanged among protocol entities at that layer, Link layer",
+            options: ["Datagram", "Message", "Segment", "Frame"],
+            correct: 3
+          },
+          {
+            q: "Match the name of an Internet layer with unit of data that is exchanged among protocol entities at that layer, Transport layer",
+            options: ["Datagram", "Message", "Bit", "Segment"],
+            correct: 3
+          },
+          {
+            q: "Delivery of datagrams from a source host to a destination host (typically)",
+            options: ["Link layer", "Application Layer", "Transport layer", "Network layer"],
+            correct: 3
+          },
+          {
+            q: "Which of the characteristics below are associated with the technique of packet switching?",
+            options: [
+              "Frequency Division Multiplexing (FDM) and Time Division Multiplexing (TDM) are two approaches for implementing this technique.",
+              "This technique was the basis for the telephone call switching during the 20th century and into the beginning of this current century.",
+              "Data may be queued before being transmitted due to other user's data that's also queueing for transmission.",
+              "Reserves resources needed for a call from source to destination"
+            ],
+            correct: 2
+          },
+          {
+            q: "P2P networks do not need a server",
+            options: ["True", "False"],
+            correct: 0
+          },
+          {
+            q: "Match the function of a server to a given type of DNS server in the DNS server hierarchy. Provides authoritative hostname to IP mappings for organization's named hosts.",
+            options: ["Local DNS server", "Authoritative DNS server", "DNS root servers", "Top Level Domain (TLD) servers"],
+            correct: 1
+          },
+          {
+            q: "Transfer of data between one process and another process (typically on different hosts)",
+            options: ["Link layer", "Application Layer", "Transport layer", "Network layer"],
+            correct: 2
+          },
+          {
+            q: "Which of the following descriptions below correspond to a \"nuts-and-bolts\" view of the Internet?",
+            options: [
+              "A platform for building network applications",
+              "A \"network of networks\"",
+              "A place I go for information, entertainment, and to communicate with people",
+              "All of the above"
+            ],
+            correct: 1
+          },
+          {
+            q: "Where is transport-layer functionality primarily implemented",
+            options: [
+              "Transport layer functions are implemented primarily at the hosts at the \"edge\" of the network",
+              "Transport layer functions are implemented primarily at the routers and switches in the network",
+              "Transport layer functions are implemented primarily at each end of a physical link connecting one host/router/switch to another one host/router/switch",
+              "None of the above"
+            ],
+            correct: 0
+          },
+          {
+            q: "Match the name of an Internet layer with unit of data that is exchanged among protocol entities at that layer, Network layer",
+            options: ["Datagram", "Message", "Segment", "Frame"],
+            correct: 0
+          },
+          {
+            q: "UDP packet has",
+            options: ["2 byte header", "8 byte header", "12 byte header", "16 byte header"],
+            correct: 1
+          },
+          {
+            q: "Which of the characteristics below are associated with a P2P approach to structuring network applications (as opposed to a client-server approach)?",
+            options: [
+              "There is a server that is always on",
+              "HTTP uses this application structure",
+              "There is a server with a well known server IP address",
+              "There is not a server that is always on"
+            ],
+            correct: 3
+          },
+          {
+            q: "Match the name of an Internet layer with unit of data that is exchanged among protocol entities at that layer, Physical layer",
+            options: ["Datagram", "Message", "Bit", "Segment"],
+            correct: 2
+          },
+          {
+            q: "Match the function of a server to a given type of DNS server in the DNS server hierarchy. Responsible for a domain (e.g., *.com, *.edu); knows how to contact authoritative name servers",
+            options: ["Local DNS server", "Authoritative DNS server", "DNS root servers", "Top Level Domain (TLD) servers"],
+            correct: 3
+          },
+          {
+            q: "Which of the definitions below describe what is meant by the term \"encapsulation\"?",
+            options: [
+              "Determining the name of the destination host, translating that name to an IP address and then placing that value in a packet header field.",
+              "Starting a transport layer timer for a transmitted segment, and then if an ACK segment isn't received before the timeout, placing that segment in a retransmission queue.",
+              "Taking data from the layer above, adding header fields appropriate for this layer, and then placing the data in the payload field of the \"packet\" for that layer.",
+              "Receiving a \"packet\" from the layer below, extracting the payload field, and after some internal actions possibly delivering that payload to an upper layer protocol."
+            ],
+            correct: 2
+          },
+          {
+            q: "Match the function of a server to a given type of DNS server in the DNS server hierarchy. Highest level of the DNS hierarchy, knows how to reach servers responsible for a given domain (e.g., *.com, *.edu)",
+            options: ["Local DNS server", "Authoritative DNS server", "DNS root servers", "Top Level Domain (TLD) servers"],
+            correct: 2
+          },
+          {
+            q: "Which of the characteristics below are associated with a client-server approach to structuring network applications (as opposed to a P2P approach)",
+            options: [
+              "A process requests service from those it contacts and will provide service to processes that contact it.",
+              "There is a server with a well known server IP address",
+              "There is not a server that is always on",
+              "All of the above"
+            ],
+            correct: 1
+          },
+          {
+            q: "Transfer of data between neighboring network devices",
+            options: ["Link layer", "Application Layer", "Transport layer", "Network layer"],
+            correct: 0
+          },
+          {
+            q: "When there is not enough memory to buffer an incoming packet, a decision must be made to either drop the arriving packet (a policy known as drop-tail) or remove one or more already-queued packets to make room for the newly arrived packet.",
+            options: ["True", "False"],
+            correct: 0
+          },
+          {
+            q: "Time needed to perform an integrity check, lookup packet information in a local table and move the packet from an input link to an output link in a router.",
+            options: ["Processing delay", "Propagation delay", "Transmission delay", "Queueing delay"],
+            correct: 0
+          },
+          {
+            q: "Protocols that are part of a distributed network application",
+            options: ["Link layer", "Application Layer", "Transport layer", "Network layer"],
+            correct: 1
+          },
+          {
+            q: "Which of the following physical layer technologies has the highest transmission rate and lowest bit error rate in practice?",
+            options: ["Twisted pair (e.g., CAT5, CAT6)", "Coaxial cable", "Satellite channel", "Fiber optic cable"],
+            correct: 3
+          },
+          {
+            q: "When an application uses a TCP socket, what transport services are provided to the application by TCP?",
+            options: [
+              "Throughput guarantee. The socket can be configured to provide a minimum throughput guarantee between sender and receiver.",
+              "Real-time delivery. The service will guarantee that data will be delivered to the receiver within a specified time bound.",
+              "Congestion control. The service will control senders so that the senders do not collectively send more data than links in the network can handle",
+              "Best effort service. The service will make a best effort to deliver data to the destination but makes no guarantees that any particular segment of data will actually get there."
+            ],
+            correct: 2
+          }
+        ]
+      }
+    ]
+  }
+],
   testBanks: [
     {
       t: "Test Bank - Computer Networks - Final",
