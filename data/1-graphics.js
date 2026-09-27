@@ -14,29 +14,16 @@ subjects.push({
           category: "فيديوهات عربية",
           icon: "🇪🇬",
           description:
-            "شروحات باللغة العربية لمفاهيم رسوميات الحاسوب واساسيات تحويل الأشكال والرسم",
+            "شروحات باللغة العربية لمفاهيم رسوميات الحاسوب: المقدمة، الإسقاط المنظوري (3D→2D)، والـ Rasterization",
           links: [
             {
-              t: "مبادئ رسوميات الحاسوب (Computer Graphics) - بالعربي",
-              d: "مقدمة شاملة عن الرسوميات، تحويل النقاط من 3D إلى 2D، وكيفية معالجة الصور والتسقيط",
+              t: "Computer Graphics || كورس كامل بالعربي - Programming Secrets",
+              d: "32 درساً (11 ساعة و42 دقيقة) تغطي: مقدمة الرسوميات، الرسم باستخدام الحاسب، التحويلات، والإسقاط — من الصفر حتى الاحتراف",
               icon: "🇪🇬",
               actions: [
                 {
                   label: "📖 الشرح",
-                  url: "https://www.youtube.com/playlist?list=PLvS947PnbR_mK04oVWBfCsw_6qDylu9M_",
-                  type: "view",
-                  color: "red",
-                },
-              ],
-            },
-            {
-              t: "شرح خوارزميات رسم الخطوط والشبكات (Line Rasterization)",
-              d: "تغطية تفصيلية لخوارزميات DDA و Bresenham لعملية الـ Rasterization وتلوين البيكسلات على الشاشة",
-              icon: "🇪🇬",
-              actions: [
-                {
-                  label: "📖 الشرح",
-                  url: "https://www.youtube.com/playlist?list=PL3X--Qeb3951P_eW8bL12_X8N9B95C3C",
+                  url: "https://www.youtube.com/playlist?list=PLp2eAGIFKMEVpQoEqqEo4o-S1enQ59ocw",
                   type: "view",
                   color: "red",
                 },
@@ -48,24 +35,36 @@ subjects.push({
           category: "فيديوهات عالمية",
           icon: "🌍",
           description:
-            "محاضرات أكاديمية من صاحب السلايدات (Keenan Crane) وقنوات عالمية متخصصة",
+            "المحاضرة الرسمية من مؤلف السلايدات (Keenan Crane - CMU) + كورس أكاديمي عالمي مرافق",
           links: [
             {
-              t: "Keenan Crane (CMU) - Computer Graphics Lecture Course",
-              d: "المحاضرات الرسمية لمؤلف هذه السلايدات: Perspective Projection, Rasterization, Line Drawing",
+              t: "Keenan Crane - Lecture 01: Course Overview (CMU 15-462/662)",
+              d: "المحاضرة الأولى الرسمية — هي نفسها محتوى هذا الملف بالضبط: تعريف CG، لماذا المعلومات البصرية، التطبيقات، نشاط رسم المكعب، الإسقاط المنظوري، والـ Rasterization",
               icon: "🌍",
               actions: [
                 {
-                  label: "📖 الشرح",
-                  url: "https://www.youtube.com/playlist?list=PL9_jI1ts8Bn482X5A6Kz3d1-u2G_I1r1O",
+                  label: "🎬 المحاضرة المباشرة",
+                  url: "https://www.youtube.com/watch?v=PhxV_JrXeVk",
                   type: "view",
                   color: "red",
+                },
+                {
+                  label: "📚 القائمة الكاملة",
+                  url: "https://www.youtube.com/playlist?list=PL9_jI1bdZmz2emSh0UQ5iOdT2xRHFHL7E",
+                  type: "view",
+                  color: "red",
+                },
+                {
+                  label: "🌐 صفحة المادة الرسمية",
+                  url: "https://15462.courses.cs.cmu.edu/fall2021/home",
+                  type: "view",
+                  color: "blue",
                 },
               ],
             },
             {
               t: "GAMES101 - Introduction to Computer Graphics",
-              d: "كورس أكاديمي ممتاز يغطي 3D Transformation, Pinhole Camera Model, Projection, Rasterization",
+              d: "كورس أكاديمي ممتاز يغطي: التحويلات ثلاثية الأبعاد، نموذج الكاميرا المنظورية، الإسقاط، والـ Rasterization — مرجع تكميلي قوي",
               icon: "🌍",
               actions: [
                 {
@@ -82,16 +81,29 @@ subjects.push({
           category: "مواقع ومراجع",
           icon: "📚",
           description:
-            "مقالات وشروحات تفاعلية للـ Perspective Projection والـ Rasterization",
+            "مقالات تفصيلية تشرح بالضبط مفاهيم الملف: إسقاط المنظور (u=x/z, v=y/z) والـ Rasterization",
           links: [
             {
-              t: "Scratchapixel - Computer Graphics From Scratch",
-              d: "مرجع متكامل يشرح 3D Perspective Projection (u=x/z, v=y/z), Pinhole Camera, Rasterization",
+              t: "Scratchapixel - Computing Pixel Coordinates of a 3D Point (Perspective Projection)",
+              d: "شرح تفاعلي مطابق تماماً للمحاضرة: نموذج الكاميرا الثقبية، المثلثات المتشابهة، حساب (u,v) من (x,y,z) بقسمة x,y على z",
               icon: "📚",
               actions: [
                 {
-                  label: "🚀 فتح الموقع",
-                  url: "https://www.scratchapixel.com/",
+                  label: "🚀 فتح المرجع",
+                  url: "https://scratchapixel.com/lessons/3d-basic-rendering/computing-pixel-coordinates-of-3d-point/perspective-projection.html",
+                  type: "view",
+                  color: "green",
+                },
+              ],
+            },
+            {
+              t: "Scratchapixel - The Rasterization Algorithm",
+              d: "شرح مفصل لعملية Rasterization: تحويل الأشكال المستمرة إلى شبكة بيكسلات، خوارزمية الرسم التدريجي — يطابق القسم الأخير من المحاضرة",
+              icon: "📚",
+              actions: [
+                {
+                  label: "🚀 فتح المرجع",
+                  url: "https://scratchapixel.com/lessons/3d-basic-rendering/rasterization-practical-implementation/overview-rasterization-algorithm.html",
                   type: "view",
                   color: "green",
                 },
@@ -99,14 +111,13 @@ subjects.push({
             },
             {
               t: "GeeksforGeeks - Computer Graphics Tutorial",
-              d: "توثيق شامل لمفاهيم Line Rasterization, Diamond Rule, 3D Transformations & Graphics Pipeline",
+              d: "توثيق شامل: Line Drawing Algorithms، التحويلات ثنائية وثلاثية الأبعاد، وVisible Surface Detection — مرجع سريع للمفاهيم",
               icon: "📚",
               actions: [
                 {
                   label: "🚀 فتح المقال",
                   url: "https://www.geeksforgeeks.org/computer-graphics-2/",
                   type: "view",
-                  color: "blue",
                 },
               ],
             },
@@ -116,24 +127,11 @@ subjects.push({
           category: "أدوات ومحاكاة",
           icon: "🔧",
           description:
-            "برامج تفاعلية ومحاكاة للـ 3D Modeling، الكاميرا والـ Shading",
+            "أدوات تفاعلية لتجربة مفاهيم المحاضرة عملياً: رسم المكعب، الكاميرا المنظورية، والتحكم بالبيكسلات",
           links: [
             {
-              t: "Shadertoy - Interactive Pixel Shaders",
-              d: "منصة تفاعلية لكتابة الكود والتحكم المباشر بالبيكسلات (Rasterization) والرسوميات في الوقت الفعلي",
-              icon: "🔧",
-              actions: [
-                {
-                  label: "🚀 فتح التفاعليات",
-                  url: "https://www.shadertoy.com/",
-                  type: "view",
-                  color: "orange",
-                },
-              ],
-            },
-            {
               t: "Three.js - Interactive 3D Editor",
-              d: "محرر تفاعلي لإنشاء المكعبات وتجربة إسقاط المنظور (Perspective Camera) والتحكم بالمجسمات",
+              d: "محرر ثلاثي الأبعاد عبر الويب: أنشئ مكعباً، جرّب Perspective Camera، وحرّك المجسمات — يربط مباشرة بنشاط رسم المكعب في المحاضرة",
               icon: "🔧",
               actions: [
                 {
@@ -144,10 +142,22 @@ subjects.push({
                 },
               ],
             },
+            {
+              t: "Shadertoy - Interactive Pixel Shaders",
+              d: "منصة تفاعلية للكتابة المباشرة على مستوى البيكسل في الوقت الفعلي — لتجربة كيفية تلوين البيكسلات ورسم الخطوط (Rasterization)",
+              icon: "🔧",
+              actions: [
+                {
+                  label: "🚀 فتح التفاعلية",
+                  url: "https://www.shadertoy.com/",
+                  type: "view",
+                  color: "orange",
+                },
+              ],
+            },
           ],
         },
       ],
-
       // الأسئلة
       questions: [
         // ─── MCQ ───

@@ -7,35 +7,36 @@ subjects.push({
       t: "المحاضرة الأولى",
       d: "مقدمة في نظم التشغيل والعمليات Processes.",
       pdf: "Operating Systems/lectures/chapter 1 - OS.pdf",
+
       // فئات روابط منظمة مخصصة للجزء الأول فقط (من صفحة 1 إلى صفحة 23) من الفصل الأول
       linkCategories: [
         {
           category: "فيديوهات عربية",
           icon: "🇪🇬",
           description:
-            "شروحات باللغة العربية لمفاهيم الصفحات (1 - 23) من الفصل الأول",
+            "شروحات باللغة العربية لمفاهيم نظم التشغيل، بنية الحاسوب، المقاطعات، وهرمية التخزين (صفحة 1 - 23)",
           links: [
             {
-              t: "د. محمد الدسوقي - مقدمة نظم التشغيل ومعمارية النظام",
-              d: "تغطية مفاهيم: What OS Does, Interrupts, Storage Structure, Dual-Mode Operation",
+              t: "شرح نظم التشغيل - د. أحمد حجاج (Ch1 - Part 1 & 2)",
+              d: "تغطية: تعريف الـ OS وأهدافه، المكونات الأربعة للنظام، الـ OS كموزع موارد وبرنامج تحكم، النواة (Kernel)، الإقلاع (Bootstrap) والـ Firmware، وبنية المقاطعات (Interrupt Vector) والـ Traps",
               icon: "🇪🇬",
               actions: [
                 {
                   label: "📖 الشرح",
-                  url: "https://www.youtube.com/playlist?list=PL1DUmTEdeA6IUD9Gt5rZlQfbZyAWXd-oD",
+                  url: "https://www.youtube.com/playlist?list=PLxIvc-MGOs6ib0oK1z9C46DeKd9rRcSMY",
                   type: "view",
                   color: "red",
                 },
               ],
             },
             {
-              t: "د. عبد الرحمن الجمل - أساسيات هيكلية الحاسوب ونظام التشغيل",
-              d: "شرح مفاهيم Kernel، Bootstrapping، Interrupt-Driven I/O، و Multiprogramming",
+              t: "SoftwareTube - كورس نظم التشغيل بالعربي (Chapter 1 Part 1 & 2)",
+              d: "شرح مفصل لـ: Computer-System Operation، الـ Local Buffers، الـ Interrupt Handling، الفرق بين Spooling و Pooling، الـ Device Drivers، بنية I/O والـ Device-Status Table، الـ DMA، هرمية التخزين، والـ Caching",
               icon: "🇪🇬",
               actions: [
                 {
                   label: "📖 الشرح",
-                  url: "https://www.youtube.com/playlist?list=PLLhe0ZInsJiVdbAaoM2rxW2W1rA3iQPf1",
+                  url: "https://www.youtube.com/watch?v=BW90V5-J4a0",
                   type: "view",
                   color: "red",
                 },
@@ -47,29 +48,29 @@ subjects.push({
           category: "فيديوهات عالمية",
           icon: "🌍",
           description:
-            "شروحات أكاديمية لمفاهيم الصفحات (1 - 23) من كتاب Silberschatz",
+            "محاضرات أكاديمية عالمية تغطي القسم الأول من Chapter 1 في كتاب Silberschatz (صفحة 1 - 23)",
           links: [
             {
-              t: "Neso Academy - Operating System Basics & System Structure",
-              d: "شرح مفاهيم: OS Definition, Computer System Structure, Interrupt Vector, DMA",
+              t: "Last Minute Lecture - Operating System Concepts (Ch1: Hardware & Storage)",
+              d: "مراجعة مركزة: الـ Interrupt-driven architecture، الـ Traps، هيكلية الـ DMA، بنية التخزين الثانوي (Tracks & Sectors)، هرمية التخزين وأداء مستوياتها، والـ Caching",
               icon: "🌍",
               actions: [
                 {
                   label: "📖 الشرح",
-                  url: "https://www.youtube.com/playlist?list=PLBlnK6fEyqRgneraVKkEXrwyLVx2vJUvt",
+                  url: "https://www.youtube.com/playlist?list=PLI3TocC2xS26LoF6tSsgTLv44HTr2l2Ol",
                   type: "view",
                   color: "red",
                 },
               ],
             },
             {
-              t: "Gate Smashers - Computer System Organization & Operations",
-              d: "شرح Dual-Mode Operation (User/Kernel Mode)، Hardware Protection، و Timesharing",
+              t: "Ghassan Shobaki - OS Introduction & Computer System Organization",
+              d: "شرح بنيوي مفصل: الـ Bus والذاكرة المشتركة، التفاعل بين العتاد الصلب والنواة والمتحكمات (Device Controllers)، وتدفق المقاطعات في الذاكرة",
               icon: "🌍",
               actions: [
                 {
                   label: "📖 الشرح",
-                  url: "https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6Xup8p",
+                  url: "https://www.youtube.com/watch?v=3Qfx4geYN9I",
                   type: "view",
                   color: "red",
                 },
@@ -80,24 +81,25 @@ subjects.push({
         {
           category: "مواقع ومراجع",
           icon: "📚",
-          description: "مقالات وتوثيقات تغطي مفاهيم الصفحات من 1 إلى 23 حصراً",
+          description:
+            "مقالات وتوثيقات مرجعية لمفاهيم صفحات (1 - 23) من كتاب Silberschatz",
           links: [
             {
-              t: "GeeksforGeeks - Operating System Overview & Dual-Mode",
-              d: "شرح تفصيلي لوظائف OS، أنواع المعالجات (Single/Multiprocessor)، و Modes of Operation",
+              t: "GeeksforGeeks - Operating System Fundamentals",
+              d: "توثيق شامل: تعريف الـ OS ومكونات النظام، أنواع المقاطعات (Hardware & Traps)، هيكلية الـ DMA، والتدرج التخزيني",
               icon: "📚",
               actions: [
                 {
                   label: "🚀 فتح المقال",
                   url: "https://www.geeksforgeeks.org/operating-systems/",
                   type: "view",
-                  color: "green",
+                  color: "blue",
                 },
               ],
             },
             {
               t: "Silberschatz & Galvin Official Student Resources",
-              d: "الموقع الرسمي للطلاب لكتاب Operating System Concepts (Chapter 1 Essentials)",
+              d: "الموقع الرسمي للطلاب لكتاب Operating System Concepts (Chapter 1 Essentials) - مرجع المؤلفين نفسه",
               icon: "📚",
               actions: [
                 {
@@ -113,24 +115,39 @@ subjects.push({
         {
           category: "أدوات ومحاكاة",
           icon: "🔧",
-          description: "أدوات تفاعلية لفهم التسلسل الهرمي للذاكرة والمقاطعات",
+          description:
+            "برامج تفاعلية ومحاكاة لتجسيد تنفيذ التعليمات، معالجة المقاطعات، ونقل البيانات عبر DMA والذاكرة",
           links: [
             {
-              t: "Visualizing Memory & Storage Hierarchy",
-              d: "أداة تفاعلية لفهم الهيكل الهرمي للذاكرة (Registers, Cache, Main Memory, Secondary Storage)",
+              t: "CPU-OS Simulator - Teach-Sim Interactive Tool",
+              d: "محاكي تفاعلي متقدم لتتبع تنفيذ التعليمات داخل المسجلات، معالجة المقاطعات، وحركة البيانات في الـ Cache والذاكرة الرئيسية",
               icon: "🔧",
               actions: [
                 {
-                  label: "🚀 فتح التفاعليات",
-                  url: "https://oslab.xikai.me/",
+                  label: "🌐 فتح المحاكي",
+                  url: "https://teach-sim.com/os/",
                   type: "view",
                   color: "orange",
+                },
+              ],
+            },
+            {
+              t: "Virtual Operating System Simulator - Hardware & Memory Architecture",
+              d: "أداة تفاعلية لتصور التفاعل بين مكونات العتاد الصلب ونواة نظام التشغيل وإدارة الطبقات التخزينية",
+              icon: "🔧",
+              actions: [
+                {
+                  label: "🚀 فتح المشروع",
+                  url: "https://github.com/ovuiproduction/Virtual-Operating-System-Simulator",
+                  type: "view",
+                  color: "blue",
                 },
               ],
             },
           ],
         },
       ],
+
       questions: [
         {
           q: "What is the primary role of an operating system from a system point of view?",
