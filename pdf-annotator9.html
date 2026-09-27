@@ -167,7 +167,7 @@
   #textInputBox.editing{border-color:#4A9EFF;box-shadow:0 0 0 4px rgba(74,158,255,.2), 0 10px 40px rgba(0,0,0,.35);}
   #textInputBox .ti-badge{display:none;background:#4A9EFF;color:#fff;font-size:10px;font-weight:600;padding:3px 8px;border-radius:0 6px 0 6px;position:absolute;top:-2px;right:-2px;font-family:inherit;}
   #textInputBox.editing .ti-badge{display:inline-block;}
-  #textInputBox textarea{display:block;width:100%;min-height:70px;min-width:240px;border:none;outline:none;resize:both;padding:10px;font-family:'IBM Plex Sans Arabic','JetBrains Mono',sans-serif;font-size:16px;line-height:1.5;background:transparent;color:var(--ink);transition:font-size .1s;}
+  #textInputBox textarea{display:block;width:100%;min-height:70px;min-width:240px;border:none;outline:none;resize:both;padding:10px;font-family:'IBM Plex Sans Arabic','JetBrains Mono',sans-serif;font-size:16px;line-height:1.5;background:transparent;color:var(--ink);}
   #textInputBox .ti-actions{display:flex;gap:6px;padding:6px 8px;border-top:1px solid #E3DDCD;background:#F5F2EA;border-radius:0 0 8px 8px;justify-content:space-between;align-items:center;}
   #textInputBox .ti-actions button{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:5px 12px;font-family:inherit;font-size:12px;cursor:pointer;font-weight:600;}
   #textInputBox.editing .ti-actions button#tiOk{background:#4A9EFF;}
@@ -550,8 +550,6 @@
   function hideLoading(){ loadingOverlay.classList.remove("show"); }
   function canvasDpr(c){ return parseFloat(c.dataset.dpr)||1; }
   function escapeHtml(s){ return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-  function isArabicText(s){ return /[\u0600-\u06FF]/.test(String(s||"")); }
-  function detectDir(text){ return isArabicText(text) ? "rtl" : "ltr"; }
 
   // ============ Extract embedded attachments via pdf.js ============
   async function extractAttachmentsViaPdfJs(bytes){
@@ -582,6 +580,7 @@
       return { success: false, error: "مفيش ملف مفتوح حاليًا" };
     }
 
+    // 1) استخرج الـ annotations من الملف المحلي
     var attachments;
     try{
       attachments = await extractAttachmentsViaPdfJs(bytes);
@@ -593,6 +592,7 @@
       return { success: false, error: "الملف ده مش فيه تعديلات محفوظة" };
     }
 
+    // 2) فك الـ JSON
     var importedStrokes;
     try{
       var text = new TextDecoder('utf-8').decode(jsonBytes);
@@ -604,6 +604,7 @@
       return { success: false, error: "التعديلات تالفة" };
     }
 
+    // 3) احسب أقصى صفحة فيها تعديلات + العدد الكلي
     var importedPageNums = Object.keys(importedStrokes)
       .map(function(k){ return parseInt(k, 10); })
       .filter(function(n){ return !isNaN(n) && n > 0; });
@@ -617,6 +618,7 @@
       return { success: false, error: "الملف ده مش فيه تعديلات" };
     }
 
+    // 4) لو فيه تعديلات على صفحات أكتر من الملف المفتوح → اسأل
     if(maxImportedPage > numPages){
       var ok = window.confirm(
         "⚠️ الملف المحلي فيه تعديلات على " + maxImportedPage + " صفحة،\n" +
@@ -627,6 +629,7 @@
       if(!ok) return { success: false, error: "اتلغى بواسطة المستخدم" };
     }
 
+    // 5) استبدل التعديلات
     strokesByPage = {};
     redoByPage = {};
     var count = 0;
@@ -638,6 +641,7 @@
       count += strokes.length;
     });
 
+    // 6) أعد الرسم + احفظ
     for(var p = 1; p <= numPages; p++) drawPageStrokes(p);
     try{ deselectAnnotation(); }catch(e){}
     scheduleSave();
@@ -1260,18 +1264,11 @@
     ctx.lineTo(x,y+10); ctx.quadraticCurveTo(x,y,x+10,y);
     ctx.closePath(); ctx.stroke();
   }
-
-  // ★ FIX 1: drawTextShape — اتجاه صحيح بدون "auto"
   function drawTextShape(ctx, anno, scale){
     const fs = (anno.fontSize||24)*scale;
     ctx.font = "600 "+fs+"px "+TEXT_FONT_FAMILY;
     ctx.textBaseline = "top";
-    // CanvasDirection يقبل ltr | rtl | inherit فقط — مفيش "auto"
-    let dir = anno.dir;
-    if(dir !== "ltr" && dir !== "rtl" && dir !== "inherit"){
-      dir = isArabicText(anno.text) ? "rtl" : "ltr";
-    }
-    ctx.direction = dir;
+    ctx.direction = anno.dir==="ltr"?"ltr":(anno.dir==="rtl"?"rtl":"auto");
     ctx.fillStyle = anno.color || "#000";
     const lines = String(anno.text||"").split("\n");
     const lh = fs*1.35;
@@ -1746,7 +1743,7 @@
       case "strike": applyTextMark("text-strike"); break;
       case "translate": {
         $("#tpInput").value = text;
-        const isArabic = isArabicText(text);
+        const isArabic = /[\u0600-\u06FF]/.test(text);
         $("#tpFrom").value = isArabic ? "ar" : "en";
         $("#tpTo").value = isArabic ? "en" : "ar";
         translatePanel.classList.add("show");
@@ -1820,13 +1817,11 @@
       tiTextarea.value = pendingInsertText || "";
       pendingInsertText = null;
       if(!tiTextarea.value){ currentTextDir = "auto"; }
-      else { currentTextDir = isArabicText(tiTextarea.value) ? "rtl" : "ltr"; }
+      else { currentTextDir = /[\u0600-\u06FF]/.test(tiTextarea.value) ? "rtl" : "ltr"; }
       $("#tiOk").textContent = "إضافة";
       $("#tiDelete").style.display = "none";
     }
     tiTextarea.style.direction = currentTextDir === "rtl" ? "rtl" : "ltr";
-    // ★ FIX 2: مزامنة حجم خط الـ textarea مع currentFontSize
-    tiTextarea.style.fontSize = Math.max(12, Math.min(48, currentFontSize)) + "px";
     setTimeout(() => { tiTextarea.focus(); try{ tiTextarea.setSelectionRange(tiTextarea.value.length, tiTextarea.value.length); }catch(e){} }, 50);
     document.querySelectorAll("#textInputBox .ti-dir button").forEach(b => b.classList.toggle("active", b.dataset.dir === currentTextDir));
   }
@@ -1847,17 +1842,14 @@
     textInputBox.classList.remove("editing");
     textInputCtx = null;
   }
-  // ★ FIX 3: احفظ dir نهائي "rtl"/"ltr" بدل "auto"
   function closeTextInput(save){
     if(!textInputCtx){ textInputBox.style.display = "none"; return; }
     const txt = tiTextarea.value.trim();
     const ctx = textInputCtx;
     if(save && ctx.editingStroke){
       if(txt){
-        let finalDir = currentTextDir;
-        if(finalDir !== "ltr" && finalDir !== "rtl") finalDir = detectDir(txt);
         ctx.editingStroke.text = txt;
-        ctx.editingStroke.dir = finalDir;
+        ctx.editingStroke.dir = currentTextDir;
         ctx.editingStroke.fontSize = currentFontSize;
         ctx.editingStroke.color = currentColor;
         redoByPage[ctx.p] = []; drawPageStrokes(ctx.p); scheduleSave();
@@ -1869,9 +1861,7 @@
         toast("تم حذف النص");
       }
     } else if(save && txt){
-      let finalDir = currentTextDir;
-      if(finalDir !== "ltr" && finalDir !== "rtl") finalDir = detectDir(txt);
-      const anno = { tool:"text", color:currentColor, width:1, fontSize:currentFontSize, x:ctx.pt.x, y:ctx.pt.y, text:txt, dir:finalDir };
+      const anno = { tool:"text", color:currentColor, width:1, fontSize:currentFontSize, x:ctx.pt.x, y:ctx.pt.y, text:txt, dir:currentTextDir };
       strokesByPage[ctx.p] = strokesByPage[ctx.p] || [];
       strokesByPage[ctx.p].push(anno);
       redoByPage[ctx.p] = []; drawPageStrokes(ctx.p); scheduleSave();
@@ -1941,7 +1931,7 @@
     const txt = $("#tpResult").textContent;
     if(!txt || txt === "الترجمة ستظهر هنا…"){ toast("لا يوجد نص"); return; }
     selectTool("text");
-    currentTextDir = isArabicText(txt) ? "rtl" : "ltr";
+    currentTextDir = /[\u0600-\u06FF]/.test(txt) ? "rtl" : "ltr";
     pendingInsertText = txt;
     translatePanel.classList.remove("show");
     toast("اضغط على المكان في الصفحة");
@@ -2079,20 +2069,7 @@
 
   widthRange.addEventListener("input", () => { currentWidth = parseInt(widthRange.value,10); });
   opRange.addEventListener("input", () => { currentHiOpacity = parseInt(opRange.value,10)/100; });
-
-  // ★ FIX 4: معاينة حية لحجم الخط في صندوق الكتابة + على الـ canvas
-  fontRange.addEventListener("input", () => {
-    currentFontSize = parseInt(fontRange.value,10);
-    // معاينة حية في صندوق الكتابة (لو مفتوح)
-    if(textInputBox && textInputBox.style.display === "block"){
-      tiTextarea.style.fontSize = Math.max(12, Math.min(48, currentFontSize)) + "px";
-    }
-    // معاينة حية على الـ canvas لو بنعدّل نص موجود
-    if(textInputCtx && textInputCtx.editingStroke){
-      textInputCtx.editingStroke.fontSize = currentFontSize;
-      drawPageStrokes(textInputCtx.p);
-    }
-  });
+  fontRange.addEventListener("input", () => { currentFontSize = parseInt(fontRange.value,10); });
 
   $("#btnUndo").addEventListener("click", () => {
     const p = lastActivePageWithStrokes();
@@ -2188,6 +2165,7 @@
     if(ok) await upsertRecent({ id: currentFile.id, name: currentFile.name, size: currentFile.size, savedAt: Date.now() });
   }
 
+  // ============ ★ Save As حقيقي (File System Access API) ============
   function pickSaveHandle(suggestedName){
     return new Promise((resolve) => {
       if(typeof window.showSaveFilePicker !== "function"){ resolve(null); return; }
@@ -2207,6 +2185,7 @@
     });
   }
 
+  // ============ ★ PDF annotation builders (real editable objects) ============
   function hexToRgb01(hex){
     const m = /^#?([0-9a-f]{6})$/i.exec(String(hex||'').trim());
     if(!m) return [0, 0, 0];
@@ -2502,7 +2481,7 @@
       case 'text-strike':
         return buildUnderlineStrikeAnnotation(pdfDoc, s, ptW, ptH, 'StrikeOut', pageRef);
       case 'text':
-        if(isArabicText(s.text)) return null;
+        if(/[^\u0000-\u007F]/.test(String(s.text || ''))) return null;
         return buildFreeTextAnnotation(pdfDoc, s, ptW, ptH, pageRef);
     }
     return null;
