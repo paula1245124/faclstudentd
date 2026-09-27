@@ -18,6 +18,7 @@
   .mono{font-family:'JetBrains Mono',monospace;letter-spacing:.02em;}
   #app{display:flex;flex-direction:column;height:100vh;}
 
+  /* ============ TOPBAR ============ */
   #topbar{background:var(--ink);color:var(--text-light);display:flex;align-items:center;gap:8px;padding:5px 12px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;box-shadow:0 2px 8px rgba(0,0,0,.25);z-index:30;flex-shrink:0;}
   #topbar::-webkit-scrollbar{display:none;}
   .brand{display:flex;align-items:center;gap:8px;flex-shrink:0;}
@@ -41,9 +42,17 @@
   #pageIndicator .pg-total{font-size:11px;color:var(--muted);line-height:1;}
   #pageIndicator .pg-label{font-size:10px;color:var(--muted);display:flex;flex-direction:column;align-items:flex-start;line-height:1.3;}
 
+  /* ============ TOOLBAR — صف واحد بس مع scroll أفقي ============ */
   #toolbar{display:none;flex-direction:column;background:var(--ink-2);color:var(--text-light);padding:6px 12px;z-index:29;box-shadow:0 1px 4px rgba(0,0,0,.2);border-bottom:1px solid var(--line);flex-shrink:0;overflow:hidden;}
   #toolbar.show{display:flex;}
-  #toolbarRow{display:flex;align-items:center;justify-content:flex-start;gap:6px;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:rgba(232,121,60,.5) transparent;padding-bottom:4px;-webkit-overflow-scrolling:touch;}
+  #toolbarRow{
+    display:flex;align-items:center;justify-content:flex-start;gap:6px;
+    flex-wrap:nowrap;
+    overflow-x:auto;overflow-y:hidden;
+    scrollbar-width:thin;scrollbar-color:rgba(232,121,60,.5) transparent;
+    padding-bottom:4px;
+    -webkit-overflow-scrolling:touch;
+  }
   #toolbarRow::-webkit-scrollbar{height:6px;}
   #toolbarRow::-webkit-scrollbar-thumb{background:rgba(232,121,60,.45);border-radius:6px;}
   #toolbarRow::-webkit-scrollbar-thumb:hover{background:rgba(232,121,60,.75);}
@@ -72,11 +81,13 @@
   .tb-btn:hover{background:var(--ink);}
   .tb-btn svg{width:16px;height:16px;flex:none;}
 
+  /* ============ MAIN ============ */
   #main{flex:1;position:relative;overflow:auto;background:radial-gradient(circle at 1px 1px, rgba(0,0,0,.05) 1px, transparent 0) 0 0/16px 16px, var(--paper);touch-action:pan-x pan-y;user-select:none;-webkit-user-select:none;direction:ltr;scrollbar-width:none;-ms-overflow-style:none;}
   #emptyState{direction:rtl;}
   #main.grab{cursor:grab;}
   #main::-webkit-scrollbar{display:none;width:0;height:0;}
   #main.grabbing{cursor:grabbing!important;}
+  #main.dragging-text{cursor:grabbing!important;}
   #viewer{direction:ltr;display:flex;flex-direction:column;align-items:flex-start;gap:26px;padding:30px 30px 60px 30px;min-height:100%;}
   .page-wrap{position:relative;box-shadow:0 6px 24px rgba(20,20,30,.22), 0 1px 3px rgba(0,0,0,.15);background:var(--paper-page);margin:0 auto;}
   .page-wrap canvas{display:block;position:absolute;top:0;left:0;}
@@ -86,29 +97,68 @@
   .page-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#9A9282;font-family:'JetBrains Mono',monospace;font-size:12px;background:linear-gradient(135deg, rgba(0,0,0,.025) 25%, transparent 25%, transparent 50%, rgba(0,0,0,.025) 50%, rgba(0,0,0,.025) 75%, transparent 75%) 0 0/26px 26px,#FCFAF4;}
 
   .textLayer{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;line-height:1;text-size-adjust:none;-webkit-text-size-adjust:none;forced-color-adjust:none;transform-origin:0 0;z-index:3;pointer-events:none;}
-  .textLayer > span, .textLayer > br{color:transparent !important;position:absolute;white-space:pre;cursor:text;transform-origin:0% 0%;pointer-events:auto;user-select:text;-webkit-user-select:text;}
   .textLayer.selectable{pointer-events:auto;}
-  .textLayer.selectable > span, .textLayer.selectable > br{pointer-events:auto !important;}
-  body.tool-draw .textLayer,
-  body.tool-draw .textLayer > span,
-  body.tool-draw .textLayer > br{pointer-events:none !important;}
+  .textLayer > span, .textLayer > br{color:transparent !important;position:absolute;white-space:pre;cursor:text;transform-origin:0% 0%;pointer-events:auto;user-select:text;-webkit-user-select:text;}
   .textLayer ::selection{background:rgba(47,111,237,.35);}
   .textLayer ::-moz-selection{background:rgba(47,111,237,.35);}
 
-  #navBar{display:none;position:fixed;right:10px;top:104px;bottom:14px;width:20px;z-index:50;cursor:grab;touch-action:none;}
+  /* ============ VERTICAL NAVIGATION BAR ============ */
+  #navBar{
+    display:none;
+    position:fixed;
+    right:10px;top:104px;bottom:14px;
+    width:20px;
+    z-index:50;
+    cursor:grab;
+    touch-action:none;
+  }
   #navBar.show{display:block;}
   #navBar:active,#navBar.dragging{cursor:grabbing;}
-  #navBar::before{content:'';position:absolute;left:50%;top:2px;bottom:2px;width:4px;transform:translateX(-50%);background:rgba(27,36,48,.16);border-radius:4px;transition:background .15s, width .15s;}
+  #navBar::before{
+    content:'';
+    position:absolute;
+    left:50%;top:2px;bottom:2px;
+    width:4px;
+    transform:translateX(-50%);
+    background:rgba(27,36,48,.16);
+    border-radius:4px;
+    transition:background .15s, width .15s;
+  }
   #navBar:hover::before,#navBar.dragging::before{background:rgba(27,36,48,.32);width:5px;}
-  .nav-cap{position:absolute;left:50%;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:rgba(27,36,48,.35);pointer-events:none;transition:background .15s;}
+  .nav-cap{
+    position:absolute;left:50%;transform:translateX(-50%);
+    width:8px;height:8px;border-radius:50%;
+    background:rgba(27,36,48,.35);
+    pointer-events:none;
+    transition:background .15s;
+  }
   .nav-cap-top{top:-3px;}
   .nav-cap-bottom{bottom:-3px;}
   #navBar:hover .nav-cap,#navBar.dragging .nav-cap{background:var(--accent);}
-  #navThumb{position:absolute;left:50%;transform:translateX(-50%);width:13px;min-height:32px;background:var(--ink);border-radius:8px;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.35);transition:background .15s, width .15s;z-index:1;}
+  #navThumb{
+    position:absolute;
+    left:50%;transform:translateX(-50%);
+    width:13px;
+    min-height:32px;
+    background:var(--ink);
+    border-radius:8px;
+    pointer-events:none;
+    box-shadow:0 2px 8px rgba(0,0,0,.35);
+    transition:background .15s, width .15s;
+    z-index:1;
+  }
   #navBar:hover #navThumb,#navBar.dragging #navThumb{background:var(--accent);width:16px;}
-  #navTooltip{position:absolute;right:34px;top:50%;transform:translateY(-50%);background:var(--ink);color:#fff;white-space:nowrap;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:bold;pointer-events:none;opacity:0;transition:opacity .15s;box-shadow:0 4px 12px rgba(0,0,0,.3);font-family:'IBM Plex Sans Arabic',sans-serif;}
+  #navTooltip{
+    position:absolute;right:34px;top:50%;transform:translateY(-50%);
+    background:var(--ink);color:#fff;white-space:nowrap;
+    padding:6px 14px;border-radius:8px;font-size:12px;font-weight:bold;
+    pointer-events:none;opacity:0;transition:opacity .15s;
+    box-shadow:0 4px 12px rgba(0,0,0,.3);
+    font-family:'IBM Plex Sans Arabic',sans-serif;
+  }
   #navBar:hover #navTooltip,#navBar.dragging #navTooltip{opacity:1;}
 
+  /* ============ CONTEXT MENU ============ */
   #pdfCtxMenu{position:fixed;display:none;z-index:300;background:#2B2B2B;color:#E8E8E8;border-radius:10px;box-shadow:0 12px 40px rgba(0,0,0,.45);padding:6px;min-width:240px;direction:rtl;font-family:'IBM Plex Sans Arabic',sans-serif;border:1px solid rgba(255,255,255,.08);user-select:none;-webkit-user-select:none;}
   #pdfCtxMenu.show{display:block;}
   .ctx-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:7px;cursor:pointer;font-size:14px;transition:background .1s;white-space:nowrap;position:relative;}
@@ -118,19 +168,50 @@
   .ctx-item .ctx-check{margin-inline-start:auto;color:#4A9EFF;font-weight:bold;font-size:15px;display:none;line-height:1;}
   .ctx-item.active-markup .ctx-check{display:inline;}
   .ctx-sep{height:1px;background:rgba(255,255,255,.08);margin:4px 6px;}
+
+  /* ★ قائمة الألوان الفرعية — تظهر على الـ hover */
   .ctx-has-submenu{position:relative;}
-  .ctx-item .ctx-swatches{display:none;position:absolute;top:50%;transform:translateY(-50%);inset-inline-end:100%;margin-inline-end:8px;background:#2B2B2B;border-radius:12px;box-shadow:0 12px 36px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08);padding:10px;gap:8px;flex-wrap:wrap;width:150px;justify-content:center;z-index:10;}
+  .ctx-item .ctx-swatches{
+    display:none;
+    position:absolute;
+    top:50%;transform:translateY(-50%);
+    inset-inline-end:100%;
+    margin-inline-end:8px;
+    background:#2B2B2B;
+    border-radius:12px;
+    box-shadow:0 12px 36px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08);
+    padding:10px;
+    gap:8px;
+    flex-wrap:wrap;
+    width:150px;
+    justify-content:center;
+    z-index:10;
+    animation:ctxPop .12s ease-out;
+  }
+  @keyframes ctxPop{
+    from{opacity:0;transform:translateY(-50%) translateX(8px);}
+    to  {opacity:1;transform:translateY(-50%) translateX(0);}
+  }
   .ctx-item:hover .ctx-swatches{display:flex;}
-  .ctx-item .ctx-swatches::after{content:'';position:absolute;top:50%;inset-inline-start:100%;transform:translateY(-50%);width:0;height:0;border:6px solid transparent;border-inline-start-color:#2B2B2B;}
+  .ctx-item .ctx-swatches::after{
+    content:'';
+    position:absolute;
+    top:50%;inset-inline-start:100%;
+    transform:translateY(-50%);
+    width:0;height:0;
+    border:6px solid transparent;
+    border-inline-start-color:#2B2B2B;
+  }
   .ctx-swatches .sw{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid rgba(255,255,255,.2);transition:transform .1s;position:relative;}
   .ctx-swatches .sw:hover{transform:scale(1.18);}
   .ctx-swatches .sw.selected{border-color:#fff;box-shadow:0 0 0 2px rgba(232,121,60,.6);}
   .ctx-swatches .sw.selected::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#000;font-weight:bold;font-size:13px;}
   .ctx-swatches .sw-sep{flex-basis:100%;height:1px;background:rgba(255,255,255,.12);margin:2px 0;}
-  .ctx-swatches .mk-btn{width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:#E8E8E8;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;flex:none;}
+  .ctx-swatches .mk-btn{width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:#E8E8E8;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;flex:none;transition:background .12s,border-color .12s,color .12s;}
   .ctx-swatches .mk-btn:hover{background:rgba(232,121,60,.22);border-color:var(--accent);color:#fff;}
   .ctx-swatches .mk-btn svg{width:16px;height:16px;}
 
+  /* ============ EMPTY / RECENT / TOAST ============ */
   #emptyState{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:30px;text-align:center;}
   #dropZone{width:min(520px,86vw);padding:46px 28px;border:2px dashed #B9AF9C;border-radius:16px;background:#F5F2EA;cursor:pointer;transition:border-color .15s,background .15s;}
   #dropZone:hover,#dropZone.drag{border-color:var(--accent);background:#FBEFE4;}
@@ -163,6 +244,7 @@
   #waitingForParent{display:none;position:fixed;inset:0;background:rgba(27,36,48,.85);z-index:80;align-items:center;justify-content:center;color:#fff;flex-direction:column;gap:16px;text-align:center;padding:20px;}
   #waitingForParent.show{display:flex;}
 
+  /* ============ TEXT INPUT (add & edit) ============ */
   #textInputBox{position:fixed;display:none;z-index:150;background:#fff;border:2px solid var(--accent);border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.35);min-width:240px;direction:rtl;}
   #textInputBox.editing{border-color:#4A9EFF;box-shadow:0 0 0 4px rgba(74,158,255,.2), 0 10px 40px rgba(0,0,0,.35);}
   #textInputBox .ti-badge{display:none;background:#4A9EFF;color:#fff;font-size:10px;font-weight:600;padding:3px 8px;border-radius:0 6px 0 6px;position:absolute;top:-2px;right:-2px;font-family:inherit;}
@@ -177,6 +259,7 @@
   #textInputBox .ti-dir button{background:#E3DDCD;color:var(--ink);padding:4px 10px;font-size:11px;font-weight:600;}
   #textInputBox .ti-dir button.active{background:var(--accent);color:#fff;}
 
+  /* ============ TRANSLATION ============ */
   #translatePanel{display:none;position:fixed;right:20px;top:90px;width:min(400px,92vw);background:#fff;border:1px solid #E3DDCD;border-radius:14px;box-shadow:0 14px 44px rgba(0,0,0,.28);z-index:250;overflow:hidden;direction:rtl;}
   #translatePanel.show{display:block;}
   #translatePanel .tp-header{background:var(--ink);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600;}
@@ -190,18 +273,6 @@
   #translatePanel .tp-actions{display:flex;gap:8px;}
   #translatePanel .tp-actions button{flex:1;padding:8px 12px;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;background:var(--accent);color:#fff;}
   #translatePanel .tp-actions button.ghost{background:#E3DDCD;color:var(--ink);font-weight:500;}
-
-  #selBar{position:fixed;display:none;z-index:180;background:var(--ink);border:1px solid var(--accent);border-radius:10px;padding:6px 8px;gap:8px;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.45);direction:rtl;pointer-events:none;}
-  #selBar > *{pointer-events:auto;}
-  #selBar.show{display:flex;}
-  #selBar #selColorRack{display:flex;gap:6px;align-items:center;}
-  #selBar .sel-pen{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid rgba(255,255,255,.2);flex:none;transition:transform .12s;}
-  #selBar .sel-pen:hover{transform:scale(1.12);}
-  #selBar .sel-pen.selected{border-color:#fff;box-shadow:0 0 0 2px rgba(232,121,60,.7);}
-  #selBar input[type=range]{width:70px;accent-color:var(--accent);}
-  #selBar button.sel-del{background:rgba(209,73,91,.15);border:1px solid rgba(209,73,91,.5);color:#fff;border-radius:6px;padding:4px 9px;cursor:pointer;font-family:inherit;font-size:13px;line-height:1;}
-  #selBar button.sel-del:hover{background:rgba(209,73,91,.35);}
-  #selBar .sel-hint{color:var(--muted);font-size:10px;font-family:'JetBrains Mono',monospace;}
 
   @media (max-width:720px){
     #topbar{padding:4px 8px;gap:6px;}
@@ -226,8 +297,9 @@
 <body>
 <div id="app">
 
+  <!-- ============ TOPBAR ============ -->
   <div id="topbar">
-    <div class="brand"><span class="dot"></span><b>قلم PDF</b><span class="mono">v17</span></div>
+    <div class="brand"><span class="dot"></span><b>قلم PDF</b><span class="mono">v13</span></div>
     <button class="tbtn" id="btnHelp" style="padding:4px 8px;">؟</button>
     <div class="sep"></div>
     <button class="tbtn" id="btnOpen">
@@ -265,7 +337,7 @@
     </button>
     <div class="sep"></div>
     <span id="saveStatus" class="mono" style="font-size:11px;color:var(--muted);display:none;"></span>
-    <button class="tbtn" id="btnClearAll" title="حذف كل التعديلات (مع حفظ نسخة احتياطية أولاً)" style="display:none;">
+    <button class="tbtn" id="btnClearAll" title="حذف كل التعديلات في هذا الملف" style="display:none;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 002 2h6a2 2 0 002-2l1-13"/></svg>
       <span class="lbl">حذف الكل</span>
     </button>
@@ -275,9 +347,10 @@
     </button>
   </div>
 
+  <!-- ============ TOOLBAR (single row with horizontal scroll) ============ -->
   <div id="toolbar">
     <div id="toolbarRow">
-      <button class="tool-btn" data-tool="select" title="تحديد / سحب / تعديل (1/S)">
+      <button class="tool-btn" data-tool="select" title="تحديد / سحب / تعديل النص (1/S)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l7 17 2-7 7-2z"/></svg>
         <span>تحديد / سحب</span>
       </button>
@@ -330,6 +403,7 @@
     </div>
   </div>
 
+  <!-- ============ MAIN ============ -->
   <div id="main">
     <div id="emptyState">
       <div id="quickResume" style="display:none;"></div>
@@ -343,6 +417,7 @@
     <div id="viewer" style="display:none;"></div>
   </div>
 
+  <!-- ★ شريط التنقل الرأسي -->
   <div id="navBar" title="اسحب للتنقل في الملف">
     <span class="nav-cap nav-cap-top"></span>
     <div id="navThumb"></div>
@@ -353,7 +428,9 @@
   <input type="file" id="fileInput" accept="application/pdf" style="display:none;">
 </div>
 
+<!-- ============ CONTEXT MENU ============ -->
 <div id="pdfCtxMenu">
+
   <div class="ctx-item" data-act="copy"><span class="ctx-icon">📋</span><span>نسخ النص</span><span class="ctx-shortcut">Ctrl+C</span></div>
   <div class="ctx-item" data-act="comment"><span class="ctx-icon">📝</span><span>إضافة كتعليق</span></div>
   <div class="ctx-item" data-act="search"><span class="ctx-icon">🔍</span><span>ابحث في جوجل</span></div>
@@ -362,12 +439,12 @@
     <span class="ctx-icon">🖍️</span><span>تظليل</span>
     <span class="ctx-check">✓</span>
     <div class="ctx-swatches" id="highlightSwatches">
-      <span class="sw selected" data-color="#FFE066" style="background:#FFE066;"></span>
-      <span class="sw" data-color="#8CE99A" style="background:#8CE99A;"></span>
-      <span class="sw" data-color="#FFA8C5" style="background:#FFA8C5;"></span>
-      <span class="sw" data-color="#74C0FC" style="background:#74C0FC;"></span>
-      <span class="sw" data-color="#FFC9C9" style="background:#FFC9C9;"></span>
-      <span class="sw" data-color="#D0BFFF" style="background:#D0BFFF;"></span>
+      <span class="sw selected" data-color="#FFE066" style="background:#FFE066;" title="أصفر"></span>
+      <span class="sw" data-color="#8CE99A" style="background:#8CE99A;" title="أخضر"></span>
+      <span class="sw" data-color="#FFA8C5" style="background:#FFA8C5;" title="وردي"></span>
+      <span class="sw" data-color="#74C0FC" style="background:#74C0FC;" title="أزرق"></span>
+      <span class="sw" data-color="#FFC9C9" style="background:#FFC9C9;" title="أحمر فاتح"></span>
+      <span class="sw" data-color="#D0BFFF" style="background:#D0BFFF;" title="بنفسجي"></span>
       <span class="sw-sep"></span>
       <button class="mk-btn" data-act="underline" data-markup="text-underline" title="تسطير"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4v6a6 6 0 0012 0V4M4 20h16"/></svg></button>
       <button class="mk-btn" data-act="strike" data-markup="text-strike" title="شطب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4v4a6 6 0 0012 0V4M4 12h16M4 20h16"/></svg></button>
@@ -377,6 +454,7 @@
   <div class="ctx-item" data-act="translate"><span class="ctx-icon">🌐</span><span>ترجمة عربي ↔ إنجليزي</span></div>
 </div>
 
+<!-- ============ TRANSLATE PANEL ============ -->
 <div id="translatePanel">
   <div class="tp-header"><span>🌐 الترجمة</span><button id="tpClose">✕</button></div>
   <div class="tp-body">
@@ -413,6 +491,7 @@
   </div>
 </div>
 
+<!-- ============ TEXT INPUT ============ -->
 <div id="textInputBox">
   <span class="ti-badge">تعديل</span>
   <textarea id="tiTextarea" placeholder="اكتب هنا… (عربي / English)"></textarea>
@@ -429,27 +508,20 @@
   </div>
 </div>
 
-<div id="selBar">
-  <span class="sel-hint">اللون</span>
-  <div id="selColorRack"></div>
-  <span class="sel-hint">السُمك</span>
-  <input type="range" id="selWidth" min="1" max="40" value="4">
-  <button class="sel-del" id="selDelete" title="حذف (Delete)">🗑️ حذف</button>
-</div>
-
 <div id="waitingForParent">
   <div class="spinner"></div>
   <h3>⏳ بانتظار الملف...</h3>
 </div>
 
+<!-- ============ HELP ============ -->
 <div id="helpOverlay">
   <div id="helpPanel">
     <h3>⌨️ اختصارات <button id="helpClose">✕</button></h3>
-    <div class="hk-row"><span>🔲 تحديد / سحب / تعديل</span><span><span class="kbd">1</span><span class="kbd">S</span></span></div>
+    <div class="hk-row"><span>🔲 تحديد / سحب / تعديل النص</span><span><span class="kbd">1</span><span class="kbd">S</span></span></div>
     <div class="hk-row"><span>✏️ قلم</span><span><span class="kbd">2</span><span class="kbd">P</span></span></div>
     <div class="hk-row"><span>🖍️ تظليل حر</span><span><span class="kbd">3</span><span class="kbd">H</span></span></div>
     <div class="hk-row"><span>▁ تسطير / ╳ شطب</span><span><span class="kbd">U</span><span class="kbd">K</span></span></div>
-    <div class="hk-row"><span>🧹 ممحاة (نقطة نقطة)</span><span><span class="kbd">4</span><span class="kbd">E</span></span></div>
+    <div class="hk-row"><span>🧹 ممحاة</span><span><span class="kbd">4</span><span class="kbd">E</span></span></div>
     <div class="hk-row"><span>📏 خط</span><span><span class="kbd">L</span></span></div>
     <div class="hk-row"><span>➡️ سهم</span><span><span class="kbd">A</span></span></div>
     <div class="hk-row"><span>▭ مستطيل / ◯ دائرة</span><span><span class="kbd">R</span><span class="kbd">C</span></span></div>
@@ -457,17 +529,15 @@
     <div class="hk-row"><span>🅰️ نص جديد</span><span><span class="kbd">T</span></span></div>
     <div class="hk-row"><span>🌐 ترجمة</span><span><span class="kbd">G</span></span></div>
     <div class="hk-row"><span>↩️ تراجع / ↪️ إعادة</span><span><span class="kbd">Ctrl+Z</span><span class="kbd">Ctrl+Y</span></span></div>
-    <div class="hk-row"><span>🗑️ حذف المحدد</span><span><span class="kbd">Delete</span></span></div>
     <div class="hk-row"><span>🔍 زوم</span><span><span class="kbd">+</span><span class="kbd">−</span><span class="kbd">0</span></span></div>
     <div class="hk-row"><span>📄 تنقل</span><span><span class="kbd">Space</span><span class="kbd">Shift+Space</span></span></div>
     <div class="hk-row"><span>🖥️ ملء الشاشة</span><span><span class="kbd">F</span><span class="kbd">Esc</span></span></div>
     <p style="margin:14px 0 0;font-size:11px;color:var(--muted);text-align:center;line-height:1.7;">
       🖱️ بالماوس:<br>
-      • <b>تحديد</b>: اضغط على رسمة لتغيير لونها/سُمكها أو تحريكها<br>
-      • <b>Delete</b> لحذف الرسمة المحددة<br>
-      • <b>انقر مرتين</b> على نص لتعديله<br>
+      • <b>اسحب النص</b> لتحريكه<br>
+      • <b>انقر مرتين</b> على النص لتعديله<br>
       • <b>حدّد نص PDF</b> ← زر الماوس الأيمن للخيارات<br>
-      • <b>الملفات المصدَّرة تفتح في Adobe Acrobat وقابلة للتعديل</b> ✨
+      • <b>اسحب شريط التنقل</b> يمين الشاشة
     </p>
   </div>
 </div>
@@ -487,14 +557,8 @@
   const VIA_POST = new URLSearchParams(location.search).get("viapost") === "1";
   const PDF_URL = VIA_POST ? "" : (urlParam || "");
   const NORM_W = 1000;
-  const ANN_JSON_NAME = "pdfqalam-annotations.json";
-  const ANN_ORIG_NAME = "pdfqalam-original.pdf";
-  const PDF_ANNOT_PRODUCER = "PDF Qalam";
 
-  let pdfDoc = null;
-  let pdfBytes = null;
-  let originalPdfBytes = null;
-  let currentFile = null, numPages = 0;
+  let pdfDoc = null, pdfBytes = null, currentFile = null, numPages = 0;
   let pageMeta = [];
   let strokesByPage = {}, redoByPage = {};
   let zoom = 1.0, baseScale = 1.0, renderedZoom = 1.0;
@@ -513,9 +577,8 @@
   let ctxMenu = null;
   let ctxHighlightColor = "#FFE066";
   let currentMarkupMode = "text-highlight";
-  let navDragging = false;
-  let selectedAnno = null;
-  let annoDragState = null;
+  let textDragState = null;
+  let navDragging = false, navSyncTimer = null;
 
   const MIN_ZOOM = 0.25, MAX_ZOOM = 4;
   const PEN_COLORS = ["#1B2430", "#D1495B", "#2F6FED", "#2F9E44", "#E8793C"];
@@ -538,41 +601,17 @@
   const textInputBox=$("#textInputBox"), tiTextarea=$("#tiTextarea");
   const translatePanel=$("#translatePanel"), helpOverlay=$("#helpOverlay");
   const navBar=$("#navBar"), navThumb=$("#navThumb"), navTooltip=$("#navTooltip");
-  const selBar=$("#selBar"), selColorRack=$("#selColorRack"), selWidth=$("#selWidth");
 
   function toast(msg){
     const t = $("#toast"); if(!t) return;
     t.textContent = msg; t.classList.add("show");
     clearTimeout(t._timer);
-    t._timer = setTimeout(()=>t.classList.remove("show"), 2600);
+    t._timer = setTimeout(()=>t.classList.remove("show"), 2200);
   }
   function showLoading(m){ if(loadingText) loadingText.textContent = m||"جاري التحميل..."; loadingOverlay.classList.add("show"); }
   function hideLoading(){ loadingOverlay.classList.remove("show"); }
   function canvasDpr(c){ return parseFloat(c.dataset.dpr)||1; }
   function escapeHtml(s){ return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-
-  // ============ Extract embedded attachments via pdf.js ============
-  async function extractAttachmentsViaPdfJs(bytes){
-    const result = {};
-    try{
-      const task = pdfjsLib.getDocument({ data: bytes.slice(0), disableWorker: false });
-      const doc = await task.promise;
-      try{
-        const atts = await doc.getAttachments();
-        if(atts){
-          for(const [name, info] of Object.entries(atts)){
-            if(!info || !info.content) continue;
-            const src = info.content;
-            const copy = new Uint8Array(src.byteLength);
-            copy.set(src);
-            result[name] = copy;
-          }
-        }
-      }catch(e){ console.warn('pdfjs getAttachments empty/failed:', e && e.message); }
-      try{ doc.destroy(); }catch(_){}
-    }catch(e){ console.warn('extractAttachmentsViaPdfJs failed:', e); }
-    return result;
-  }
 
   // ============ postMessage ============
   window.addEventListener("message", function(e){
@@ -594,6 +633,7 @@
   });
   function announceReady(){ if(window.parent && window.parent !== window){ try{ window.parent.postMessage({type:"annotator-ready"},"*"); }catch(e){} } }
 
+  // ============ Storage ============
   const STORAGE_PREFIX = "pdfqalam:";
   async function storeGet(k){ try{ const r = localStorage.getItem(STORAGE_PREFIX+k); return r ? JSON.parse(r) : null; }catch(e){ return null; } }
   async function storeSet(k,v){ try{ localStorage.setItem(STORAGE_PREFIX+k, JSON.stringify(v)); return true; }catch(e){ return false; } }
@@ -610,6 +650,7 @@
   async function idbSetHandle(id,h){ try{ const db=await idbOpen(); return new Promise(r=>{ const t=db.transaction("handles","readwrite"); t.objectStore("handles").put(h,id); t.oncomplete=()=>r(true); t.onerror=()=>r(false); }); }catch(e){ return false; } }
   async function idbGetHandle(id){ try{ const db=await idbOpen(); return new Promise(r=>{ const t=db.transaction("handles","readonly"); const rq=t.objectStore("handles").get(id); rq.onsuccess=()=>r(rq.result||null); rq.onerror=()=>r(null); }); }catch(e){ return null; } }
 
+  // ============ Recent ============
   async function getRecentList(){ const l = await storeGet("recent-files-list"); return Array.isArray(l)?l:[]; }
   async function upsertRecent(e){ let l=await getRecentList(); l=l.filter(x=>x.id!==e.id); l.unshift(e); l=l.slice(0,10); await storeSet("recent-files-list",l); return l; }
   function fmtSize(b){ return b>1048576?(b/1048576).toFixed(1)+" MB":Math.round(b/1024)+" KB"; }
@@ -640,6 +681,7 @@
     fileInput.click();
   }
 
+  // ============ Open file ============
   async function pickFile(){
     if(window.showOpenFilePicker){
       try{ const [h]=await window.showOpenFilePicker({types:[{description:"PDF",accept:{"application/pdf":[".pdf"]}}]}); const f=await h.getFile(); await loadFile(f,h); return; }
@@ -660,61 +702,21 @@
     else if(f) toast("من فضلك اسحب ملف PDF فقط");
   });
 
-  // ============ Load file ============
   async function loadFile(file, handle){
     if(!file || file.type !== "application/pdf"){ toast("هذا الملف ليس PDF"); return; }
     showLoading("جاري فتح الملف...");
     try{
       const buf = await file.arrayBuffer();
       pdfBytes = buf;
-      originalPdfBytes = buf;
-
-      let recoveredFromAttachment = false;
-      let recoveredStrokes = null;
-      let recoveredOriginalBytes = null;
-      try{
-        const attachments = await extractAttachmentsViaPdfJs(buf);
-        const names = Object.keys(attachments);
-        if(names.length) console.log('📎 PDF attachments found:', names);
-        const orig = attachments[ANN_ORIG_NAME];
-        const jsonBytes = attachments[ANN_JSON_NAME];
-        if(orig && jsonBytes){
-          const clean = new Uint8Array(orig.byteLength);
-          clean.set(orig);
-          recoveredOriginalBytes = clean.buffer;
-          const jsonText = new TextDecoder('utf-8').decode(jsonBytes);
-          const parsed = JSON.parse(jsonText);
-          if(parsed && typeof parsed === 'object'){
-            recoveredStrokes = parsed;
-            recoveredFromAttachment = true;
-          }
-        }
-      }catch(e){ console.warn('attachment recovery skipped:', e); }
-
       currentFile = { id: fileId(file.name, file.size), name: file.name, size: file.size };
       fsHandle = handle || null;
       if(handle) await idbSetHandle(currentFile.id, handle);
-
-      const renderBytes = recoveredFromAttachment ? recoveredOriginalBytes : buf;
-      originalPdfBytes = recoveredFromAttachment ? recoveredOriginalBytes : buf;
-      pdfBytes = renderBytes;
-
-      const task = pdfjsLib.getDocument({ data: renderBytes.slice(0) });
+      const task = pdfjsLib.getDocument({ data: buf.slice(0) });
       pdfDoc = await task.promise;
       numPages = pdfDoc.numPages;
-
-      if(recoveredFromAttachment){
-        strokesByPage = recoveredStrokes || {};
-        const totalStrokes = Object.keys(strokesByPage).reduce((s,k) => s + (strokesByPage[k]||[]).length, 0);
-        toast("✨ تم استرجاع " + totalStrokes + " عنصر — يمكنك تعديلها الآن");
-      } else {
-        const saved = await storeGet("annot:" + currentFile.id);
-        strokesByPage = (saved && saved.pages) ? saved.pages : {};
-      }
+      const saved = await storeGet("annot:" + currentFile.id);
+      strokesByPage = (saved && saved.pages) ? saved.pages : {};
       redoByPage = {};
-      selectedAnno = null; annoDragState = null;
-      deselectAnnotation();
-
       zoom = 1.0; renderedZoom = 1.0;
       zoomLabel.textContent = "100%";
       pgTotal.textContent = numPages;
@@ -727,10 +729,10 @@
       saveStatus.style.display = "inline";
       btnExport.style.display = "flex";
       btnClearAll.style.display = "flex";
-      if(recoveredFromAttachment) setSaveStatus("جاهز — التعديلات مسترجعة");
-      else setSaveStatus(Object.keys(strokesByPage).some(k => (strokesByPage[k]||[]).length) ? "تم تحميل تعليقاتك السابقة" : "جاهز");
+      setSaveStatus(saved ? "تم تحميل تعليقاتك السابقة" : "جاهز");
       await upsertRecent({ id: currentFile.id, name: currentFile.name, size: currentFile.size, savedAt: Date.now() });
       hideLoading();
+      toast("💡 اسحب النص لتحريكه — انقر مرتين لتعديله");
     }catch(err){
       console.error(err); hideLoading(); toast("تعذّر فتح الملف");
     }
@@ -750,7 +752,6 @@
     renderDebounce = setTimeout(async ()=>{
       await renderAllPages();
       if(ax!==null){ const r=zoom/lz; mainEl.scrollLeft=Math.max(0,ax*r-vx); mainEl.scrollTop=Math.max(0,ay*r-vy); }
-      updateSelBar();
     }, 130);
   }
   function zoomBy(f){ const r=mainEl.getBoundingClientRect(); setZoom(zoom*f,{x:r.left+r.width/2,y:r.top+r.height/2}); }
@@ -776,6 +777,7 @@
   }, {passive:false});
   mainEl.addEventListener("touchend", e => { if(e.touches.length<2) pinchState=null; }, {passive:true});
 
+  // ============ External / FS / Help ============
   $("#btnExternal").addEventListener("click",()=>{
     if(!pdfBytes){ toast("مفيش ملف مفتوح"); return; }
     const blob = new Blob([pdfBytes],{type:"application/pdf"});
@@ -793,12 +795,13 @@
   $("#btnFullscreen").addEventListener("click", toggleFullscreen);
   ["fullscreenchange","webkitfullscreenchange"].forEach(ev=>document.addEventListener(ev,()=>{
     const on = fsActive(); $("#btnFullscreen").classList.toggle("active",on);
-    if(pdfDoc){ clearTimeout(resizeTimer); resizeTimer=setTimeout(()=>renderAllPages().then(updateSelBar),150); }
+    if(pdfDoc){ clearTimeout(resizeTimer); resizeTimer=setTimeout(()=>renderAllPages(),150); }
   }));
   $("#btnHelp").addEventListener("click",()=>helpOverlay.classList.add("show"));
   $("#helpClose").addEventListener("click",()=>helpOverlay.classList.remove("show"));
   helpOverlay.addEventListener("click", e => { if(e.target===helpOverlay) helpOverlay.classList.remove("show"); });
 
+  // ============ Text-annotation bounding box ============
   function getTextAnnotationBBox(s){
     const fs = s.fontSize || 24;
     const lines = String(s.text||"").split("\n");
@@ -808,6 +811,7 @@
     const totalH = Math.max(fs * 1.35, lines.length * fs * 1.35);
     return { x: s.x, y: s.y, w: approxW, h: totalH };
   }
+
   function findTextAnnotationAt(clientX, clientY){
     if(!pdfDoc) return null;
     const wraps = viewer.querySelectorAll(".page-wrap");
@@ -834,31 +838,42 @@
     return null;
   }
 
+  // ============ Pan / drag text ============
   mainEl.addEventListener("pointerdown", e => {
     if(!pdfDoc) return;
     if(e.pointerType !== "mouse" || e.button !== 0) return;
     if(e.target.closest("#emptyState")||e.target.closest("button")||e.target.closest("input")) return;
     if(e.target.closest(".ink-canvas")) return;
-    if(e.target.closest(".textLayer")) return;
+
+    // 1) فحص سحب نص مُضاف
+    const hit = findTextAnnotationAt(e.clientX, e.clientY);
+    if(hit){
+      e.preventDefault();
+      try{ window.getSelection().removeAllRanges(); }catch(_){}
+      textDragState = { stroke: hit.stroke, page: hit.page, offsetX: hit.offsetX, offsetY: hit.offsetY };
+      mainEl.classList.add("dragging-text");
+      mainEl.style.cursor = "grabbing";
+      return;
+    }
+
     if(currentTool !== "select") return;
+    if(e.target.closest(".textLayer")) return;
+
     panState = {x:e.clientX, y:e.clientY, sl:mainEl.scrollLeft, st:mainEl.scrollTop};
     mainEl.classList.add("grabbing");
   });
 
   window.addEventListener("pointermove", e => {
-    if(annoDragState){
-      const canvas = getInkCanvas(annoDragState.page);
-      if(!canvas) return;
-      const pt = toNorm(annoDragState.page, e.clientX, e.clientY, canvas);
-      const dx = pt.x - annoDragState.lastPt.x;
-      const dy = pt.y - annoDragState.lastPt.y;
-      if(Math.abs(dx) > 0.01 || Math.abs(dy) > 0.01){
-        translateStroke(annoDragState.stroke, dx, dy);
-        annoDragState.lastPt = pt;
-        annoDragState.moved = true;
-        drawPageStrokes(annoDragState.page);
-        updateSelBar();
-      }
+    if(textDragState){
+      const wrap = viewer.querySelector('.page-wrap[data-page="'+textDragState.page+'"]');
+      if(!wrap) return;
+      const rect = wrap.getBoundingClientRect();
+      const scale = pageMeta[textDragState.page].width / NORM_W;
+      const nx = (e.clientX - rect.left) / scale - textDragState.offsetX;
+      const ny = (e.clientY - rect.top)  / scale - textDragState.offsetY;
+      textDragState.stroke.x = nx;
+      textDragState.stroke.y = ny;
+      drawPageStrokes(textDragState.page);
       return;
     }
     if(!panState) return;
@@ -867,17 +882,31 @@
   });
 
   window.addEventListener("pointerup", () => {
-    if(annoDragState){ if(annoDragState.moved) scheduleSave(); annoDragState = null; }
+    if(textDragState){
+      textDragState.stroke.x = r1(textDragState.stroke.x);
+      textDragState.stroke.y = r1(textDragState.stroke.y);
+      textDragState = null;
+      mainEl.classList.remove("dragging-text");
+      mainEl.style.cursor = "";
+      scheduleSave();
+      return;
+    }
     panState = null;
     mainEl.classList.remove("grabbing");
   });
   window.addEventListener("pointercancel", () => {
-    annoDragState = null; panState = null;
+    if(textDragState){
+      textDragState = null;
+      mainEl.classList.remove("dragging-text");
+      mainEl.style.cursor = "";
+    }
+    panState = null;
     mainEl.classList.remove("grabbing");
   });
 
+  // Hover cursor + Double-click to edit
   mainEl.addEventListener("pointermove", e => {
-    if(annoDragState || panState) return;
+    if(textDragState || panState) return;
     if(!pdfDoc) return;
     if(currentTool !== "select"){ if(mainEl.style.cursor === "move") mainEl.style.cursor = ""; return; }
     const hit = findTextAnnotationAt(e.clientX, e.clientY);
@@ -889,11 +918,12 @@
     if(currentTool !== "select" || !pdfDoc) return;
     const hit = findTextAnnotationAt(e.clientX, e.clientY);
     if(!hit || hit.stroke.tool !== "text") return;
-    e.preventDefault(); e.stopPropagation();
-    deselectAnnotation();
+    e.preventDefault();
+    e.stopPropagation();
     openTextInputForEdit(hit.stroke, hit.page, e.clientX, e.clientY);
   });
 
+  // ============ Current page ============
   function currentPage(){
     if(!pdfDoc) return 1;
     const mr = mainEl.getBoundingClientRect();
@@ -928,8 +958,9 @@
   });
 
   let scrollSyncTimer=null;
-  mainEl.addEventListener("scroll",()=>{ if(!pdfDoc) return; clearTimeout(scrollSyncTimer); scrollSyncTimer=setTimeout(()=>{ updatePageIndicator(); updateNavBar(); updateSelBar(); },60); });
+  mainEl.addEventListener("scroll",()=>{ if(!pdfDoc) return; clearTimeout(scrollSyncTimer); scrollSyncTimer=setTimeout(()=>{ updatePageIndicator(); updateNavBar(); },60); });
 
+  // ============ ★ شريط التنقل الرأسي ============
   function navMetrics(){
     const trackH = Math.max(30, navBar.clientHeight - 6);
     const ratio = Math.max(0.08, Math.min(1, mainEl.clientHeight / Math.max(1, mainEl.scrollHeight)));
@@ -955,16 +986,28 @@
   }
   navBar.addEventListener("pointerdown", e => {
     if(!pdfDoc) return;
-    e.preventDefault(); e.stopPropagation();
-    try{ navBar.setPointerCapture(e.pointerId); }catch(_){}
-    navDragging = true; navBar.classList.add("dragging");
+    e.preventDefault();
+    e.stopPropagation();
+    navBar.setPointerCapture(e.pointerId);
+    navDragging = true;
+    navBar.classList.add("dragging");
     pageFromNavY(e.clientY);
   });
-  navBar.addEventListener("pointermove", e => { if(!navDragging) return; pageFromNavY(e.clientY); });
-  function endNavDrag(){ if(!navDragging) return; navDragging = false; navBar.classList.remove("dragging"); updateNavBar(); }
+  navBar.addEventListener("pointermove", e => {
+    if(!navDragging) return;
+    pageFromNavY(e.clientY);
+  });
+  function endNavDrag(){
+    if(!navDragging) return;
+    navDragging = false;
+    navBar.classList.remove("dragging");
+    updateNavBar();
+  }
   navBar.addEventListener("pointerup", endNavDrag);
   navBar.addEventListener("pointercancel", endNavDrag);
+  navBar.addEventListener("click", e => e.stopPropagation());
 
+  // ============ Rendering ============
   async function renderAllPages(){
     if(!pdfDoc) return;
     if(pageObserver) pageObserver.disconnect();
@@ -1066,7 +1109,6 @@
           textDivs: []
         }).promise.then(() => {
           textLayerDiv.querySelectorAll("span").forEach(sp => sp.setAttribute("data-page", p));
-          updateCanvasInteractivity();
         }).catch(err => console.warn("text layer err", err));
       }catch(err){ console.warn("textContent err", p, err); }
     }catch(err){
@@ -1075,6 +1117,7 @@
     }
   }
 
+  // ============ Drawing helpers ============
   function pageScale(p){ return pageMeta[p].width / NORM_W; }
   function r1(n){ return Math.round(n*10)/10; }
   function toNorm(p, cx, cy, canvas){
@@ -1083,6 +1126,9 @@
     return {x: r1((cx-r.left)/s), y: r1((cy-r.top)/s)};
   }
   function getInkCanvas(p){ return viewer.querySelector('canvas.ink-canvas[data-page="'+p+'"]'); }
+  // Points may be stored as a flat array [x1,y1,x2,y2,...] (compact — current
+  // format) or as legacy [{x,y},{x,y},...] objects from older saved data.
+  // These helpers read either transparently.
   function ptCount(pts){ return (typeof pts[0] === "number") ? (pts.length/2) : pts.length; }
   function ptAt(pts, i){ return (typeof pts[0] === "number") ? {x:pts[i*2], y:pts[i*2+1]} : pts[i]; }
   function flattenPoints(pts){
@@ -1109,18 +1155,29 @@
     ctx.stroke();
     ctx.restore();
   }
+
   function drawLineShape(ctx,x1,y1,x2,y2){ ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); }
+
+  // ★ سهم V مفتوح — الخط يبدأ من نقطة السحب وينتهي عند طرف الرأس
   function drawArrowShape(ctx, x1, y1, x2, y2, width){
     const a = Math.atan2(y2 - y1, x2 - x1);
     const headLen = Math.max(14, width * 4.5);
     const headAng = Math.PI / 7;
-    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
     const ax1 = x2 - headLen * Math.cos(a - headAng);
     const ay1 = y2 - headLen * Math.sin(a - headAng);
     const ax2 = x2 - headLen * Math.cos(a + headAng);
     const ay2 = y2 - headLen * Math.sin(a + headAng);
-    ctx.beginPath(); ctx.moveTo(ax1, ay1); ctx.lineTo(x2, y2); ctx.lineTo(ax2, ay2); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(ax1, ay1);
+    ctx.lineTo(x2, y2);
+    ctx.lineTo(ax2, ay2);
+    ctx.stroke();
   }
+
   function drawRectShape(ctx,x1,y1,x2,y2){
     const x=Math.min(x1,x2),y=Math.min(y1,y2),w=Math.abs(x2-x1),h=Math.abs(y2-y1);
     ctx.beginPath(); ctx.rect(x,y,w,h); ctx.stroke();
@@ -1135,22 +1192,32 @@
     for(let i=0;i<n;i++){ const a=-Math.PI/2+i*2*Math.PI/n; const px=cx+rx*Math.cos(a),py=cy+ry*Math.sin(a); if(i===0)ctx.moveTo(px,py); else ctx.lineTo(px,py); }
     ctx.closePath(); ctx.stroke();
   }
+  // ★ سحابة بمنحنيات ناعمة
   function drawCloudShape(ctx, x1, y1, x2, y2){
-    const cx = (x1 + x2) / 2, cy = (y1 + y2) / 2;
-    const rx = Math.abs(x2 - x1) / 2, ry = Math.abs(y2 - y1) / 2;
+    const cx = (x1 + x2) / 2;
+    const cy = (y1 + y2) / 2;
+    const rx = Math.abs(x2 - x1) / 2;
+    const ry = Math.abs(y2 - y1) / 2;
     if(rx < 4 || ry < 4) return;
-    const nBumps = 10, bulge = 0.32;
-    const pt = (i) => { const a = (i / nBumps) * Math.PI * 2 - Math.PI / 2; return { a, x: cx + rx * Math.cos(a), y: cy + ry * Math.sin(a) }; };
+    const nBumps = 10;
+    const bulge = 0.32;
+    const pt = (i) => {
+      const a = (i / nBumps) * Math.PI * 2 - Math.PI / 2;
+      return { a, x: cx + rx * Math.cos(a), y: cy + ry * Math.sin(a) };
+    };
     ctx.beginPath();
-    const p0 = pt(0); ctx.moveTo(p0.x, p0.y);
+    const p0 = pt(0);
+    ctx.moveTo(p0.x, p0.y);
     for(let i = 1; i <= nBumps; i++){
-      const pPrev = pt(i - 1), pCur = pt(i);
-      const midA = (pPrev.a + pCur.a) / 2;
+      const pPrev = pt(i - 1);
+      const pCur  = pt(i);
+      const midA  = (pPrev.a + pCur.a) / 2;
       const cpx = cx + rx * (1 + bulge) * Math.cos(midA);
       const cpy = cy + ry * (1 + bulge) * Math.sin(midA);
       ctx.quadraticCurveTo(cpx, cpy, pCur.x, pCur.y);
     }
-    ctx.closePath(); ctx.stroke();
+    ctx.closePath();
+    ctx.stroke();
   }
   function drawCalloutShape(ctx,x1,y1,x2,y2){
     const x=Math.min(x1,x2),y=Math.min(y1,y2),w=Math.abs(x2-x1),h=Math.abs(y2-y1);
@@ -1174,11 +1241,14 @@
     const lh = fs*1.35;
     lines.forEach((line,i)=>{ ctx.fillText(line, (anno.x||0)*scale, (anno.y||0)*scale + i*lh); });
   }
+
+  // ★ تظليل احترافي بزوايا دائرية
   function drawTextHighlight(ctx, anno, scale){
     ctx.save();
     ctx.globalAlpha = anno.opacity ?? 0.42;
     ctx.globalCompositeOperation = "multiply";
-    const padX = 2, padY = anno.h * 0.15;
+    const padX = 2;
+    const padY = anno.h * 0.15;
     const x = (anno.x - padX / scale) * scale;
     const y = (anno.y - padY) * scale;
     const w = (anno.w + (2 * padX) / scale) * scale;
@@ -1186,30 +1256,44 @@
     const r = Math.min(3 * scale, h / 3);
     ctx.fillStyle = anno.color || "#FFE066";
     ctx.beginPath();
-    ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-    ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-    ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-    ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y);
-    ctx.closePath(); ctx.fill();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+    ctx.fill();
     ctx.restore();
   }
+
   function drawTextUnderline(ctx, anno, scale){
-    ctx.save(); ctx.globalAlpha = 1;
+    ctx.save();
+    ctx.globalAlpha = 1;
     ctx.strokeStyle = anno.color || "#1B2430";
     ctx.lineWidth = Math.max((anno.lineWidth||2)*scale, 1);
     ctx.beginPath();
     const y = (anno.y + anno.h) * scale - ctx.lineWidth/2;
-    ctx.moveTo(anno.x*scale, y); ctx.lineTo((anno.x+anno.w)*scale, y);
-    ctx.stroke(); ctx.restore();
+    ctx.moveTo(anno.x*scale, y);
+    ctx.lineTo((anno.x+anno.w)*scale, y);
+    ctx.stroke();
+    ctx.restore();
   }
+
   function drawTextStrike(ctx, anno, scale){
-    ctx.save(); ctx.globalAlpha = 1;
+    ctx.save();
+    ctx.globalAlpha = 1;
     ctx.strokeStyle = anno.color || "#D1495B";
     ctx.lineWidth = Math.max((anno.lineWidth||2)*scale, 1);
     ctx.beginPath();
     const y = (anno.y + anno.h*0.55) * scale;
-    ctx.moveTo(anno.x*scale, y); ctx.lineTo((anno.x+anno.w)*scale, y);
-    ctx.stroke(); ctx.restore();
+    ctx.moveTo(anno.x*scale, y);
+    ctx.lineTo((anno.x+anno.w)*scale, y);
+    ctx.stroke();
+    ctx.restore();
   }
 
   function drawAnnotation(ctx, anno, scale){
@@ -1284,148 +1368,16 @@
     }
     return false;
   }
-  function findStrokeAt(p, pt, r){
-    const list = strokesByPage[p] || [];
-    for(let i=list.length-1;i>=0;i--){ if(strokeNear(list[i], pt, r)) return list[i]; }
-    return null;
-  }
-  function translateStroke(s, dx, dy){
-    if(s.points){
-      const pts = s.points;
-      if(typeof pts[0] === "number"){
-        for(let i=0;i<pts.length;i+=2){ pts[i] = r1(pts[i]+dx); pts[i+1] = r1(pts[i+1]+dy); }
-      } else {
-        for(const p of pts){ p.x = r1(p.x+dx); p.y = r1(p.y+dy); }
-      }
-    }
-    if(typeof s.x1 === "number"){ s.x1=r1(s.x1+dx); s.y1=r1(s.y1+dy); s.x2=r1(s.x2+dx); s.y2=r1(s.y2+dy); }
-    if((s.tool === "text" || s.tool === "text-highlight" || s.tool === "text-underline" || s.tool === "text-strike") && typeof s.x === "number"){
-      s.x = r1(s.x+dx); s.y = r1(s.y+dy);
-    }
-  }
-  function strokeBBox(s){
-    if(s.points){
-      const pts = s.points, n = ptCount(pts);
-      if(!n) return null;
-      let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
-      for(let i=0;i<n;i++){ const p = ptAt(pts,i); minX=Math.min(minX,p.x); minY=Math.min(minY,p.y); maxX=Math.max(maxX,p.x); maxY=Math.max(maxY,p.y); }
-      const pad = (s.width||4)/2;
-      return {x:minX-pad, y:minY-pad, w:maxX-minX+pad*2, h:maxY-minY+pad*2};
-    }
-    if(typeof s.x1 === "number"){
-      const pad = (s.width||4)/2;
-      return {x:Math.min(s.x1,s.x2)-pad, y:Math.min(s.y1,s.y2)-pad, w:Math.abs(s.x2-s.x1)+pad*2, h:Math.abs(s.y2-s.y1)+pad*2};
-    }
-    if(s.tool === "text") return getTextAnnotationBBox(s);
-    if(typeof s.x === "number") return {x:s.x, y:s.y, w:s.w||100, h:s.h||24};
-    return null;
-  }
 
-  function selectAnnotation(stroke, page){
-    selectedAnno = { stroke, page };
-    buildSelColorRack();
-    selWidth.value = stroke.width || 4;
-    updateSelBar();
-  }
-  function deselectAnnotation(){
-    if(!selectedAnno) return;
-    selectedAnno = null;
-    selBar.classList.remove("show");
-  }
-  function updateSelBar(){
-    if(!selectedAnno || !pdfDoc){ selBar.classList.remove("show"); return; }
-    const { stroke, page } = selectedAnno;
-    const wrap = viewer.querySelector('.page-wrap[data-page="'+page+'"]');
-    if(!wrap){ selBar.classList.remove("show"); return; }
-    const bb = strokeBBox(stroke);
-    if(!bb){ selBar.classList.remove("show"); return; }
-    const rect = wrap.getBoundingClientRect();
-    const scale = pageMeta[page].width / NORM_W;
-    const left = rect.left + bb.x * scale;
-    const top  = rect.top  + bb.y * scale;
-    const bottom = rect.top + (bb.y + bb.h) * scale;
-    selBar.classList.add("show");
-    const sbRect = selBar.getBoundingClientRect();
-    let px = left;
-    let py = top - sbRect.height - 10;
-    if(py < 8) py = bottom + 10;
-    px = Math.max(8, Math.min(window.innerWidth - sbRect.width - 8, px));
-    py = Math.max(8, Math.min(window.innerHeight - sbRect.height - 8, py));
-    selBar.style.left = px + "px";
-    selBar.style.top  = py + "px";
-  }
-  function buildSelColorRack(){
-    selColorRack.innerHTML = "";
-    if(!selectedAnno) return;
-    const t = selectedAnno.stroke.tool;
-    const isHi = (t === "highlighter" || t === "text-highlight");
-    const colors = isHi ? HI_COLORS : PEN_COLORS;
-    const cur = String(selectedAnno.stroke.color||"").toLowerCase();
-    colors.forEach(c => {
-      const el = document.createElement("span");
-      el.className = "sel-pen"; el.style.background = c; el.title = c;
-      if(cur === c.toLowerCase()) el.classList.add("selected");
-      el.addEventListener("click", () => {
-        if(!selectedAnno) return;
-        selectedAnno.stroke.color = c;
-        drawPageStrokes(selectedAnno.page);
-        buildSelColorRack(); scheduleSave();
-      });
-      selColorRack.appendChild(el);
-    });
-    const picker = document.createElement("input");
-    picker.type = "color";
-    picker.value = /^#[0-9a-f]{6}$/i.test(selectedAnno.stroke.color||"") ? selectedAnno.stroke.color : "#000000";
-    picker.style.cssText = "width:24px;height:24px;padding:0;border:1px solid rgba(255,255,255,.25);border-radius:6px;background:transparent;cursor:pointer;flex:none;";
-    picker.addEventListener("input", e => {
-      if(!selectedAnno) return;
-      selectedAnno.stroke.color = e.target.value;
-      drawPageStrokes(selectedAnno.page); scheduleSave();
-    });
-    picker.addEventListener("change", e => { saveCustomColor(e.target.value); refreshCustomColors(); });
-    selColorRack.appendChild(picker);
-  }
-  selWidth.addEventListener("input", () => {
-    if(!selectedAnno) return;
-    selectedAnno.stroke.width = parseInt(selWidth.value,10);
-    drawPageStrokes(selectedAnno.page); scheduleSave();
-  });
-  $("#selDelete").addEventListener("click", () => {
-    if(!selectedAnno) return;
-    const { stroke, page } = selectedAnno;
-    const list = strokesByPage[page] || [];
-    const idx = list.indexOf(stroke);
-    if(idx >= 0){
-      list.splice(idx, 1);
-      redoByPage[page] = [];
-      drawPageStrokes(page); scheduleSave();
-      toast("تم حذف العنصر ✓");
-    }
-    deselectAnnotation();
-  });
-
+  // ============ Pointer handling (drawing) ============
   function attachPointerEvents(canvas, p){
     canvas.addEventListener("pointerdown", e => {
-      if(currentTool === "select"){
-        e.preventDefault(); e.stopPropagation();
-        const pt = toNorm(p, e.clientX, e.clientY, canvas);
-        const hit = findStrokeAt(p, pt, 12);
-        if(hit){
-          selectAnnotation(hit, p);
-          annoDragState = { stroke: hit, page: p, lastPt: pt, moved: false };
-        } else {
-          deselectAnnotation();
-          panState = {x:e.clientX, y:e.clientY, sl:mainEl.scrollLeft, st:mainEl.scrollTop};
-          mainEl.classList.add("grabbing");
-        }
-        try{ canvas.setPointerCapture(e.pointerId); }catch(_){}
-        return;
-      }
-      e.preventDefault(); e.stopPropagation();
-      try{ canvas.setPointerCapture(e.pointerId); }catch(_){}
+      if(currentTool === "select") return;
+      e.preventDefault();
+      canvas.setPointerCapture(e.pointerId);
       const pt = toNorm(p, e.clientX, e.clientY, canvas);
       activePageNum = p;
-      if(currentTool === "eraser"){ drawing = true; eraseAt(p, pt); return; }
+      if(currentTool === "eraser"){ drawing=true; eraseAt(p, pt); return; }
       if(currentTool === "text"){ openTextInput(p, pt, e.clientX, e.clientY); return; }
       if(currentTool === "pen" || currentTool === "highlighter"){
         drawing = true;
@@ -1443,15 +1395,6 @@
       }
     });
     canvas.addEventListener("pointermove", e => {
-      if(currentTool === "select"){
-        if(annoDragState) return;
-        if(!panState){
-          const pt = toNorm(p, e.clientX, e.clientY, canvas);
-          const hit = findStrokeAt(p, pt, 12);
-          canvas.style.cursor = hit ? "move" : "grab";
-        }
-        return;
-      }
       if(!drawing || activePageNum !== p) return;
       const pt = toNorm(p, e.clientX, e.clientY, canvas);
       if(currentTool === "eraser"){ eraseAt(p, pt); return; }
@@ -1478,7 +1421,6 @@
       }
     });
     function endStroke(){
-      if(currentTool === "select") return;
       if(!drawing || activePageNum !== p) return;
       drawing = false;
       if(currentTool === "eraser"){ activeStroke=null; return; }
@@ -1490,7 +1432,9 @@
             width: r1(activeStroke.width), opacity: activeStroke.opacity,
             points: flattenPoints(activeStroke.points)
           });
-          redoByPage[p] = []; drawPageStrokes(p); scheduleSave();
+          redoByPage[p] = [];
+          drawPageStrokes(p);
+          scheduleSave();
         }
       } else if(["line","arrow","rect","circle","polygon","cloud","callout"].includes(currentTool)){
         const a = activeStroke;
@@ -1498,7 +1442,9 @@
           a.width = r1(a.width);
           strokesByPage[p] = strokesByPage[p] || [];
           strokesByPage[p].push(a);
-          redoByPage[p] = []; drawPageStrokes(p); scheduleSave();
+          redoByPage[p] = [];
+          drawPageStrokes(p);
+          scheduleSave();
         }
       }
       activeStroke = null;
@@ -1510,50 +1456,20 @@
 
   function eraseAt(p, pt){
     const list = strokesByPage[p] || [];
-    const R = Math.max(8, currentWidth);
-    let changed = false;
-    const out = [];
-    for(const s of list){
-      if(s.points && (s.tool === "pen" || s.tool === "highlighter")){
-        const pts = s.points;
-        const n = ptCount(pts);
-        if(n === 0){ out.push(s); continue; }
-        const segs = [];
-        let cur = [];
-        let removed = false;
-        for(let i=0;i<n;i++){
-          const pp = ptAt(pts, i);
-          if(Math.hypot(pp.x - pt.x, pp.y - pt.y) < R){
-            removed = true;
-            if(cur.length > 1) segs.push(cur);
-            cur = [];
-          } else { cur.push({x: pp.x, y: pp.y}); }
-        }
-        if(cur.length > 1) segs.push(cur);
-        if(!removed){ out.push(s); continue; }
-        changed = true;
-        for(const seg of segs){
-          out.push({ tool: s.tool, color: s.color, width: s.width, opacity: s.opacity, points: flattenPoints(seg) });
-        }
-      } else {
-        if(strokeNear(s, pt, R)){ changed = true; }
-        else out.push(s);
-      }
-    }
-    if(changed){
-      strokesByPage[p] = out;
-      redoByPage[p] = [];
-      drawPageStrokes(p);
-      scheduleSave();
-    }
+    const before = list.length;
+    strokesByPage[p] = list.filter(s => !strokeNear(s, pt, 20));
+    if(strokesByPage[p].length !== before){ drawPageStrokes(p); scheduleSave(); }
   }
 
+  // ============ Context menu ============
   ctxMenu = $("#pdfCtxMenu");
+
   function updateMarkupChecks(){
     document.querySelectorAll("#pdfCtxMenu .ctx-item[data-markup]").forEach(el => {
       el.classList.toggle("active-markup", el.dataset.markup === currentMarkupMode);
     });
   }
+
   function showContextMenu(x, y){
     ctxMenu.classList.add("show");
     updateMarkupChecks();
@@ -1581,6 +1497,9 @@
     showContextMenu(e.clientX, e.clientY);
   });
 
+  // When the highlighter / underline / strike tool is active, applying the
+  // mark happens automatically as soon as you release a text selection —
+  // no right-click needed, matching how these tools work in reference apps.
   function tryAutoApplyTextMark(){
     if(!["highlighter","underline","strike"].includes(currentTool)) return;
     const sel = window.getSelection();
@@ -1596,14 +1515,22 @@
   document.addEventListener("mouseup", tryAutoApplyTextMark);
   document.addEventListener("touchend", () => setTimeout(tryAutoApplyTextMark, 0));
 
-  document.addEventListener("pointerdown", e => { if(!e.target.closest("#pdfCtxMenu")) hideContextMenu(); }, true);
+  document.addEventListener("pointerdown", e => {
+    if(!e.target.closest("#pdfCtxMenu")) hideContextMenu();
+  }, true);
+
+  document.addEventListener("keydown", e => { if(e.key === "Escape") hideContextMenu(); });
 
   ctxMenu.addEventListener("click", e => {
+    // ضغط على بقعة لون → طبّق فوراً
     const sw = e.target.closest(".ctx-swatches .sw");
     if(sw){
-      e.preventDefault(); e.stopPropagation();
+      e.preventDefault();
+      e.stopPropagation();
       ctxHighlightColor = sw.dataset.color;
-      document.querySelectorAll("#highlightSwatches .sw").forEach(x => { x.classList.toggle("selected", x === sw); });
+      document.querySelectorAll("#highlightSwatches .sw").forEach(x => {
+        x.classList.toggle("selected", x === sw);
+      });
       if(selectedRange) applyTextMark("text-highlight", ctxHighlightColor);
       return;
     }
@@ -1616,9 +1543,14 @@
     if(!selectedRange) return;
     const text = selectedRange.toString();
     switch(act){
-      case "copy":
-        navigator.clipboard.writeText(text).then(()=>toast("تم نسخ النص ✓"), ()=>toast("تعذّر النسخ"));
-        hideContextMenu(); break;
+      case "copy": {
+        navigator.clipboard.writeText(text).then(
+          () => toast("تم نسخ النص ✓"),
+          () => toast("تعذّر النسخ")
+        );
+        hideContextMenu();
+        break;
+      }
       case "comment": {
         const cont = selectedRange.commonAncestorContainer;
         const el = cont.nodeType === 1 ? cont : cont.parentElement;
@@ -1631,13 +1563,19 @@
         const rects = Array.from(selectedRange.getClientRects());
         if(!rects.length) return;
         const r = rects[0];
+        const x = (r.left - pwRect.left) / scale;
+        const y = (r.top - pwRect.top) / scale;
         pendingInsertText = text;
-        openTextInput(p, {x:(r.left - pwRect.left) / scale, y:(r.top - pwRect.top) / scale}, r.left, r.top);
-        hideContextMenu(); break;
+        openTextInput(p, {x:x, y:y}, r.left, r.top);
+        hideContextMenu();
+        break;
       }
-      case "search":
-        window.open("https://www.google.com/search?q=" + encodeURIComponent(text), "_blank");
-        hideContextMenu(); break;
+      case "search": {
+        const url = "https://www.google.com/search?q=" + encodeURIComponent(text);
+        window.open(url, "_blank");
+        hideContextMenu();
+        break;
+      }
       case "highlight": applyTextMark("text-highlight", ctxHighlightColor); break;
       case "underline": applyTextMark("text-underline"); break;
       case "strike": applyTextMark("text-strike"); break;
@@ -1667,9 +1605,11 @@
     const scale = pageScale(p);
     const rects = Array.from(selectedRange.getClientRects()).filter(r => r.width > 2 && r.height > 2);
     if(!rects.length){ hideContextMenu(); return; }
+
     const newAnnos = [];
     for(const r of rects){
-      const padX = 2, padY = r.height * 0.12;
+      const padX = 2;
+      const padY = r.height * 0.12;
       const anno = {
         tool: type,
         x: r1((r.left - pwRect.left) / scale - padX / scale),
@@ -1677,34 +1617,51 @@
         w: r1(r.width / scale + (2 * padX) / scale),
         h: r1(r.height / scale + (2 * padY) / scale)
       };
-      if(type === "text-highlight"){ anno.color = overrideColor || ctxHighlightColor || "#FFE066"; anno.opacity = 0.42; }
-      else if(type === "text-underline"){ anno.color = overrideColor || "#1B2430"; anno.lineWidth = overrideWidth || 2; }
-      else { anno.color = overrideColor || "#D1495B"; anno.lineWidth = overrideWidth || 2; }
+      if(type === "text-highlight"){
+        anno.color = overrideColor || ctxHighlightColor || "#FFE066";
+        anno.opacity = 0.42;
+      } else if(type === "text-underline"){
+        anno.color = overrideColor || "#1B2430";
+        anno.lineWidth = overrideWidth || 2;
+      } else {
+        anno.color = overrideColor || "#D1495B";
+        anno.lineWidth = overrideWidth || 2;
+      }
       newAnnos.push(anno);
     }
     strokesByPage[p] = strokesByPage[p] || [];
     strokesByPage[p].push(...newAnnos);
     redoByPage[p] = [];
-    drawPageStrokes(p); scheduleSave();
+    drawPageStrokes(p);
+    scheduleSave();
+
     try{ window.getSelection().removeAllRanges(); }catch(e){}
     hideContextMenu();
-    const msgs = { "text-highlight": "تم التظليل ✓", "text-underline": "تم التسطير ✓", "text-strike": "تم الشطب ✓" };
+
+    const msgs = {
+      "text-highlight": "تم التظليل ✓",
+      "text-underline": "تم التسطير ✓",
+      "text-strike": "تم الشطب ✓"
+    };
     toast(msgs[type] || "تم");
   }
 
+  // ============ Text input (add & edit) ============
   let textInputCtx = null;
   function openTextInput(p, pt, clientX, clientY, editingStroke){
     textInputCtx = { p: p, pt: pt, editingStroke: editingStroke || null };
     textInputBox.style.display = "block";
     textInputBox.classList.toggle("editing", !!editingStroke);
     const boxW = 300;
-    let left = clientX, top = clientY;
+    let left = clientX;
+    let top = clientY;
     if(left + boxW > window.innerWidth - 10) left = window.innerWidth - boxW - 10;
     if(left < 10) left = 10;
     if(top + 240 > window.innerHeight - 10) top = window.innerHeight - 250;
     if(top < 10) top = 10;
     textInputBox.style.left = left + "px";
     textInputBox.style.top = top + "px";
+
     if(editingStroke){
       tiTextarea.value = editingStroke.text || "";
       currentTextDir = editingStroke.dir || "auto";
@@ -1716,43 +1673,63 @@
     } else {
       tiTextarea.value = pendingInsertText || "";
       pendingInsertText = null;
-      if(!tiTextarea.value){ currentTextDir = "auto"; }
-      else { currentTextDir = /[\u0600-\u06FF]/.test(tiTextarea.value) ? "rtl" : "ltr"; }
+      if(!tiTextarea.value){
+        currentTextDir = "auto";
+      } else {
+        currentTextDir = /[\u0600-\u06FF]/.test(tiTextarea.value) ? "rtl" : "ltr";
+      }
       $("#tiOk").textContent = "إضافة";
       $("#tiDelete").style.display = "none";
     }
     tiTextarea.style.direction = currentTextDir === "rtl" ? "rtl" : "ltr";
-    setTimeout(() => { tiTextarea.focus(); try{ tiTextarea.setSelectionRange(tiTextarea.value.length, tiTextarea.value.length); }catch(e){} }, 50);
+    setTimeout(() => {
+      tiTextarea.focus();
+      try{ tiTextarea.setSelectionRange(tiTextarea.value.length, tiTextarea.value.length); }catch(e){}
+    }, 50);
     document.querySelectorAll("#textInputBox .ti-dir button").forEach(b => b.classList.toggle("active", b.dataset.dir === currentTextDir));
   }
+
   function openTextInputForEdit(stroke, p, clientX, clientY){
     const wrap = viewer.querySelector('.page-wrap[data-page="'+p+'"]');
     if(!wrap) return;
     const rect = wrap.getBoundingClientRect();
     const scale = pageMeta[p].width / NORM_W;
-    openTextInput(p, {x: stroke.x, y: stroke.y}, rect.left + stroke.x * scale, rect.top + stroke.y * scale, stroke);
+    const screenX = rect.left + stroke.x * scale;
+    const screenY = rect.top  + stroke.y * scale;
+    openTextInput(p, {x: stroke.x, y: stroke.y}, screenX, screenY, stroke);
   }
+
   function deleteEditingStroke(){
     if(!textInputCtx || !textInputCtx.editingStroke) return;
     const p = textInputCtx.p;
     const list = strokesByPage[p] || [];
     const idx = list.indexOf(textInputCtx.editingStroke);
-    if(idx >= 0){ list.splice(idx, 1); redoByPage[p] = []; drawPageStrokes(p); scheduleSave(); toast("تم حذف النص"); }
+    if(idx >= 0){
+      list.splice(idx, 1);
+      redoByPage[p] = [];
+      drawPageStrokes(p);
+      scheduleSave();
+      toast("تم حذف النص");
+    }
     textInputBox.style.display = "none";
     textInputBox.classList.remove("editing");
     textInputCtx = null;
   }
+
   function closeTextInput(save){
     if(!textInputCtx){ textInputBox.style.display = "none"; return; }
     const txt = tiTextarea.value.trim();
     const ctx = textInputCtx;
+
     if(save && ctx.editingStroke){
       if(txt){
         ctx.editingStroke.text = txt;
         ctx.editingStroke.dir = currentTextDir;
         ctx.editingStroke.fontSize = currentFontSize;
         ctx.editingStroke.color = currentColor;
-        redoByPage[ctx.p] = []; drawPageStrokes(ctx.p); scheduleSave();
+        redoByPage[ctx.p] = [];
+        drawPageStrokes(ctx.p);
+        scheduleSave();
         toast("تم تحديث النص ✓");
       } else {
         const list = strokesByPage[ctx.p] || [];
@@ -1764,13 +1741,17 @@
       const anno = { tool:"text", color:currentColor, width:1, fontSize:currentFontSize, x:ctx.pt.x, y:ctx.pt.y, text:txt, dir:currentTextDir };
       strokesByPage[ctx.p] = strokesByPage[ctx.p] || [];
       strokesByPage[ctx.p].push(anno);
-      redoByPage[ctx.p] = []; drawPageStrokes(ctx.p); scheduleSave();
-      toast("تمت إضافة النص — انقر مرتين لتعديله");
+      redoByPage[ctx.p] = [];
+      drawPageStrokes(ctx.p);
+      scheduleSave();
+      toast("تمت إضافة النص — حرّكه بالماوس أو انقر مرتين لتعديله");
     }
+
     textInputBox.style.display = "none";
     textInputBox.classList.remove("editing");
     textInputCtx = null;
   }
+
   document.querySelectorAll("#textInputBox .ti-dir button").forEach(b => {
     b.addEventListener("click", () => {
       currentTextDir = b.dataset.dir;
@@ -1787,6 +1768,7 @@
     if(e.key === "Enter" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); closeTextInput(true); }
   });
 
+  // ============ Translation ============
   let translationCache = {};
   async function translateText(text, from, to){
     if(!text.trim()) return "";
@@ -1810,7 +1792,7 @@
       const out = data && data.responseData && data.responseData.translatedText;
       if(out){ translationCache[key] = out; return out; }
     }catch(e){}
-    throw new Error("تعذّر الاتصال");
+    throw new Error("تعذّر الاتصال بخدمة الترجمة");
   }
   $("#btnTranslate").addEventListener("click", () => {
     translatePanel.classList.toggle("show");
@@ -1843,20 +1825,27 @@
     const from = $("#tpFrom").value, to = $("#tpTo").value;
     btn.disabled = true; btn.textContent = "…";
     $("#tpResult").textContent = "…";
-    try{ $("#tpResult").textContent = await translateText(txt, from, to); }
-    catch(e){ $("#tpResult").textContent = "⚠️ تعذّرت الترجمة"; }
+    try{
+      const out = await translateText(txt, from, to);
+      $("#tpResult").textContent = out;
+    }catch(e){ $("#tpResult").textContent = "⚠️ تعذّرت الترجمة"; }
     finally{ btn.disabled = false; btn.textContent = "ترجم الآن"; }
   }
   let translateDebounce = null;
-  $("#tpInput").addEventListener("input", () => { clearTimeout(translateDebounce); translateDebounce = setTimeout(runTranslate, 500); });
+  $("#tpInput").addEventListener("input", () => {
+    clearTimeout(translateDebounce);
+    translateDebounce = setTimeout(runTranslate, 500);
+  });
   $("#tpFrom").addEventListener("change", runTranslate);
   $("#tpTo").addEventListener("change", runTranslate);
   $("#tpTranslate").addEventListener("click", runTranslate);
 
+  // ============ Color rack ============
   function buildColorRack(){
     colorRack.innerHTML = "";
     const isHi = (currentTool === "highlighter");
     const quick = isHi ? HI_COLORS : PEN_COLORS;
+
     const picker = document.createElement("div");
     picker.className = "color-picker-btn";
     picker.title = "🎨 منتقي الألوان";
@@ -1866,9 +1855,11 @@
     inp.addEventListener("input", e => { currentColor = e.target.value; picker.style.color = currentColor; updateSelectedPen(); });
     inp.addEventListener("change", e => { currentColor = e.target.value; picker.style.color = currentColor; saveCustomColor(currentColor); refreshCustomColors(); updateSelectedPen(); });
     colorRack.appendChild(picker);
+
     const sep = document.createElement("span");
     sep.style.cssText = "width:1px;height:20px;background:rgba(255,255,255,.15);flex:none;margin:0 2px;";
     colorRack.appendChild(sep);
+
     quick.forEach(c => {
       const el = document.createElement("span");
       el.className = "pen"; el.style.background = c; el.title = c; el.dataset.color = c;
@@ -1876,6 +1867,7 @@
       el.addEventListener("click", () => { currentColor = c; updateSelectedPen(); });
       colorRack.appendChild(el);
     });
+
     const customs = loadCustomColors();
     const unique = customs.filter(c => !quick.some(q => q.toLowerCase() === c.toLowerCase()));
     if(unique.length){
@@ -1902,23 +1894,15 @@
   }
   function refreshCustomColors(){ buildColorRack(); }
 
+  // ============ Tool selection ============
   function selectTool(tool){
-    if(currentTool !== tool) deselectAnnotation();
     currentTool = tool;
     document.querySelectorAll("[data-tool]").forEach(b => b.classList.toggle("active", b.dataset.tool === tool));
-    const normalInkTools = ["pen","line","arrow","rect","circle","polygon","cloud","callout","text"];
     if(currentTool === "highlighter"){
-      if(currentWidth < 14){ currentWidth = 20; widthRange.value = 20; }
+      currentWidth = Math.max(currentWidth, 14); widthRange.value = currentWidth;
       if(!HI_COLORS.includes(currentColor)) currentColor = HI_COLORS[0];
     }
-    // من غير الإصلاح ده، سُمك/لون التظليل الحر (تخين وأصفر فاتح) كانوا بيفضلوا
-    // متطبّقين لو رجعت لأداة قلم/شكل/نص بعد ما تستخدم التظليل — فتطلع أشكال
-    // ضخمة شكلها "مصمّتة" وكتابة صفراء بالكاد بتتشاف.
-    if(normalInkTools.includes(currentTool)){
-      if(currentWidth > 14){ currentWidth = 4; widthRange.value = 4; }
-      if(HI_COLORS.includes(currentColor)) currentColor = PEN_COLORS[0];
-    }
-    if(currentTool === "eraser" && currentWidth < 12){ currentWidth = 20; widthRange.value = 20; }
+    if(currentTool === "pen" && currentWidth > 14){ currentWidth = 4; widthRange.value = 4; }
     if(currentTool === "underline"){ currentColor = "#1B2430"; currentWidth = 3; widthRange.value = 3; }
     if(currentTool === "strike"){ currentColor = "#D1495B"; currentWidth = 3; widthRange.value = 3; }
     buildColorRack();
@@ -1932,7 +1916,7 @@
 
   function updateToolUIVisibility(){
     const showColor = ["pen","highlighter","line","arrow","rect","circle","polygon","cloud","callout","text","underline","strike"].includes(currentTool);
-    const showWidth = ["pen","highlighter","line","arrow","rect","circle","polygon","cloud","callout","underline","strike","eraser"].includes(currentTool);
+    const showWidth = ["pen","highlighter","line","arrow","rect","circle","polygon","cloud","callout","underline","strike"].includes(currentTool);
     const showHi = (currentTool === "highlighter");
     const showFont = (currentTool === "text");
     const showShapes = ["pen","line","arrow","rect","circle","polygon","cloud","callout"].includes(currentTool);
@@ -1946,7 +1930,6 @@
     colorRack.style.display = showColor ? "flex" : "none";
     widthRange.style.display = showWidth ? "inline-block" : "none";
     $("#widthLabel").style.display = showWidth ? "inline" : "none";
-    $("#widthLabel").textContent = currentTool === "eraser" ? "حجم الممحاة" : "السُمك";
     opRange.style.display = showHi ? "inline-block" : "none";
     $("#opLabel").style.display = showHi ? "inline" : "none";
     fontRange.style.display = showFont ? "inline-block" : "none";
@@ -1954,20 +1937,17 @@
   }
 
   function updateCanvasInteractivity(){
-    const drawTools = ["pen","eraser","highlighter","line","arrow","rect","circle","polygon","cloud","callout","text"];
-    const fullTextLayer = ["underline","strike"];
-    document.body.classList.toggle("tool-draw", drawTools.includes(currentTool));
-    const inkOn = !fullTextLayer.includes(currentTool);
+    const textSelectTools = ["select","highlighter","underline","strike"];
+    const isTextSelectTool = textSelectTools.includes(currentTool);
+    const interactive = !isTextSelectTool;
     viewer.querySelectorAll("canvas.ink-canvas").forEach(c => {
-      c.style.pointerEvents = inkOn ? "auto" : "none";
-      c.style.cursor = currentTool === "select" ? "grab" :
-                       currentTool === "eraser" ? "cell" :
-                       currentTool === "text"   ? "text" : "crosshair";
-    });
-    viewer.querySelectorAll(".textLayer").forEach(t => {
-      t.classList.toggle("selectable", fullTextLayer.includes(currentTool));
+      c.style.pointerEvents = interactive ? "auto" : "none";
+      c.style.cursor = interactive ? (currentTool === "eraser" ? "cell" : (currentTool === "text" ? "text" : "crosshair")) : "default";
     });
     mainEl.classList.toggle("grab", currentTool === "select" && !!pdfDoc);
+    document.querySelectorAll(".textLayer").forEach(t => {
+      t.classList.toggle("selectable", isTextSelectTool);
+    });
   }
 
   widthRange.addEventListener("input", () => { currentWidth = parseInt(widthRange.value,10); });
@@ -1979,11 +1959,11 @@
     if(!p) return;
     const list = strokesByPage[p] || [];
     if(!list.length) return;
-    deselectAnnotation();
     const s = list.pop();
     redoByPage[p] = redoByPage[p] || [];
     redoByPage[p].push(s);
-    drawPageStrokes(p); scheduleSave();
+    drawPageStrokes(p);
+    scheduleSave();
   });
   $("#btnRedo").addEventListener("click", () => {
     const p = lastActivePageWithStrokes(true);
@@ -1993,7 +1973,8 @@
     const s = rl.pop();
     strokesByPage[p] = strokesByPage[p] || [];
     strokesByPage[p].push(s);
-    drawPageStrokes(p); scheduleSave();
+    drawPageStrokes(p);
+    scheduleSave();
   });
   function lastActivePageWithStrokes(forRedo){
     const src = forRedo ? redoByPage : strokesByPage;
@@ -2003,6 +1984,7 @@
     return found;
   }
 
+  // ============ Keyboard ============
   document.addEventListener("keydown", e => {
     const tag = (e.target && e.target.tagName) || "";
     if(tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
@@ -2011,7 +1993,6 @@
       translatePanel.classList.remove("show");
       hideContextMenu();
       closeTextInput(false);
-      deselectAnnotation();
       return;
     }
     if(!pdfDoc){
@@ -2027,7 +2008,6 @@
       return;
     }
     const key = e.key, lower = key.toLowerCase();
-    if((key === "Delete" || key === "Backspace") && selectedAnno){ e.preventDefault(); $("#selDelete").click(); return; }
     if(key === "1" || lower === "s") selectTool("select");
     else if(key === "2" || lower === "p") selectTool("pen");
     else if(key === "3" || lower === "h") selectTool("highlighter");
@@ -2054,6 +2034,7 @@
     else if(key === "؟" || (e.shiftKey && key === "/")) helpOverlay.classList.toggle("show");
   });
 
+  // ============ Save / Export ============
   function setSaveStatus(t){ saveStatus.textContent = t; }
   function scheduleSave(){
     setSaveStatus("جاري الحفظ...");
@@ -2068,515 +2049,68 @@
     if(ok) await upsertRecent({ id: currentFile.id, name: currentFile.name, size: currentFile.size, savedAt: Date.now() });
   }
 
-  // ============ ★ Save As حقيقي (File System Access API) ============
-  // بترجّع:
-  //   - FileSystemFileHandle → المستخدم اختار مكان الحفظ فعلاً
-  //   - "CANCELLED"          → المستخدم قفل نافذة الحفظ (إلغاء)
-  //   - null                 → المتصفح مش بيدعم الـ API (نرجع للتنزيل العادي)
-  function pickSaveHandle(suggestedName){
-    return new Promise((resolve) => {
-      if(typeof window.showSaveFilePicker !== "function"){ resolve(null); return; }
-      try{
-        const p = window.showSaveFilePicker({
-          suggestedName: suggestedName,
-          types: [{ description: "PDF", accept: { "application/pdf": [".pdf"] } }]
-        });
-        p.then(h => resolve(h)).catch(err => {
-          if(err && err.name === "AbortError") resolve("CANCELLED");
-          else { console.warn("showSaveFilePicker failed:", err); resolve(null); }
-        });
-      }catch(err){
-        console.warn("showSaveFilePicker threw:", err);
-        resolve(null);
-      }
-    });
-  }
-
-  // ============ ★ PDF annotation builders (real editable objects) ============
-  function hexToRgb01(hex){
-    const m = /^#?([0-9a-f]{6})$/i.exec(String(hex||'').trim());
-    if(!m) return [0, 0, 0];
-    const n = parseInt(m[1], 16);
-    return [((n>>16)&255)/255, ((n>>8)&255)/255, (n&255)/255];
-  }
-  function nxToPt(nx, ptW){ return (nx / NORM_W) * ptW; }
-  function nyToPt(ny, ptW, ptH){ return ptH - (ny / NORM_W) * ptW; }
-
-  function annotsArrayForPage(pdfDoc, page){
-    const { PDFName, PDFArray, PDFRef } = PDFLib;
-    let cur = page.node.get(PDFName.of('Annots'));
-    let arr = null;
-    if(cur instanceof PDFRef){
-      const looked = pdfDoc.context.lookup(cur);
-      if(looked instanceof PDFArray) arr = looked;
-    } else if(cur instanceof PDFArray){
-      arr = cur;
-    }
-    if(!arr){
-      arr = pdfDoc.context.obj([]);
-      page.node.set(PDFName.of('Annots'), arr);
-    }
-    return arr;
-  }
-
-  function buildInkAnnotation(pdfDoc, stroke, ptW, ptH, pageRef){
-    const { PDFName, PDFString, PDFNumber } = PDFLib;
-    const pts = stroke.points;
-    if(!pts) return null;
-    const flat = (typeof pts[0] === 'number');
-    const n = flat ? (pts.length/2) : pts.length;
-    if(n < 2) return null;
-    const xs = [], ys = [], inkList = [];
-    for(let i=0;i<n;i++){
-      const nx = flat ? pts[i*2]   : pts[i].x;
-      const ny = flat ? pts[i*2+1] : pts[i].y;
-      const px = nxToPt(nx, ptW), py = nyToPt(ny, ptW, ptH);
-      inkList.push(px, py);
-      xs.push(px); ys.push(py);
-    }
-    const lw = Math.max(1, stroke.width || 4);
-    const pad = lw * 1.5 + 2;
-    const rect = [Math.min(...xs)-pad, Math.min(...ys)-pad, Math.max(...xs)+pad, Math.max(...ys)+pad];
-    const [r, g, b] = hexToRgb01(stroke.color || '#000000');
-    const d = pdfDoc.context.obj({});
-    d.set(PDFName.of('Type'), PDFName.of('Annot'));
-    d.set(PDFName.of('Subtype'), PDFName.of('Ink'));
-    d.set(PDFName.of('Rect'), pdfDoc.context.obj(rect));
-    d.set(PDFName.of('C'), pdfDoc.context.obj([r,g,b]));
-    d.set(PDFName.of('F'), PDFNumber.of(4));
-    d.set(PDFName.of('Contents'), PDFString.of(stroke.tool === 'highlighter' ? 'Highlight (drawn)' : 'Ink'));
-    d.set(PDFName.of('T'), PDFString.of(PDF_ANNOT_PRODUCER));
-    d.set(PDFName.of('NM'), PDFString.of('pdfqalam-' + Math.random().toString(36).slice(2)));
-    const inner = pdfDoc.context.obj(inkList);
-    const inkArr = pdfDoc.context.obj([]);
-    inkArr.push(inner);
-    d.set(PDFName.of('InkList'), inkArr);
-    const bs = pdfDoc.context.obj({});
-    bs.set(PDFName.of('W'), PDFNumber.of(lw));
-    bs.set(PDFName.of('S'), PDFName.of('S'));
-    d.set(PDFName.of('BS'), bs);
-    if(stroke.tool === 'highlighter'){
-      d.set(PDFName.of('CA'), PDFNumber.of(stroke.opacity ?? 0.38));
-    }
-    if(pageRef) d.set(PDFName.of('P'), pageRef);
-    return d;
-  }
-
-  function buildLineAnnotation(pdfDoc, stroke, ptW, ptH, isArrow, pageRef){
-    const { PDFName, PDFString, PDFNumber } = PDFLib;
-    const x1 = nxToPt(stroke.x1, ptW), y1 = nyToPt(stroke.y1, ptW, ptH);
-    const x2 = nxToPt(stroke.x2, ptW), y2 = nyToPt(stroke.y2, ptW, ptH);
-    const lw = Math.max(1, stroke.width || 4);
-    const pad = Math.max(lw*3, 12);
-    const rect = [Math.min(x1,x2)-pad, Math.min(y1,y2)-pad, Math.max(x1,x2)+pad, Math.max(y1,y2)+pad];
-    const [r, g, b] = hexToRgb01(stroke.color || '#000000');
-    const d = pdfDoc.context.obj({});
-    d.set(PDFName.of('Type'), PDFName.of('Annot'));
-    d.set(PDFName.of('Subtype'), PDFName.of('Line'));
-    d.set(PDFName.of('Rect'), pdfDoc.context.obj(rect));
-    d.set(PDFName.of('C'), pdfDoc.context.obj([r,g,b]));
-    d.set(PDFName.of('F'), PDFNumber.of(4));
-    d.set(PDFName.of('Contents'), PDFString.of(isArrow ? 'Arrow' : 'Line'));
-    d.set(PDFName.of('T'), PDFString.of(PDF_ANNOT_PRODUCER));
-    d.set(PDFName.of('NM'), PDFString.of('pdfqalam-' + Math.random().toString(36).slice(2)));
-    d.set(PDFName.of('L'), pdfDoc.context.obj([x1,y1,x2,y2]));
-    const bs = pdfDoc.context.obj({});
-    bs.set(PDFName.of('W'), PDFNumber.of(lw));
-    bs.set(PDFName.of('S'), PDFName.of('S'));
-    d.set(PDFName.of('BS'), bs);
-    if(isArrow){
-      const le = pdfDoc.context.obj([]);
-      le.push(PDFName.of('None'));
-      le.push(PDFName.of('OpenArrow'));
-      d.set(PDFName.of('LE'), le);
-    }
-    if(pageRef) d.set(PDFName.of('P'), pageRef);
-    return d;
-  }
-
-  function buildBoxAnnotation(pdfDoc, stroke, ptW, ptH, subtype, pageRef){
-    const { PDFName, PDFString, PDFNumber } = PDFLib;
-    const x1 = nxToPt(stroke.x1, ptW), y1 = nyToPt(stroke.y1, ptW, ptH);
-    const x2 = nxToPt(stroke.x2, ptW), y2 = nyToPt(stroke.y2, ptW, ptH);
-    const lw = Math.max(1, stroke.width || 4);
-    const pad = lw * 2;
-    const rect = [Math.min(x1,x2)-pad, Math.min(y1,y2)-pad, Math.max(x1,x2)+pad, Math.max(y1,y2)+pad];
-    const [r, g, b] = hexToRgb01(stroke.color || '#000000');
-    const d = pdfDoc.context.obj({});
-    d.set(PDFName.of('Type'), PDFName.of('Annot'));
-    d.set(PDFName.of('Subtype'), PDFName.of(subtype));
-    d.set(PDFName.of('Rect'), pdfDoc.context.obj(rect));
-    d.set(PDFName.of('C'), pdfDoc.context.obj([r,g,b]));
-    d.set(PDFName.of('F'), PDFNumber.of(4));
-    d.set(PDFName.of('Contents'), PDFString.of(subtype));
-    d.set(PDFName.of('T'), PDFString.of(PDF_ANNOT_PRODUCER));
-    d.set(PDFName.of('NM'), PDFString.of('pdfqalam-' + Math.random().toString(36).slice(2)));
-    const bs = pdfDoc.context.obj({});
-    bs.set(PDFName.of('W'), PDFNumber.of(lw));
-    bs.set(PDFName.of('S'), PDFName.of('S'));
-    d.set(PDFName.of('BS'), bs);
-    if(pageRef) d.set(PDFName.of('P'), pageRef);
-    return d;
-  }
-
-  function buildPolygonAnnotation(pdfDoc, stroke, ptW, ptH, verts, pageRef){
-    const { PDFName, PDFString, PDFNumber } = PDFLib;
-    const lw = Math.max(1, stroke.width || 4);
-    const xs = [], ys = [], flat = [];
-    for(const [nx, ny] of verts){
-      const px = nxToPt(nx, ptW), py = nyToPt(ny, ptW, ptH);
-      xs.push(px); ys.push(py); flat.push(px, py);
-    }
-    const pad = lw * 2;
-    const rect = [Math.min(...xs)-pad, Math.min(...ys)-pad, Math.max(...xs)+pad, Math.max(...ys)+pad];
-    const [r, g, b] = hexToRgb01(stroke.color || '#000000');
-    const d = pdfDoc.context.obj({});
-    d.set(PDFName.of('Type'), PDFName.of('Annot'));
-    d.set(PDFName.of('Subtype'), PDFName.of('Polygon'));
-    d.set(PDFName.of('Rect'), pdfDoc.context.obj(rect));
-    d.set(PDFName.of('Vertices'), pdfDoc.context.obj(flat));
-    d.set(PDFName.of('C'), pdfDoc.context.obj([r,g,b]));
-    d.set(PDFName.of('F'), PDFNumber.of(4));
-    d.set(PDFName.of('Contents'), PDFString.of('Polygon'));
-    d.set(PDFName.of('T'), PDFString.of(PDF_ANNOT_PRODUCER));
-    d.set(PDFName.of('NM'), PDFString.of('pdfqalam-' + Math.random().toString(36).slice(2)));
-    const bs = pdfDoc.context.obj({});
-    bs.set(PDFName.of('W'), PDFNumber.of(lw));
-    bs.set(PDFName.of('S'), PDFName.of('S'));
-    d.set(PDFName.of('BS'), bs);
-    if(pageRef) d.set(PDFName.of('P'), pageRef);
-    return d;
-  }
-
-  function polygonVertices(s){
-    const cx = (s.x1 + s.x2) / 2, cy = (s.y1 + s.y2) / 2;
-    const rx = Math.abs(s.x2 - s.x1) / 2, ry = Math.abs(s.y2 - s.y1) / 2;
-    const n = 6, v = [];
-    for(let i = 0; i < n; i++){
-      const a = -Math.PI/2 + i * 2 * Math.PI / n;
-      v.push([cx + rx * Math.cos(a), cy + ry * Math.sin(a)]);
-    }
-    return v;
-  }
-  function cloudVertices(s){
-    const cx = (s.x1 + s.x2) / 2, cy = (s.y1 + s.y2) / 2;
-    const rx = Math.abs(s.x2 - s.x1) / 2, ry = Math.abs(s.y2 - s.y1) / 2;
-    const nBumps = 12, bulge = 1.25, v = [];
-    for(let i = 0; i < nBumps; i++){
-      const a = (i / nBumps) * Math.PI * 2 - Math.PI/2;
-      v.push([cx + rx * bulge * Math.cos(a), cy + ry * bulge * Math.sin(a)]);
-    }
-    return v;
-  }
-  function calloutVertices(s){
-    const x = Math.min(s.x1, s.x2), y = Math.min(s.y1, s.y2);
-    const w = Math.abs(s.x2 - s.x1), h = Math.abs(s.y2 - s.y1);
-    const tailW = Math.min(w, h) * 0.25;
-    const tailX = x + w * 0.28;
-    return [
-      [x, y], [x + w, y], [x + w, y + h],
-      [tailX + tailW * 0.35, y + h],
-      [tailX, y + h + tailW],
-      [tailX - tailW * 0.35, y + h],
-      [x, y + h]
-    ];
-  }
-
-  function buildHighlightAnnotation(pdfDoc, anno, ptW, ptH, pageRef){
-    const { PDFName, PDFString, PDFNumber } = PDFLib;
-    const x1 = nxToPt(anno.x, ptW);
-    const x2 = nxToPt(anno.x + anno.w, ptW);
-    const yTop = nyToPt(anno.y, ptW, ptH);
-    const yBot = nyToPt(anno.y + anno.h, ptW, ptH);
-    const minY = Math.min(yTop, yBot), maxY = Math.max(yTop, yBot);
-    const [r, g, b] = hexToRgb01(anno.color || '#FFE066');
-    const rect = [x1, minY, x2, maxY];
-    const quad = [x1, maxY, x2, maxY, x1, minY, x2, minY];
-    const d = pdfDoc.context.obj({});
-    d.set(PDFName.of('Type'), PDFName.of('Annot'));
-    d.set(PDFName.of('Subtype'), PDFName.of('Highlight'));
-    d.set(PDFName.of('Rect'), pdfDoc.context.obj(rect));
-    d.set(PDFName.of('QuadPoints'), pdfDoc.context.obj(quad));
-    d.set(PDFName.of('C'), pdfDoc.context.obj([r,g,b]));
-    d.set(PDFName.of('F'), PDFNumber.of(4));
-    d.set(PDFName.of('Contents'), PDFString.of('Highlight'));
-    d.set(PDFName.of('T'), PDFString.of(PDF_ANNOT_PRODUCER));
-    d.set(PDFName.of('NM'), PDFString.of('pdfqalam-' + Math.random().toString(36).slice(2)));
-    d.set(PDFName.of('CA'), PDFNumber.of(anno.opacity ?? 0.42));
-    if(pageRef) d.set(PDFName.of('P'), pageRef);
-    return d;
-  }
-
-  function buildUnderlineStrikeAnnotation(pdfDoc, anno, ptW, ptH, subtype, pageRef){
-    const { PDFName, PDFString, PDFNumber } = PDFLib;
-    const x1 = nxToPt(anno.x, ptW);
-    const x2 = nxToPt(anno.x + anno.w, ptW);
-    const yTop = nyToPt(anno.y, ptW, ptH);
-    const yBot = nyToPt(anno.y + anno.h, ptW, ptH);
-    const minY = Math.min(yTop, yBot), maxY = Math.max(yTop, yBot);
-    const [r, g, b] = hexToRgb01(anno.color || (subtype === 'StrikeOut' ? '#D1495B' : '#1B2430'));
-    const d = pdfDoc.context.obj({});
-    d.set(PDFName.of('Type'), PDFName.of('Annot'));
-    d.set(PDFName.of('Subtype'), PDFName.of(subtype));
-    d.set(PDFName.of('Rect'), pdfDoc.context.obj([x1, minY, x2, maxY]));
-    d.set(PDFName.of('QuadPoints'), pdfDoc.context.obj([x1, maxY, x2, maxY, x1, minY, x2, minY]));
-    d.set(PDFName.of('C'), pdfDoc.context.obj([r,g,b]));
-    d.set(PDFName.of('F'), PDFNumber.of(4));
-    d.set(PDFName.of('Contents'), PDFString.of(subtype));
-    d.set(PDFName.of('T'), PDFString.of(PDF_ANNOT_PRODUCER));
-    d.set(PDFName.of('NM'), PDFString.of('pdfqalam-' + Math.random().toString(36).slice(2)));
-    if(pageRef) d.set(PDFName.of('P'), pageRef);
-    return d;
-  }
-
-  function buildFreeTextAnnotation(pdfDoc, s, ptW, ptH, pageRef){
-    const { PDFName, PDFString, PDFNumber } = PDFLib;
-    const fs = s.fontSize || 24;
-    const x = nxToPt(s.x, ptW);
-    const yTop = nyToPt(s.y, ptW, ptH);
-    const lines = String(s.text||"").split('\n');
-    let maxLen = 0;
-    for(const ln of lines) if(ln.length > maxLen) maxLen = ln.length;
-    // هامش أمان زيادة عشان poppler/Acrobat أحيانًا بيقصّوا النص لو الصندوق ضيق شوية
-    const approxW = Math.max(60, maxLen * fs * 0.62) + fs;
-    const totalH = Math.max(fs * 1.5, lines.length * fs * 1.5) + fs*0.3;
-    const boxW = (approxW / NORM_W) * ptW;
-    const boxH = (totalH / NORM_W) * ptW;
-    // fontSize (fs) متخزّن في نفس "الوحدات المعيارية" اللي بيتحسب بيها x/y (NORM_W=1000)
-    // ولازم يتحوّل لنقاط PDF فعلية بنفس نسبة تصغير الصندوق (ptW/NORM_W)، وإلا
-    // الخط هيتكتب أكبر من المساحة المحجوزة له فعليًا ويتقص.
-    const fsPt = fs * (ptW / NORM_W);
-    const [r, g, b] = hexToRgb01(s.color || '#000000');
-    const d = pdfDoc.context.obj({});
-    d.set(PDFName.of('Type'), PDFName.of('Annot'));
-    d.set(PDFName.of('Subtype'), PDFName.of('FreeText'));
-    d.set(PDFName.of('Rect'), pdfDoc.context.obj([x, yTop - boxH, x + boxW, yTop]));
-    // ملحوظة: مفيش 'C' هنا عن قصد — في FreeText اللون ده بيتفسّر كـ"لون خلفية"
-    // مش لون النص، فكان بيرسم مستطيل معتم بنفس لون النص وبيخفيه تمامًا.
-    // لون النص الفعلي بييجي من DA (Tf/rg) تحت.
-    d.set(PDFName.of('F'), PDFNumber.of(4));
-    d.set(PDFName.of('Contents'), PDFString.of(s.text || ''));
-    d.set(PDFName.of('T'), PDFString.of(PDF_ANNOT_PRODUCER));
-    d.set(PDFName.of('NM'), PDFString.of('pdfqalam-' + Math.random().toString(36).slice(2)));
-    const daStr = '/Helv ' + fsPt.toFixed(2) + ' Tf ' + r.toFixed(3) + ' ' + g.toFixed(3) + ' ' + b.toFixed(3) + ' rg';
-    d.set(PDFName.of('DA'), PDFString.of(daStr));
-    d.set(PDFName.of('Q'), PDFNumber.of(0));
-    const bs = pdfDoc.context.obj({});
-    bs.set(PDFName.of('W'), PDFNumber.of(0));
-    bs.set(PDFName.of('S'), PDFName.of('S'));
-    d.set(PDFName.of('BS'), bs);
-    if(pageRef) d.set(PDFName.of('P'), pageRef);
-    return d;
-  }
-
-  // Returns PDFDict or null (null = must bake as image, e.g. Arabic text)
-  function buildAnnotationForStroke(pdfDoc, s, ptW, ptH, pageRef){
-    switch(s.tool){
-      case 'pen':
-      case 'highlighter':
-        return buildInkAnnotation(pdfDoc, s, ptW, ptH, pageRef);
-      case 'line':
-        return buildLineAnnotation(pdfDoc, s, ptW, ptH, false, pageRef);
-      case 'arrow':
-        return buildLineAnnotation(pdfDoc, s, ptW, ptH, true, pageRef);
-      case 'rect':
-        return buildBoxAnnotation(pdfDoc, s, ptW, ptH, 'Square', pageRef);
-      case 'circle':
-        return buildBoxAnnotation(pdfDoc, s, ptW, ptH, 'Circle', pageRef);
-      case 'polygon':
-        return buildPolygonAnnotation(pdfDoc, s, ptW, ptH, polygonVertices(s), pageRef);
-      case 'cloud':
-        return buildPolygonAnnotation(pdfDoc, s, ptW, ptH, cloudVertices(s), pageRef);
-      case 'callout':
-        return buildPolygonAnnotation(pdfDoc, s, ptW, ptH, calloutVertices(s), pageRef);
-      case 'text-highlight':
-        return buildHighlightAnnotation(pdfDoc, s, ptW, ptH, pageRef);
-      case 'text-underline':
-        return buildUnderlineStrikeAnnotation(pdfDoc, s, ptW, ptH, 'Underline', pageRef);
-      case 'text-strike':
-        return buildUnderlineStrikeAnnotation(pdfDoc, s, ptW, ptH, 'StrikeOut', pageRef);
-      case 'text':
-        // Arabic / non-ASCII → bake as image (FreeText needs embedded font with Arabic support)
-        if(/[^\u0000-\u007F]/.test(String(s.text || ''))) return null;
-        return buildFreeTextAnnotation(pdfDoc, s, ptW, ptH, pageRef);
-    }
-    return null;
-  }
-
-  // Bake a set of strokes as ONE flattened image (used for Arabic text + fallback)
-  async function bakeStrokesAsImage(outDoc, page, strokes, ptW, ptH){
-    const exportScale = 3;
-    const MAX_DIM = 4200;
-    let cw = Math.round(ptW * exportScale);
-    let ch = Math.round(ptH * exportScale);
-    if(cw > MAX_DIM || ch > MAX_DIM){
-      const r = Math.min(MAX_DIM/cw, MAX_DIM/ch);
-      cw = Math.max(1, Math.round(cw*r));
-      ch = Math.max(1, Math.round(ch*r));
-    }
-    const off = document.createElement('canvas');
-    off.width = cw; off.height = ch;
-    const ctx = off.getContext('2d');
-    ctx.clearRect(0, 0, cw, ch);
-    const scale = cw / NORM_W;
-    for(const s of strokes) drawAnnotation(ctx, s, scale);
-    const pngDataUrl = off.toDataURL('image/png');
-    const pngBytes = await (await fetch(pngDataUrl)).arrayBuffer();
-    const pngImage = await outDoc.embedPng(pngBytes);
-    page.drawImage(pngImage, { x: 0, y: 0, width: ptW, height: ptH });
-  }
-
-  btnExport.addEventListener("click", () => exportPdf());
-  async function exportPdf(opts){
-    opts = opts || {};
-    const silent = !!opts.silent;
-    if(!pdfBytes || !currentFile){
-      if(!silent) toast("لا يوجد ملف مفتوح");
-      return false;
-    }
-    showLoading(silent ? "جاري حفظ نسخة احتياطية..." : "جاري إنشاء ملف PDF...");
+  btnExport.addEventListener("click", exportPdf);
+  async function exportPdf(){
+    if(!pdfBytes || !currentFile) return false;
+    showLoading("جاري إنشاء ملف PDF...");
     try{
-      const { PDFDocument, PDFName } = PDFLib;
-      const baseBytes = originalPdfBytes || pdfBytes;
-      const outDoc = await PDFDocument.load(baseBytes.slice(0), { ignoreEncryption: true });
-
-      // ★ Strip encryption + permissions so Adobe doesn't lock editing
-      try{
-        const tr = outDoc.context.trailerInfo;
-        if(tr && tr.Encrypt) delete tr.Encrypt;
-        if(tr && tr.Perms)   delete tr.Perms;
-        try{ outDoc.catalog.delete(PDFName.of('Perms')); }catch(_){}
-      }catch(e){ console.warn('strip encrypt:', e); }
-
+      const { PDFDocument } = PDFLib;
+      const outDoc = await PDFDocument.load(pdfBytes.slice(0));
       const pages = outDoc.getPages();
-      const pageCount = Math.min(pages.length, numPages);
-
-      // ★ Write real PDF annotations for every stroke
-      for(let i = 0; i < pageCount; i++){
-        const pnum = i + 1;
+      for(let i=0; i<pages.length; i++){
+        const pnum = i+1;
         const list = strokesByPage[pnum] || [];
         if(!list.length) continue;
         const page = pages[i];
-        const sz = page.getSize();
-        const ptW = sz.width, ptH = sz.height;
-        const pageRef = page.ref || null;
-        const annotsArr = annotsArrayForPage(outDoc, page);
-
-        const toBake = [];
-        for(const s of list){
-          let dict = null;
-          try{ dict = buildAnnotationForStroke(outDoc, s, ptW, ptH, pageRef); }
-          catch(e){ console.warn('annot build failed:', s.tool, e); }
-          if(dict){
-            try{
-              const ref = outDoc.context.register(dict);
-              annotsArr.push(ref);
-            }catch(e){ console.warn('add annot failed:', e); toBake.push(s); }
-          } else {
-            toBake.push(s);
-          }
-        }
-        if(toBake.length){
-          try{ await bakeStrokesAsImage(outDoc, page, toBake, ptW, ptH); }
-          catch(e){ console.warn('bake failed:', e); }
-        }
+        const { width, height } = page.getSize();
+        const exportScale = 3;
+        const cw = Math.round(width * exportScale);
+        const ch = Math.round(height * exportScale);
+        const off = document.createElement("canvas");
+        off.width = cw; off.height = ch;
+        const ctx = off.getContext("2d");
+        const scale = cw / NORM_W;
+        for(const s of list) drawAnnotation(ctx, s, scale);
+        const pngDataUrl = off.toDataURL("image/png");
+        const pngBytes = await fetch(pngDataUrl).then(r => r.arrayBuffer());
+        const pngImage = await outDoc.embedPng(pngBytes);
+        page.drawImage(pngImage, { x:0, y:0, width, height });
       }
-
-      // Embed editable data as attachments so re-opening in our app recovers strokes
-      try{
-        const jsonBytes = new TextEncoder().encode(JSON.stringify(strokesByPage));
-        await outDoc.attach(jsonBytes, ANN_JSON_NAME, {
-          mimeType: 'application/json',
-          description: 'PDF Qalam editable annotation data'
-        });
-        const origBytes = new Uint8Array(baseBytes.slice(0));
-        await outDoc.attach(origBytes, ANN_ORIG_NAME, {
-          mimeType: 'application/pdf',
-          description: 'PDF Qalam clean original PDF'
-        });
-      }catch(e){ console.warn('attach failed:', e); }
-
-      const outBytes = await outDoc.save({ useObjectStreams: false });
-      if(!outBytes || outBytes.length < 200) throw new Error("PDF output looks empty");
-
-      const rawBase = (currentFile.name || "document").replace(/\.pdf$/i, "");
-      const safeBase = (rawBase.replace(/[\\/:*?"<>|]+/g, "_").trim() || "document").slice(0, 80);
-      const outName = safeBase + (silent ? "-backup.pdf" : "-annotated.pdf");
-
-      // ★ Save As حقيقي عبر File System Access API (لو المستخدم اختار مكان فعلاً)
-      if(opts.saveAsHandle){
-        try{
-          const writable = await opts.saveAsHandle.createWritable();
-          await writable.write(outBytes);
-          await writable.close();
-          if(!silent) toast("تم حفظ الملف ✓ — يقدر يتعدّل في Adobe Acrobat");
-          return true;
-        }catch(err){
-          console.error("save handle write failed:", err);
-          if(!silent) toast("تعذّر الحفظ في المكان المختار");
-          return false;
-        }
-      }
-
-      // Fallback: التنزيل العادي (للمتصفحات اللي مش بتدعم الـ API)
+      const outBytes = await outDoc.save();
       const blob = new Blob([outBytes], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
+      const baseName = currentFile.name.replace(/\.pdf$/i, "");
       a.href = url;
-      a.download = outName;
+      a.download = baseName + "-معلّم.pdf";
       document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(() => { try{ URL.revokeObjectURL(url); }catch(_){} }, 5000);
-      if(!silent) toast("تم تنزيل الملف ✓ — يقدر يتعدّل في Adobe Acrobat");
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      toast("تم تنزيل الملف ✓");
       return true;
-    }catch(err){
-      console.error("export failed:", err);
-      if(!silent) toast("حدث خطأ أثناء التصدير");
-      return false;
-    } finally { hideLoading(); }
+    }catch(err){ console.error(err); toast("حدث خطأ"); return false; }
+    finally{ hideLoading(); }
   }
 
-  // ============ Clear all (with auto-backup) ============
+  // ============ حذف كل التعديلات في هذا الملف ============
   btnClearAll.addEventListener("click", async () => {
     if(!pdfDoc) return;
     const hasAny = Object.keys(strokesByPage).some(p => (strokesByPage[p]||[]).length);
     if(!hasAny){ toast("مفيش تعديلات لحذفها"); return; }
-    const ok = confirm(
-      "⚠️ هتتمسح كل التعديلات (الرسم/التظليل/التسطير/الكتابة) في هذا الملف نهائيًا.\n\n" +
-      "✓ سيتم أولاً حفظ نسخة PDF بالتعديلات الحالية كنسخة احتياطية.\n\n" +
-      "هل تريد المتابعة؟"
-    );
+    const ok = confirm("هتتمسح كل التعديلات (الرسم/التظليل/التسطير/الكتابة) في هذا الملف نهائيًا.\n\nهل أنت متأكد؟");
     if(!ok) return;
-
-    // ★ نطلب مكان الحفظ فورًا (قبل أي await) عشان نضمن الـ user gesture
-    const rawBase = (currentFile && currentFile.name ? currentFile.name : "document").replace(/\.pdf$/i, "");
-    const safeBase = (rawBase.replace(/[\\/:*?"<>|]+/g, "_").trim() || "document").slice(0, 80);
-    const saveHandle = await pickSaveHandle(safeBase + "-backup.pdf");
-    if(saveHandle === "CANCELLED"){
-      toast("تم إلغاء العملية — لم تختر مكان حفظ النسخة الاحتياطية");
-      setSaveStatus("جاهز");
+    const saved = await exportPdf();
+    if(!saved){
+      toast("لم يتم حذف أي شيء — احفظ التعديلات أولاً");
       return;
     }
-
-    closeTextInput(false);
-    deselectAnnotation();
-    annoDragState = null; panState = null;
-    drawing = false; activeStroke = null;
-
-    setSaveStatus("جاري حفظ نسخة احتياطية...");
-    const backupOk = await exportPdf({ silent: true, saveAsHandle: saveHandle });
-    if(!backupOk){
-      toast("⚠️ تعذّر حفظ النسخة الاحتياطية — تم إلغاء الحذف");
-      setSaveStatus("فشل الحفظ");
-      return;
-    }
-
     strokesByPage = {};
     redoByPage = {};
     for(let p = 1; p <= pdfDoc.numPages; p++) drawPageStrokes(p);
     scheduleSave();
-    toast("✅ تم حفظ النسخة الاحتياطية وحذف كل التعديلات");
+    toast("تم حذف كل التعديلات ✓");
   });
 
+  // ============ Auto load ============
   async function autoLoadFromUrl(url){
     showLoading("جاري تحميل الملف...");
     try{
@@ -2607,6 +2141,7 @@
     showQuickResume(last);
   }
 
+  // ============ Init ============
   (async function init(){
     await renderRecentList();
     if(PDF_URL){ await autoLoadFromUrl(PDF_URL); }
@@ -2623,7 +2158,8 @@
     window.addEventListener("resize", () => {
       if(!pdfDoc) return;
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => { renderAllPages().then(updateSelBar); updateNavBar(); }, 200);
+      resizeTimer = setTimeout(() => renderAllPages(), 200);
+      updateNavBar();
     });
   })();
 
