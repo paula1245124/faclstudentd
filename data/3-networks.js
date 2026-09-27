@@ -13,11 +13,12 @@ subjects.push({
         {
           category: "فيديوهات عربية",
           icon: "🇪🇬",
-          description: "شروحات باللغة العربية لمفاهيم الشبكات",
+          description:
+            "شروحات باللغة العربية لمفاهيم الفصل الأول: تعريف الإنترنت، البروتوكولات، شبكات الوصول، والـ Packet Switching",
           links: [
             {
-              t: "د. خولة الهراشحة - شبكات الحاسوب (Ch1: 1.1 - 1.3.1)",
-              d: "تغطية شاملة بالعربي: Nuts-and-Bolts, Services, Protocols, DSL/Cable/FTTH, Packet Switching",
+              t: "شبكات الحاسوب - A Top-Down Approach (الكتاب نفسه)",
+              d: "شرح عربي كامل لكتاب Kurose & Ross: مكونات الإنترنت (Hosts, Packet Switches, ISPs)، الـ Protocols، شبكات الوصول (DSL, Cable, FTTH)، والـ Packet Switching مع Store-and-Forward",
               icon: "🇪🇬",
               actions: [
                 {
@@ -29,8 +30,8 @@ subjects.push({
               ],
             },
             {
-              t: "أب ديت (Update) - أساسيات اتصال الإنترنت",
-              d: "شرح Twisted-Pair والألياف الضوئية والشبكات اللاسلكية",
+              t: "أساسيات شبكات الحاسوب - أب ديت (Update)",
+              d: "شرح وسائط النقل المادية (Physical Media): Twisted-Pair, Coaxial Cable, Fiber Optics، والشبكات اللاسلكية والخلوية",
               icon: "🇪🇬",
               actions: [
                 {
@@ -46,16 +47,23 @@ subjects.push({
         {
           category: "فيديوهات عالمية",
           icon: "🌍",
-          description: "شروحات أكاديمية من مؤلف الكتاب وقنوات عالمية",
+          description:
+            "المحاضرات الرسمية من مؤلف الكتاب Jim Kurose + مراجع عالمية مُتحقّق منها",
           links: [
             {
-              t: "Jim Kurose - Chapter 1 (Official Lectures)",
-              d: "الشرح المباشر لمؤلف الكتاب",
+              t: "Jim Kurose - Chapter 1 (Official Author Lectures)",
+              d: "الشرح المباشر من مؤلف الكتاب نفسه: What is the Internet, Network Edge, Access Networks, Packet Switching — نفس ترتيب الكتاب بالضبط",
               icon: "🌍",
               actions: [
                 {
-                  label: "📖 الشرح",
+                  label: "📖 Playlist كامل",
                   url: "https://www.youtube.com/playlist?list=PL1ya5dD_M8uX-BLUF1FEvUNsYWQL5_l0O",
+                  type: "view",
+                  color: "red",
+                },
+                {
+                  label: "🎬 المحاضرة 1.1 مباشرة",
+                  url: "https://www.youtube.com/watch?v=74sEFYBBRAY",
                   type: "view",
                   color: "red",
                 },
@@ -63,7 +71,7 @@ subjects.push({
             },
             {
               t: "Neso Academy - Introduction to Computer Networks",
-              d: "مفاهيم Protocols، Transmission Media، Store-and-Forward Delay",
+              d: "شرح شامل: Protocols, Transmission Media, Store-and-Forward Delay, Packet Switching — مرجع تكميلي قوي",
               icon: "🌍",
               actions: [
                 {
@@ -79,24 +87,12 @@ subjects.push({
         {
           category: "مواقع ومراجع",
           icon: "📚",
-          description: "مقالات وتوثيقات إضافية",
+          description:
+            "مراجع مُتحقّق منها تغطي: شبكات الوصول (DSL/Cable/FTTH)، وسائط النقل المادية، والـ Packet Switching",
           links: [
             {
-              t: "GeeksforGeeks - Access Networks & Internet Connection",
-              d: "شرح DSL, Cable, FTTH, Ethernet, Wi-Fi",
-              icon: "📚",
-              actions: [
-                {
-                  label: "🚀 فتح المقال",
-                  url: "https://www.geeksforgeeks.org/computer-networks/how-to-connect-to-the-internet/",
-                  type: "view",
-                  color: "green",
-                },
-              ],
-            },
-            {
               t: "Kurose & Ross Official Student Resources",
-              d: "الموقع الرسمي للكتاب",
+              d: "الموقع الرسمي للكتاب: محاضرات أونلاين، شرائح PowerPoint، Wireshark Labs، وتمارين مراجعة — المرجع الأول",
               icon: "📚",
               actions: [
                 {
@@ -107,20 +103,47 @@ subjects.push({
                 },
               ],
             },
+            {
+              t: "GeeksforGeeks - Transmission Media in Computer Networks",
+              d: "شرح تفصيلي لوسائط النقل: Twisted-Pair Copper Wire, Coaxial Cable, Fiber Optics, Terrestrial Radio, Satellite — يطابق قسم 1.2.2 بالكامل",
+              icon: "📚",
+              actions: [
+                {
+                  label: "🚀 فتح المقال",
+                  url: "https://www.geeksforgeeks.org/transmission-media/",
+                  type: "view",
+                  color: "green",
+                },
+              ],
+            },
+            {
+              t: "GeeksforGeeks - Types of Internet Access",
+              d: "مقال يشرح أنواع الاتصال بالإنترنت: DSL, Cable, Fiber, Satellite, Wireless — يغطي قسم Access Networks (1.2.1)",
+              icon: "📚",
+              actions: [
+                {
+                  label: "🚀 فتح المقال",
+                  url: "https://www.geeksforgeeks.org/computer-network-tutorials/",
+                  type: "view",
+                  color: "green",
+                },
+              ],
+            },
           ],
         },
         {
           category: "أدوات ومحاكاة",
           icon: "🔧",
-          description: "برامج محاكاة وأدوات تفاعلية",
+          description:
+            "تمارين تفاعلية من مؤلفي الكتاب + أدوات عملية لتجربة الـ Packet Switching وتحليل الحزم",
           links: [
             {
-              t: "Kurose & Ross Interactive Animations",
-              d: "محاكاة تفاعلية رسمية للـ Packets والـ Queue Buffers",
+              t: "Kurose & Ross Interactive Problems (Chapter 1)",
+              d: "تمارين تفاعلية رسمية من مؤلفي الكتاب — تشمل: Queuing Delay, End-to-End Delay, Packet Switching vs Circuit Switching, One-hop Transmission Delay — كلها من مفاهيم 1.3.1",
               icon: "🔧",
               actions: [
                 {
-                  label: "🚀 فتح التفاعليات",
+                  label: "🚀 فتح التمارين",
                   url: "https://gaia.cs.umass.edu/kurose_ross/interactive/",
                   type: "view",
                   color: "orange",
@@ -129,342 +152,13 @@ subjects.push({
             },
             {
               t: "Wireshark - Packet Analyzer",
-              d: "أداة تتبع الـ Packets وقراءة الـ Headers",
+              d: "أداة تتبع الـ Packets وقراءة الـ Headers عملياً — لفهم كيف تُرسل الحزم عبر الشبكة (يُذكر في الكتاب كأداة معتمدة)",
               icon: "🔧",
               actions: [
                 {
                   label: "⭳ تحميل الأداة",
                   url: "https://www.wireshark.org/",
                   type: "download",
-                  color: "blue",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      linkCategories: [
-        {
-          category: "فيديوهات عربية",
-          icon: "🇪🇬",
-          description:
-            "شروحات عربية لمفاهيم شبكات الحاسوب والإنترنت، مثل مكونات الإنترنت، الـ End Systems، الـ Protocols، وشبكات الوصول",
-          links: [
-            {
-              t: "شرح مقدمة في شبكات الحاسوب والإنترنت",
-              d: "مقدمة عربية لمفاهيم الإنترنت، الـ Hosts، الـ End Systems، الـ Packet Switching، وفكرة الـ Protocols",
-              icon: "🇪🇬",
-              actions: [
-                {
-                  label: "📖 الشرح",
-                  url: "https://www.youtube.com/results?search_query=%D8%B4%D8%B1%D8%AD+%D8%B4%D8%A8%D9%83%D8%A7%D8%AA+%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8+%D9%88%D8%A7%D9%84%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA",
-                  type: "view",
-                  color: "red",
-                },
-              ],
-            },
-            {
-              t: "شرح الـ Protocols والـ TCP/IP",
-              d: "شرح مبسط للبروتوكولات، وما هو البروتوكول في الشبكات، وعلاقة TCP/IP بمكونات الإنترنت",
-              icon: "🇪🇬",
-              actions: [
-                {
-                  label: "📖 الشرح",
-                  url: "https://www.youtube.com/results?search_query=%D8%B4%D8%B1%D8%AD+%D8%A7%D9%84%D8%A8%D8%B1%D9%88%D8%AA%D9%88%D9%83%D9%88%D9%84%D8%A7%D8%AA+%D9%81%D9%8A+%D8%B4%D8%A8%D9%83%D8%A7%D8%AA+%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8",
-                  type: "view",
-                  color: "red",
-                },
-              ],
-            },
-            {
-              t: "شرح Access Networks و DSL و Cable و WiFi",
-              d: "شرح عربي لشبكات الوصول المنزلية والمؤسسات، مثل DSL و Cable و Ethernet و WiFi",
-              icon: "🇪🇬",
-              actions: [
-                {
-                  label: "📖 الشرح",
-                  url: "https://www.youtube.com/results?search_query=%D8%B4%D8%B1%D8%AD+DSL+Cable+WiFi+Access+Network+%D8%A8%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A",
-                  type: "view",
-                  color: "red",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          category: "فيديوهات عالمية",
-          icon: "🌍",
-          description:
-            "كورسات ومحاضرات عالمية تغطي نفس محاور الفصل: What is the Internet, Network Edge, Access Networks, Physical Media, Network Core",
-          links: [
-            {
-              t: "Kurose and Ross Computer Networking Chapter 1",
-              d: "شروحات عالمية مرتبطة بفصل Computer Networks and the Internet من كتاب Kurose & Ross",
-              icon: "🌍",
-              actions: [
-                {
-                  label: "📖 الشرح",
-                  url: "https://www.youtube.com/results?search_query=Kurose+Ross+Chapter+1+Computer+Networks+and+the+Internet",
-                  type: "view",
-                  color: "red",
-                },
-              ],
-            },
-            {
-              t: "Computer Networking Full Course",
-              d: "كورس شامل لمبادئ شبكات الحاسوب، يغطي الإنترنت، البروتوكولات، شبكات الوصول، والـ Packet Switching",
-              icon: "🌍",
-              actions: [
-                {
-                  label: "📖 الشرح",
-                  url: "https://www.youtube.com/results?search_query=computer+networking+full+course",
-                  type: "view",
-                  color: "red",
-                },
-              ],
-            },
-            {
-              t: "Packet Switching and Store-and-Forward Explanation",
-              d: "فيديوهات عالمية تشرح الـ Packet Switching، Store-and-Forward، Queuing Delay، وPacket Loss",
-              icon: "🌍",
-              actions: [
-                {
-                  label: "📖 الشرح",
-                  url: "https://www.youtube.com/results?search_query=packet+switching+store+and+forward+queuing+delay+packet+loss",
-                  type: "view",
-                  color: "red",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          category: "مواقع ومراجع",
-          icon: "📚",
-          description:
-            "مراجع ومقالات تشرح نفس المفاهيم الموجودة في الفصل: مكونات الإنترنت، الـ Protocols، الـ Access Networks، الـ Physical Media، والـ Network Core",
-          links: [
-            {
-              t: "GeeksforGeeks - Computer Network Tutorial",
-              d: "مرجع شامل لشبكات الحاسوب، وفيه شروحات للبروتوكولات، الـ Internet، الـ LAN، الـ WiFi، والـ Packet Switching",
-              icon: "📚",
-              actions: [
-                {
-                  label: "🚀 فتح الموقع",
-                  url: "https://www.geeksforgeeks.org/computer-networks/",
-                  type: "view",
-                  color: "green",
-                },
-              ],
-            },
-            {
-              t: "TutorialsPoint - Computer Networks",
-              d: "توثيق مرتب لمفاهيم الشبكات، يناسب مراجعة مكونات الإنترنت، الـ Physical Media، والـ Network Core",
-              icon: "📚",
-              actions: [
-                {
-                  label: "🚀 فتح الموقع",
-                  url: "https://www.tutorialspoint.com/computer_networks/index.htm",
-                  type: "view",
-                  color: "blue",
-                },
-              ],
-            },
-            {
-              t: "Cloudflare Learning Center - Networking",
-              d: "شروحات مبسطة وقوية للشبكات، البروتوكولات، الـ Internet، والـ Packet Switching",
-              icon: "📚",
-              actions: [
-                {
-                  label: "🚀 فتح الموقع",
-                  url: "https://www.cloudflare.com/learning/network/what-is-the-internet/",
-                  type: "view",
-                  color: "orange",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          category: "أدوات ومحاكاة",
-          icon: "🔧",
-          description:
-            "أدوات تفاعلية ومحاكاة تساعدك تفهم الـ Packet Switching، الشبكات، الـ Routing، والتأخيرات بشكل عملي",
-          links: [
-            {
-              t: "Cisco Packet Tracer",
-              d: "أداة محاكاة مشهورة جدًا لبناء الشبكات وفهم الـ Routers والـ Switches والـ End Systems عمليًا",
-              icon: "🔧",
-              actions: [
-                {
-                  label: "🚀 فتح الأداة",
-                  url: "https://www.netacad.com/courses/packet-tracer",
-                  type: "view",
-                  color: "blue",
-                },
-              ],
-            },
-            {
-              t: "GNS3",
-              d: "منصة محاكاة شبكات قوية لاختبار الـ Network Topology والـ Routing وفهم عمل الشبكات بشكل أعمق",
-              icon: "🔧",
-              actions: [
-                {
-                  label: "🚀 فتح الأداة",
-                  url: "https://gns3.com/",
-                  type: "view",
-                  color: "orange",
-                },
-              ],
-            },
-            {
-              t: "Wireshark",
-              d: "أداة تحليل البروتوكولات والـ Packets عمليًا، مفيدة جدًا لفهم الرسائل والـ Protocols المذكورة في الفصل",
-              icon: "🔧",
-              actions: [
-                {
-                  label: "🚀 فتح الأداة",
-                  url: "https://www.wireshark.org/",
-                  type: "view",
-                  color: "green",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-
-      linkCategories: [
-        {
-          category: "فيديوهات عربية",
-          icon: "🇪🇬",
-          description:
-            "شروحات فيديو باللغة العربية تغطي أساسيات شبكات الحاسوب: تعريف الشبكة وعناصرها (hosts/servers)، وأنواع الاتصالات في الشبكة مثل DSL والكابل والواي فاي والشبكات الخلوية.",
-          links: [
-            {
-              t: "مقدمة في شبكات الحاسوب",
-              d: "شرح مبسط لأفكار الإنترنت والربط الشبكي، مناسب للمبتدئين.",
-              icon: "🇪🇬",
-              actions: [
-                {
-                  label: "📖 الشرح",
-                  url: "https://www.youtube.com/results?search_query=مقدمة+شبكات+الحاسوب",
-                  type: "view",
-                  color: "red",
-                },
-              ],
-            },
-            {
-              t: "OSI وTCP/IP بالشرح بالعربي",
-              d: "محاضرات تشرح نماذج شبكات الحاسوب (OSI/TCP-IP) وكيفية بناء البروتوكولات.",
-              icon: "🇪🇬",
-              actions: [
-                {
-                  label: "📖 الشرح",
-                  url: "https://www.youtube.com/results?search_query=شرح+OSI+TCP/IP+بالعربي",
-                  type: "view",
-                  color: "red",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          category: "فيديوهات عالمية",
-          icon: "🌍",
-          description:
-            "محاضرات ودورات باللغة الإنجليزية من جامعات ومعاهد عالمية تغطي نفس موضوعات المحاضرة: بنية الإنترنت ونماذج الشبكة، بروتوكولات TCP/IP، تبديل الحزم مقابل تبديل الدوائر، وتأخير الشبكة.",
-          links: [
-            {
-              t: "Stanford CS144 - Computer Networking",
-              d: "دورة جامعة ستانفورد لتأسيس الشبكات، تغطي الاتصالات بين الأنظمة، routing، وتأخير الحزم.",
-              icon: "🌍",
-              actions: [
-                {
-                  label: "🎥 محاضرات ستانفورد",
-                  url: "https://cs144.github.io/",
-                  type: "view",
-                  color: "blue",
-                },
-              ],
-            },
-            {
-              t: "Introduction to Computer Networking",
-              d: "مساق شامل على الإنترنت يشرح أساسيات الشبكات، من الطبقة الفيزيائية إلى تطبيقات الإنترنت.",
-              icon: "🌍",
-              actions: [
-                {
-                  label: "📖 المحاضرات",
-                  url: "https://www.youtube.com/results?search_query=Computer+Networking+Lecture",
-                  type: "view",
-                  color: "red",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          category: "مواقع ومراجع",
-          icon: "📚",
-          description:
-            "مقالات ومراجع لشرح مفاهيم شبكات الحاسوب: تشمل تعاريف الشبكة وأجزائها، وأمثلة على البروتوكولات ونماذجها. مثال: GeeksforGeeks يشرح ما هي الشبكة وأنواع الأجهزة الموصولة.",
-          links: [
-            {
-              t: "GeeksforGeeks - أساسيات الشبكات",
-              d: "مقال يوضح تعريف الشبكة الحاسوبية كأجهزة مترابطة تتبادل البيانات، مع شرح مكونات الشبكة.",
-              icon: "📚",
-              actions: [
-                {
-                  label: "🚀 افتح المرجع",
-                  url: "https://www.geeksforgeeks.org/computer-networks/computer-network-tutorials/",
-                  type: "view",
-                  color: "blue",
-                },
-              ],
-            },
-            {
-              t: "GeeksforGeeks - فيزياء الاتصالات",
-              d: "تفاصيل عن وسائط النقل (أسلاك مجدولة، كوكس، ألياف ضوئية) وخصائصها.",
-              icon: "📚",
-              actions: [
-                {
-                  label: "🚀 افتح المرجع",
-                  url: "https://www.geeksforgeeks.org/transmission-media/",
-                  type: "view",
-                  color: "blue",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          category: "أدوات ومحاكاة",
-          icon: "🔧",
-          description:
-            "برامج تفاعلية لتصميم الشبكات وتحليلها: مثل محاكي الشبكات **Packet Tracer** من Cisco لتمرين عملي على إعداد الشبكات، وأداة **Wireshark** لتحليل حزم البيانات في الشبكة.",
-          links: [
-            {
-              t: "Cisco Packet Tracer (محاكي شبكات)",
-              d: "أداة محاكاة شبكات للحاسوب تساعد في تعلم إعداد وتكوين الشبكات بشكل تفاعلي.",
-              icon: "🔧",
-              actions: [
-                {
-                  label: "🚀 تحميل Packet Tracer",
-                  url: "https://www.netacad.com/cisco-packet-tracer",
-                  type: "view",
-                  color: "orange",
-                },
-              ],
-            },
-            {
-              t: "Wireshark (محلل شبكات)",
-              d: "برنامج مفتوح لتحليل حزم البيانات على الشبكة، يتيح متابعة حركة المرور وفهم عمل البروتوكولات.",
-              icon: "🔧",
-              actions: [
-                {
-                  label: "🚀 تحميل Wireshark",
-                  url: "https://www.wireshark.org/",
-                  type: "view",
                   color: "blue",
                 },
               ],

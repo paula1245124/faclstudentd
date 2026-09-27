@@ -146,6 +146,675 @@ subjects.push({
           ],
         },
       ],
+      linkCategories: [
+        {
+          category: "فيديوهات عربية",
+          icon: "🇪🇬",
+          description:
+            "فيديوهات عربية تساعد على فهم C# وWindows Forms وواجهات المستخدم، وهي مرتبطة مباشرة بالموضوعات العملية الموجودة في Chapter 1.",
+          links: [
+            {
+              t: "C# البداية مع الشاشات - Introduction To Forms",
+              d: "شرح عربي لـ C# وIntroduction to Forms، مناسب لفهم فكرة الـForms وبناء واجهات تطبيقات Windows.",
+              icon: "🎥",
+              actions: [
+                {
+                  label: "مشاهدة",
+                  url: "https://www.youtube.com/watch?v=L7lC1D0BWE8",
+                  type: "view",
+                  color: "#E53935",
+                },
+              ],
+            },
+            {
+              t: "C# Windows Form - شرح عربي",
+              d: "شرح عربي لتطبيقات Windows Forms باستخدام C#، ويتناول بناء تطبيقات سطح المكتب والتعامل مع الواجهة.",
+              icon: "🖥️",
+              actions: [
+                {
+                  label: "مشاهدة",
+                  url: "https://www.youtube.com/watch?v=GE2KtKpACYI",
+                  type: "view",
+                  color: "#E53935",
+                },
+              ],
+            },
+            {
+              t: "أساسيات C# للمبتدئين - إنشاء أول برنامج",
+              d: "فيديو عربي من Microsoft يشرح إنشاء أول برنامج C# باستخدام Visual Studio، وهو مناسب كبداية قبل تطبيق Windows Forms.",
+              icon: "🎓",
+              actions: [
+                {
+                  label: "مشاهدة",
+                  url: "https://learn.microsoft.com/ar-sa/shows/c-fundamentals-for-absolute-beginners/03",
+                  type: "view",
+                  color: "#1E88E5",
+                },
+              ],
+            },
+            {
+              t: "تشريح أول برنامج C#",
+              d: "شرح عربي لبنية أول برنامج C# وفهم مكونات الكود، وهو مفيد قبل دراسة namespaces وclasses وmethods.",
+              icon: "🔍",
+              actions: [
+                {
+                  label: "مشاهدة",
+                  url: "https://learn.microsoft.com/ar-sa/shows/c-fundamentals-for-absolute-beginners/04",
+                  type: "view",
+                  color: "#43A047",
+                },
+              ],
+            },
+          ],
+        },
+
+        {
+          category: "فيديوهات ومحتوى عالمي",
+          icon: "🌍",
+          description:
+            "مصادر تعليمية عملية من Microsoft لتعلم C# وVisual Studio وWindows Forms، مع تطبيقات فعلية على الـControls والـEvents.",
+          links: [
+            {
+              t: "C# Fundamentals for Absolute Beginners",
+              d: "سلسلة Microsoft لتعلم أساسيات C# من البداية، وتشمل إنشاء البرامج وفهم بنية الكود وVisual Studio.",
+              icon: "🎬",
+              actions: [
+                {
+                  label: "ابدأ التعلم",
+                  url: "https://learn.microsoft.com/en-us/shows/c-fundamentals-for-absolute-beginners/",
+                  type: "view",
+                  color: "#0078D4",
+                },
+              ],
+            },
+            {
+              t: "C# Beginner Video Series",
+              d: "مجموعة فيديوهات Microsoft لتعلم أساسيات لغة C# ومفاهيمها الرئيسية.",
+              icon: "▶️",
+              actions: [
+                {
+                  label: "مشاهدة",
+                  url: "https://learn.microsoft.com/en-us/shows/csharp-101/",
+                  type: "view",
+                  color: "#E53935",
+                },
+              ],
+            },
+          ],
+        },
+
+        {
+          category: "C# Fundamentals",
+          icon: "💻",
+          description:
+            "مراجع أساسية لفهم تركيب برامج C#، namespaces، classes، methods، وتنظيم الكود، وهي الموضوعات التي يشرحها الفصل في Introduction to C# Code.",
+          links: [
+            {
+              t: "C# Documentation",
+              d: "المرجع الرسمي للغة C# ويحتوي على tutorials وfundamentals وlanguage reference وأمثلة عملية.",
+              icon: "📚",
+              actions: [
+                {
+                  label: "فتح المرجع",
+                  url: "https://learn.microsoft.com/en-us/dotnet/csharp/",
+                  type: "view",
+                  color: "#0078D4",
+                },
+              ],
+            },
+            {
+              t: "General Structure of a C# Program",
+              d: "شرح رسمي لبنية برنامج C# وكيفية استخدام namespaces وtypes وstatements لتنظيم وتنفيذ البرنامج.",
+              icon: "🏗️",
+              actions: [
+                {
+                  label: "قراءة",
+                  url: "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/",
+                  type: "view",
+                  color: "#3949AB",
+                },
+              ],
+            },
+            {
+              t: "Namespaces in C#",
+              d: "شرح namespaces وusing directives وكيف تستخدم لتنظيم عناصر وبرمجيات C#.",
+              icon: "📦",
+              actions: [
+                {
+                  label: "قراءة",
+                  url: "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/namespaces",
+                  type: "view",
+                  color: "#8E24AA",
+                },
+              ],
+            },
+            {
+              t: "Methods in C#",
+              d: "شرح methods، parameters، return values وmethod signatures، وهي من أساسيات الجزء الخاص بـIntroduction to C# Code.",
+              icon: "⚙️",
+              actions: [
+                {
+                  label: "قراءة",
+                  url: "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/methods",
+                  type: "view",
+                  color: "#43A047",
+                },
+              ],
+            },
+            {
+              t: "Classes and Objects",
+              d: "Tutorial عملي لفهم classes وobjects وبناء الأنواع في C#.",
+              icon: "🧩",
+              actions: [
+                {
+                  label: "تعلم",
+                  url: "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/tutorials/classes",
+                  type: "view",
+                  color: "#FB8C00",
+                },
+              ],
+            },
+          ],
+        },
+
+        {
+          category: "Visual Studio",
+          icon: "🛠️",
+          description:
+            "موارد مباشرة للبيئة التي يستخدمها الفصل: إنشاء Project وSolution، استخدام Designer وSolution Explorer وProperties، ثم تشغيل وتصحيح التطبيق.",
+          links: [
+            {
+              t: "Visual Studio",
+              d: "بيئة التطوير المتكاملة التي يستخدمها الفصل لإنشاء واختبار وتصحيح تطبيقات C#.",
+              icon: "🟣",
+              actions: [
+                {
+                  label: "فتح Visual Studio",
+                  url: "https://visualstudio.microsoft.com/",
+                  type: "view",
+                  color: "#5C2D91",
+                },
+              ],
+            },
+            {
+              t: "Create a Windows Forms App with C#",
+              d: "Tutorial رسمي لإنشاء مشروع Windows Forms باستخدام C# في Visual Studio وتشغيل التطبيق.",
+              icon: "🖥️",
+              actions: [
+                {
+                  label: "Tutorial",
+                  url: "https://learn.microsoft.com/en-us/visualstudio/ide/create-csharp-winform-visual-studio",
+                  type: "view",
+                  color: "#0078D4",
+                },
+              ],
+            },
+            {
+              t: "Windows Forms Designer",
+              d: "شرح رسمي للـWindows Forms Designer وإضافة وترتيب Controls وتعديل خصائصها وكتابة Event Handlers.",
+              icon: "🎨",
+              actions: [
+                {
+                  label: "فتح الشرح",
+                  url: "https://learn.microsoft.com/en-us/visualstudio/designers/windows-forms-designer-overview",
+                  type: "view",
+                  color: "#7B1FA2",
+                },
+              ],
+            },
+            {
+              t: "Getting Started with Windows Forms Designer",
+              d: "Tutorial عملي على Designer يشمل تصميم الـLayout والتعامل مع Controls وتنفيذ Event Handlers واختبار التطبيق.",
+              icon: "🧰",
+              actions: [
+                {
+                  label: "ابدأ التطبيق",
+                  url: "https://learn.microsoft.com/en-us/visualstudio/designers/walkthrough-windows-forms-designer",
+                  type: "view",
+                  color: "#00897B",
+                },
+              ],
+            },
+          ],
+        },
+
+        {
+          category: "Windows Forms & Controls",
+          icon: "🖱️",
+          description:
+            "موارد مطابقة للجزء الذي يشرح Forms وControls وProperties وToolbox، وكيفية بناء واجهة المستخدم داخل Visual Studio.",
+          links: [
+            {
+              t: "Add Controls to a Form",
+              d: "شرح رسمي لإضافة Controls إلى Form باستخدام Visual Studio Designer أو باستخدام الكود.",
+              icon: "➕",
+              actions: [
+                {
+                  label: "قراءة",
+                  url: "https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/how-to-add-to-a-form",
+                  type: "view",
+                  color: "#43A047",
+                },
+              ],
+            },
+            {
+              t: "Add Controls to Windows Forms",
+              d: "مثال عملي على إنشاء Windows Forms وإضافة Button وTextBox وListBox وCheckBox وLabel وتعديل خصائصها.",
+              icon: "🧱",
+              actions: [
+                {
+                  label: "المثال",
+                  url: "https://learn.microsoft.com/en-us/troubleshoot/developer/visualstudio/csharp/language-compilers/add-controls-to-windows-forms",
+                  type: "view",
+                  color: "#1E88E5",
+                },
+              ],
+            },
+            {
+              t: "Windows Forms Math Quiz",
+              d: "مشروع تطبيقي كامل لبناء Math Quiz باستخدام Windows Forms، مع إنشاء المشروع وإضافة Labels وButtons وControls.",
+              icon: "🧮",
+              actions: [
+                {
+                  label: "ابدأ المشروع",
+                  url: "https://learn.microsoft.com/en-us/visualstudio/get-started/csharp/tutorial-windows-forms-math-quiz-create-project-add-controls",
+                  type: "view",
+                  color: "#FB8C00",
+                },
+              ],
+            },
+            {
+              t: "Windows Forms Matching Game",
+              d: "مشروع عملي لبناء لعبة Matching باستخدام Windows Forms، ويطبق إنشاء Project وإضافة Controls والتعامل مع Events.",
+              icon: "🎮",
+              actions: [
+                {
+                  label: "ابدأ المشروع",
+                  url: "https://learn.microsoft.com/en-us/visualstudio/get-started/csharp/tutorial-windows-forms-create-match-game",
+                  type: "view",
+                  color: "#E53935",
+                },
+              ],
+            },
+          ],
+        },
+
+        {
+          category: "Events & Event Handlers",
+          icon: "⚡",
+          description:
+            "مصادر مباشرة للجزء الخاص بالـEvent Handler، مثل displayButton_Click وForm_Load والتفاعل مع ضغط المستخدم على Controls.",
+          links: [
+            {
+              t: "C# Events",
+              d: "شرح رسمي لمفهوم Events في C# وكيف تتعامل Controls مثل Buttons وListBoxes مع الأحداث.",
+              icon: "⚡",
+              actions: [
+                {
+                  label: "قراءة",
+                  url: "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/events/",
+                  type: "view",
+                  color: "#F9A825",
+                },
+              ],
+            },
+            {
+              t: "How to Handle Control Events",
+              d: "شرح رسمي لكيفية إنشاء وربط Event Handlers مع Controls في Windows Forms باستخدام Visual Studio.",
+              icon: "🔗",
+              actions: [
+                {
+                  label: "قراءة",
+                  url: "https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/how-to-add-an-event-handler",
+                  type: "view",
+                  color: "#8E24AA",
+                },
+              ],
+            },
+            {
+              t: "Add Code to a Picture Viewer",
+              d: "تطبيق عملي يوضح إضافة Event Handlers وكتابة الكود المرتبط بالـControls وتشغيل Windows Forms application.",
+              icon: "🖼️",
+              actions: [
+                {
+                  label: "Tutorial",
+                  url: "https://learn.microsoft.com/en-us/visualstudio/get-started/csharp/tutorial-windows-forms-picture-viewer-code",
+                  type: "view",
+                  color: "#00897B",
+                },
+              ],
+            },
+          ],
+        },
+
+        {
+          category: "مشاريع تطبيقية",
+          icon: "🚀",
+          description:
+            "مشاريع صغيرة لتطبيق ما ورد في الملف عمليًا: إنشاء Windows Forms Project، تصميم GUI، إضافة Controls، كتابة Events وتشغيل البرنامج.",
+          links: [
+            {
+              t: "Hello World Windows Forms",
+              d: "تطبيق بسيط لإنشاء C# Windows Forms app وإضافة Button وتغيير النص، وهو قريب جدًا من تطبيق Hello World الموجود في الفصل.",
+              icon: "👋",
+              actions: [
+                {
+                  label: "ابدأ التطبيق",
+                  url: "https://learn.microsoft.com/en-us/visualstudio/ide/create-csharp-winform-visual-studio",
+                  type: "view",
+                  color: "#43A047",
+                },
+              ],
+            },
+            {
+              t: "Picture Viewer",
+              d: "مشروع Windows Forms متكامل نسبيًا يطبق إنشاء المشروع والـLayout والـControls والـEvent Handlers.",
+              icon: "🖼️",
+              actions: [
+                {
+                  label: "ابدأ المشروع",
+                  url: "https://learn.microsoft.com/en-us/visualstudio/get-started/csharp/tutorial-windows-forms-picture-viewer-layout",
+                  type: "view",
+                  color: "#1E88E5",
+                },
+              ],
+            },
+            {
+              t: "Matching Game",
+              d: "مشروع عملي يستخدم Controls وEvents وTimer داخل Windows Forms لتطبيق المفاهيم بشكل أكبر.",
+              icon: "🎮",
+              actions: [
+                {
+                  label: "ابدأ المشروع",
+                  url: "https://learn.microsoft.com/en-us/visualstudio/get-started/csharp/tutorial-windows-forms-create-match-game",
+                  type: "view",
+                  color: "#E53935",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      linkCategories: [
+        {
+          category: "فيديوهات عربية",
+          icon: "🇪🇬",
+          description:
+            "شروحات عربية مرتبطة مباشرة بمقدمة هندسة البرمجيات وموضوعات Chapter 1 مثل التطوير الاحترافي، تعريف Software Engineering، تنوع الأنظمة، الأخلاقيات ودراسات الحالة.",
+          links: [
+            {
+              t: "مقدمة في هندسة البرمجيات",
+              d: "محاضرة عربية تشرح مقدمة Software Engineering، تعريفها، أهميتها، والاعتماد المتزايد على البرمجيات.",
+              icon: "🎥",
+              actions: [
+                {
+                  label: "مشاهدة",
+                  url: "https://www.youtube.com/watch?v=U1Lme7dWzAs",
+                  type: "view",
+                  color: "#E53935",
+                },
+              ],
+            },
+            {
+              t: "Software Engineering Chapter 1",
+              d: "كورس عربي مقسم إلى دروس Chapter 1 تشمل Introduction وSoftware Costs وSoftware Products وSoftware Engineering Diversity وEthics.",
+              icon: "📚",
+              actions: [
+                {
+                  label: "الكورس",
+                  url: "https://it-sharks.com/ar/course/software-engineering-course2",
+                  type: "view",
+                  color: "#1E88E5",
+                },
+              ],
+            },
+            {
+              t: "Chapter 1 بالعربي",
+              d: "سلسلة عربية تشمل Introduction وSoftware Costs وSoftware Products وSoftware Engineering Diversity وSoftware Engineering Ethics وCase Studies.",
+              icon: "🎓",
+              actions: [
+                {
+                  label: "الدروس",
+                  url: "https://www.mindluster.com/course/1746/Software-Engineering-Intro-video",
+                  type: "view",
+                  color: "#43A047",
+                },
+              ],
+            },
+          ],
+        },
+
+        {
+          category: "فيديوهات عالمية",
+          icon: "🌍",
+          description:
+            "فيديوهات مرتبطة مباشرة بمقدمة Software Engineering وسبب أهميتها وأخلاقيات مهندس البرمجيات، مع الاعتماد على موارد Sommerville الرسمية قدر الإمكان.",
+          links: [
+            {
+              t: "Ten Questions about Software Engineering",
+              d: "فيديو Ian Sommerville يجيب عن أسئلة أساسية حول Software Engineering وطبيعتها والفرق بينها وبين التخصصات الأخرى.",
+              icon: "🎬",
+              actions: [
+                {
+                  label: "مشاهدة",
+                  url: "https://software-engineering-book.com/videos/se/",
+                  type: "view",
+                  color: "#E53935",
+                },
+              ],
+            },
+            {
+              t: "Why Software Engineering Matters",
+              d: "شرح لأهمية Software Engineering من الناحية الاقتصادية والاجتماعية، وهو مرتبط مباشرة بمقدمة الفصل.",
+              icon: "💡",
+              actions: [
+                {
+                  label: "مشاهدة",
+                  url: "https://software-engineering-book.com/videos/se/",
+                  type: "view",
+                  color: "#FB8C00",
+                },
+              ],
+            },
+            {
+              t: "The Conscience of Computing Professionals",
+              d: "مادة مرتبطة بأخلاقيات Software Engineering وأهمية الالتزام بالمسؤولية المهنية.",
+              icon: "⚖️",
+              actions: [
+                {
+                  label: "مشاهدة",
+                  url: "https://software-engineering-book.com/videos/se/",
+                  type: "view",
+                  color: "#8E24AA",
+                },
+              ],
+            },
+          ],
+        },
+
+        {
+          category: "مواقع ومراجع أساسية",
+          icon: "🌐",
+          description:
+            "مصادر مرجعية تغطي محتوى الفصل نفسه، وتشمل موقع Ian Sommerville، مواد Chapter 1، الفيديوهات، ودراسات الحالة، بالإضافة إلى ACM/IEEE Code of Ethics.",
+          links: [
+            {
+              t: "Ian Sommerville - Chapter 1",
+              d: "المصدر الرسمي المرتبط بكتاب Software Engineering 10th Edition، ويتضمن مواد إضافية للفصل الأول.",
+              icon: "📖",
+              actions: [
+                {
+                  label: "فتح المرجع",
+                  url: "https://software-engineering-book.com/intro/",
+                  type: "view",
+                  color: "#1E88E5",
+                },
+              ],
+            },
+            {
+              t: "Software Engineering Videos",
+              d: "صفحة الفيديوهات الرسمية للكتاب، وتوضح أن مجموعة Software Engineering تدعم Chapters 1 و2.",
+              icon: "🎥",
+              actions: [
+                {
+                  label: "الفيديوهات",
+                  url: "https://software-engineering-book.com/videos/se/",
+                  type: "view",
+                  color: "#E53935",
+                },
+              ],
+            },
+            {
+              t: "Software Engineering Case Studies",
+              d: "المصدر الرسمي لدراسات الحالة الموجودة في الفصل، ومنها Mentcare وPersonal Insulin Pump وWilderness Weather Station وiLearn.",
+              icon: "🧩",
+              actions: [
+                {
+                  label: "دراسات الحالة",
+                  url: "https://software-engineering-book.com/case-studies/",
+                  type: "view",
+                  color: "#43A047",
+                },
+              ],
+            },
+            {
+              t: "ACM/IEEE Software Engineering Code of Ethics",
+              d: "الكود المهني والأخلاقي المشترك، ويغطي المبادئ الثمانية المذكورة في Chapter 1.",
+              icon: "⚖️",
+              actions: [
+                {
+                  label: "قراءة الكود",
+                  url: "https://www.computer.org/education/code-of-ethics",
+                  type: "view",
+                  color: "#8E24AA",
+                },
+              ],
+            },
+            {
+              t: "IEEE TechEthics",
+              d: "مرجع IEEE يتضمن Software Engineering Code of Ethics and Professional Practice وأطر الأخلاقيات التقنية.",
+              icon: "🏛️",
+              actions: [
+                {
+                  label: "فتح المرجع",
+                  url: "https://techethics.ieee.org/resources/ieee-frameworks/",
+                  type: "view",
+                  color: "#3949AB",
+                },
+              ],
+            },
+          ],
+        },
+
+        {
+          category: "دراسة الأخلاقيات",
+          icon: "⚖️",
+          description:
+            "مصادر مركزة على Software Engineering Ethics، خاصة Confidentiality وCompetence وIntellectual Property وComputer Misuse وACM/IEEE Code.",
+          links: [
+            {
+              t: "Ethics in Software Engineering",
+              d: "وحدة تعليمية أكاديمية عن أخلاقيات هندسة البرمجيات، وتشمل ACM Software Engineering Code of Ethics ودراسات حالة أخلاقية.",
+              icon: "🧠",
+              actions: [
+                {
+                  label: "دراسة",
+                  url: "https://courses.ics.hawaii.edu/ics314s26/modules/ethics/",
+                  type: "view",
+                  color: "#8E24AA",
+                },
+              ],
+            },
+            {
+              t: "Software Engineering Code of Ethics - Version 5.2",
+              d: "نسخة موثقة من Software Engineering Code of Ethics and Professional Practice، وهو المرجع المرتبط بالمبادئ الثمانية في الفصل.",
+              icon: "📜",
+              actions: [
+                {
+                  label: "قراءة",
+                  url: "https://onlinelibrary.wiley.com/doi/10.1002/9781119312451.app1",
+                  type: "view",
+                  color: "#6D4C41",
+                },
+              ],
+            },
+            {
+              t: "Software Engineering Ethics - KSU",
+              d: "مادة جامعية تركز على أخلاقيات Software Engineer وكود IEEE-CS/ACM والمبادئ الثمانية.",
+              icon: "🎓",
+              actions: [
+                {
+                  label: "المادة",
+                  url: "https://faculty.ksu.edu.sa/en/aalgwaiz/course/229379",
+                  type: "view",
+                  color: "#00897B",
+                },
+              ],
+            },
+          ],
+        },
+
+        {
+          category: "دراسات الحالة",
+          icon: "🧩",
+          description:
+            "مصادر مرتبطة مباشرة بـ Case Studies الموجودة في Chapter 1، لاستخدامها لفهم اختلاف أنواع الأنظمة ومتطلبات Software Engineering لكل نوع.",
+          links: [
+            {
+              t: "Mentcare",
+              d: "نظام لإدارة سجلات الأشخاص الذين يتلقون رعاية للصحة النفسية، وهو أحد Case Studies الأساسية في الفصل.",
+              icon: "🏥",
+              actions: [
+                {
+                  label: "دراسة الحالة",
+                  url: "https://software-engineering-book.com/case-studies/",
+                  type: "view",
+                  color: "#43A047",
+                },
+              ],
+            },
+            {
+              t: "Personal Insulin Pump",
+              d: "نظام Embedded Safety-Critical يتحكم في إعطاء الإنسولين اعتمادًا على بيانات مستوى السكر.",
+              icon: "💉",
+              actions: [
+                {
+                  label: "دراسة الحالة",
+                  url: "https://software-engineering-book.com/case-studies/",
+                  type: "view",
+                  color: "#E53935",
+                },
+              ],
+            },
+            {
+              t: "Wilderness Weather Station",
+              d: "نظام لجمع بيانات الطقس من مناطق نائية، ويُستخدم لتوضيح نوع مختلف من الأنظمة البرمجية.",
+              icon: "🌦️",
+              actions: [
+                {
+                  label: "دراسة الحالة",
+                  url: "https://software-engineering-book.com/case-studies/",
+                  type: "view",
+                  color: "#1E88E5",
+                },
+              ],
+            },
+            {
+              t: "iLearn Digital Learning Environment",
+              d: "بيئة تعلم رقمية تعتمد على مجموعة من الخدمات والتطبيقات، وتوضح Software Reuse وService Integration.",
+              icon: "🎓",
+              actions: [
+                {
+                  label: "دراسة الحالة",
+                  url: "https://software-engineering-book.com/case-studies/",
+                  type: "view",
+                  color: "#FB8C00",
+                },
+              ],
+            },
+          ],
+        },
+      ],
 
       questions: [
         // ─── MCQ ───

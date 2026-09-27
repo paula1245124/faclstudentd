@@ -15,29 +15,29 @@ subjects.push({
           category: "فيديوهات عربية",
           icon: "🇪🇬",
           description:
-            "شروحات باللغة العربية لمفاهيم الفصل الأول (Software Engineering Introduction)",
+            "شروحات باللغة العربية لمفاهيم الفصل الأول من Sommerville: تعريف هندسة البرمجيات، خصائص السوفت وير الجيد، والأنشطة الأساسية",
           links: [
             {
-              t: "د. أحمد بهاء - مقدمة هندسة البرمجيات (Software Engineering Intro)",
-              d: "شرح مفاهيم: Professional Software Development، الفرق بين CS و SE، وخصائص السوفت وير الجيد",
+              t: "دورة هندسة البرمجيات بالعربي - Chapter 1 Introduction",
+              d: "كورس عربي شامل يغطي: تعريف Software Engineering، الفرق بين SE و CS، خصائص البرمجيات الجيدة (Maintainability, Dependability, Efficiency)، والأنشطة الأساسية الأربعة",
               icon: "🇪🇬",
               actions: [
                 {
                   label: "📖 الشرح",
-                  url: "https://www.youtube.com/playlist?list=PL3X--QEbK05L3f06wR_P2Q1Y81l_5y_5a",
+                  url: "https://www.youtube.com/playlist?list=PL4mqzqquSRgaJ9XMQMUvMQjPyllD1xY5f",
                   type: "view",
                   color: "red",
                 },
               ],
             },
             {
-              t: "م. محمد الشريف - تطوير البرمجيات المهني وأخلاقيات المهنة",
-              d: "شرح مفاهيم Fundamental SE Activities، وأنواع الأنظمة، وأخلاقيات المهنة (Ethics)",
+              t: "CS251 Software Engineering 1 - بالعربي",
+              d: "محاضرات جامعية عربية: مقدمة في هندسة البرمجيات، Software Products (Generic vs Customized)، و Application Types",
               icon: "🇪🇬",
               actions: [
                 {
                   label: "📖 الشرح",
-                  url: "https://www.youtube.com/playlist?list=PLDoPjvoLj21vL3p_C5x9s6pS-_V-oD",
+                  url: "https://www.youtube.com/playlist?list=PLsnvpvHuTUbC-yJkvcf-Stp_kLwfesnn-",
                   type: "view",
                   color: "red",
                 },
@@ -49,15 +49,15 @@ subjects.push({
           category: "فيديوهات عالمية",
           icon: "🌍",
           description:
-            "شروحات أكاديمية باللغة الإنجليزية متوافقة مع كتاب Ian Sommerville 10th Edition",
+            "المحاضرة الرسمية من مؤلف الكتاب + مراجع عالمية مُتحقّق منها تطابق محتوى الفصل الأول",
           links: [
             {
-              t: "Ian Sommerville - Chapter 1: Introduction to Software Engineering",
-              d: "شرح تفصيلي للمؤلف نفسه وحلول الفصل: Software Attributes, Fundamental Activities, Case Studies",
+              t: "Chapter 1 — Software Engineering (Ian Sommerville Official)",
+              d: "الشرح المباشر المطابق للكتاب: Professional Software Development، Essential Attributes of Good Software، Ethics، والـ 4 Case Studies (Insulin Pump, Mentcare, Weather Station, iLearn)",
               icon: "🌍",
               actions: [
                 {
-                  label: "📖 الشرح",
+                  label: "🎬 المحاضرة المباشرة",
                   url: "https://www.youtube.com/watch?v=GVDsxArvG2A",
                   type: "view",
                   color: "red",
@@ -65,12 +65,12 @@ subjects.push({
               ],
             },
             {
-              t: "Gate Smashers - Software Engineering Overview & Key Concepts",
-              d: "شرح مبسط لأهم أسئلة الفصل الأول: Attributes of Good Software، SE vs CS، و Software Diversity",
+              t: "Gate Smashers - Software Engineering Complete Course",
+              d: "شرح شامل بالإنجليزية: SE Fundamentals، Software Attributes، Types of Software، و SE vs CS",
               icon: "🌍",
               actions: [
                 {
-                  label: "📖 الشرح",
+                  label: "📖 Playlist كامل",
                   url: "https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6Xup8p",
                   type: "view",
                   color: "red",
@@ -83,11 +83,11 @@ subjects.push({
           category: "مواقع ومراجع",
           icon: "📚",
           description:
-            "المصادر الرسمية والمقالات المساعدة لكتاب Ian Sommerville 10th Edition",
+            "المراجع الرسمية للكتاب + مقالات تغطي نفس مفاهيم الفصل الأول",
           links: [
             {
-              t: "Sommerville Official Web Site - Chapter 1 Resources & Slides",
-              d: "الموقع الرسمي للكتاب لشرائح العرض (Slides)، والملاحظات الإضافية الخاصة بالفصل الأول",
+              t: "Sommerville Official Website - Slides, Videos & Instructor Guide",
+              d: "الموقع الرسمي للكتاب: Presentations لكل فصل، فيديوهات المؤلف، Instructor's Guide، و Supplements — **المرجع الأول**",
               icon: "📚",
               actions: [
                 {
@@ -99,42 +99,42 @@ subjects.push({
               ],
             },
             {
-              t: "GeeksforGeeks - Software Engineering Fundamentals",
-              d: "مقالات تغطي أساسيات SE، الفرق بين System Engineering و CS، وخصائص النظام الجيد",
+              t: "GeeksforGeeks - Introduction to Software Engineering",
+              d: "يغطي: تعريف SE، Objectives (Maintainability, Efficiency, Reliability, Correctness) — مطابق للـ Essential Attributes في الكتاب",
               icon: "📚",
               actions: [
                 {
                   label: "🚀 فتح المقال",
-                  url: "https://www.geeksforgeeks.org/software-engineering/",
+                  url: "https://www.geeksforgeeks.org/software-engineering/software-engineering-introduction-to-software-engineering/",
                   type: "view",
                   color: "green",
+                },
+              ],
+            },
+            {
+              t: "TutorialsPoint - Software Engineering Tutorial",
+              d: "مرجع منظم: SE Overview، SDLC، Software Design — لتعزيز الفهم العام",
+              icon: "📚",
+              actions: [
+                {
+                  label: "🚀 فتح الدرس",
+                  url: "https://www.tutorialspoint.com/software_engineering/index.htm",
+                  type: "view",
+                  color: "blue",
                 },
               ],
             },
           ],
         },
         {
-          category: "دراسات الحالة والأخلاقيات",
+          category: "Case Studies والأخلاقيات",
           icon: "🔧",
           description:
-            "دراسات الحالة (Case Studies) وميثاق أخلاقيات المهنة (ACM/IEEE Code of Ethics)",
+            "دراسات الحالة الأربعة المذكورة في الفصل + ميثاق أخلاقيات المهنة",
           links: [
             {
-              t: "ACM/IEEE Software Engineering Code of Ethics",
-              d: "المستند الرسمي لمبادئ وأخلاقيات مهنة مهندس البرمجيات المذكور في المنهج (Confidentiality, IP, Competence)",
-              icon: "🔧",
-              actions: [
-                {
-                  label: "🚀 فتح الميثاق",
-                  url: "https://www.acm.org/code-of-ethics",
-                  type: "view",
-                  color: "orange",
-                },
-              ],
-            },
-            {
-              t: "Sommerville Case Studies (Insulin Pump, Mentcare, Weather Station)",
-              d: "توثيق تفصيلي لدراسات الحالة الأربعة الأساسية المذكورة في نهاية الفصل الأول",
+              t: "Sommerville Case Studies (Insulin Pump, Mentcare, Weather Station, iLearn)",
+              d: "التوثيق الرسمي لدراسات الحالة الأربعة الأساسية المذكورة في نهاية الفصل الأول + Airbus 340 و Ariane 5 — **مطابق تماماً للملف**",
               icon: "🔧",
               actions: [
                 {
@@ -145,10 +145,23 @@ subjects.push({
                 },
               ],
             },
+            {
+              t: "ACM Code of Ethics and Professional Conduct",
+              d: "الميثاق الرسمي لأخلاقيات مهنة الكمبيوتر: Confidentiality, Competence, IP Rights — المذكور في قسم 1.2 Software Engineering Ethics",
+              icon: "🔧",
+              actions: [
+                {
+                  label: "🚀 فتح الميثاق",
+                  url: "https://www.acm.org/code-of-ethics",
+                  type: "view",
+                  color: "orange",
+                },
+              ],
+            },
           ],
         },
       ],
-
+      
       questions: [
         // ─── MCQ ───
         {
