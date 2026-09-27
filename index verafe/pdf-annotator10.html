@@ -432,7 +432,7 @@
 <div id="selBar">
   <span class="sel-hint">اللون</span>
   <div id="selColorRack"></div>
-  <span class="sel-hint" id="selWidthHint">السُمك</span>
+  <span class="sel-hint">السُمك</span>
   <input type="range" id="selWidth" min="1" max="40" value="4">
   <button class="sel-del" id="selDelete" title="حذف (Delete)">🗑️ حذف</button>
 </div>
@@ -539,7 +539,6 @@
   const translatePanel=$("#translatePanel"), helpOverlay=$("#helpOverlay");
   const navBar=$("#navBar"), navThumb=$("#navThumb"), navTooltip=$("#navTooltip");
   const selBar=$("#selBar"), selColorRack=$("#selColorRack"), selWidth=$("#selWidth");
-  const selWidthHint=$("#selWidthHint");
 
   function toast(msg){
     const t = $("#toast"); if(!t) return;
@@ -1262,10 +1261,12 @@
     ctx.closePath(); ctx.stroke();
   }
 
+  // ★ FIX 1: drawTextShape — اتجاه صحيح بدون "auto"
   function drawTextShape(ctx, anno, scale){
     const fs = (anno.fontSize||24)*scale;
     ctx.font = "600 "+fs+"px "+TEXT_FONT_FAMILY;
     ctx.textBaseline = "top";
+    // CanvasDirection يقبل ltr | rtl | inherit فقط — مفيش "auto"
     let dir = anno.dir;
     if(dir !== "ltr" && dir !== "rtl" && dir !== "inherit"){
       dir = isArabicText(anno.text) ? "rtl" : "ltr";
@@ -1426,63 +1427,13 @@
   function selectAnnotation(stroke, page){
     selectedAnno = { stroke, page };
     buildSelColorRack();
-    const t = stroke.tool;
-
-    // إظهار/إخفاء شريط الشفافية حسب نوع العنصر المحدد
-    const opEl = document.getElementById("opRange");
-    const opLbl = document.getElementById("opLabel");
-    if(opEl && opLbl){
-      if(t === "highlighter"){
-        opEl.style.display = "inline-block";
-        opLbl.style.display = "inline";
-        opEl.value = Math.round((stroke.opacity ?? 0.38) * 100);
-      } else {
-        opEl.style.display = "none";
-        opLbl.style.display = "none";
-      }
-    }
-
-    if(t === "text"){
-      selWidth.min = 10; selWidth.max = 80;
-      selWidth.value = stroke.fontSize || 24;
-      if(selWidthHint) selWidthHint.textContent = "الحجم";
-    } else if(t === "text-highlight"){
-      selWidth.min = 10; selWidth.max = 100;
-      selWidth.value = Math.round((stroke.opacity ?? 0.42) * 100);
-      if(selWidthHint) selWidthHint.textContent = "الشفافية";
-    } else if(t === "text-underline" || t === "text-strike"){
-      selWidth.min = 1; selWidth.max = 10;
-      selWidth.value = stroke.lineWidth || 2;
-      if(selWidthHint) selWidthHint.textContent = "السُمك";
-    } else if(t === "highlighter"){
-      selWidth.min = 4; selWidth.max = 60;
-      selWidth.value = stroke.width || 20;
-      if(selWidthHint) selWidthHint.textContent = "السُمك";
-    } else {
-      selWidth.min = 1; selWidth.max = 40;
-      selWidth.value = stroke.width || 4;
-      if(selWidthHint) selWidthHint.textContent = "السُمك";
-    }
+    selWidth.value = stroke.width || 4;
     updateSelBar();
   }
   function deselectAnnotation(){
-    if(!selectedAnno){
-      const opEl = document.getElementById("opRange");
-      const opLbl = document.getElementById("opLabel");
-      if(opEl && opLbl && currentTool !== "highlighter"){
-        opEl.style.display = "none";
-        opLbl.style.display = "none";
-      }
-      return;
-    }
+    if(!selectedAnno) return;
     selectedAnno = null;
     selBar.classList.remove("show");
-    const opEl = document.getElementById("opRange");
-    const opLbl = document.getElementById("opLabel");
-    if(opEl && opLbl && currentTool !== "highlighter"){
-      opEl.style.display = "none";
-      opLbl.style.display = "none";
-    }
   }
   function updateSelBar(){
     if(!selectedAnno || !pdfDoc){ selBar.classList.remove("show"); return; }
@@ -1539,20 +1490,8 @@
   }
   selWidth.addEventListener("input", () => {
     if(!selectedAnno) return;
-    const v = parseInt(selWidth.value, 10);
-    const t = selectedAnno.stroke.tool;
-    if(t === "text"){
-      selectedAnno.stroke.fontSize = v;
-      selectedAnno.stroke.width = 1;
-    } else if(t === "text-highlight"){
-      selectedAnno.stroke.opacity = v / 100;
-    } else if(t === "text-underline" || t === "text-strike"){
-      selectedAnno.stroke.lineWidth = v;
-    } else {
-      selectedAnno.stroke.width = v;
-    }
-    drawPageStrokes(selectedAnno.page);
-    scheduleSave();
+    selectedAnno.stroke.width = parseInt(selWidth.value,10);
+    drawPageStrokes(selectedAnno.page); scheduleSave();
   });
   $("#selDelete").addEventListener("click", () => {
     if(!selectedAnno) return;
@@ -1886,6 +1825,7 @@
       $("#tiDelete").style.display = "none";
     }
     tiTextarea.style.direction = currentTextDir === "rtl" ? "rtl" : "ltr";
+    // ★ FIX 2: مزامنة حجم خط الـ textarea مع currentFontSize
     tiTextarea.style.fontSize = Math.max(12, Math.min(48, currentFontSize)) + "px";
     setTimeout(() => { tiTextarea.focus(); try{ tiTextarea.setSelectionRange(tiTextarea.value.length, tiTextarea.value.length); }catch(e){} }, 50);
     document.querySelectorAll("#textInputBox .ti-dir button").forEach(b => b.classList.toggle("active", b.dataset.dir === currentTextDir));
@@ -1907,6 +1847,7 @@
     textInputBox.classList.remove("editing");
     textInputCtx = null;
   }
+  // ★ FIX 3: احفظ dir نهائي "rtl"/"ltr" بدل "auto"
   function closeTextInput(save){
     if(!textInputCtx){ textInputBox.style.display = "none"; return; }
     const txt = tiTextarea.value.trim();
@@ -2113,15 +2054,8 @@
     widthRange.style.display = showWidth ? "inline-block" : "none";
     $("#widthLabel").style.display = showWidth ? "inline" : "none";
     $("#widthLabel").textContent = currentTool === "eraser" ? "حجم الممحاة" : "السُمك";
-    const opEl = document.getElementById("opRange");
-    const opLbl = document.getElementById("opLabel");
-    if(showHi){
-      opEl.style.display = "inline-block";
-      opLbl.style.display = "inline";
-    } else if(!selectedAnno || selectedAnno.stroke.tool !== "highlighter"){
-      opEl.style.display = "none";
-      opLbl.style.display = "none";
-    }
+    opRange.style.display = showHi ? "inline-block" : "none";
+    $("#opLabel").style.display = showHi ? "inline" : "none";
     fontRange.style.display = showFont ? "inline-block" : "none";
     $("#fontLabel").style.display = showFont ? "inline" : "none";
   }
@@ -2144,28 +2078,16 @@
   }
 
   widthRange.addEventListener("input", () => { currentWidth = parseInt(widthRange.value,10); });
-  opRange.addEventListener("input", () => {
-    const v = parseInt(opRange.value, 10) / 100;
-    if(selectedAnno && selectedAnno.stroke.tool === "highlighter"){
-      selectedAnno.stroke.opacity = v;
-      drawPageStrokes(selectedAnno.page);
-      scheduleSave();
-    } else {
-      currentHiOpacity = v;
-    }
-  });
+  opRange.addEventListener("input", () => { currentHiOpacity = parseInt(opRange.value,10)/100; });
 
+  // ★ FIX 4: معاينة حية لحجم الخط في صندوق الكتابة + على الـ canvas
   fontRange.addEventListener("input", () => {
     currentFontSize = parseInt(fontRange.value,10);
+    // معاينة حية في صندوق الكتابة (لو مفتوح)
     if(textInputBox && textInputBox.style.display === "block"){
       tiTextarea.style.fontSize = Math.max(12, Math.min(48, currentFontSize)) + "px";
     }
-    if(selectedAnno && selectedAnno.stroke.tool === "text"){
-      selectedAnno.stroke.fontSize = currentFontSize;
-      selWidth.value = currentFontSize;
-      drawPageStrokes(selectedAnno.page);
-      scheduleSave();
-    }
+    // معاينة حية على الـ canvas لو بنعدّل نص موجود
     if(textInputCtx && textInputCtx.editingStroke){
       textInputCtx.editingStroke.fontSize = currentFontSize;
       drawPageStrokes(textInputCtx.p);
