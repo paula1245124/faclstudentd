@@ -6,7 +6,7 @@ subjects.push({
     {
       t: "المحاضرة الأولى",
       d: "مقدمة في هندسة البرمجيات ونماذج دورة الحياة SDLC.",
-      pdf: "Software Engineering/lectures/Software Engineering, 10th GLOBAL Edition Chapter 1.pdf",
+      pdf: "Software Engineering/lectures/Software Engineering Chapter 1 Lecture 1.pdf",
       pdf2: "Software Engineering/Questions/New/Questions on each lecture/SE_Chapter1_Section1.1_Questions.pdf",
       // فئات روابط منظمة مخصصة للفصل الأول (Chapter 1: Introduction) من كتاب Software Engineering - Ian Sommerville (10th Edition)
 
