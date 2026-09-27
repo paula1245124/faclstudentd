@@ -574,81 +574,6 @@
     return result;
   }
 
-  // ============ Merge annotations from a local PDF file ============
-  async function mergeAnnotationsFromPdf(bytes){
-    if(!pdfDoc || !numPages){
-      return { success: false, error: "مفيش ملف مفتوح حاليًا" };
-    }
-
-    // 1) استخرج الـ annotations من الملف المحلي
-    var attachments;
-    try{
-      attachments = await extractAttachmentsViaPdfJs(bytes);
-    }catch(e){
-      return { success: false, error: "تعذّر قراءة الملف" };
-    }
-    var jsonBytes = attachments[ANN_JSON_NAME];
-    if(!jsonBytes){
-      return { success: false, error: "الملف ده مش فيه تعديلات محفوظة" };
-    }
-
-    // 2) فك الـ JSON
-    var importedStrokes;
-    try{
-      var text = new TextDecoder('utf-8').decode(jsonBytes);
-      importedStrokes = JSON.parse(text);
-    }catch(e){
-      return { success: false, error: "التعديلات تالفة" };
-    }
-    if(!importedStrokes || typeof importedStrokes !== 'object'){
-      return { success: false, error: "التعديلات تالفة" };
-    }
-
-    // 3) احسب أقصى صفحة فيها تعديلات + العدد الكلي
-    var importedPageNums = Object.keys(importedStrokes)
-      .map(function(k){ return parseInt(k, 10); })
-      .filter(function(n){ return !isNaN(n) && n > 0; });
-    var maxImportedPage = importedPageNums.length ? Math.max.apply(null, importedPageNums) : 0;
-    var importedTotal = importedPageNums.reduce(function(sum, n){
-      var arr = importedStrokes[n];
-      return sum + (Array.isArray(arr) ? arr.length : 0);
-    }, 0);
-
-    if(importedTotal === 0){
-      return { success: false, error: "الملف ده مش فيه تعديلات" };
-    }
-
-    // 4) لو فيه تعديلات على صفحات أكتر من الملف المفتوح → اسأل
-    if(maxImportedPage > numPages){
-      var ok = window.confirm(
-        "⚠️ الملف المحلي فيه تعديلات على " + maxImportedPage + " صفحة،\n" +
-        "بينما الملف المفتوح فيه " + numPages + " صفحة بس.\n\n" +
-        "التعديلات على الصفحات الزيادة هتتجاهل.\n\n" +
-        "عايز تكمّل؟"
-      );
-      if(!ok) return { success: false, error: "اتلغى بواسطة المستخدم" };
-    }
-
-    // 5) استبدل التعديلات
-    strokesByPage = {};
-    redoByPage = {};
-    var count = 0;
-    importedPageNums.forEach(function(pageNum){
-      if(pageNum < 1 || pageNum > numPages) return;
-      var strokes = importedStrokes[pageNum];
-      if(!Array.isArray(strokes) || !strokes.length) return;
-      strokesByPage[pageNum] = strokes;
-      count += strokes.length;
-    });
-
-    // 6) أعد الرسم + احفظ
-    for(var p = 1; p <= numPages; p++) drawPageStrokes(p);
-    try{ deselectAnnotation(); }catch(e){}
-    scheduleSave();
-
-    return { success: true, count: count };
-  }
-
   // ============ postMessage ============
   window.addEventListener("message", function(e){
     var d = e.data; if(!d || typeof d !== "object") return;
@@ -663,31 +588,6 @@
           if(e.source && e.source.postMessage) e.source.postMessage({type:"load-pdf-ack",success:false,error:String(err)},"*");
         });
       }catch(err){}
-      return;
-    }
-    if(d.type === "merge-annotations-from-pdf" && d.bytes){
-      mergeAnnotationsFromPdf(d.bytes).then(function(result){
-        if(e.source && e.source.postMessage){
-          try{
-            e.source.postMessage({
-              type: "merge-annotations-result",
-              success: result.success,
-              count: result.count,
-              error: result.error
-            }, "*");
-          }catch(err){}
-        }
-      }).catch(function(err){
-        if(e.source && e.source.postMessage){
-          try{
-            e.source.postMessage({
-              type: "merge-annotations-result",
-              success: false,
-              error: String(err && err.message || err)
-            }, "*");
-          }catch(err2){}
-        }
-      });
       return;
     }
     if(d.type === "ping" && e.source){ try{ e.source.postMessage({type:"pong",ready:true},"*"); }catch(err){} }
@@ -2011,6 +1911,9 @@
       if(currentWidth < 14){ currentWidth = 20; widthRange.value = 20; }
       if(!HI_COLORS.includes(currentColor)) currentColor = HI_COLORS[0];
     }
+    // من غير الإصلاح ده، سُمك/لون التظليل الحر (تخين وأصفر فاتح) كانوا بيفضلوا
+    // متطبّقين لو رجعت لأداة قلم/شكل/نص بعد ما تستخدم التظليل — فتطلع أشكال
+    // ضخمة شكلها "مصمّتة" وكتابة صفراء بالكاد بتتشاف.
     if(normalInkTools.includes(currentTool)){
       if(currentWidth > 14){ currentWidth = 4; widthRange.value = 4; }
       if(HI_COLORS.includes(currentColor)) currentColor = PEN_COLORS[0];
@@ -2166,6 +2069,10 @@
   }
 
   // ============ ★ Save As حقيقي (File System Access API) ============
+  // بترجّع:
+  //   - FileSystemFileHandle → المستخدم اختار مكان الحفظ فعلاً
+  //   - "CANCELLED"          → المستخدم قفل نافذة الحفظ (إلغاء)
+  //   - null                 → المتصفح مش بيدعم الـ API (نرجع للتنزيل العادي)
   function pickSaveHandle(suggestedName){
     return new Promise((resolve) => {
       if(typeof window.showSaveFilePicker !== "function"){ resolve(null); return; }
@@ -2430,16 +2337,23 @@
     const lines = String(s.text||"").split('\n');
     let maxLen = 0;
     for(const ln of lines) if(ln.length > maxLen) maxLen = ln.length;
+    // هامش أمان زيادة عشان poppler/Acrobat أحيانًا بيقصّوا النص لو الصندوق ضيق شوية
     const approxW = Math.max(60, maxLen * fs * 0.62) + fs;
     const totalH = Math.max(fs * 1.5, lines.length * fs * 1.5) + fs*0.3;
     const boxW = (approxW / NORM_W) * ptW;
     const boxH = (totalH / NORM_W) * ptW;
+    // fontSize (fs) متخزّن في نفس "الوحدات المعيارية" اللي بيتحسب بيها x/y (NORM_W=1000)
+    // ولازم يتحوّل لنقاط PDF فعلية بنفس نسبة تصغير الصندوق (ptW/NORM_W)، وإلا
+    // الخط هيتكتب أكبر من المساحة المحجوزة له فعليًا ويتقص.
     const fsPt = fs * (ptW / NORM_W);
     const [r, g, b] = hexToRgb01(s.color || '#000000');
     const d = pdfDoc.context.obj({});
     d.set(PDFName.of('Type'), PDFName.of('Annot'));
     d.set(PDFName.of('Subtype'), PDFName.of('FreeText'));
     d.set(PDFName.of('Rect'), pdfDoc.context.obj([x, yTop - boxH, x + boxW, yTop]));
+    // ملحوظة: مفيش 'C' هنا عن قصد — في FreeText اللون ده بيتفسّر كـ"لون خلفية"
+    // مش لون النص، فكان بيرسم مستطيل معتم بنفس لون النص وبيخفيه تمامًا.
+    // لون النص الفعلي بييجي من DA (Tf/rg) تحت.
     d.set(PDFName.of('F'), PDFNumber.of(4));
     d.set(PDFName.of('Contents'), PDFString.of(s.text || ''));
     d.set(PDFName.of('T'), PDFString.of(PDF_ANNOT_PRODUCER));
@@ -2455,6 +2369,7 @@
     return d;
   }
 
+  // Returns PDFDict or null (null = must bake as image, e.g. Arabic text)
   function buildAnnotationForStroke(pdfDoc, s, ptW, ptH, pageRef){
     switch(s.tool){
       case 'pen':
@@ -2481,12 +2396,14 @@
       case 'text-strike':
         return buildUnderlineStrikeAnnotation(pdfDoc, s, ptW, ptH, 'StrikeOut', pageRef);
       case 'text':
+        // Arabic / non-ASCII → bake as image (FreeText needs embedded font with Arabic support)
         if(/[^\u0000-\u007F]/.test(String(s.text || ''))) return null;
         return buildFreeTextAnnotation(pdfDoc, s, ptW, ptH, pageRef);
     }
     return null;
   }
 
+  // Bake a set of strokes as ONE flattened image (used for Arabic text + fallback)
   async function bakeStrokesAsImage(outDoc, page, strokes, ptW, ptH){
     const exportScale = 3;
     const MAX_DIM = 4200;
@@ -2523,6 +2440,7 @@
       const baseBytes = originalPdfBytes || pdfBytes;
       const outDoc = await PDFDocument.load(baseBytes.slice(0), { ignoreEncryption: true });
 
+      // ★ Strip encryption + permissions so Adobe doesn't lock editing
       try{
         const tr = outDoc.context.trailerInfo;
         if(tr && tr.Encrypt) delete tr.Encrypt;
@@ -2533,6 +2451,7 @@
       const pages = outDoc.getPages();
       const pageCount = Math.min(pages.length, numPages);
 
+      // ★ Write real PDF annotations for every stroke
       for(let i = 0; i < pageCount; i++){
         const pnum = i + 1;
         const list = strokesByPage[pnum] || [];
@@ -2563,6 +2482,7 @@
         }
       }
 
+      // Embed editable data as attachments so re-opening in our app recovers strokes
       try{
         const jsonBytes = new TextEncoder().encode(JSON.stringify(strokesByPage));
         await outDoc.attach(jsonBytes, ANN_JSON_NAME, {
@@ -2583,6 +2503,7 @@
       const safeBase = (rawBase.replace(/[\\/:*?"<>|]+/g, "_").trim() || "document").slice(0, 80);
       const outName = safeBase + (silent ? "-backup.pdf" : "-annotated.pdf");
 
+      // ★ Save As حقيقي عبر File System Access API (لو المستخدم اختار مكان فعلاً)
       if(opts.saveAsHandle){
         try{
           const writable = await opts.saveAsHandle.createWritable();
@@ -2597,6 +2518,7 @@
         }
       }
 
+      // Fallback: التنزيل العادي (للمتصفحات اللي مش بتدعم الـ API)
       const blob = new Blob([outBytes], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -2613,6 +2535,7 @@
     } finally { hideLoading(); }
   }
 
+  // ============ Clear all (with auto-backup) ============
   btnClearAll.addEventListener("click", async () => {
     if(!pdfDoc) return;
     const hasAny = Object.keys(strokesByPage).some(p => (strokesByPage[p]||[]).length);
@@ -2624,6 +2547,7 @@
     );
     if(!ok) return;
 
+    // ★ نطلب مكان الحفظ فورًا (قبل أي await) عشان نضمن الـ user gesture
     const rawBase = (currentFile && currentFile.name ? currentFile.name : "document").replace(/\.pdf$/i, "");
     const safeBase = (rawBase.replace(/[\\/:*?"<>|]+/g, "_").trim() || "document").slice(0, 80);
     const saveHandle = await pickSaveHandle(safeBase + "-backup.pdf");

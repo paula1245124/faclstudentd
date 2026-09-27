@@ -1058,53 +1058,6 @@ function isLatinText(s){
 }
 
 // ============================================================
-// 5.5) استيراد تعديلات من ملف PDF محلي
-// ============================================================
-function importAnnotationsFromFile(btn){
-  var card = btn.closest('.attach-card');
-  if(!card) return;
-  var iframe = card.querySelector('iframe.annotator-iframe');
-  if(!iframe || !iframe.contentWindow){
-    showToast('⚠️ قلم PDF مش جاهز — استنى شوية');
-    return;
-  }
-  var input = document.createElement('input');
-  input.type = 'file';
-  input.accept = 'application/pdf,.pdf';
-  input.onchange = function(ev){
-    var file = ev.target.files && ev.target.files[0];
-    if(!file) return;
-    var reader = new FileReader();
-    reader.onload = function(){
-      var buf = reader.result;
-      try{
-        iframe.contentWindow.postMessage({
-          type: 'merge-annotations-from-pdf',
-          bytes: buf,
-          name: file.name
-        }, '*', [buf]);
-        showToast('⏳ جاري فحص الملف...');
-      }catch(err){
-        showToast('❌ فشل إرسال الملف للـ PDF');
-      }
-    };
-    reader.readAsArrayBuffer(file);
-  };
-  input.click();
-}
-
-window.addEventListener('message', function(e){
-  if(!e.data || typeof e.data !== 'object') return;
-  if(e.data.type === 'merge-annotations-result'){
-    if(e.data.success){
-      showToast('✅ تم نقل ' + (e.data.count || 0) + ' تعديل');
-    } else {
-      showToast('❌ ' + (e.data.error || 'فشل النقل'));
-    }
-  }
-});
-
-// ============================================================
 // 6) نظام المواد
 // ============================================================
 var currentSubject = 0, currentLecture = -1;
@@ -2168,10 +2121,7 @@ function renderAttachCard(boxId, title, url){
     '<div class="attach-card">'+
       '<div class="attach-head">'+
         '<span class="attach-title">📄 '+esc(title || 'الملف')+'</span>'+
-        '<div style="display:flex;gap:6px;flex-wrap:wrap;">'+
-          '<button class="btn-sm" style="background:var(--download-btn-bg);" onclick="downloadPDFAt('+dlIdx+')">⬇ تحميل الملف</button>'+
-          (annot ? '<button class="btn-sm" style="background:var(--warning);" onclick="importAnnotationsFromFile(this)">📂 استورد تعديلات</button>' : '')+
-        '</div>'+
+        '<button class="btn-sm" style="background:var(--download-btn-bg);" onclick="downloadPDFAt('+dlIdx+')">⬇ تحميل الملف</button>'+
       '</div>'+
       '<div class="attach-line"></div>'+
       (annot
