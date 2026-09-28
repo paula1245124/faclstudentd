@@ -158,6 +158,25 @@ header h1{margin:0 0 8px;font-size:24px}
 .badge{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:bold;white-space:nowrap}
 .badge.done{background:var(--success);color:#fff}
 .badge.new{background:var(--text-hint);color:#fff;opacity:.7}
+.badge.warn{background:var(--warning);color:#fff}
+.badge.bad{background:var(--danger);color:#fff}
+
+/* شريط تقدم صغير جوه كارت المحاضرة */
+.card-progress{
+  height:6px;
+  background:var(--border);
+  border-radius:4px;
+  overflow:hidden;
+  margin-top:8px;
+  width:100%;
+  max-width:220px;
+}
+.card-progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--progress-fill-1),var(--progress-fill-2));
+  border-radius:4px;
+  transition:width .4s ease;
+}
 .btn-sm{background:var(--accent);color:#fff;border:none;padding:5px 10px;border-radius:15px;cursor:pointer;font-size:11px;font-weight:bold;transition:all .3s;white-space:nowrap}
 .btn-sm:hover{filter:brightness(1.2);transform:scale(1.05)}
 .btn-download-exam{background:var(--download-btn-bg)}
@@ -208,15 +227,7 @@ iframe{width:100%;height:600px;border:none;display:block}
 .wrong-q-correct{background:var(--correct-card-bg);border-right:4px solid var(--correct-card-border);color:var(--correct-card-text)}
 .wrong-q-label{font-weight:bold;font-size:12px;display:block;margin-bottom:3px}
 .no-wrong-msg{background:var(--no-wrong-bg);border:2px solid var(--no-wrong-border);color:var(--no-wrong-text);padding:20px;border-radius:10px;text-align:center;font-size:20px;font-weight:bold;margin:15px 0}
-.progress-summary{background:var(--summary-bg);border:2px solid var(--border);border-radius:12px;padding:20px;margin:20px 0}
-.progress-summary h3{text-align:center;color:var(--text-heading);margin-top:0;font-size:19px}
-.progress-summary-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;margin:6px 0;border-radius:8px;cursor:pointer;transition:all .3s;background:var(--bg-card);flex-wrap:wrap;gap:8px}
-.progress-summary-row:hover{background:var(--bg-card-hover);transform:translateX(-4px)}
-.progress-summary-row .ps-name{font-weight:bold;font-size:15px;color:var(--text-heading);flex:1;min-width:120px}
-.ps-badge{padding:4px 10px;border-radius:15px;font-size:11px;font-weight:bold;white-space:nowrap}
-.ps-badge.done{background:var(--success);color:#fff}
-.ps-badge.pending{background:var(--text-hint);color:#fff;opacity:.7}
-.ps-badge.total{background:var(--accent);color:#fff}
+/* تم حذف ملخص التقدم — التقدم يظهر في كل كارت محاضرة */
 
 /* ============================================================
    5) عناصر ثابتة + Toast + العدّاد
@@ -546,13 +557,11 @@ body.quiz-mode .qn-sidebar{display:block}
 /* ★★★ منع قفزات التصميم (CLS Fix v3 — آمن مع position:fixed) ★★★ */
 #subject-bar{min-height:68px;contain:layout style}
 #lectures-list{min-height:320px;contain:layout style}
-#progress-summary-box{min-height:180px;contain:layout style}
 #section1{min-height:380px}
 .page-layout{min-height:calc(100vh - 200px)}
 @media (max-width:640px){
   #subject-bar{min-height:56px}
   #lectures-list{min-height:260px}
-  #progress-summary-box{min-height:150px}
   #section1{min-height:320px}
   .container{padding-bottom:40px}
 }
@@ -619,7 +628,6 @@ body.app-ready #main-view{
                 <h2>المحاضرات</h2>
                 <p style="color:var(--text-hint);">اضغط على أي محاضرة لفتح صفحة تفاصيلها: 🔗 روابط + 📄 ملف المحاضرة + 🧠 الأسئلة.</p>
                 <div id="lectures-list"></div>
-                <div class="progress-summary" id="progress-summary-box"></div>
             </div>
             <div id="section2" class="content-section">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:15px;">
@@ -809,8 +817,7 @@ function showSubjectLoading(){
         '<div class="loader-text">⏳ جاري تحميل بيانات المادة...</div>' +
       '</div>';
   }
-  var ps = document.getElementById('progress-summary-box');
-  if(ps){ ps.innerHTML = ''; ps.style.display = 'none'; }
+  // ملخص التقدم محذوف — لا حاجة لتصفيره
 }
 
 // ============================================================
@@ -1319,7 +1326,6 @@ var renderedTabs = {};
 function renderAllLists(){
   renderLecturesList();
   renderQuizLists();
-  requestAnimationFrame(function(){ renderProgressSummary(); });
 }
 
 function renderQuizLists(){
@@ -1363,12 +1369,31 @@ function renderLecturesList(){
     var total = (l.questions || []).length;
     var done = Object.keys(getSavedQuizFor(s, lecQuizKey(l))).length;
     var score = getScore(s, lecQuizKey(l));
+
+    // ★ شارة التقدم
     var badge;
-    if(score) badge = '<span class="badge done">🏆 '+score.score+'%</span>';
-    else if(total && done >= total) badge = '<span class="badge done">✅ مكتملة</span>';
-    else badge = '<span class="badge new">'+total+' سؤال</span>';
+    if(score){
+      var color = score.score >= 75 ? 'done' : (score.score >= 50 ? 'warn' : 'bad');
+      badge = '<span class="badge '+color+'">🏆 '+score.score+'%</span>';
+    }
+    else if(total && done >= total){
+      badge = '<span class="badge done">✅ مكتملة</span>';
+    }
+    else if(done > 0){
+      badge = '<span class="badge warn">⏳ '+done+'/'+total+'</span>';
+    }
+    else{
+      badge = '<span class="badge new">'+total+' سؤال</span>';
+    }
+
+    // ★ شريط تقدم صغير أسفل الكارت (يظهر لو الطالب بدأ)
+    var pct = total ? Math.round(done * 100 / total) : 0;
+    var progressBar = (done > 0 && total > 0)
+      ? '<div class="card-progress"><div class="card-progress-fill" style="width:'+pct+'%"></div></div>'
+      : '';
+
     return '<div class="card" onclick="openLecture('+currentSubject+','+i+')">'+
-             '<div class="card-text"><h3>'+(i+1)+'. '+esc(l.t)+'</h3><p>'+(l.d ? esc(l.d) : '')+'</p></div>'+
+             '<div class="card-text"><h3>'+(i+1)+'. '+esc(l.t)+'</h3><p>'+(l.d ? esc(l.d) : '')+'</p>'+progressBar+'</div>'+
              badge +
            '</div>';
   }).join('');
@@ -1431,27 +1456,7 @@ function examCardHTML(s, e, prop, idx, total, key){
          '</div>';
 }
 
-function renderProgressSummary(){
-  var s = subjects[currentSubject];
-  var box = document.getElementById('progress-summary-box');
-  if(!s){ box.innerHTML = ''; box.style.display='none'; return; }
-  var rows = (s.lectures || []).map(function(l, i){
-    var total = (l.questions || []).length;
-    if(!total) return '';
-    var done = Object.keys(getSavedQuizFor(s, lecQuizKey(l))).length;
-    var score = getScore(s, lecQuizKey(l));
-    var b = score ? '<span class="ps-badge done">'+score.score+'%</span>'
-           : (done >= total ? '<span class="ps-badge done">مكتمل</span>'
-           : '<span class="ps-badge pending">'+done+'/'+total+'</span>');
-    return '<div class="progress-summary-row" onclick="openLecture('+currentSubject+','+i+')">'+
-             '<span class="ps-name">'+(i+1)+'. '+esc(l.t)+'</span>'+
-             '<span class="ps-badge total">'+total+' سؤال</span>'+ b +
-           '</div>';
-  }).join('');
-  if(!rows){ box.innerHTML = ''; box.style.display = 'none'; return; }
-  box.style.display = 'block';
-  box.innerHTML = '<h3>📊 ملخص التقدم — '+esc(s.name)+'</h3>' + rows;
-}
+/* ملخص التقدم اتحذف — التقدم يظهر في كل كارت محاضرة */
 
 // ============================================================
 // 10) وضع الامتحان + الأكورديون
