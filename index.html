@@ -104,7 +104,8 @@ header h1{margin:0 0 8px;font-size:24px}
 .theme-pill{background:var(--theme-btn-bg);color:var(--theme-btn-text);border:2px solid transparent;padding:6px 14px;border-radius:50px;cursor:pointer;font-size:13px;font-weight:bold;transition:all .3s;display:inline-flex;align-items:center;gap:5px}
 .theme-pill:hover{background:var(--theme-btn-active);transform:scale(1.04)}
 .theme-pill.active{border-color:var(--text-white);background:var(--theme-btn-active);box-shadow:0 0 12px rgba(255,255,255,.2)}
-.demo-btn{background:#e67e22;color:#fff;border:none;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:12px;font-weight:bold;transition:all .3s;animation:demoPulse 1.5s infinite}
+.demo-btn{background:#e67e22;color:#fff;border:none;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:12px;font-weight:bold;transition:all .3s}
+.auto-visible .demo-btn{animation:demoPulse 1.5s infinite}
 .demo-btn:hover{filter:brightness(1.15);transform:scale(1.05)}
 @keyframes demoPulse{0%,100%{box-shadow:0 0 0 0 rgba(230,126,34,.4)}50%{box-shadow:0 0 0 8px rgba(230,126,34,0)}}
 .auto-only{display:none}
@@ -220,29 +221,11 @@ iframe{width:100%;height:600px;border:none;display:block}
 /* ============================================================
    5) عناصر ثابتة + Toast + العدّاد
    ============================================================ */
-.scroll-to-top{position:fixed;bottom:50px;left:20px;width:46px;height:46px;background:var(--scroll-btn-bg);color:#fff;border:none;border-radius:50%;font-size:22px;cursor:pointer;z-index:999;box-shadow:0 4px 15px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);pointer-events:none;transition:all .3s}
+.scroll-to-top{position:fixed;bottom:20px;left:20px;width:46px;height:46px;background:var(--scroll-btn-bg);color:#fff;border:none;border-radius:50%;font-size:22px;cursor:pointer;z-index:999;box-shadow:0 4px 15px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);pointer-events:none;transition:all .3s}
 .scroll-to-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
 .scroll-to-top:hover{filter:brightness(1.2);transform:scale(1.1) translateY(-4px)}
-.status-bar{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:35px;
-  line-height:19px;
-  box-sizing:border-box;
-  background:var(--status-bg);
-  color:var(--status-text);
-  text-align:center;
-  padding:8px 15px;
-  font-size:13px;
-  font-weight:bold;
-  z-index:998;
-  transition:background .6s,color .4s;
-  overflow:hidden;
-}
-.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--success-light);margin-left:8px;vertical-align:middle}
-.toast{position:fixed;bottom:50px;left:50%;transform:translateX(-50%);background:var(--bg-header);color:#fff;border:1px solid var(--border);padding:12px 22px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:3000;box-shadow:0 6px 20px var(--shadow)}
+/* تم حذف الشريط السفلي (status-bar) */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--bg-header);color:#fff;border:1px solid var(--border);padding:12px 22px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:3000;box-shadow:0 6px 20px var(--shadow)}
 .toast.show{opacity:1}
 .solved-counter{background:var(--bg-card);border:2px solid var(--border);border-radius:12px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:14px;font-size:16px;font-weight:bold;color:var(--text-heading)}
 .solved-counter .sc-ok{color:var(--success);font-size:22px}
@@ -393,7 +376,7 @@ iframe{width:100%;height:600px;border:none;display:block}
 .content-section{padding:16px}
 .card{flex-direction:column;align-items:flex-start}
 .notif-dropdown{width:95vw;left:-120px}
-.scroll-to-top{bottom:50px;left:12px;width:40px;height:40px;font-size:18px}
+.scroll-to-top{bottom:20px;left:12px;width:40px;height:40px;font-size:18px}
 header h1{font-size:20px}
 .subj-btn{font-size:13px;padding:8px 12px}
 }
@@ -560,11 +543,30 @@ body.quiz-mode .qn-sidebar{display:block}
   .notif-bell{ font-size:18px; }
 }
 
-/* ★★★ منع قفزات التصميم (CLS Fix) ★★★ */
-.page-layout{min-height:calc(100vh - 240px)}
-#subject-bar{min-height:58px}
-#lectures-list{min-height:200px}
-#progress-summary-box{min-height:0}
+/* ★★★ منع قفزات التصميم (CLS Fix v3 — آمن مع position:fixed) ★★★ */
+#subject-bar{min-height:68px;contain:layout style}
+#lectures-list{min-height:320px;contain:layout style}
+#progress-summary-box{min-height:180px;contain:layout style}
+#section1{min-height:380px}
+.page-layout{min-height:calc(100vh - 200px)}
+@media (max-width:640px){
+  #subject-bar{min-height:56px}
+  #lectures-list{min-height:260px}
+  #progress-summary-box{min-height:150px}
+  #section1{min-height:320px}
+  .container{padding-bottom:40px}
+}
+
+/* ★ إخفاء ناعم لمنع القفزة الأولى */
+body:not(.app-ready) #main-view{
+  opacity:0;
+  visibility:hidden;
+}
+body.app-ready #main-view{
+  opacity:1;
+  visibility:visible;
+  transition:opacity .2s ease;
+}
 </style>
 </head>
 <body>
@@ -694,9 +696,6 @@ body.quiz-mode .qn-sidebar{display:block}
     </div>
 </div>
 
-<div class="status-bar" id="status-bar">
-  <span id="sb-theme">Light</span><span class="status-dot"></span>
-</div>
 <div class="toast" id="toast"></div>
 
 <script>var subjects = [];</script>
@@ -3356,6 +3355,11 @@ function importProgress(ev){
 // 23) التشغيل (Lazy Load)
 // ============================================================
 function __initApp(){
+  // ★ احتياطي مبكر: نضمن إظهار الصفحة حتى لو حصل خطأ في أي مكان بالدالة
+  setTimeout(function(){
+    document.body.classList.add('app-ready');
+  }, 2000);
+
   if(typeof SUBJECTS_INDEX === 'undefined' || !SUBJECTS_INDEX.length){
     document.getElementById('main-title').textContent = '⚠️ خطأ في تحميل الفهرس';
     document.getElementById('subject-bar').innerHTML = '';
@@ -3384,6 +3388,10 @@ function __initApp(){
   var meta = SUBJECTS_INDEX[startIdx];
   document.getElementById('main-title').textContent = 'منصة مادة ' + meta.name + (meta.en ? ' — ' + meta.en : '');
   renderSubjectBar();
+  // ★ إظهار الصفحة بعد ما تكون جاهزة لمنع القفزات
+  requestAnimationFrame(function(){
+    document.body.classList.add('app-ready');
+  });
 
   // ⬇️ نحمّل المادة المطلوبة بس
   showSubjectLoading();
