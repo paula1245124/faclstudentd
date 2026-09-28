@@ -423,7 +423,25 @@ body.quiz-mode .qn-sidebar{display:block}
 .er-tag{padding:4px 12px;border-radius:12px;font-size:11px;font-weight:bold;white-space:nowrap;flex-shrink:0}
 .er-tag.green{background:var(--success);color:#fff}
 .er-tag.warn{background:var(--warning);color:#fff}
+.er-tag.bad{background:var(--danger);color:#fff}
 .er-tag.plain{background:var(--bg-quiz-card);border:1px solid var(--border);color:var(--text-secondary)}
+
+/* ★ شريط تقدم صغير جوه كارت الاختبار */
+.exam-progress{
+  height:5px;
+  background:var(--border);
+  border-radius:3px;
+  overflow:hidden;
+  margin-top:6px;
+  width:100%;
+  max-width:200px;
+}
+.exam-progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--progress-fill-1),var(--progress-fill-2));
+  border-radius:3px;
+  transition:width .4s ease;
+}
 .er-pdf-btn{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:#fff;border:none;padding:9px 16px;border-radius:20px;cursor:pointer;font-size:13px;font-weight:bold;font-family:inherit;flex-shrink:0;transition:all .25s;white-space:nowrap}
 .er-pdf-btn:hover{transform:scale(1.05);box-shadow:0 3px 10px var(--show-score-shadow)}
 .er-num{min-width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px;flex-shrink:0;direction:ltr}
@@ -1439,17 +1457,37 @@ function examCategorizedHTML(s, prop){
 function examCardHTML(s, e, prop, idx, total, key){
   var score = getScore(s, key);
   var done = Object.keys(getSavedQuizFor(s, key)).length;
+
+  // ★ شارة التقدم بألوان حسب النتيجة
   var tag;
-  if(score)                                  tag = '<span class="er-tag green">🏆 '+score.score+'%</span>';
-  else if(total && done >= total)            tag = '<span class="er-tag green">✅ مكتمل</span>';
-  else if(total && done > 0)                 tag = '<span class="er-tag warn">⏳ قيد الحل</span>';
-  else                                       tag = '<span class="er-tag plain">جديد</span>';
+  if(score){
+    var color = score.score >= 75 ? 'green' : (score.score >= 50 ? 'warn' : 'bad');
+    tag = '<span class="er-tag '+color+'">🏆 '+score.score+'%</span>';
+  }
+  else if(total && done >= total){
+    tag = '<span class="er-tag green">✅ مكتمل</span>';
+  }
+  else if(total && done > 0){
+    tag = '<span class="er-tag warn">⏳ '+done+'/'+total+'</span>';
+  }
+    else{
+    tag = '<span class="er-tag plain">جديد</span>';
+  }
+
+  // ★ شريط تقدم صغير (يظهر بس لو الطالب بدأ)
+  var pct = total ? Math.round(done * 100 / total) : 0;
+  var progressBar = (done > 0 && total > 0)
+    ? '<div class="exam-progress"><div class="exam-progress-fill" style="width:'+pct+'%"></div></div>'
+    : '';
+
   var pdfBtn = e.pdf ? '<button class="er-pdf-btn" title="تحميل الامتحان PDF" onclick="event.stopPropagation();downloadPDFAt('+regUrl(pdfDownloadUrl(e.pdf))+')">📄 تحميل الامتحان PDF</button>' : '';
+
   return '<div class="exam-row" onclick="openQuizByType(\''+prop+'\','+idx+')">'+
            '<span class="er-play">▶</span>'+
            '<span class="er-main">'+
              '<span class="er-title">'+esc(e.t || 'اختبار')+'</span>'+
              '<span class="er-sub">'+(e.d ? esc(e.d) : '')+'</span>'+
+             progressBar +
            '</span>'+
            tag + pdfBtn +
            '<span class="er-num">'+total+'</span>'+
