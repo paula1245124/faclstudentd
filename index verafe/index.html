@@ -559,12 +559,6 @@ body.quiz-mode .qn-sidebar{display:block}
   }
   .notif-bell{ font-size:18px; }
 }
-
-/* ★★★ منع قفزات التصميم (CLS Fix) ★★★ */
-.page-layout{min-height:calc(100vh - 240px)}
-#subject-bar{min-height:58px}
-#lectures-list{min-height:200px}
-#progress-summary-box{min-height:0}
 </style>
 </head>
 <body>
@@ -695,12 +689,12 @@ body.quiz-mode .qn-sidebar{display:block}
 </div>
 
 <div class="status-bar" id="status-bar">
-  <span id="sb-theme">Light</span><span class="status-dot"></span>
+  Theme Sync: <span id="sb-theme">Light</span> — <span id="sb-time"> </span><span class="status-dot"></span>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>var subjects = [];</script>
-<script src="data/subjects-index.js" defer></script>
+<script src="data/subjects-index.js"></script>
 
 <script>
 // ============================================================
@@ -866,11 +860,18 @@ function formatTime(d){
   return h12 + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0') + ' ' + ap;
 }
 
-function updateStatusBar(){
+function updateStatusBar(fakeTime){
   var themeSpan = document.getElementById('sb-theme');
+  var timeSpan  = document.getElementById('sb-time');
+
   var cur = document.documentElement.getAttribute('data-theme') || 'noon';
+
   if(themeSpan){
     themeSpan.textContent = themeNames[cur] || cur;
+  }
+
+  if(timeSpan){
+    timeSpan.textContent = fakeTime || formatTime(new Date());
   }
 }
 
@@ -880,10 +881,15 @@ function runDemo(){
   var btn = document.getElementById('demo-btn');
   btn.textContent = '⏸ Running...';
   btn.style.animation = 'none';
-  var stages = ['morning','noon','afternoon','night'];
+  var stages = [
+    {theme:'morning',   label:'6:00:00 AM'},
+    {theme:'noon',      label:'12:00:00 PM'},
+    {theme:'afternoon', label:'3:30:00 PM'},
+    {theme:'night',     label:'8:00:00 PM'}
+  ];
   var idx = 0;
-  applyTheme(stages[0]);
-  updateStatusBar();
+  applyTheme(stages[0].theme);
+  updateStatusBar(stages[0].label);
   demoInterval = setInterval(function(){
     idx++;
     if(idx >= stages.length){
@@ -894,8 +900,8 @@ function runDemo(){
       applyTimeTheme();
       return;
     }
-    applyTheme(stages[idx]);
-    updateStatusBar();
+    applyTheme(stages[idx].theme);
+    updateStatusBar(stages[idx].label);
   }, 2500);
 }
 
@@ -912,6 +918,7 @@ function runDemo(){
 
 setInterval(function(){
   if(!isDemoRunning && themeMode === 'auto') applyTimeTheme();
+  else if(!isDemoRunning) updateStatusBar();
 }, 1000);
 // ============================================================
 // 3) زر الصعود
@@ -3355,7 +3362,7 @@ function importProgress(ev){
 // ============================================================
 // 23) التشغيل (Lazy Load)
 // ============================================================
-function __initApp(){
+(function init(){
   if(typeof SUBJECTS_INDEX === 'undefined' || !SUBJECTS_INDEX.length){
     document.getElementById('main-title').textContent = '⚠️ خطأ في تحميل الفهرس';
     document.getElementById('subject-bar').innerHTML = '';
@@ -3420,13 +3427,7 @@ function __initApp(){
     document.getElementById('lectures-list').innerHTML =
       '<p style="color:var(--danger);padding:24px;text-align:center;font-weight:bold;">⚠️ فشل تحميل المادة: ' + esc(err.message) + '</p>';
   });
-}
-
-if(document.readyState === 'loading'){
-  document.addEventListener('DOMContentLoaded', __initApp);
-} else {
-  __initApp();
-}
+})();
 
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
