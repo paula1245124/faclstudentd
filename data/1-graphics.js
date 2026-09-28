@@ -62,7 +62,6 @@ subjects.push({
                 },
               ],
             },
-
           ],
         },
         {
@@ -558,6 +557,769 @@ subjects.push({
             "In the textbook appendix",
           ],
           correct: 1,
+        },
+      ],
+    },
+    {
+      t: "المحاضرة 2: مراجعة الرياضيات (الجزء الأول: الجبر الخطي والـ Vector Spaces)",
+      d: "تغطي المفاهيم الأساسية للجبر الخطي في الرسوميات الحاسوبية: مسلمات الفضاءات المتجهة (Vector Spaces)، التمثيل بالإحداثيات الديكارتية، عمليات الجمع والتكبيس (Scaling)، حساب منتصف القطعة (Midpoint)، معاملة الدوال كمتجهات، ومعايير قياس الطول (Euclidean Norm وL2 Norm للدوال).",
+      pdf: "Computer Graphics/lectures/Lecture 2/Lecture 2.pdf",
+      pdf2: "Computer Graphics/Questions/new/Questions on each lecture/Lecture2_Linear_Algebra_Questions.pdf",
+
+      // فئات روابط منظمة لمادة رسوميات الحاسوب (Computer Graphics - Lecture 1)
+      // فئات روابط منظمة ومخصصة لمحاضرة الجبر الخطي للرسوميات الحاسوبية (CMU Lecture 2)
+      linkCategories: [
+        {
+          category: "فيديوهات عربية",
+          icon: "🇪🇬",
+          description:
+            "شروحات باللغة العربية تمس موضوعات المتجهات، المعيار، والفضاءات المتجهة المذكورة بالملف",
+          links: [
+            {
+              t: "SpicyCoders - المتجهات | Vectors | الجبر الخطى",
+              d: "شرح تفصيلي لمفهوم المتجهات، المركبات الديكارتية، وحساب طول المتجه (Magnitude) متوافق مع الشرائح 4-8 و 21-26",
+              icon: "🇪🇬",
+              actions: [
+                {
+                  label: "📖 مشاهدة الفيديو",
+                  url: "https://www.youtube.com/watch?v=lMahHHwQ_Eo",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+            {
+              t: "د. أحمد حجاج - الجبر الخطي (فيديوهات التركيبات والفضاءات المتجهة)",
+              d: "فيديوهات محددة للملف: فيديو #20 (Linear Combinations) وفيديو #24 (Linear Independence & Spanning Sets)",
+              icon: "🇪🇬",
+              actions: [
+                {
+                  label: "📖 فتح قائمة التشغيل",
+                  url: "https://www.youtube.com/playlist?list=PLuXo3I_A_837U2K165Wq82mN2_R994LpW",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+            {
+              t: "دنيا محمد - طول المتجه والضرب النقطي بين المتجهات",
+              d: "شرح تطبيقي لحساب المعيار الإقليدي والعمليات القياسية على المتجهات متطابق مع الشرائح 21-26",
+              icon: "🇪🇬",
+              actions: [
+                {
+                  label: "📖 مشاهدة الفيديو",
+                  url: "https://www.youtube.com/watch?v=4TaS-ESpgwE",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          category: "فيديوهات عالمية",
+          icon: "🌍",
+          description:
+            "المحاضرة الرسمية لجامعة CMU وسلسلة 3Blue1Brown المحددة بموضوعات الملف",
+          links: [
+            {
+              t: "Prof. Keenan Crane - CMU 15-462 Math Review Part I: Linear Algebra",
+              d: "المحاضرة الأكاديمية الرسمية المباشرة لمؤلف الشرائح من جامعة كارنيغي ميلون",
+              icon: "🌍",
+              actions: [
+                {
+                  label: "📖 المحاضرة الرسمية",
+                  url: "http://15462.courses.cs.cmu.edu/fall2020/",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+            {
+              t: "3Blue1Brown - Essence of Linear Algebra (مقاطع محددة للملف)",
+              d: "المقاطع التابعة للملف: Ch 1 (Vectors)، Ch 2 (Span & Basis)، Ch 9 (Dot Products & Norms)، Ch 16 (Abstract Vector Spaces & Functions)",
+              icon: "🌍",
+              actions: [
+                {
+                  label: "📖 فتح القائمة المحددة",
+                  url: "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          category: "مواقع ومراجع",
+          icon: "📚",
+          description: "مقالات وتوثيقات هندسية متخصصة في الرياضيات للرسوميات",
+          links: [
+            {
+              t: "Scratchapixel - Geometry: Points, Vectors and Normals",
+              d: "مرجع متقدم يشرح تمثيل النقاط والمتجهات والمعايير في المحركات ثلاثية الأبعاد",
+              icon: "📚",
+              actions: [
+                {
+                  label: "🚀 فتح المقال",
+                  url: "https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/geometry/points-vectors-and-normals.html",
+                  type: "view",
+                  color: "green",
+                },
+              ],
+            },
+            {
+              t: "CMU 15-462/662 Official Course Page",
+              d: "الموقع الرسمي لمساق الرسوميات الحاسوبية بجامعة CMU ويتضمن الشرائح والواجبات البرمجية (Scotty3D)",
+              icon: "📚",
+              actions: [
+                {
+                  label: "🌐 فتح الموقع",
+                  url: "http://15462.courses.cs.cmu.edu/",
+                  type: "view",
+                  color: "blue",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          category: "أدوات ومحاكاة",
+          icon: "🔧",
+          description:
+            "برامج تفاعلية لمحاكاة جمع المتجهات وحساب المعيار في ثنائي وثلاثي الأبعاد",
+          links: [
+            {
+              t: "PhET Interactive Simulation - Vector Addition",
+              d: "أداة محاكاة تفاعلية من جامعة كولورادو لتركيب المتجهات واختبار خصائص الجمع والمعيار",
+              icon: "🔧",
+              actions: [
+                {
+                  label: "🚀 فتح المحاكاة",
+                  url: "https://phet.colorado.edu/en/simulations/vector-addition",
+                  type: "view",
+                  color: "orange",
+                },
+              ],
+            },
+            {
+              t: "GeoGebra 3D Visualizer - 3D Vector Addition",
+              d: "بيئة تفاعلية ثلاثية الأبعاد لبناء المتجهات وتحليل المركبات وتطبيق متباينة المثلث هندسياً",
+              icon: "🔧",
+              actions: [
+                {
+                  label: "🚀 فتح الأداة 3D",
+                  url: "https://www.geogebra.org/3d",
+                  type: "view",
+                  color: "orange",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      // الأسئلة
+
+      questions: [
+        // ─── MCQ ───
+        {
+          q: "Why is linear algebra described as important for computer graphics?",
+          options: [
+            "It is only used for drawing text",
+            "It is only needed for hardware design",
+            "It replaces the need for any programming",
+            "It is an effective bridge between geometry, physics, etc., and computation",
+          ],
+          correct: 3,
+        },
+        {
+          q: "According to the lecture, once you can express a graphics problem in terms of linear algebra, you are essentially done because:",
+          options: [
+            "The GPU automatically draws the result",
+            "The problem no longer needs any input data",
+            "The answer is always a single number",
+            "You can ask the computer to solve Ax = b",
+          ],
+          correct: 3,
+        },
+        {
+          q: "Which of the following is listed as an area made possible by fast numerical linear algebra?",
+          options: [
+            "Image processing, physically-based animation, and geometry processing",
+            "Only network routing",
+            "Only database indexing",
+            "Only file compression",
+          ],
+          correct: 0,
+        },
+        {
+          q: "Linear algebra is defined in the lecture as the study of:",
+          options: [
+            "Only 3D rotations",
+            "Vector spaces and linear maps between them",
+            "Polynomials and nothing else",
+            "Only matrices of integers",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is the intuitive mental model of a vector used in the lecture?",
+          options: [
+            "A closed curve",
+            "A grid of pixels",
+            "A little arrow",
+            "A single point",
+          ],
+          correct: 2,
+        },
+        {
+          q: "Which of the following is mentioned as data in graphics that may not look like arrows but still behaves like vectors?",
+          options: [
+            "Only file names",
+            "Only integers",
+            "Polynomials, images, and radiance",
+            "Only text strings",
+          ],
+          correct: 2,
+        },
+        {
+          q: "What information does a vector fundamentally encode?",
+          options: [
+            "Color and texture",
+            "Only its starting point",
+            "Position and mass",
+            "Direction and magnitude",
+          ],
+          correct: 3,
+        },
+        {
+          q: "A vector in 2D can be encoded by a length and an angle relative to a fixed direction. This is called:",
+          options: [
+            "Barycentric coordinates",
+            "Homogeneous coordinates",
+            "Polar coordinates",
+            "Cartesian coordinates",
+          ],
+          correct: 2,
+        },
+        {
+          q: "Traditionally, a vector does NOT include a:",
+          options: ["Basepoint", "Direction", "Length", "Magnitude"],
+          correct: 0,
+        },
+        {
+          q: "A vector with a basepoint is sometimes called a:",
+          options: [
+            "Tangent vector",
+            "Normal vector",
+            "Unit vector",
+            "Zero vector",
+          ],
+          correct: 0,
+        },
+        {
+          q: "Measuring the components of a vector with respect to a chosen coordinate system gives which representation (named after Descartes)?",
+          options: [
+            "Spherical coordinates only",
+            "Cartesian coordinates",
+            "Polar coordinates",
+            "Radiance coordinates",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What does the lecture warn about coordinates?",
+          options: [
+            "Only integer coordinates are valid",
+            "You cannot directly compare coordinates in different systems, e.g., (r,θ) with (x,y)",
+            "Coordinates can never be used on a computer",
+            "Coordinates are always identical in every system",
+          ],
+          correct: 1,
+        },
+        {
+          q: "The first basic operation on vectors shown in the lecture is addition. How is it done geometrically?",
+          options: [
+            "Rotating one arrow by 90 degrees",
+            "Taking the longer of the two",
+            "Multiplying their lengths",
+            "Placing the arrows end to end",
+          ],
+          correct: 3,
+        },
+        {
+          q: "The fact that u + v = v + u means vector addition is:",
+          options: [
+            "Non-linear",
+            "Associative only",
+            "Commutative (abelian)",
+            "Distributive",
+          ],
+          correct: 2,
+        },
+        {
+          q: "The term 'abelian' used for commutative addition comes from the name of:",
+          options: [
+            "René Descartes",
+            "Isaac Newton",
+            "Niels Henrik Abel",
+            "Carl Friedrich Gauss",
+          ],
+          correct: 2,
+        },
+        {
+          q: "The second basic operation on vectors is:",
+          options: [
+            "Sorting the components",
+            "Dividing one vector by another",
+            "Scaling by a number (scalar)",
+            "Squaring a vector",
+          ],
+          correct: 2,
+        },
+        {
+          q: "Which identity describes how scaling behaves with repeated scaling?",
+          options: [
+            "a(bu) = (a + b)u",
+            "a(bu) = abu²",
+            "a(bu) = a + bu",
+            "a(bu) = (ab)u",
+          ],
+          correct: 3,
+        },
+        {
+          q: "Which identity describes the interaction of addition and scaling?",
+          options: [
+            "a(u + v) = a + u + v",
+            "a(u + v) = au · av",
+            "a(u + v) = au + av",
+            "a(u + v) = a(uv)",
+          ],
+          correct: 2,
+        },
+        {
+          q: "According to the lecture, where do the rules (axioms) of a vector space come from?",
+          options: [
+            "They were given by an authority with no explanation",
+            "They come only from computer hardware",
+            "They are random conventions",
+            "The geometric behavior of little arrows",
+          ],
+          correct: 3,
+        },
+        {
+          q: "Any collection of objects satisfying all of the vector-space properties is called:",
+          options: [
+            "An invalid set",
+            "A matrix",
+            "A vector space, even if the objects do not look like little arrows",
+            "A scalar field only",
+          ],
+          correct: 2,
+        },
+        {
+          q: "The most common example of a vector space, denoted Rⁿ, means:",
+          options: [
+            "n functions",
+            "n complex numbers",
+            "n integers only",
+            "n real numbers",
+          ],
+          correct: 3,
+        },
+        {
+          q: "The tuple (1.23, 4.56, π/2) is a point in which space?",
+          options: ["R³", "R¹", "R⁴", "R²"],
+          correct: 0,
+        },
+        {
+          q: "Why is Euclidean n-dimensional space such a common example? (choose the best answer)",
+          options: [
+            "It is the only vector space that exists",
+            "It cannot represent images",
+            "It looks a lot like the space we live in and is easy to encode on a computer as a list of floating-point numbers",
+            "It needs no memory to store",
+          ],
+          correct: 2,
+        },
+        {
+          q: "Which of the following is given as another very important example of vector spaces in graphics?",
+          options: [
+            "Spaces of file names",
+            "Spaces of passwords",
+            "Spaces of functions",
+            "Spaces of network packets",
+          ],
+          correct: 2,
+        },
+        {
+          q: "Why are spaces of functions important in computer graphics?",
+          options: [
+            "They replace the need for coordinates",
+            "Many objects we work with in graphics are functions",
+            "Functions are always linear",
+            "Functions never change",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Which of the following is listed as an example of a function that behaves as a vector?",
+          options: [
+            "Only the size of a file",
+            "Only memory addresses",
+            "Only the keyboard state",
+            "Images, radiance from a light source, surfaces, and modal vibrations",
+          ],
+          correct: 3,
+        },
+        {
+          q: "How can two functions be added, according to the lecture?",
+          options: [
+            "Add their values at each point x",
+            "Multiply their graphs",
+            "Take the maximum of the two graphs",
+            "It is not possible to add functions",
+          ],
+          correct: 0,
+        },
+        {
+          q: "What is the 'zero vector' in a space of functions?",
+          options: [
+            "The function equal to one for all x",
+            "There is no zero vector",
+            "The function equal to zero for all x",
+            "The function x",
+          ],
+          correct: 2,
+        },
+        {
+          q: "Short answer given in the lecture: are functions vectors?",
+          options: [
+            "No, only arrows are vectors",
+            "Only functions on [0,1] are",
+            "Yes, even if they do not look like little arrows",
+            "Only polynomial functions are",
+          ],
+          correct: 2,
+        },
+        {
+          q: "After coming up with a rule for adding pairs of numbers, how does the lecture check that it faithfully encodes the geometry of little arrows?",
+          options: [
+            "Test it on a single example only",
+            "Check that it agrees with the list of rules the arrows must obey",
+            "Draw it once and trust it",
+            "Assume it works since it looks simple",
+          ],
+          correct: 1,
+        },
+        {
+          q: "How are vectors added in Cartesian coordinates?",
+          options: [
+            "Component by component: (u1,u2) + (v1,v2) = (u1+v1, u2+v2)",
+            "By adding the lengths only",
+            "By multiplying the components",
+            "By adding only the first components",
+          ],
+          correct: 0,
+        },
+        {
+          q: "According to the lecture, why is turning geometric observations into algebraic rules convenient?",
+          options: [
+            "It makes vectors non-commutative",
+            "It is convenient for symbolic manipulation and numerical computation",
+            "It is required by all graphics hardware",
+            "It removes the need for geometry forever",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What should you always ask about a rule given to you by an authority?",
+          options: [
+            "Is it short enough to memorize?",
+            "Who published it first?",
+            "Where does this rule come from, and what does it mean geometrically (can you draw a picture)?",
+            "Is it written in the textbook?",
+          ],
+          correct: 2,
+        },
+        {
+          q: "How do we scale a vector in coordinates?",
+          options: [
+            "Divide the scalar by each component",
+            "Add the scalar to each component",
+            "Multiply each component by the scalar",
+            "Multiply only the first component",
+          ],
+          correct: 2,
+        },
+        {
+          q: "What is (3/2)·(4,2)?",
+          options: ["(6, 3)", "(4, 3)", "(5.5, 3.5)", "(12, 6)"],
+          correct: 0,
+        },
+        {
+          q: "The midpoint m of two points a and b is computed as:",
+          options: ["m = 2(a + b)", "m = a − b", "m = ½(a + b)", "m = a · b"],
+          correct: 2,
+        },
+        {
+          q: "What is the midpoint of a = (3,4) and b = (7,2)?",
+          options: ["(10, 6)", "(5, 3)", "(4, 2)", "(5, 6)"],
+          correct: 1,
+        },
+        {
+          q: "The midpoint example is used to show that:",
+          options: [
+            "Vectors cannot be added to points",
+            "Combining vector operations builds up operations needed for computer graphics",
+            "Midpoints cannot be computed with vectors",
+            "Scaling is not a valid operation",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What two quantities does a vector encode that we want to measure?",
+          options: [
+            "Orientation (direction) and magnitude",
+            "Origin and destination only",
+            "Mass and velocity",
+            "Color and brightness",
+          ],
+          correct: 0,
+        },
+        {
+          q: "The number |v| assigned to a vector v is called its:",
+          options: [
+            "Basepoint",
+            "Scalar field",
+            "Component",
+            "Length, magnitude, or norm",
+          ],
+          correct: 3,
+        },
+        {
+          q: "Intuitively, the norm of a vector should capture:",
+          options: [
+            "Where it starts",
+            "How 'big' the vector is",
+            "Which direction it points",
+            "How many components it has",
+          ],
+          correct: 1,
+        },
+        {
+          q: "Which natural property says the norm should not be negative?",
+          options: [
+            "Commutativity",
+            "Positivity: |u| ≥ 0",
+            "Triangle inequality",
+            "Homogeneity: |cu| = |c||u|",
+          ],
+          correct: 1,
+        },
+        {
+          q: "A norm should be zero only for:",
+          options: [
+            "Every unit vector",
+            "The zero vector",
+            "Any vector in R²",
+            "Every vector of length one",
+          ],
+          correct: 1,
+        },
+        {
+          q: "If a vector is scaled by a factor c, its norm should:",
+          options: [
+            "Stay the same",
+            "Become c²",
+            "Scale by the same amount: |cu| = |c||u|",
+            "Become negative",
+          ],
+          correct: 2,
+        },
+        {
+          q: "Which norm property expresses that the shortest path between two points is a straight line?",
+          options: [
+            "|u + v| ≤ |u| + |v|",
+            "|u + v| = 0",
+            "|u + v| ≥ |u| + |v|",
+            "|u + v| = |u| · |v|",
+          ],
+          correct: 0,
+        },
+        {
+          q: "The slide says the final norm property is sometimes called the 'pentagon inequality' because:",
+          options: [
+            "It only applies in five dimensions",
+            "The diagram looks like a pentagon",
+            "It involves five vectors",
+            "It was discovered by a mathematician named Penta",
+          ],
+          correct: 1,
+        },
+        {
+          q: "According to the formal definition, a norm is:",
+          options: [
+            "Only the length of an arrow in 2D",
+            "Any function of a vector, with no conditions",
+            "Any function that assigns a number to each vector and satisfies the norm properties for all vectors u, v and all scalars a",
+            "Only the square root of a sum of squares",
+          ],
+          correct: 2,
+        },
+        {
+          q: "Each norm rule has a concrete geometric picture that explains:",
+          options: [
+            "Which hardware to use",
+            "Why the rule is there",
+            "How to draw a texture",
+            "How to avoid using it",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is the standard norm of n-vectors called?",
+          options: [
+            "The Manhattan norm",
+            "The Euclidean norm",
+            "The polar norm",
+            "The L2 function norm",
+          ],
+          correct: 1,
+        },
+        {
+          q: "The Euclidean norm of u = (u1, …, un) is:",
+          options: [
+            "The product of the uᵢ",
+            "The square root of the sum of uᵢ² (i = 1 to n)",
+            "The largest uᵢ",
+            "The sum of the uᵢ",
+          ],
+          correct: 1,
+        },
+        {
+          q: "What is the Euclidean norm of u = (4, 2)?",
+          options: ["6", "2√5", "8", "√6"],
+          correct: 1,
+        },
+        {
+          q: "The L² norm of functions measures:",
+          options: [
+            "The total magnitude of a function",
+            "The slope at a single point",
+            "The maximum input value",
+            "The number of zeros of a function",
+          ],
+          correct: 0,
+        },
+        {
+          q: "The L² norm in the lecture is defined for functions on which domain?",
+          options: [
+            "All functions on the real line with no conditions",
+            "Only integer-valued functions",
+            "Only functions on [0,10]",
+            "Real-valued functions on the unit interval [0,1] whose square has a well-defined integral",
+          ],
+          correct: 3,
+        },
+        {
+          q: "The L² norm of a function f on [0,1] is defined as:",
+          options: [
+            "The sum of f at the endpoints",
+            "The integral of f(x) from 0 to 1",
+            "The maximum of f(x)",
+            "The square root of the integral of f(x)² from 0 to 1",
+          ],
+          correct: 3,
+        },
+        {
+          q: "How does the L² norm differ from the Euclidean norm, as described in the lecture?",
+          options: [
+            "We replaced the square root with a logarithm",
+            "There is no relationship between them",
+            "We replaced squares with cubes",
+            "We just replaced a sum with an integral",
+          ],
+          correct: 3,
+        },
+        {
+          q: "For f(x) = √3·x on [0,1], what is ||f||²?",
+          options: ["√3", "3", "∫₀¹ 3x² dx = 1", "0"],
+          correct: 2,
+        },
+        {
+          q: "What is the L² norm ||f|| of f(x) = √3·x on [0,1]?",
+          options: ["√3", "3", "0", "1"],
+          correct: 3,
+        },
+        {
+          q: "Which notation does the lecture use for the norm of a function versus the norm of a vector in Rⁿ?",
+          options: [
+            "Both use ||·||",
+            "Both use |·|",
+            "|·| for a function and ||·|| for a vector",
+            "||·|| for a function and |·| for a vector in Rⁿ",
+          ],
+          correct: 3,
+        },
+        {
+          q: "What does the lecture say about how most integrals in graphics are calculated?",
+          options: [
+            "All are calculated by hand exactly",
+            "They are never needed in graphics",
+            "They are always replaced by matrices",
+            "Most are not calculated analytically like this; numerical integration will be discussed later",
+          ],
+          correct: 3,
+        },
+
+        // ─── Essay ───
+        {
+          type: "essay",
+          q: "Why is linear algebra important for computer graphics, according to the lecture?",
+          answer:
+            "• It is an effective bridge between geometry, physics, etc., and computation.\n" +
+            "• In many areas of graphics, once a problem is expressed in linear algebra, you are essentially done: you ask the computer to solve Ax = b.\n" +
+            "• Fast numerical linear algebra has made modern computer graphics possible (image processing, physically-based animation, geometry processing).",
+          tags: ["Lecture 2", "Linear algebra", "Motivation"],
+          ref: "Lecture 2 — Linear Algebra",
+        },
+        {
+          type: "essay",
+          q: "Explain the two basic vector operations and the rules they obey, and where those rules come from. Why can functions also be treated as vectors?",
+          answer:
+            "Two basic operations:\n" +
+            "• Addition: place vectors end to end. It is commutative (abelian): u + v = v + u.\n" +
+            "• Scaling: multiply a vector by a scalar a to get au. It behaves as expected, e.g., a(bu) = (ab)u.\n" +
+            "• Interaction: a(u + v) = au + av.\n" +
+            "\n" +
+            "Where the rules come from:\n" +
+            "• Each rule comes from the geometric behavior of 'little arrows'; the rules did not 'fall out of the sky'.\n" +
+            "• Any collection of objects satisfying all the properties is a vector space, even if the objects do not look like arrows.\n" +
+            "\n" +
+            "Functions as vectors:\n" +
+            "• Many objects in graphics are functions (images, radiance from a light source, surfaces, modal vibrations).\n" +
+            "• Functions can be added and scaled, and the other properties hold too (e.g., the zero vector is the function equal to zero for all x), so functions are vectors.",
+          tags: ["Lecture 2", "Vector spaces", "Functions as vectors"],
+          ref: "Lecture 2 — Linear Algebra",
+        },
+        {
+          type: "essay",
+          q: "What properties should a norm satisfy? Give the Euclidean norm and the L² norm, with one worked example of each.",
+          answer:
+            "Natural properties of a norm:\n" +
+            "• Positivity: |u| ≥ 0, and |u| = 0 only for the zero vector.\n" +
+            "• Scaling: |cu| = |c||u|.\n" +
+            "• Triangle inequality (the 'shortest path is a straight line' property): |u + v| ≤ |u| + |v|.\n" +
+            "\n" +
+            "Euclidean norm (vectors in Rⁿ):\n" +
+            "• |u| = √(Σ uᵢ²). Example: u = (4,2) gives |u| = √(4² + 2²) = 2√5.\n" +
+            "\n" +
+            "L² norm (functions on [0,1]):\n" +
+            "• ||f|| = √(∫₀¹ f(x)² dx), i.e., the Euclidean norm with a sum replaced by an integral.\n" +
+            "• Example: f(x) = √3·x gives ||f||² = ∫₀¹ 3x² dx = [x³]₀¹ = 1, so ||f|| = 1.",
+          tags: ["Lecture 2", "Norms", "Euclidean norm", "L2 norm"],
+          ref: "Lecture 2 — Linear Algebra",
         },
       ],
     },
