@@ -357,7 +357,6 @@
   <div class="ctx-item" data-act="copy"><span class="ctx-icon">📋</span><span>نسخ النص</span><span class="ctx-shortcut">Ctrl+C</span></div>
   <div class="ctx-item" data-act="comment"><span class="ctx-icon">📝</span><span>إضافة كتعليق</span></div>
   <div class="ctx-item" data-act="search"><span class="ctx-icon">🔍</span><span>ابحث في جوجل</span></div>
-  <div class="ctx-item" data-act="search-youtube"><span class="ctx-icon">▶️</span><span>ابحث في يوتيوب</span></div>
   <div class="ctx-sep"></div>
   <div class="ctx-item ctx-has-submenu" data-act="highlight" data-markup="text-highlight">
     <span class="ctx-icon">🖍️</span><span>تظليل</span>
@@ -1803,9 +1802,6 @@
       case "search":
         window.open("https://www.google.com/search?q=" + encodeURIComponent(text), "_blank");
         hideContextMenu(); break;
-      case "search-youtube":
-        window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(text), "_blank");
-        hideContextMenu(); break;
       case "highlight": applyTextMark("text-highlight", ctxHighlightColor); break;
       case "underline": applyTextMark("text-underline"); break;
       case "strike": applyTextMark("text-strike"); break;
@@ -1911,38 +1907,6 @@
     textInputBox.classList.remove("editing");
     textInputCtx = null;
   }
-  // لفّ النص لعرض أقصى عدد حروف في السطر
-  function wrapPlainText(text, maxChars){
-    const out = [];
-    const srcLines = String(text == null ? "" : text).split("\n");
-    for(const line of srcLines){
-      if(line.length <= maxChars){ out.push(line); continue; }
-      const words = line.split(/\s+/).filter(Boolean);
-      let cur = "";
-      for(let w of words){
-        while(w.length > maxChars){
-          if(cur){ out.push(cur); cur = ""; }
-          out.push(w.slice(0, maxChars));
-          w = w.slice(maxChars);
-        }
-        if(!cur) cur = w;
-        else if(cur.length + 1 + w.length <= maxChars) cur += " " + w;
-        else { out.push(cur); cur = w; }
-      }
-      if(cur) out.push(cur);
-    }
-    return out.join("\n");
-  }
-
-  // لفّ حسب عرض الصفحة (NORM_W = 1000) وحجم الخط
-  function wrapTextForAnnotation(text, x, fontSize){
-    const fs = Math.max(8, Number(fontSize) || 24);
-    const charW = fs * 0.6;
-    const startX = Math.max(0, Number(x) || 0);
-    const availW = Math.max(150, NORM_W - startX - 20);
-    const maxChars = Math.max(8, Math.floor(availW / charW));
-    return wrapPlainText(text, maxChars);
-  }
   function closeTextInput(save){
     if(!textInputCtx){ textInputBox.style.display = "none"; return; }
     const txt = tiTextarea.value.trim();
@@ -1951,7 +1915,7 @@
       if(txt){
         let finalDir = currentTextDir;
         if(finalDir !== "ltr" && finalDir !== "rtl") finalDir = detectDir(txt);
-        ctx.editingStroke.text = wrapTextForAnnotation(txt, ctx.editingStroke.x, currentFontSize);
+        ctx.editingStroke.text = txt;
         ctx.editingStroke.dir = finalDir;
         ctx.editingStroke.fontSize = currentFontSize;
         ctx.editingStroke.color = currentColor;
@@ -1966,8 +1930,7 @@
     } else if(save && txt){
       let finalDir = currentTextDir;
       if(finalDir !== "ltr" && finalDir !== "rtl") finalDir = detectDir(txt);
-      const wrapped = wrapTextForAnnotation(txt, ctx.pt.x, currentFontSize);
-      const anno = { tool:"text", color:currentColor, width:1, fontSize:currentFontSize, x:ctx.pt.x, y:ctx.pt.y, text:wrapped, dir:finalDir };
+      const anno = { tool:"text", color:currentColor, width:1, fontSize:currentFontSize, x:ctx.pt.x, y:ctx.pt.y, text:txt, dir:finalDir };
       strokesByPage[ctx.p] = strokesByPage[ctx.p] || [];
       strokesByPage[ctx.p].push(anno);
       redoByPage[ctx.p] = []; drawPageStrokes(ctx.p); scheduleSave();

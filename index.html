@@ -950,6 +950,15 @@ function scrollToTop(){ window.scrollTo({top:0, behavior:'smooth'}); }
 var notifications = [], notifSeq = 0;
 var answerEditsLog = [{ id: "edit-001", context: "المحاضرة الأولى", questionNum: 1, questionText: "", oldAnswer: "الإجابة القديمة", newAnswer: "الإجابة الصحيحة الجديدة" }];
 var lecturesAddedLog = [{ id: "lec-001", subject: "Computer Graphics", lectureTitle: "المحاضرة الاول", lectureDesc: "مقدمة في الرسم بالحواسيب" }];
+var lecturesAddedLog = [
+  {
+    id: "lec-002",
+    subject: "Computer Networks",
+    lectureTitle: "المحاضرة الثانية: Circuit Switching, Network of Networks, Delay",
+    lectureDesc:
+      "شرح Circuit Switching vs Packet Switching، Multiplexing، Network of Networks (Access ISPs, Regional ISPs, Tier-1 ISPs, PoPs, Multi-homing, Peering, IXPs)، Content Provider Networks (Google)، أنواع التأخير الأربعة، Traffic Intensity، Packet Loss، Throughput، و End-to-End Delay.",
+  },
+];
 
 function loadNotifications(){
   try{ var n = localStorage.getItem('notifications_data'); if(n) notifications = JSON.parse(n); }catch(e){ notifications = []; }
