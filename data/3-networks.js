@@ -6,7 +6,7 @@ subjects.push({
     {
       t: "المحاضرة الأولى",
       d: "مقدمة في الشبكات ونموذج الطبقات OSI.",
-      pdf: "Computer Networks/lectures/lec 1/Chapter 1 Computer Networks and the Internet.pdf",
+      pdf: "Computer Networks/lectures/lec 1/Ch01 - Computer Networks - Lec 01.pdf",
       pdf2: "Computer Networks/Questions/Questions on each lecture/Chapter 1 - Questions - Computer Networks.pdf",
 
       linkCategories: [
@@ -85,11 +85,9 @@ subjects.push({
           ],
         },
         {
-          category:
-            "1.4 Delay, Loss, and Throughput in Packet-Switched Networks",
+          category: "السكشن كل  شي يخص السكشن ",
           icon: "⏱️",
-          description:
-            "شروحات وحلول باللغة العربية لمسائل Sheet 1 المتعلقة بهذا السكشن: حساب Propagation Delay و Transmission Delay، حساب Queuing Delay، Message Segmentation، ومقارنة Network Topologies. مع التركيز على أنواع التأخير الأربعة (Processing, Queuing, Transmission, Propagation)، والـ Traffic Intensity، والـ Packet Loss، والـ Throughput، والـ End-to-End Delay.",
+          description: "حلول مسائل وقوانين تأخير الشبكات (Delay calculations).",
           links: [
             {
               t: "  Propagation Delay و Transmission Delay (Problem)",
