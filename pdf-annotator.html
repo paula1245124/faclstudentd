@@ -163,11 +163,17 @@
   #waitingForParent{display:none;position:fixed;inset:0;background:rgba(27,36,48,.85);z-index:80;align-items:center;justify-content:center;color:#fff;flex-direction:column;gap:16px;text-align:center;padding:20px;}
   #waitingForParent.show{display:flex;}
 
-  #textInputBox{position:fixed;display:none;z-index:150;background:#fff;border:2px solid var(--accent);border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.35);min-width:240px;direction:rtl;}
+  #textInputBox{position:fixed;display:none;z-index:150;background:#fff;border:2px solid var(--accent);border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.35);min-width:280px;direction:rtl;}
   #textInputBox.editing{border-color:#4A9EFF;box-shadow:0 0 0 4px rgba(74,158,255,.2), 0 10px 40px rgba(0,0,0,.35);}
   #textInputBox .ti-badge{display:none;background:#4A9EFF;color:#fff;font-size:10px;font-weight:600;padding:3px 8px;border-radius:0 6px 0 6px;position:absolute;top:-2px;right:-2px;font-family:inherit;}
   #textInputBox.editing .ti-badge{display:inline-block;}
-  #textInputBox textarea{display:block;width:100%;min-height:70px;min-width:240px;border:none;outline:none;resize:both;padding:10px;font-family:'IBM Plex Sans Arabic','JetBrains Mono',sans-serif;font-size:16px;line-height:1.5;background:transparent;color:var(--ink);transition:font-size .1s;}
+  #textInputBox textarea{display:block;width:100%;min-height:70px;min-width:280px;border:none;outline:none;resize:both;padding:10px;font-family:'IBM Plex Sans Arabic','JetBrains Mono',sans-serif;font-size:16px;line-height:1.5;background:transparent;color:var(--ink);transition:font-size .1s;}
+  #textInputBox .ti-width-row{display:flex;align-items:center;gap:8px;padding:6px 10px;border-top:1px solid #E3DDCD;background:#F9F7F1;font-size:11px;color:#7A7263;}
+  #textInputBox .ti-width-row label{font-family:'JetBrains Mono',monospace;white-space:nowrap;font-size:10px;}
+  #textInputBox .ti-width-row input[type=range]{flex:1;accent-color:var(--accent);height:14px;min-width:90px;}
+  #textInputBox .ti-width-row .ti-width-val{font-family:'JetBrains Mono',monospace;min-width:44px;text-align:center;background:#E3DDCD;padding:2px 6px;border-radius:4px;font-size:11px;color:var(--ink);}
+  #textInputBox .ti-width-row .ti-auto-btn{background:transparent;border:1px solid #B9AF9C;color:#7A7263;border-radius:5px;padding:2px 8px;font-size:10px;cursor:pointer;font-family:inherit;}
+  #textInputBox .ti-width-row .ti-auto-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
   #textInputBox .ti-actions{display:flex;gap:6px;padding:6px 8px;border-top:1px solid #E3DDCD;background:#F5F2EA;border-radius:0 0 8px 8px;justify-content:space-between;align-items:center;}
   #textInputBox .ti-actions button{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:5px 12px;font-family:inherit;font-size:12px;cursor:pointer;font-weight:600;}
   #textInputBox.editing .ti-actions button#tiOk{background:#4A9EFF;}
@@ -417,6 +423,12 @@
 <div id="textInputBox">
   <span class="ti-badge">تعديل</span>
   <textarea id="tiTextarea" placeholder="اكتب هنا… (عربي / English)"></textarea>
+  <div class="ti-width-row">
+    <label>عرض النص</label>
+    <input type="range" id="tiWidthRange" min="100" max="960" value="600" step="20">
+    <span class="ti-width-val" id="tiWidthVal">600</span>
+    <button class="ti-auto-btn" id="tiAutoWidth" title="عرض تلقائي حسب المساحة">تلقائي</button>
+  </div>
   <div class="ti-actions">
     <div class="ti-dir">
       <button data-dir="rtl">RTL</button>
@@ -467,8 +479,8 @@
       • <b>تحديد</b>: اضغط على رسمة لتغيير لونها/سُمكها أو تحريكها<br>
       • <b>Delete</b> لحذف الرسمة المحددة<br>
       • <b>انقر مرتين</b> على نص لتعديله<br>
-      • <b>حدّد نص PDF</b> ← زر الماوس الأيمن للخيارات<br>
-      • <b>الملفات المصدَّرة تفتح في Adobe Acrobat وقابلة للتعديل</b> ✨
+      • <b>عرض النص</b>: استخدم السلايدر في نافذة الإدخال للتحكم يدويًا<br>
+      • <b>بعد إضافة النص</b> ترجع تلقائيًا لأداة التحديد
     </p>
   </div>
 </div>
@@ -505,6 +517,8 @@
   let currentHiOpacity = 0.38;
   let currentFontSize = 24;
   let currentTextDir = "auto";
+  let currentTextMaxWidth = 600;
+  let currentTextMaxWidthAuto = true;
   let drawing = false, activeStroke = null, activePageNum = null;
   let saveTimer = null, fsHandle = null, pageObserver = null;
   let renderedPages = new Set(), renderDebounce = null, resizeTimer = null;
@@ -523,6 +537,12 @@
   const HI_COLORS  = ["#FFE066", "#8CE99A", "#FFA8C5", "#74C0FC", "#FFD43B"];
   const CUSTOM_COLORS_KEY = "pdfqalam:custom-colors";
   const TEXT_FONT_FAMILY = "'IBM Plex Sans Arabic','JetBrains Mono',system-ui,Arial,sans-serif";
+
+  // ✦ تحميل مسبق للخط لضمان دقة القياس في measureText من أول استخدام
+  if(document.fonts && document.fonts.load){
+    document.fonts.load('600 16px "IBM Plex Sans Arabic"').catch(function(){});
+    document.fonts.load('400 16px "IBM Plex Sans Arabic"').catch(function(){});
+  }
 
   function loadCustomColors(){ try{ const a = JSON.parse(localStorage.getItem(CUSTOM_COLORS_KEY)||"[]"); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
   function saveCustomColor(c){ try{ let a=loadCustomColors(); a=a.filter(x=>String(x).toLowerCase()!==String(c).toLowerCase()); a.unshift(c); if(a.length>8)a=a.slice(0,8); localStorage.setItem(CUSTOM_COLORS_KEY,JSON.stringify(a)); }catch(e){} }
@@ -583,7 +603,6 @@
     if(!pdfDoc || !numPages){
       return { success: false, error: "مفيش ملف مفتوح حاليًا" };
     }
-
     var attachments;
     try{
       attachments = await extractAttachmentsViaPdfJs(bytes);
@@ -594,7 +613,6 @@
     if(!jsonBytes){
       return { success: false, error: "الملف ده مش فيه تعديلات محفوظة" };
     }
-
     var importedStrokes;
     try{
       var text = new TextDecoder('utf-8').decode(jsonBytes);
@@ -605,7 +623,6 @@
     if(!importedStrokes || typeof importedStrokes !== 'object'){
       return { success: false, error: "التعديلات تالفة" };
     }
-
     var importedPageNums = Object.keys(importedStrokes)
       .map(function(k){ return parseInt(k, 10); })
       .filter(function(n){ return !isNaN(n) && n > 0; });
@@ -614,11 +631,9 @@
       var arr = importedStrokes[n];
       return sum + (Array.isArray(arr) ? arr.length : 0);
     }, 0);
-
     if(importedTotal === 0){
       return { success: false, error: "الملف ده مش فيه تعديلات" };
     }
-
     if(maxImportedPage > numPages){
       var ok = window.confirm(
         "⚠️ الملف المحلي فيه تعديلات على " + maxImportedPage + " صفحة،\n" +
@@ -628,7 +643,6 @@
       );
       if(!ok) return { success: false, error: "اتلغى بواسطة المستخدم" };
     }
-
     strokesByPage = {};
     redoByPage = {};
     var count = 0;
@@ -639,11 +653,9 @@
       strokesByPage[pageNum] = strokes;
       count += strokes.length;
     });
-
     for(var p = 1; p <= numPages; p++) drawPageStrokes(p);
     try{ deselectAnnotation(); }catch(e){}
     scheduleSave();
-
     return { success: true, count: count };
   }
 
@@ -897,14 +909,32 @@
   $("#helpClose").addEventListener("click",()=>helpOverlay.classList.remove("show"));
   helpOverlay.addEventListener("click", e => { if(e.target===helpOverlay) helpOverlay.classList.remove("show"); });
 
+  // ✦ BBox يحسب الصندوق حسب اتجاه النص (RTL: يمتد لليسار من s.x)
   function getTextAnnotationBBox(s){
     const fs = s.fontSize || 24;
     const lines = String(s.text||"").split("\n");
-    let maxLen = 0;
-    for(const ln of lines) if(ln.length > maxLen) maxLen = ln.length;
-    const approxW = Math.max(60, maxLen * fs * 0.6);
+    const dir = s.dir || (isArabicText(s.text) ? "rtl" : "ltr");
+    let approxW;
+    if(s.maxWidth && s.maxWidth > 20){
+      approxW = s.maxWidth;
+    } else {
+      try{
+        const mctx = getMeasureCtx(fs);
+        let maxW = 0;
+        for(const ln of lines){
+          const w = mctx.measureText(ln).width;
+          if(w > maxW) maxW = w;
+        }
+        approxW = Math.max(60, maxW);
+      }catch(e){
+        let maxLen = 0;
+        for(const ln of lines) if(ln.length > maxLen) maxLen = ln.length;
+        approxW = Math.max(60, maxLen * fs * 0.6);
+      }
+    }
     const totalH = Math.max(fs * 1.35, lines.length * fs * 1.35);
-    return { x: s.x, y: s.y, w: approxW, h: totalH };
+    const x = (dir === "rtl") ? (s.x - approxW) : s.x;
+    return { x: x, y: s.y, w: approxW, h: totalH };
   }
   function findTextAnnotationAt(clientX, clientY){
     if(!pdfDoc) return null;
@@ -954,6 +984,15 @@
         translateStroke(annoDragState.stroke, dx, dy);
         annoDragState.lastPt = pt;
         annoDragState.moved = true;
+        // ✦ لو النص، نعيد اللفّ حسب الموضع والعرض الجديد
+        if(annoDragState.stroke.tool === "text"){
+          const s = annoDragState.stroke;
+          if(!s.maxWidth || s.maxWidth <= 20){
+            const dir = s.dir || (isArabicText(s.origText||s.text) ? "rtl" : "ltr");
+            const mw = computeAvailWidth(s.x, dir, null);
+            s.text = wrapTextForAnnotation(s.origText || s.text, s.x, s.fontSize, dir, mw);
+          }
+        }
         drawPageStrokes(annoDragState.page);
         updateSelBar();
       }
@@ -1263,6 +1302,7 @@
     ctx.closePath(); ctx.stroke();
   }
 
+  // ✦ drawTextShape بيدعم RTL و LTR صح
   function drawTextShape(ctx, anno, scale){
     const fs = (anno.fontSize||24)*scale;
     ctx.font = "600 "+fs+"px "+TEXT_FONT_FAMILY;
@@ -1272,10 +1312,14 @@
       dir = isArabicText(anno.text) ? "rtl" : "ltr";
     }
     ctx.direction = dir;
+    ctx.textAlign = "start";
     ctx.fillStyle = anno.color || "#000";
     const lines = String(anno.text||"").split("\n");
     const lh = fs*1.35;
-    lines.forEach((line,i)=>{ ctx.fillText(line, (anno.x||0)*scale, (anno.y||0)*scale + i*lh); });
+    const baseX = (anno.x||0) * scale;
+    lines.forEach((line, i) => {
+      ctx.fillText(line, baseX, (anno.y||0) * scale + i*lh);
+    });
   }
   function drawTextHighlight(ctx, anno, scale){
     ctx.save();
@@ -1429,7 +1473,6 @@
     buildSelColorRack();
     const t = stroke.tool;
 
-    // إظهار/إخفاء شريط الشفافية حسب نوع العنصر المحدد
     const opEl = document.getElementById("opRange");
     const opLbl = document.getElementById("opLabel");
     if(opEl && opLbl){
@@ -1545,6 +1588,7 @@
     if(t === "text"){
       selectedAnno.stroke.fontSize = v;
       selectedAnno.stroke.width = 1;
+      rewrapTextAnnotation(selectedAnno.stroke);
     } else if(t === "text-highlight"){
       selectedAnno.stroke.opacity = v / 100;
     } else if(t === "text-underline" || t === "text-strike"){
@@ -1553,6 +1597,7 @@
       selectedAnno.stroke.width = v;
     }
     drawPageStrokes(selectedAnno.page);
+    updateSelBar();
     scheduleSave();
   });
   $("#selDelete").addEventListener("click", () => {
@@ -1865,19 +1910,27 @@
     textInputCtx = { p: p, pt: pt, editingStroke: editingStroke || null };
     textInputBox.style.display = "block";
     textInputBox.classList.toggle("editing", !!editingStroke);
-    const boxW = 300;
+    const boxW = 340;
     let left = clientX, top = clientY;
     if(left + boxW > window.innerWidth - 10) left = window.innerWidth - boxW - 10;
     if(left < 10) left = 10;
-    if(top + 240 > window.innerHeight - 10) top = window.innerHeight - 250;
+    if(top + 320 > window.innerHeight - 10) top = window.innerHeight - 330;
     if(top < 10) top = 10;
     textInputBox.style.left = left + "px";
     textInputBox.style.top = top + "px";
     if(editingStroke){
-      tiTextarea.value = editingStroke.text || "";
+      tiTextarea.value = editingStroke.origText != null ? editingStroke.origText : (editingStroke.text || "");
       currentTextDir = editingStroke.dir || "auto";
       currentFontSize = editingStroke.fontSize || 24;
       currentColor = editingStroke.color || "#1B2430";
+      if(editingStroke.maxWidth && editingStroke.maxWidth > 20){
+        currentTextMaxWidth = editingStroke.maxWidth;
+        currentTextMaxWidthAuto = false;
+      } else {
+        currentTextMaxWidthAuto = true;
+        const effDir = (currentTextDir === "ltr" || currentTextDir === "rtl") ? currentTextDir : (isArabicText(tiTextarea.value) ? "rtl" : "ltr");
+        currentTextMaxWidth = computeAvailWidth(editingStroke.x, effDir, null);
+      }
       fontRange.value = currentFontSize;
       $("#tiOk").textContent = "تحديث";
       $("#tiDelete").style.display = "inline-block";
@@ -1886,9 +1939,16 @@
       pendingInsertText = null;
       if(!tiTextarea.value){ currentTextDir = "auto"; }
       else { currentTextDir = isArabicText(tiTextarea.value) ? "rtl" : "ltr"; }
+      currentTextMaxWidthAuto = true;
+      const effDir = (currentTextDir === "ltr" || currentTextDir === "rtl") ? currentTextDir : (isArabicText(tiTextarea.value) ? "rtl" : "ltr");
+      currentTextMaxWidth = computeAvailWidth(pt.x, effDir, null);
       $("#tiOk").textContent = "إضافة";
       $("#tiDelete").style.display = "none";
     }
+    const twr = $("#tiWidthRange"), twv = $("#tiWidthVal");
+    if(twr){ twr.value = Math.round(currentTextMaxWidth); }
+    if(twv){ twv.textContent = Math.round(currentTextMaxWidth); }
+
     tiTextarea.style.direction = currentTextDir === "rtl" ? "rtl" : "ltr";
     tiTextarea.style.fontSize = Math.max(12, Math.min(48, currentFontSize)) + "px";
     setTimeout(() => { tiTextarea.focus(); try{ tiTextarea.setSelectionRange(tiTextarea.value.length, tiTextarea.value.length); }catch(e){} }, 50);
@@ -1911,52 +1971,116 @@
     textInputBox.classList.remove("editing");
     textInputCtx = null;
   }
-  // لفّ النص لعرض أقصى عدد حروف في السطر
-  function wrapPlainText(text, maxChars){
+
+  /* ====================================================================
+     ✦ لفّ النص — قياس حقيقي بـ canvas.measureText
+     ✦ يحسب المساحة المتاحة حسب اتجاه النص (RTL: يمتد لليسار / LTR: لليمين)
+     ✦ يدعم عرضًا يدويًا عبر maxWidthOverride (بالوحدات الافتراضية NORM_W)
+     ==================================================================== */
+
+  let _measureCanvas = null;
+  let _measureCtx = null;
+  function getMeasureCtx(fontSize){
+    if(!_measureCanvas){
+      _measureCanvas = document.createElement('canvas');
+      _measureCtx = _measureCanvas.getContext('2d');
+    }
+    _measureCtx.font = "600 " + fontSize + "px " + TEXT_FONT_FAMILY;
+    return _measureCtx;
+  }
+
+  function computeAvailWidth(x, dir, maxWidthOverride){
+    if(maxWidthOverride && maxWidthOverride > 20){
+      return Math.max(80, Math.min(NORM_W - 20, maxWidthOverride));
+    }
+    const startX = Math.max(0, Number(x) || 0);
+    if(dir === "rtl"){
+      return Math.max(150, startX - 28);
+    }
+    return Math.max(150, NORM_W - startX - 28);
+  }
+
+  function wrapTextForAnnotation(text, x, fontSize, dir, maxWidthOverride){
+    const fs = Math.max(8, Number(fontSize) || 24);
+    const availW = computeAvailWidth(x, dir, maxWidthOverride);
+
+    const mctx = getMeasureCtx(fs);
+    const measure = function(s){ return mctx.measureText(s).width; };
+
     const out = [];
-    const srcLines = String(text == null ? "" : text).split("\n");
+    const srcLines = String(text == null ? "" : text).split(/\r?\n/);
     for(const line of srcLines){
-      if(line.length <= maxChars){ out.push(line); continue; }
+      if(line === ""){ out.push(""); continue; }
+      if(measure(line) <= availW){ out.push(line); continue; }
+
       const words = line.split(/\s+/).filter(Boolean);
+      if(!words.length){ out.push(""); continue; }
+
       let cur = "";
-      for(let w of words){
-        while(w.length > maxChars){
+      for(const w of words){
+        if(measure(w) > availW){
           if(cur){ out.push(cur); cur = ""; }
-          out.push(w.slice(0, maxChars));
-          w = w.slice(maxChars);
+          let chunk = "";
+          for(const ch of w){
+            if(chunk && measure(chunk + ch) > availW){
+              out.push(chunk);
+              chunk = ch;
+            } else {
+              chunk += ch;
+            }
+          }
+          if(chunk) cur = chunk;
+          continue;
         }
-        if(!cur) cur = w;
-        else if(cur.length + 1 + w.length <= maxChars) cur += " " + w;
-        else { out.push(cur); cur = w; }
+        if(!cur){
+          cur = w;
+        } else if(measure(cur + " " + w) <= availW){
+          cur += " " + w;
+        } else {
+          out.push(cur);
+          cur = w;
+        }
       }
       if(cur) out.push(cur);
     }
     return out.join("\n");
   }
 
-  // لفّ حسب عرض الصفحة (NORM_W = 1000) وحجم الخط
-  function wrapTextForAnnotation(text, x, fontSize){
-    const fs = Math.max(8, Number(fontSize) || 24);
-    const charW = fs * 0.6;
-    const startX = Math.max(0, Number(x) || 0);
-    const availW = Math.max(150, NORM_W - startX - 20);
-    const maxChars = Math.max(8, Math.floor(availW / charW));
-    return wrapPlainText(text, maxChars);
+  function wrapPlainText(text, x, fontSize){
+    return wrapTextForAnnotation(text, x, fontSize, "ltr", null);
   }
+
+  function rewrapTextAnnotation(anno){
+    if(!anno || anno.tool !== "text") return;
+    const src = (anno.origText != null) ? anno.origText : anno.text;
+    anno.origText = src;
+    const dir = anno.dir || "auto";
+    const effDir = (dir === "ltr" || dir === "rtl") ? dir : (isArabicText(src) ? "rtl" : "ltr");
+    anno.text = wrapTextForAnnotation(src, anno.x, anno.fontSize, effDir, anno.maxWidth);
+  }
+
+  // ✦ closeTextInput: بعد الإضافة الناجحة ترجع تلقائيًا لأداة "تحديد / سحب"
+  //   ويعمل تحديد تلقائي للنص الجديد عشان تقدر تسحبه/تعدّل حجمه مباشرة
   function closeTextInput(save){
     if(!textInputCtx){ textInputBox.style.display = "none"; return; }
     const txt = tiTextarea.value.trim();
     const ctx = textInputCtx;
+    let didSave = false;
+    let newlyAdded = null;
+
     if(save && ctx.editingStroke){
       if(txt){
         let finalDir = currentTextDir;
         if(finalDir !== "ltr" && finalDir !== "rtl") finalDir = detectDir(txt);
-        ctx.editingStroke.text = wrapTextForAnnotation(txt, ctx.editingStroke.x, currentFontSize);
+        ctx.editingStroke.origText = txt;
         ctx.editingStroke.dir = finalDir;
         ctx.editingStroke.fontSize = currentFontSize;
         ctx.editingStroke.color = currentColor;
+        ctx.editingStroke.maxWidth = currentTextMaxWidthAuto ? null : currentTextMaxWidth;
+        ctx.editingStroke.text = wrapTextForAnnotation(txt, ctx.editingStroke.x, currentFontSize, finalDir, ctx.editingStroke.maxWidth);
         redoByPage[ctx.p] = []; drawPageStrokes(ctx.p); scheduleSave();
         toast("تم تحديث النص ✓");
+        didSave = true;
       } else {
         const list = strokesByPage[ctx.p] || [];
         const idx = list.indexOf(ctx.editingStroke);
@@ -1966,21 +2090,67 @@
     } else if(save && txt){
       let finalDir = currentTextDir;
       if(finalDir !== "ltr" && finalDir !== "rtl") finalDir = detectDir(txt);
-      const wrapped = wrapTextForAnnotation(txt, ctx.pt.x, currentFontSize);
-      const anno = { tool:"text", color:currentColor, width:1, fontSize:currentFontSize, x:ctx.pt.x, y:ctx.pt.y, text:wrapped, dir:finalDir };
+      const mw = currentTextMaxWidthAuto ? null : currentTextMaxWidth;
+      const wrapped = wrapTextForAnnotation(txt, ctx.pt.x, currentFontSize, finalDir, mw);
+      const anno = {
+        tool:"text", color:currentColor, width:1,
+        fontSize:currentFontSize,
+        x:ctx.pt.x, y:ctx.pt.y,
+        text: wrapped,
+        origText: txt,
+        dir:finalDir,
+        maxWidth: mw
+      };
       strokesByPage[ctx.p] = strokesByPage[ctx.p] || [];
       strokesByPage[ctx.p].push(anno);
       redoByPage[ctx.p] = []; drawPageStrokes(ctx.p); scheduleSave();
-      toast("تمت إضافة النص — انقر مرتين لتعديله");
+      toast("تمت إضافة النص — يمكنك سحبه الآن");
+      didSave = true;
+      newlyAdded = { anno: anno, page: ctx.p };
     }
+
     textInputBox.style.display = "none";
     textInputBox.classList.remove("editing");
     textInputCtx = null;
+
+    // ✦ الرجوع لأداة "تحديد / سحب" بعد الإضافة أو التحديث
+    if(didSave && currentTool === "text"){
+      // نستدعي selectTool بدون المرور على closeTextInput مرة أخرى
+      // (textInputCtx = null بالفعل، فالخروج من closeTextInput فوري لو اتنادى)
+      selectTool("select");
+    }
+
+    // ✦ تحديد النص الجديد تلقائيًا لظهور شريط اللون/الحجم + إمكانية السحب المباشر
+    if(newlyAdded){
+      const { anno, page } = newlyAdded;
+      setTimeout(() => {
+        selectedAnno = { stroke: anno, page: page };
+        // تحديث شريط التحديد حسب نوع "النص"
+        if(selWidthHint) selWidthHint.textContent = "الحجم";
+        selWidth.min = 10; selWidth.max = 80;
+        selWidth.value = anno.fontSize || 24;
+        // شريط الشفافية يختفي للنص
+        const opEl = document.getElementById("opRange");
+        const opLbl = document.getElementById("opLabel");
+        if(opEl && opLbl){ opEl.style.display = "none"; opLbl.style.display = "none"; }
+        buildSelColorRack();
+        updateSelBar();
+      }, 60);
+    }
   }
+
   document.querySelectorAll("#textInputBox .ti-dir button").forEach(b => {
     b.addEventListener("click", () => {
       currentTextDir = b.dataset.dir;
       tiTextarea.style.direction = currentTextDir === "rtl" ? "rtl" : "ltr";
+      if(currentTextMaxWidthAuto && textInputCtx){
+        const x = textInputCtx.editingStroke ? textInputCtx.editingStroke.x : textInputCtx.pt.x;
+        const w = computeAvailWidth(x, currentTextDir, null);
+        currentTextMaxWidth = w;
+        const twr = $("#tiWidthRange"), twv = $("#tiWidthVal");
+        if(twr) twr.value = Math.round(w);
+        if(twv) twv.textContent = Math.round(w);
+      }
       document.querySelectorAll("#textInputBox .ti-dir button").forEach(x => x.classList.toggle("active", x.dataset.dir === currentTextDir));
       tiTextarea.focus();
     });
@@ -1988,6 +2158,32 @@
   $("#tiCancel").addEventListener("click", () => closeTextInput(false));
   $("#tiOk").addEventListener("click", () => closeTextInput(true));
   $("#tiDelete").addEventListener("click", deleteEditingStroke);
+
+  const tiWidthRange = $("#tiWidthRange");
+  const tiWidthVal = $("#tiWidthVal");
+  const tiAutoWidth = $("#tiAutoWidth");
+  if(tiWidthRange){
+    tiWidthRange.addEventListener("input", () => {
+      currentTextMaxWidth = parseInt(tiWidthRange.value, 10);
+      currentTextMaxWidthAuto = false;
+      if(tiWidthVal) tiWidthVal.textContent = currentTextMaxWidth;
+    });
+  }
+  if(tiAutoWidth){
+    tiAutoWidth.addEventListener("click", () => {
+      currentTextMaxWidthAuto = true;
+      const x = textInputCtx ? (textInputCtx.editingStroke ? textInputCtx.editingStroke.x : textInputCtx.pt.x) : 500;
+      const txt = tiTextarea.value || "";
+      let d = currentTextDir;
+      if(d !== "ltr" && d !== "rtl") d = isArabicText(txt) ? "rtl" : "ltr";
+      const w = computeAvailWidth(x, d, null);
+      currentTextMaxWidth = w;
+      if(tiWidthRange) tiWidthRange.value = Math.round(w);
+      if(tiWidthVal) tiWidthVal.textContent = Math.round(w);
+      toast("عرض تلقائي: " + Math.round(w) + " وحدة");
+    });
+  }
+
   tiTextarea.addEventListener("keydown", e => {
     if(e.key === "Escape"){ e.preventDefault(); closeTextInput(false); }
     if(e.key === "Enter" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); closeTextInput(true); }
@@ -2127,7 +2323,11 @@
     buildColorRack();
     updateToolUIVisibility();
     updateCanvasInteractivity();
-    if(currentTool !== "text") closeTextInput(false);
+    // ملاحظة: closeTextInput هتتنادى بحذر — لو محتاجة تقفل المربع تلقائيًا
+    // (بنستخدم textInputCtx كـ flag، فلو مش مفتوح → الخروج فوري)
+    if(currentTool !== "text" && textInputCtx){
+      closeTextInput(false);
+    }
     mainEl.style.cursor = "";
   }
   document.querySelectorAll("[data-tool]").forEach(btn => btn.addEventListener("click", () => selectTool(btn.dataset.tool)));
@@ -2200,11 +2400,14 @@
     if(selectedAnno && selectedAnno.stroke.tool === "text"){
       selectedAnno.stroke.fontSize = currentFontSize;
       selWidth.value = currentFontSize;
+      rewrapTextAnnotation(selectedAnno.stroke);
       drawPageStrokes(selectedAnno.page);
+      updateSelBar();
       scheduleSave();
     }
     if(textInputCtx && textInputCtx.editingStroke){
       textInputCtx.editingStroke.fontSize = currentFontSize;
+      rewrapTextAnnotation(textInputCtx.editingStroke);
       drawPageStrokes(textInputCtx.p);
     }
   });
@@ -2566,23 +2769,32 @@
     const lines = String(s.text||"").split('\n');
     let maxLen = 0;
     for(const ln of lines) if(ln.length > maxLen) maxLen = ln.length;
-    const approxW = Math.max(60, maxLen * fs * 0.62) + fs;
+
+    let boxWNorm;
+    if(s.maxWidth && s.maxWidth > 20){
+      boxWNorm = s.maxWidth;
+    } else {
+      boxWNorm = Math.max(80, maxLen * fs * 0.62 + fs);
+    }
     const totalH = Math.max(fs * 1.5, lines.length * fs * 1.5) + fs*0.3;
-    const boxW = (approxW / NORM_W) * ptW;
+    const boxW = (boxWNorm / NORM_W) * ptW;
     const boxH = (totalH / NORM_W) * ptW;
     const fsPt = fs * (ptW / NORM_W);
     const [r, g, b] = hexToRgb01(s.color || '#000000');
     const d = pdfDoc.context.obj({});
     d.set(PDFName.of('Type'), PDFName.of('Annot'));
     d.set(PDFName.of('Subtype'), PDFName.of('FreeText'));
-    d.set(PDFName.of('Rect'), pdfDoc.context.obj([x, yTop - boxH, x + boxW, yTop]));
+    const dir = s.dir || (isArabicText(s.text) ? "rtl" : "ltr");
+    const rectX1 = (dir === "rtl") ? (x - boxW) : x;
+    const rectX2 = (dir === "rtl") ? x : (x + boxW);
+    d.set(PDFName.of('Rect'), pdfDoc.context.obj([rectX1, yTop - boxH, rectX2, yTop]));
     d.set(PDFName.of('F'), PDFNumber.of(4));
     d.set(PDFName.of('Contents'), PDFString.of(s.text || ''));
     d.set(PDFName.of('T'), PDFString.of(PDF_ANNOT_PRODUCER));
     d.set(PDFName.of('NM'), PDFString.of('pdfqalam-' + Math.random().toString(36).slice(2)));
     const daStr = '/Helv ' + fsPt.toFixed(2) + ' Tf ' + r.toFixed(3) + ' ' + g.toFixed(3) + ' ' + b.toFixed(3) + ' rg';
     d.set(PDFName.of('DA'), PDFString.of(daStr));
-    d.set(PDFName.of('Q'), PDFNumber.of(0));
+    d.set(PDFName.of('Q'), PDFNumber.of(dir === "rtl" ? 2 : 0));
     const bs = pdfDoc.context.obj({});
     bs.set(PDFName.of('W'), PDFNumber.of(0));
     bs.set(PDFName.of('S'), PDFName.of('S'));
