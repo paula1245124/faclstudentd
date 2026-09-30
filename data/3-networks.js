@@ -18,7 +18,7 @@ subjects.push({
           links: [
             {
               t: "شبكات الحاسوب - A Top-Down Approach (الكتاب نفسه)",
-              d: "شرح عربي كامل لكتاب Kurose & Ross: مكونات الإنترنت (Hosts, Packet Switches, ISPs)، الـ Protocols، شبكات الوصول (DSL, Cable, FTTH)، والـ Packet Switching مع Store-and-Forward",
+              d: "شرح عربي كامل لكتاب Kurose & Ross: مكونات الإنترنت (Hosts, Packet Switches, ISPs)، الـ Protocols، شبكات الوصول (DSL, Cable, FTTH)، والـ Packet Switching مع Store-and-Forward  فديوهات (من 1 الي 3) ",
               icon: "🇪🇬",
               actions: [
                 {
@@ -30,13 +30,13 @@ subjects.push({
               ],
             },
             {
-              t: "أساسيات شبكات الحاسوب - أب ديت (Update)",
-              d: "شرح وسائط النقل المادية (Physical Media): Twisted-Pair, Coaxial Cable, Fiber Optics، والشبكات اللاسلكية والخلوية",
+              t: "شبكات الحاسوب - A Top-Down Approach (الكتاب نفسه)",
+              d: "شرح عربي لكتاب Kurose & Ross: تعريف الإنترنت والـ Protocols، مكونات الـ Network Edge (الـ Hosts وشبكات الوصول DSL/Cable/FTTH)، والـ Network Core (مفهوم الـ Packet Switching وStore-and-Forward وهيكل الـ ISPs).  في فديو3 لحد 23:20  [فيديوهات 1-3]",
               icon: "🇪🇬",
               actions: [
                 {
                   label: "📖 الشرح",
-                  url: "https://www.youtube.com/playlist?list=PLkpG3YKjv6p5XwncCUIlPFSBNnN4mnhGA",
+                  url: "https://youtube.com/playlist?list=PLYljoJMAPFLHrCVfzuMLkJOZHhCgfSXG-&si=c2A3_89g912REXOZ",
                   type: "view",
                   color: "red",
                 },
@@ -1165,7 +1165,7 @@ subjects.push({
           links: [
             {
               t: "شبكات الحاسوب - A Top-Down Approach (الكتاب نفسه)",
-              d: "شرح عربي تفصيلي لكتاب Kurose & Ross: تبديل الدوائر FDM/TDM، هيكلية شبكة الشبكات (Tier-1, IXPs, Content Providers)، ومعادلات حساب Delays و Traffic Intensity",
+              d: "شرح عربي تفصيلي لكتاب Kurose & Ross: تبديل الدوائر FDM/TDM، هيكلية شبكة الشبكات (Tier-1, IXPs, Content Providers)، ومعادلات حساب Delays و Traffic Intensity  فديوهات (من 4 الي 5) ",
               icon: "🇪🇬",
               actions: [
                 {
@@ -1177,13 +1177,13 @@ subjects.push({
               ],
             },
             {
-              t: "أساسيات شبكات الحاسوب - أب ديت (Update)",
-              d: "شرح معادلات تأخير الإرسال وتأخير الانتشار، كثافة الحركة المرورية La/R، وفقدان الحزم Packet Loss نتيجة Buffer Overflow",
+              t: "شبكات الحاسوب - A Top-Down Approach (الكتاب نفسه)",
+              d: "شرح عربي لكتاب Kurose & Ross: يتناول الـ Network Core (مقارنة Packet Switching vs Circuit Switching، وهيكل A Network of Networks)، بالإضافة إلى أنواع التأخير في الشبكات (Overview of Delay in Packet-Switched Networks). [فيديوهات 3-4 | من دقيقة 23:20 في فيديو 3]",
               icon: "🇪🇬",
               actions: [
                 {
                   label: "📖 الشرح",
-                  url: "https://www.youtube.com/playlist?list=PLkpG3YKjv6p5XwncCUIlPFSBNnN4mnhGA",
+                  url: "https://youtube.com/playlist?list=PLYljoJMAPFLHrCVfzuMLkJOZHhCgfSXG-&si=c2A3_89g912REXOZ",
                   type: "view",
                   color: "red",
                 },

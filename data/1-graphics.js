@@ -11,27 +11,6 @@ subjects.push({
       // فئات روابط منظمة لمادة رسوميات الحاسوب (Computer Graphics - Lecture 1)
       linkCategories: [
         {
-          category: "فيديوهات عربية",
-          icon: "🇪🇬",
-          description:
-            "شروحات باللغة العربية لمفاهيم رسوميات الحاسوب: المقدمة، الإسقاط المنظوري (3D→2D)، والـ Rasterization",
-          links: [
-            {
-              t: "Computer Graphics || كورس كامل بالعربي - Programming Secrets",
-              d: "32 درساً (11 ساعة و42 دقيقة) تغطي: مقدمة الرسوميات، الرسم باستخدام الحاسب، التحويلات، والإسقاط — من الصفر حتى الاحتراف",
-              icon: "🇪🇬",
-              actions: [
-                {
-                  label: "📖 الشرح",
-                  url: "https://www.youtube.com/playlist?list=PLp2eAGIFKMEVpQoEqqEo4o-S1enQ59ocw",
-                  type: "view",
-                  color: "red",
-                },
-              ],
-            },
-          ],
-        },
-        {
           category: "فيديوهات عالمية",
           icon: "🌍",
           description:
@@ -582,20 +561,7 @@ subjects.push({
               actions: [
                 {
                   label: "📖 فتح قائمة التشغيل",
-                  url: "https://www.youtube.com/playlist?list=PLuXo3I_A_837U2K165Wq82mN2_R994LpW",
-                  type: "view",
-                  color: "red",
-                },
-              ],
-            },
-            {
-              t: "دنيا محمد - طول المتجه والضرب النقطي بين المتجهات",
-              d: "شرح تطبيقي لحساب المعيار الإقليدي والعمليات القياسية على المتجهات متطابق مع الشرائح 21-26",
-              icon: "🇪🇬",
-              actions: [
-                {
-                  label: "📖 مشاهدة الفيديو",
-                  url: "https://www.youtube.com/watch?v=4TaS-ESpgwE",
+                  url: "https://youtube.com/playlist?list=PLxIvc-MGOs6iQXFnjF_STbhGdrZBphrv_&si=IaeoOStIm3rXMfNA",
                   type: "view",
                   color: "red",
                 },
@@ -617,6 +583,18 @@ subjects.push({
                 {
                   label: "📖 المحاضرة الرسمية",
                   url: "http://15462.courses.cs.cmu.edu/fall2020/",
+                  type: "view",
+                  color: "red",
+                },
+                {
+                  label: "🎬 المحاضرة المباشرة",
+                  url: "https://youtu.be/2c8XQlQApx8",
+                  type: "view",
+                  color: "red",
+                },
+                {
+                  label: "📚 القائمة الكاملة",
+                  url: "https://www.youtube.com/playlist?list=PL9_jI1bdZmz2emSh0UQ5iOdT2xRHFHL7E",
                   type: "view",
                   color: "red",
                 },
