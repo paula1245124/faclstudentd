@@ -80,6 +80,27 @@ subjects.push({
           ],
         },
         {
+          category: "كل شي يخص السكشن",
+          icon: "💻",
+          description:
+            "حلول وشرح تمارين الفصل الأول (Software Engineering Exercises).",
+          links: [
+            {
+              t: "حلول وشرح تمارين Chapter 1",
+              d: "شرح مبسط بالعربي لأهم مفاهيم هندسة البرمجيات وإجابات التمارين الـ 10 من كتاب Sommerville.",
+              icon: "🇪🇬",
+              actions: [
+                {
+                  label: "🔍 عرض الملف",
+                  url: "https://drive.google.com/drive/folders/1u-6l9DA9B123kEdBcPP_cTbIFv_BXDFu?usp=drive_link",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+          ],
+        },
+        {
           category: "مواقع ومراجع",
           icon: "📚",
           description:
@@ -161,7 +182,7 @@ subjects.push({
           ],
         },
       ],
-      
+
       questions: [
         // ─── MCQ ───
         {

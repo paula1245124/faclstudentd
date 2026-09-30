@@ -85,7 +85,7 @@ subjects.push({
           ],
         },
         {
-          category: "السكشن كل  شي يخص السكشن ",
+          category: " كل  شي يخص السكشن ",
           icon: "⏱️",
           description: "حلول مسائل وقوانين تأخير الشبكات (Delay calculations).",
           links: [
