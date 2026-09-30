@@ -121,6 +121,17 @@
   .ctx-item .ctx-aimenu{display:none;position:absolute;top:0;inset-inline-end:100%;margin-inline-end:2px;background:#2B2B2B;border-radius:10px;box-shadow:0 12px 36px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08);padding:6px;min-width:250px;z-index:10;}
   .ctx-item .ctx-aimenu::before{content:'';position:absolute;top:0;bottom:0;inset-inline-start:100%;width:8px;}
   .ctx-item:hover > .ctx-aimenu{display:block;}
+  .ctx-has-ai.open > .ctx-aimenu{display:block;}
+  .ctx-has-ai.open > .ctx-arrow{transform:rotate(-90deg);}
+  @media (hover:none), (max-width:700px){
+    #pdfCtxMenu{max-height:calc(100vh - 16px);max-height:calc(100dvh - 16px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;}
+    .ctx-has-ai{flex-wrap:wrap;}
+    .ctx-item .ctx-aimenu{position:static;flex:0 0 100%;width:100%;margin:6px 0 0;min-width:0;box-shadow:none;background:rgba(255,255,255,.06);padding:4px;}
+    .ctx-item .ctx-aimenu::before{display:none;}
+    .ctx-item:hover > .ctx-aimenu{display:none;}
+    .ctx-has-ai.open > .ctx-aimenu{display:block;}
+    .ai-tag{font-size:10px;padding-inline-start:8px;}
+  }
   .ai-tag{margin-inline-start:auto;padding-inline-start:14px;font-size:11px;color:#9AA3B2;}
   .ai-tag.auto{color:#7BD88F;}
   .ai-dot{width:20px;height:20px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex:none;font-family:'JetBrains Mono',monospace;}
@@ -1796,7 +1807,7 @@
     ctxMenu.style.left = left + "px";
     ctxMenu.style.top = top + "px";
   }
-  function hideContextMenu(){ ctxMenu.classList.remove("show"); }
+  function hideContextMenu(){ ctxMenu.classList.remove("show"); const a = ctxMenu.querySelector(".ctx-has-ai"); if(a) a.classList.remove("open"); }
 
   mainEl.addEventListener("contextmenu", e => {
     const sel = window.getSelection();
@@ -1888,6 +1899,20 @@
       case "search-youtube":
         window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(text), "_blank");
         hideContextMenu(); break;
+      case "ai-menu": {
+        const box = ctxMenu.querySelector(".ctx-has-ai");
+        box.classList.toggle("open");
+        // بعد الفتح: ارفع القائمة لو نزلت تحت الشاشة، وانزل بالسكرول للأسماء
+        const r = ctxMenu.getBoundingClientRect();
+        if(r.bottom > window.innerHeight - 8){
+          ctxMenu.style.top = Math.max(8, window.innerHeight - 8 - r.height) + "px";
+        }
+        if(box.classList.contains("open")){
+          const list = box.querySelector(".ctx-aimenu");
+          setTimeout(() => { try{ list.scrollIntoView({block:"nearest"}); }catch(e){} }, 0);
+        }
+        break;
+      }
       case "ai-claude": case "ai-chatgpt": case "ai-gemini": case "ai-glm": case "ai-deepseek": case "ai-kimi": {
         const prompt = "اشرح لي هذا النص:\n\n" + text;
         const q = encodeURIComponent(prompt);
@@ -1897,7 +1922,7 @@
           "ai-gemini":  "https://gemini.google.com/app",
           "ai-glm":     "https://chat.z.ai/",
           "ai-deepseek":"https://chat.deepseek.com/",
-          "ai-kimi":    "https://www.kimi.com/"
+          "ai-kimi":    "https://www.kimi.ai/"
         };
         // النسخ بيتم الأول وبشكل متزامن (قبل فتح التبويب) عشان المتصفح ما يرفضوش
         const copied = copyTextSync(prompt);
