@@ -129,19 +129,6 @@ subjects.push({
                 },
               ],
             },
-            {
-              t: "Shadertoy - Interactive Pixel Shaders",
-              d: "منصة تفاعلية للكتابة المباشرة على مستوى البيكسل في الوقت الفعلي — لتجربة كيفية تلوين البيكسلات ورسم الخطوط (Rasterization)",
-              icon: "🔧",
-              actions: [
-                {
-                  label: "🚀 فتح التفاعلية",
-                  url: "https://www.shadertoy.com/",
-                  type: "view",
-                  color: "orange",
-                },
-              ],
-            },
           ],
         },
       ],
