@@ -131,19 +131,6 @@ subjects.push({
                 },
               ],
             },
-            {
-              t: "Virtual Operating System Simulator - Hardware & Memory Architecture",
-              d: "أداة تفاعلية لتصور التفاعل بين مكونات العتاد الصلب ونواة نظام التشغيل وإدارة الطبقات التخزينية",
-              icon: "🔧",
-              actions: [
-                {
-                  label: "🚀 فتح المشروع",
-                  url: "https://github.com/ovuiproduction/Virtual-Operating-System-Simulator",
-                  type: "view",
-                  color: "blue",
-                },
-              ],
-            },
           ],
         },
       ],
