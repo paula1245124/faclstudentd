@@ -117,13 +117,6 @@
   .ctx-item .ctx-shortcut{margin-inline-start:auto;color:#9AA3B2;font-size:11px;font-family:'JetBrains Mono',monospace;}
   .ctx-item .ctx-check{margin-inline-start:auto;color:#4A9EFF;font-weight:bold;font-size:15px;display:none;line-height:1;}
   .ctx-item.active-markup .ctx-check{display:inline;}
-  .ctx-item .ctx-arrow{margin-inline-start:auto;color:#9AA3B2;font-size:12px;}
-  .ctx-item .ctx-aimenu{display:none;position:absolute;top:0;inset-inline-end:100%;margin-inline-end:2px;background:#2B2B2B;border-radius:10px;box-shadow:0 12px 36px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08);padding:6px;min-width:250px;z-index:10;}
-  .ctx-item .ctx-aimenu::before{content:'';position:absolute;top:0;bottom:0;inset-inline-start:100%;width:8px;}
-  .ctx-item:hover > .ctx-aimenu{display:block;}
-  .ai-tag{margin-inline-start:auto;padding-inline-start:14px;font-size:11px;color:#9AA3B2;}
-  .ai-tag.auto{color:#7BD88F;}
-  .ai-dot{width:20px;height:20px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex:none;font-family:'JetBrains Mono',monospace;}
   .ctx-sep{height:1px;background:rgba(255,255,255,.08);margin:4px 6px;}
   .ctx-has-submenu{position:relative;}
   .ctx-item .ctx-swatches{display:none;position:absolute;top:50%;transform:translateY(-50%);inset-inline-end:100%;margin-inline-end:8px;background:#2B2B2B;border-radius:12px;box-shadow:0 12px 36px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08);padding:10px;gap:8px;flex-wrap:wrap;width:150px;justify-content:center;z-index:10;}
@@ -371,17 +364,6 @@
   <div class="ctx-item" data-act="comment"><span class="ctx-icon">📝</span><span>إضافة كتعليق</span></div>
   <div class="ctx-item" data-act="search"><span class="ctx-icon">🔍</span><span>ابحث في جوجل</span></div>
   <div class="ctx-item" data-act="search-youtube"><span class="ctx-icon">▶️</span><span>ابحث في يوتيوب</span></div>
-  <div class="ctx-item ctx-has-ai" data-act="ai-menu">
-    <span class="ctx-icon">🤖</span><span>اسأل الذكاء الاصطناعي</span><span class="ctx-arrow">◂</span>
-    <div class="ctx-aimenu">
-      <div class="ctx-item" data-act="ai-claude"><span class="ai-dot" style="background:#D97757">C</span><span>Claude</span><span class="ai-tag auto">ينسخ ويلصق</span></div>
-      <div class="ctx-item" data-act="ai-chatgpt"><span class="ai-dot" style="background:#10A37F">G</span><span>ChatGPT</span><span class="ai-tag auto">ينسخ ويلصق</span></div>
-      <div class="ctx-item" data-act="ai-gemini"><span class="ai-dot" style="background:#4285F4">G</span><span>Gemini</span><span class="ai-tag">يفتح فقط (النص منسوخ)</span></div>
-      <div class="ctx-item" data-act="ai-glm"><span class="ai-dot" style="background:#3B5BDB">Z</span><span>GLM</span><span class="ai-tag">يفتح فقط (النص منسوخ)</span></div>
-      <div class="ctx-item" data-act="ai-deepseek"><span class="ai-dot" style="background:#4D6BFE">D</span><span>DeepSeek</span><span class="ai-tag">يفتح فقط (النص منسوخ)</span></div>
-      <div class="ctx-item" data-act="ai-kimi"><span class="ai-dot" style="background:#1B1B1B;border:1px solid #555">K</span><span>Kimi</span><span class="ai-tag">يفتح فقط (النص منسوخ)</span></div>
-    </div>
-  </div>
   <div class="ctx-sep"></div>
   <div class="ctx-item ctx-has-submenu" data-act="highlight" data-markup="text-highlight">
     <span class="ctx-icon">🖍️</span><span>تظليل</span>
@@ -1358,13 +1340,12 @@
     ctx.closePath(); ctx.fill();
     ctx.restore();
   }
-  const UNDERLINE_POS = 0.78; // مكان خط التسطير من ارتفاع الكلمة (0 = فوق، 1 = تحت خالص) — قلّله لو عايزه أعلى
   function drawTextUnderline(ctx, anno, scale){
     ctx.save(); ctx.globalAlpha = 1;
     ctx.strokeStyle = anno.color || "#1B2430";
     ctx.lineWidth = Math.max((anno.lineWidth||2)*scale, 1);
     ctx.beginPath();
-    const y = (anno.y + anno.h * UNDERLINE_POS) * scale;
+    const y = (anno.y + anno.h) * scale - ctx.lineWidth/2;
     ctx.moveTo(anno.x*scale, y); ctx.lineTo((anno.x+anno.w)*scale, y);
     ctx.stroke(); ctx.restore();
   }
@@ -1841,24 +1822,6 @@
     handleCtxAction(item.dataset.act);
   });
 
-  function copyTextSync(t){
-    let ok = false;
-    try{
-      const ta = document.createElement("textarea");
-      ta.value = t;
-      ta.setAttribute("readonly","");
-      ta.style.cssText = "position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;";
-      document.body.appendChild(ta);
-      ta.focus(); ta.select();
-      ok = document.execCommand("copy");
-      document.body.removeChild(ta);
-    }catch(e){ ok = false; }
-    if(!ok){
-      try{ if(navigator.clipboard) { navigator.clipboard.writeText(t); ok = true; } }catch(e){}
-    }
-    return ok;
-  }
-
   function handleCtxAction(act){
     if(!selectedRange) return;
     const text = selectedRange.toString();
@@ -1888,26 +1851,6 @@
       case "search-youtube":
         window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(text), "_blank");
         hideContextMenu(); break;
-      case "ai-claude": case "ai-chatgpt": case "ai-gemini": case "ai-glm": case "ai-deepseek": case "ai-kimi": {
-        const prompt = "اشرح لي هذا النص:\n\n" + text;
-        const q = encodeURIComponent(prompt);
-        const urls = {
-          "ai-claude":  "https://claude.ai/new?q=" + q,
-          "ai-chatgpt": "https://chatgpt.com/?q=" + q,
-          "ai-gemini":  "https://gemini.google.com/app",
-          "ai-glm":     "https://chat.z.ai/",
-          "ai-deepseek":"https://chat.deepseek.com/",
-          "ai-kimi":    "https://www.kimi.com/"
-        };
-        // النسخ بيتم الأول وبشكل متزامن (قبل فتح التبويب) عشان المتصفح ما يرفضوش
-        const copied = copyTextSync(prompt);
-        window.open(urls[act], "_blank");
-        const direct = (act === "ai-claude" || act === "ai-chatgpt");
-        if(direct) toast("تم إرسال النص للشات ✓");
-        else if(copied) toast("تم نسخ النص ✓ — الصقيه في الشات (Ctrl+V)");
-        else toast("تعذّر النسخ التلقائي — حدّدي النص وانسخيه بـ Ctrl+C");
-        hideContextMenu(); break;
-      }
       case "highlight": applyTextMark("text-highlight", ctxHighlightColor); break;
       case "underline": applyTextMark("text-underline"); break;
       case "strike": applyTextMark("text-strike"); break;
@@ -2801,7 +2744,7 @@
     const x1 = nxToPt(anno.x, ptW);
     const x2 = nxToPt(anno.x + anno.w, ptW);
     const yTop = nyToPt(anno.y, ptW, ptH);
-    const yBot = nyToPt(anno.y + anno.h * (subtype === 'Underline' ? UNDERLINE_POS + 0.02 : 1), ptW, ptH);
+    const yBot = nyToPt(anno.y + anno.h, ptW, ptH);
     const minY = Math.min(yTop, yBot), maxY = Math.max(yTop, yBot);
     const [r, g, b] = hexToRgb01(anno.color || (subtype === 'StrikeOut' ? '#D1495B' : '#1B2430'));
     const d = pdfDoc.context.obj({});
