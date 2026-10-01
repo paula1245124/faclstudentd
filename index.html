@@ -959,7 +959,15 @@ var lecturesAddedLog = [
       "شرح Circuit Switching vs Packet Switching، Multiplexing، Network of Networks (Access ISPs, Regional ISPs, Tier-1 ISPs, PoPs, Multi-homing, Peering, IXPs)، Content Provider Networks (Google)، أنواع التأخير الأربعة، Traffic Intensity، Packet Loss، Throughput، و End-to-End Delay.",
   },
 ];
-
+var lecturesAddedLog = [
+  {
+    id: "lec-003",
+    subject: "Operating Systems",
+    lectureTitle: "المحاضرة الثانية: مقدمة في نظم التشغيل والعمليات (Processes)",
+    lectureDesc:
+      "مقدمة في العمليات: تعريفها، جدولة المهام والمعالج، تعدد البرمجة والمشاركة الزمنية، النمط المزدوج (User/Kernel Mode)، المقاطعات والـ Traps، واستدعاءات النظام، وإدارة العمليات.",
+  },
+];
 function loadNotifications(){
   try{ var n = localStorage.getItem('notifications_data'); if(n) notifications = JSON.parse(n); }catch(e){ notifications = []; }
 }

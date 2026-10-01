@@ -14,11 +14,24 @@ subjects.push({
           category: "فيديوهات عربية",
           icon: "🇪🇬",
           description:
-            "شروحات باللغة العربية لمفاهيم نظم التشغيل، بنية الحاسوب، المقاطعات، وهرمية التخزين (صفحة 1 - 23)",
+            "شروحات باللغة العربية لمفاهيم نظم التشغيل، بنية الحاسوب، المقاطعات، وهرمية التخزين (الفصل الأول – الشرائح 1.1 إلى 1.61)",
           links: [
             {
-              t: "شرح نظم التشغيل - د. أحمد حجاج (Ch1 - Part 1 & 2)",
-              d: "تغطية: تعريف الـ OS وأهدافه، المكونات الأربعة للنظام، الـ OS كموزع موارد وبرنامج تحكم، النواة (Kernel)، الإقلاع (Bootstrap) والـ Firmware، وبنية المقاطعات (Interrupt Vector) والـ Traps",
+              t: "د. حسن الأنصاري - Operating System Concepts (متوافق مع الطبعتين 7 و 9)",
+              d: "شرح أكاديمي متميز: القائمة معنونة بالطبعة التاسعة (ed. 9) على يوتيوب، لكن الشرح والسلايدات المعتمدة بالداخل هي للطبعة السابعة (7th Edition) القائمة عليها المناهج الجامعية. يغطي مفاهيم الفصل الأول، والفيديوهات من 1 إلى 5.",
+              icon: "🇪🇬",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://youtube.com/playlist?list=PLKlTaCM87WvrO0RElCsK30uS-ylzRLgFM&si=k8zMbDdhG90MbUEY",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+            {
+              t: "شرح نظم التشغيل - د. أحمد حجاج (Ch1 - Part 1 & 2 & 3)",
+              d: "تغطية: تعريف الـ OS وأهدافه، المكونات الأربعة للنظام، الـ OS كموزع موارد وبرنامج تحكم، النواة (Kernel)، الإقلاع (Bootstrap) والـ Firmware، وبنية المقاطعات (Interrupt Vector) والـ Traps.",
               icon: "🇪🇬",
               actions: [
                 {
@@ -30,13 +43,13 @@ subjects.push({
               ],
             },
             {
-              t: "SoftwareTube - كورس نظم التشغيل بالعربي (Chapter 1 Part 1 & 2)",
-              d: "شرح مفصل لـ: Computer-System Operation، الـ Local Buffers، الـ Interrupt Handling، الفرق بين Spooling و Pooling، الـ Device Drivers، بنية I/O والـ Device-Status Table، الـ DMA، هرمية التخزين، والـ Caching",
+              t: "SoftwareTube - كورس نظم التشغيل بالعربي (Chapter 1 Part 1 & 2 & 3)",
+              d: "شرح مفصل لـ: Computer-System Operation، الـ Local Buffers، الـ Interrupt Handling، الفرق بين Spooling و Buffering، الـ Device Drivers، بنية I/O والـ Device-Status Table، الـ DMA، هرمية التخزين، والـ Caching.",
               icon: "🇪🇬",
               actions: [
                 {
                   label: "📖 الشرح",
-                  url: "https://www.youtube.com/watch?v=BW90V5-J4a0",
+                  url: "https://youtube.com/playlist?list=PLTr1xN4uMK5seRz6IO7Am9Zp2UKdnzO_n&si=jq6nhzK3LKOC3ZLx",
                   type: "view",
                   color: "red",
                 },
@@ -52,7 +65,7 @@ subjects.push({
           links: [
             {
               t: "Last Minute Lecture - Operating System Concepts (Ch1: Hardware & Storage)",
-              d: "مراجعة مركزة: الـ Interrupt-driven architecture، الـ Traps، هيكلية الـ DMA، بنية التخزين الثانوي (Tracks & Sectors)، هرمية التخزين وأداء مستوياتها، والـ Caching",
+              d: "مراجعة مركزة: الـ Interrupt-driven architecture، الـ Traps، هيكلية الـ DMA، بنية التخزين الثانوي (Tracks & Sectors)، هرمية التخزين وأداء مستوياتها، والـ Caching.",
               icon: "🌍",
               actions: [
                 {
@@ -64,13 +77,13 @@ subjects.push({
               ],
             },
             {
-              t: "Ghassan Shobaki - OS Introduction & Computer System Organization",
-              d: "شرح بنيوي مفصل: الـ Bus والذاكرة المشتركة، التفاعل بين العتاد الصلب والنواة والمتحكمات (Device Controllers)، وتدفق المقاطعات في الذاكرة",
+              t: "Ghassan Shobaki - OS Introduction & Computer System Organization (Chapter 1 Part 1 & 2 & 3)",
+              d: "شرح بنيوي مفصل: الـ Bus والذاكرة المشتركة، التفاعل بين العتاد الصلب والنواة والمتحكمات (Device Controllers)، وتدفق المقاطعات في الذاكرة.",
               icon: "🌍",
               actions: [
                 {
                   label: "📖 الشرح",
-                  url: "https://www.youtube.com/watch?v=3Qfx4geYN9I",
+                  url: "https://youtube.com/playlist?list=PL6KMWPQP_DM-7tMNjUa7X2zGrc8jipPeI&si=RoVSJl0eqxdd8arm",
                   type: "view",
                   color: "red",
                 },
@@ -86,7 +99,7 @@ subjects.push({
           links: [
             {
               t: "GeeksforGeeks - Operating System Fundamentals",
-              d: "توثيق شامل: تعريف الـ OS ومكونات النظام، أنواع المقاطعات (Hardware & Traps)، هيكلية الـ DMA، والتدرج التخزيني",
+              d: "توثيق شامل: تعريف الـ OS ومكونات النظام، أنواع المقاطعات (Hardware & Traps)، هيكلية الـ DMA، والتدرج التخزيني.",
               icon: "📚",
               actions: [
                 {
@@ -99,7 +112,7 @@ subjects.push({
             },
             {
               t: "Silberschatz & Galvin Official Student Resources",
-              d: "الموقع الرسمي للطلاب لكتاب Operating System Concepts (Chapter 1 Essentials) - مرجع المؤلفين نفسه",
+              d: "الموقع الرسمي للطلاب لكتاب Operating System Concepts - المرجع والمصادر للطلاب من موقع الناشر الرسمي.",
               icon: "📚",
               actions: [
                 {
@@ -112,27 +125,27 @@ subjects.push({
             },
           ],
         },
-        {
-          category: "أدوات ومحاكاة",
-          icon: "🔧",
-          description:
-            "برامج تفاعلية ومحاكاة لتجسيد تنفيذ التعليمات، معالجة المقاطعات، ونقل البيانات عبر DMA والذاكرة",
-          links: [
-            {
-              t: "CPU-OS Simulator - Teach-Sim Interactive Tool",
-              d: "محاكي تفاعلي متقدم لتتبع تنفيذ التعليمات داخل المسجلات، معالجة المقاطعات، وحركة البيانات في الـ Cache والذاكرة الرئيسية",
-              icon: "🔧",
-              actions: [
-                {
-                  label: "🌐 فتح المحاكي",
-                  url: "https://teach-sim.com/os/",
-                  type: "view",
-                  color: "orange",
-                },
-              ],
-            },
-          ],
-        },
+        // {
+        //   category: "أدوات ومحاكاة",
+        //   icon: "🔧",
+        //   description:
+        //     "برامج تفاعلية ومحاكاة لتجسيد تنفيذ التعليمات، معالجة المقاطعات، ونقل البيانات عبر DMA والذاكرة",
+        //   links: [
+        //     {
+        //       t: "CPU-OS Simulator - Teach-Sim Interactive Tool",
+        //       d: "محاكي تفاعلي متقدم لتتبع تنفيذ التعليمات داخل المسجلات، معالجة المقاطعات، وحركة البيانات في الـ Cache والذاكرة الرئيسية.",
+        //       icon: "🔧",
+        //       actions: [
+        //         {
+        //           label: "🌐 فتح المحاكي",
+        //           url: "https://teach-sim.com/os/",
+        //           type: "view",
+        //           color: "orange",
+        //         },
+        //       ],
+        //     },
+        //   ],
+        // },
       ],
       questions: [
         // ─── MCQ ───
@@ -924,128 +937,467 @@ subjects.push({
         },
       ],
     },
+    {
+      t: "المحاضرة الثانية ",
+      d: "مقدمة في نظم التشغيل والعمليات: التخزين المؤقت، تعدد البرمجة، المشاركة الزمنية، النمط المزدوج، وإدارة العمليات.",
+      pdf: "Operating Systems/lectures/chapter 1 - OS.pdf",
+      pdf2: "Operating Systems/Questions/New/Questions on each lecture/OS_Chapter1_Slides24-30_Questions.pdf",
+      // فئات روابط منظمة مخصصة للجزء الثاني فقط (من صفحة 24 إلى صفحة 30) من الفصل الأول
+      linkCategories: [
+        {
+          category: "فيديوهات عربية",
+          icon: "🇪🇬",
+          description:
+            "شروحات بالعربية لمفاهيم العمليات، تعدد البرمجة، المشاركة الزمنية، النمط المزدوج، وإدارة العمليات (صفحة 24 - 30)",
+          links: [
+            {
+              t: "د. حسن الأنصاري - Operating System Concepts (Chapter 1 Part 6: OS Operations & Process Management)",
+              d: "الفيديو السادس: Operating System Chapter 1 Part 6. يغطي هذا الجزء: Operating-System Operations، Process Management، Memory Management، وStorage Management. يتضمن شرحًا لمفاهيم العمليات، إدارتها، وجدولة المعالج، وهي مواضيع تتقاطع مع المحاضرة الثانية (صفحات 24–30).",
+              icon: "🇪🇬",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://youtu.be/RBMya76uNZY",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+            {
+              t: "د. أحمد حجاج - Operating Systems | نظم التشغيل (Ch1-4 Storage Structure)",
+              d: "الفيديو الرابع: 04–Operating Systems | Ch1-4 | Storage Structure. يغطي بنية التخزين، هرمية التخزين، والـ Caching.",
+              icon: "🇪🇬",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://www.youtube.com/playlist?list=PLxIvc-MGOs6ib0oK1z9C46DeKd9rRcSMY",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+            {
+              t: "SoftwareTube - كورس نظم التشغيل بالعربي (مفاهيم تمهيدية: بنية التخزين، بنية النظام، عمليات النظام)",
+              d: "شاهد الفيديوهات: 4 (Storage Structure - Chapter 1 Part 4)، 5 (Computer Systems Architecture - Chapter 1 Part 5)، و 6 (OS Structure and Operation, OS Definition - Chapter 1 Part 6). تغطي بنية التخزين، بنية نظام الحاسوب، عمليات نظام التشغيل، وتعريف نظام التشغيل. هذه مفاهيم أساسية تمهد لفهم إدارة العمليات.",
+              icon: "🇪🇬",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://youtube.com/playlist?list=PLTr1xN4uMK5seRz6IO7Am9Zp2UKdnzO_n",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          category: "فيديوهات عالمية",
+          icon: "🌍",
+          description:
+            "محاضرات أكاديمية تغطي العمليات، تعدد البرمجة، المشاركة الزمنية، النمط المزدوج، وإدارة العمليات (صفحة 24 - 30)",
+          links: [
+            {
+              t: "Neso Academy - Operating Systems: Process Management",
+              d: "شاهد الفيديوهات: 17 (Process State)، 18 (Process Control Block)، 19 (Process Scheduling)، 20 (Context Switch)، 21 (Operations on Processes)، و 22 (Interprocess Communication). تغطية شاملة لإدارة العمليات.",
+              icon: "🌍",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://www.youtube.com/playlist?list=PLBlnK6fEyqRiVhbXDGLXDk_OQAeuVcp2O",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+            {
+              t: "Gate Smashers - Operating System: Process Management & Dual Mode",
+              d: "شاهد الدروس: L-1.2 (System Calls)، L-1.3 (Multiprogramming vs Multitasking)، L-1.4 (Process in OS)، L-1.5 (Process States)، L-1.6 (Process Control Block)، و L-1.7 (Process Scheduling). تغطية مبسطة ومباشرة.",
+              icon: "🌍",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+            {
+              t: "Ghassan Shobaki - OS Introduction & Processes",
+              d: "شاهد المحاضرات: Lecture 4 (Multiprogramming vs Time Sharing)، Lecture 5 (The OS is Interrupt Driven)، Lecture 6 (Processes Part 1)، Lecture 7 (Processes Part 2: Process States)، و Lecture 8 (Processes Part 3: Process Control Block).",
+              icon: "🌍",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://youtube.com/playlist?list=PL6KMWPQP_DM-7tMNjUa7X2zGrc8jipPeI",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          category: "مواقع ومراجع",
+          icon: "📚",
+          description:
+            "مقالات وتوثيقات مرجعية لمفاهيم العمليات وإدارة نظام التشغيل (صفحة 24 - 30)",
+          links: [
+            {
+              t: "GeeksforGeeks - Introduction of Process Management",
+              d: "مرجع شامل: تعريف العملية، الفرق بين Program و Process، حالات العملية، PCB، وجدولة المهام والمعالج.",
+              icon: "📚",
+              actions: [
+                {
+                  label: "🚀 فتح المقال",
+                  url: "https://www.geeksforgeeks.org/introduction-of-process-management/",
+                  type: "view",
+                  color: "blue",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      questions: [
+        // ─── MCQ ───
+        {
+          q: "A program loaded into memory and executing is called a:",
+          options: ["Process", "Job", "Task", "Thread"],
+          correct: 0,
+        },
+        {
+          q: "The job pool is typically located on:",
+          options: ["Main memory", "Cache", "Hard disk", "Registers"],
+          correct: 2,
+        },
+        {
+          q: "Job scheduling is used to:",
+          options: [
+            "Choose which processes in the pool to bring to main memory",
+            "Choose which process in main memory to execute next",
+            "Allocate CPU time to threads",
+            "Manage I/O devices",
+          ],
+          correct: 0,
+        },
+        {
+          q: "CPU scheduling is needed when:",
+          options: [
+            "Several jobs in main memory are ready to execute at the same time",
+            "A job is waiting for I/O",
+            "The system boots",
+            "A new job is added to the job pool",
+          ],
+          correct: 0,
+        },
+        {
+          q: "Multiprogramming organizes jobs so that:",
+          options: [
+            "The CPU always has one to execute",
+            "Only one job runs at a time",
+            "I/O devices are idle",
+            "Users can interact directly",
+          ],
+          correct: 0,
+        },
+        {
+          q: "When a job has to wait for I/O, the OS switches to another job using:",
+          options: ["Job scheduling", "CPU scheduling", "Swapping", "Paging"],
+          correct: 1,
+        },
+        {
+          q: "Timesharing is a logical extension of:",
+          options: [
+            "Multiprogramming",
+            "Multitasking",
+            "Multiprocessing",
+            "Networking",
+          ],
+          correct: 0,
+        },
+        {
+          q: "In timesharing, the response time should be:",
+          options: [
+            "< 1 second",
+            "< 1 millisecond",
+            "> 1 second",
+            "> 1 minute",
+          ],
+          correct: 0,
+        },
+        {
+          q: "Swapping is used when:",
+          options: [
+            "Processes don't fit in memory",
+            "The CPU is idle",
+            "I/O is completed",
+            "A job is created",
+          ],
+          correct: 0,
+        },
+        {
+          q: "Virtual memory allows:",
+          options: [
+            "Execution of processes not completely in memory",
+            "Faster disk access",
+            "More registers",
+            "Larger cache",
+          ],
+          correct: 0,
+        },
+        {
+          q: "Modern operating systems are:",
+          options: [
+            "Interrupt driven",
+            "Polling driven",
+            "Batch driven",
+            "Time driven",
+          ],
+          correct: 0,
+        },
+        {
+          q: "A software-generated interrupt caused by an error or a user program request is called a:",
+          options: [
+            "Trap (exception)",
+            "Hardware interrupt",
+            "System call",
+            "Signal",
+          ],
+          correct: 0,
+        },
+        {
+          q: "Division by zero is an example of:",
+          options: [
+            "A trap caused by an error",
+            "A hardware interrupt",
+            "A system call",
+            "A normal termination",
+          ],
+          correct: 0,
+        },
+        {
+          q: "Dual-mode operation allows the OS to:",
+          options: [
+            "Protect itself and other system components",
+            "Run faster",
+            "Reduce memory usage",
+            "Increase disk space",
+          ],
+          correct: 0,
+        },
+        {
+          q: "The mode bit is set to 0 for:",
+          options: [
+            "Kernel mode",
+            "User mode",
+            "Supervisor mode",
+            "Privileged mode",
+          ],
+          correct: 0,
+        },
+        {
+          q: "The mode bit is set to 1 for:",
+          options: ["User mode", "Kernel mode", "System mode", "Monitor mode"],
+          correct: 0,
+        },
+        {
+          q: "Privileged instructions can only be executed in:",
+          options: ["Kernel mode", "User mode", "Any mode", "Debug mode"],
+          correct: 0,
+        },
+        {
+          q: "A system call changes the mode to:",
+          options: ["Kernel mode", "User mode", "Idle mode", "Safe mode"],
+          correct: 0,
+        },
+        {
+          q: "To prevent infinite loops and process hogging resources, the OS uses:",
+          options: ["A timer", "A cache", "A semaphore", "A mutex"],
+          correct: 0,
+        },
+        {
+          q: "The timer generates an interrupt after:",
+          options: [
+            "A specific period",
+            "Each instruction",
+            "Each I/O operation",
+            "Each system call",
+          ],
+          correct: 0,
+        },
+        {
+          q: "A process is:",
+          options: [
+            "A program in execution",
+            "A passive entity",
+            "A file on disk",
+            "A hardware component",
+          ],
+          correct: 0,
+        },
+        {
+          q: "Which of the following is NOT a resource needed by a process?",
+          options: ["CPU", "Memory", "I/O", "Compiler"],
+          correct: 3,
+        },
+        {
+          q: "Process termination requires:",
+          options: [
+            "Reclaim of any reusable resources",
+            "Deletion of all files",
+            "Formatting the disk",
+            "Restarting the system",
+          ],
+          correct: 0,
+        },
+        {
+          q: "A single-threaded process has:",
+          options: [
+            "One program counter",
+            "Multiple program counters",
+            "No program counter",
+            "One stack",
+          ],
+          correct: 0,
+        },
+        {
+          q: "A multi-threaded process has:",
+          options: [
+            "One program counter per thread",
+            "One program counter for all threads",
+            "No program counter",
+            "One program counter per process",
+          ],
+          correct: 0,
+        },
+        {
+          q: "Concurrency in a system with many processes is achieved by:",
+          options: [
+            "Multiplexing the CPUs among processes/threads",
+            "Running processes sequentially",
+            "Using multiple disks",
+            "Increasing memory",
+          ],
+          correct: 0,
+        },
+        {
+          q: "Which of the following is NOT a process management activity of the OS?",
+          options: [
+            "Creating and deleting processes",
+            "Suspending and resuming processes",
+            "Providing mechanisms for process synchronization",
+            "Managing the file system",
+          ],
+          correct: 3,
+        },
+        {
+          q: "The OS is responsible for providing mechanisms for:",
+          options: [
+            "Process communication",
+            "Deadlock handling",
+            "Both a and b",
+            "None of the above",
+          ],
+          correct: 2,
+        },
+        {
+          q: "In the transition from user to kernel mode, a system call triggers a:",
+          options: ["Trap", "Hardware interrupt", "Signal", "Exception"],
+          correct: 0,
+        },
+        {
+          q: "After the system call completes, the mode bit is set back to:",
+          options: ["1 (user mode)", "0 (kernel mode)", "2", "-1"],
+          correct: 0,
+        },
+        {
+          q: "The timer is set up before scheduling a process to:",
+          options: [
+            "Regain control or terminate a program that exceeds allocated time",
+            "Increase CPU speed",
+            "Reduce power consumption",
+            "Improve disk performance",
+          ],
+          correct: 0,
+        },
+        {
+          q: "The operating system decrements the timer counter until it reaches zero, then:",
+          options: [
+            "Generates an interrupt",
+            "Restarts the process",
+            "Switches to user mode",
+            "Clears the cache",
+          ],
+          correct: 0,
+        },
+        {
+          q: "Which of the following is an example of a system call?",
+          options: [
+            "Requesting an OS service",
+            "Division by zero",
+            "Infinite loop",
+            "Hardware interrupt",
+          ],
+          correct: 0,
+        },
+        {
+          q: "The job pool contains:",
+          options: [
+            "Processes ready and awaiting allocation to main memory",
+            "Processes currently executing",
+            "Completed processes",
+            "I/O requests",
+          ],
+          correct: 0,
+        },
+        {
+          q: "Multiprogramming increases CPU utilization by:",
+          options: [
+            "Organizing jobs so CPU always has one to execute",
+            "Running only one job at a time",
+            "Reducing I/O operations",
+            "Increasing memory size",
+          ],
+          correct: 0,
+        },
+
+        // ─── Essay ───
+        {
+          type: "essay",
+          q: "Explain the concepts of multiprogramming and timesharing (multitasking). How do they differ, and what is the role of job scheduling and CPU scheduling in each?",
+          answer:
+            "Multiprogramming organizes jobs (code and data) so that the CPU always has one to execute. A subset of total jobs is kept in memory. When a job has to wait (e.g., for I/O), the OS switches to another job using CPU scheduling. This increases CPU utilization.\n" +
+            "Timesharing is a logical extension of multiprogramming in which the CPU switches jobs so frequently that users can interact with each job while it is running, creating interactive computing. Response time should be < 1 second. Each user has at least one program executing in memory (process). If several jobs are ready to run, CPU scheduling is used. If processes don't fit in memory, swapping moves them in and out. Virtual memory allows execution of processes not completely in memory. A timeshared OS uses both CPU scheduling and job scheduling to provide users with a small portion of a time-shared computer.",
+          tags: ["Chapter 1", "Multiprogramming", "Timesharing"],
+          ref: "Chapter 1 — Slides 24 to 30",
+        },
+        {
+          type: "essay",
+          q: "Describe dual-mode operation in operating systems. Why is it necessary? Explain the mode bit, user mode, kernel mode, privileged instructions, and how system calls, traps, and interrupts cause mode changes.",
+          answer:
+            "Dual-mode operation allows the OS to protect itself and other system components. It uses two modes: user mode and kernel mode (also called supervisor, privileged, or system mode). A mode bit provided by hardware distinguishes between them: 0 for kernel mode, 1 for user mode. Some instructions are designated as privileged and can only be executed in kernel mode. System calls, traps, and interrupts change the mode to kernel. A system call is issued when a user application requests a service from the OS. This transition ensures that the OS maintains control over the CPU and prevents user programs from executing privileged operations directly.",
+          tags: ["Chapter 1", "Dual-Mode", "Kernel Mode"],
+          ref: "Chapter 1 — Slides 24 to 30",
+        },
+        {
+          type: "essay",
+          q: "Explain the purpose of the timer in an operating system and how it helps maintain control over the CPU.",
+          answer:
+            "To ensure that the OS maintains control over the CPU, it uses a timer. The timer is set to interrupt the computer after a specific period. The operating system decrements a counter until it reaches zero; when the counter is zero, an interrupt is generated. The timer is set up before scheduling a process to regain control or terminate a program that exceeds its allocated time. This prevents infinite loops or a process from hogging resources indefinitely.",
+          tags: ["Chapter 1", "Timer", "CPU Control"],
+          ref: "Chapter 1 — Slides 24 to 30",
+        },
+        {
+          type: "essay",
+          q: "Discuss the process management responsibilities of an operating system. What is a process, what resources does it need, and what activities does the OS perform in connection with process management?",
+          answer:
+            "A process is a program in execution. It is a unit of work within the system. A program is a passive entity, while a process is an active entity. A process needs resources to accomplish its task: CPU, memory, I/O, files, and initialization data. Process termination requires reclaim of any reusable resources. A single-threaded process has one program counter specifying the location of the next instruction to execute. A multi-threaded process has one program counter per thread. Typically, a system has many processes, some user, some operating system, running concurrently on one or more CPUs. Concurrency is achieved by multiplexing the CPUs among the processes/threads. The operating system is responsible for: creating and deleting both user and system processes; suspending and resuming processes; providing mechanisms for process synchronization; providing mechanisms for process communication; and providing mechanisms for deadlock handling.",
+          tags: ["Chapter 1", "Process Management"],
+          ref: "Chapter 1 — Slides 24 to 30",
+        },
+      ],
+    },
   ],
-  // midterms: [
-  //   {
-  //     t: "ميدتيرم 1 (المحاضرات 1-2)",
-  //     d: "امتحان منتصف الترم الأول",
-  //     pdf: "Operating Systems/exams/Midterm 1.pdf",
-  //     questions: [
-  //       {
-  //         q: "وضع التشغيل الذي يمنح النظام صلاحيات حماية كاملة:",
-  //         options: ["Kernel Mode", "User Mode", "Guest Mode", "Safe Mode"],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "النواة Kernel هي:",
-  //         options: [
-  //           "قلب نظام التشغيل الأساسي",
-  //           "واجهة رسومية",
-  //           "برنامج تطبيقي",
-  //           "تعريف طابعة",
-  //         ],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "تعني حالة العملية Ready أنها:",
-  //         options: [
-  //           "جاهزة للتنفيذ بانتظار المعالج",
-  //           "قيد التنفيذ الآن",
-  //           "تنتظر إدخالاً/إخراجاً",
-  //           "منتهية",
-  //         ],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "قد تعاني جدولة الأولويات الثابتة من:",
-  //         options: [
-  //           "تجويع Starvation لبعض العمليات",
-  //           "زيادة الذاكرة",
-  //           "بطء الطابعة",
-  //           "ضياع الملفات",
-  //         ],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "يستهلك تبديل السياق Context Switch:",
-  //         options: [
-  //           "زمناً معالجاً بلا عمل مفيد",
-  //           "طاقة فقط",
-  //           "مساحة قرص",
-  //           "لا يستهلك شيئاً",
-  //         ],
-  //         correct: 0,
-  //       },
-  //     ],
-  //   },
-  // ],
-  // finals: [
-  //   {
-  //     t: "الفاينل 1 (شامل)",
-  //     d: "امتحان نهاية الترم — نموذج أول",
-  //     pdf: "Operating Systems/exams/Final 1.pdf",
-  //     questions: [
-  //       {
-  //         q: "يحدث التشتت الخارجي External Fragmentation في:",
-  //         options: [
-  //           "التقسيم المتغير Segmentation",
-  //           "الصفحات ثابتة الحجم",
-  //           "السجلات",
-  //           "الكاش",
-  //         ],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "يُستخدم TLB لتسريع:",
-  //         options: [
-  //           "ترجمة العناوين الافتراضية",
-  //           "الطباعة",
-  //           "الاتصال الشبكي",
-  //           "إقلاع الجهاز",
-  //         ],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "تختار خوارزمية Best Fit الفجوة:",
-  //         options: [
-  //           "الأصغر المناسبة للحجم المطلوب",
-  //           "الأكبر دائماً",
-  //           "الأولى في الذاكرة",
-  //           "عشوائية",
-  //         ],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "تعمل منع الاستعطال Deadlock Prevention على:",
-  //         options: [
-  //           "كسب (إلغاء) أحد الشروط الأربعة",
-  //           "إعادة تشغيل الجهاز",
-  //           "زيادة الرام",
-  //           "حذف البرامج",
-  //         ],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "تحدث Race Condition لأن:",
-  //         options: [
-  //           "عمليات تصل للمورد المشترك بترتيب غير محدد",
-  //           "القرص ممتلئ",
-  //           "الشبكة بطيئة",
-  //           "المستخدم أخطأ في الإدخال",
-  //         ],
-  //         correct: 0,
-  //       },
-  //       {
-  //         q: "يستخدم Spooling في:",
-  //         options: [
-  //           "ترتيب مهام الطباعة",
-  //           "جدولة المعالج",
-  //           "إدارة الذاكرة",
-  //           "الشبكات",
-  //         ],
-  //         correct: 0,
-  //       },
-  //     ],
-  //   },
-  // ],
 });
