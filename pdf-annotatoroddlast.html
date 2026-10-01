@@ -123,9 +123,13 @@
   .ctx-item:hover > .ctx-aimenu{display:block;}
   .ctx-has-ai.open > .ctx-aimenu{display:block;}
   .ctx-has-ai.open > .ctx-arrow{transform:rotate(-90deg);}
-  @media all{
+  @media (hover:none), (max-width:700px){
     #pdfCtxMenu{max-height:calc(100vh - 16px);max-height:calc(100dvh - 16px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;}
     .ctx-has-ai, .ctx-has-submenu{flex-wrap:wrap;}
+    .ctx-item .ctx-swatches{position:static;transform:none;flex:0 0 100%;width:100%;margin:6px 0 0;box-shadow:none;background:rgba(255,255,255,.06);padding:8px;}
+    .ctx-item .ctx-swatches::after{display:none;}
+    .ctx-item:hover > .ctx-swatches{display:none;}
+    .ctx-has-submenu.open > .ctx-swatches{display:flex;}
     .ctx-item .ctx-aimenu{position:static;flex:0 0 100%;width:100%;margin:6px 0 0;min-width:0;box-shadow:none;background:rgba(255,255,255,.06);padding:4px;}
     .ctx-item .ctx-aimenu::before{display:none;}
     .ctx-item:hover > .ctx-aimenu{display:none;}
@@ -148,13 +152,6 @@
   .ctx-swatches .mk-btn{width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:#E8E8E8;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;flex:none;}
   .ctx-swatches .mk-btn:hover{background:rgba(232,121,60,.22);border-color:var(--accent);color:#fff;}
   .ctx-swatches .mk-btn svg{width:16px;height:16px;}
-  /* القوائم الفرعية تفتح بالضغط داخل القائمة (بدون ماوس) */
-  #pdfCtxMenu .ctx-item .ctx-swatches{position:static;transform:none;flex:0 0 100%;width:100%;margin:6px 0 0;box-shadow:none;background:rgba(255,255,255,.06);padding:8px;display:none;}
-  #pdfCtxMenu .ctx-item .ctx-swatches::after{display:none;}
-  #pdfCtxMenu .ctx-item:hover > .ctx-swatches{display:none;}
-  #pdfCtxMenu .ctx-has-submenu.open > .ctx-swatches{display:flex;}
-  #pdfCtxMenu .ctx-item:hover > .ctx-aimenu{display:none;}
-  #pdfCtxMenu .ctx-has-ai.open > .ctx-aimenu{display:block;}
 
   #emptyState{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:30px;text-align:center;}
   #dropZone{width:min(520px,86vw);padding:46px 28px;border:2px dashed #B9AF9C;border-radius:16px;background:#F5F2EA;cursor:pointer;transition:border-color .15s,background .15s;}
@@ -412,7 +409,6 @@
       <span class="sw" data-color="#FFC9C9" style="background:#FFC9C9;"></span>
       <span class="sw" data-color="#D0BFFF" style="background:#D0BFFF;"></span>
       <span class="sw-sep"></span>
-      <button class="mk-btn" data-act="highlight-apply" data-markup="text-highlight" title="تظليل" style="font-size:14px;">🖍️</button>
       <button class="mk-btn" data-act="underline" data-markup="text-underline" title="تسطير"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4v6a6 6 0 0012 0V4M4 20h16"/></svg></button>
       <button class="mk-btn" data-act="strike" data-markup="text-strike" title="شطب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4v4a6 6 0 0012 0V4M4 12h16M4 20h16"/></svg></button>
     </div>
@@ -1802,9 +1798,7 @@
       el.classList.toggle("active-markup", el.dataset.markup === currentMarkupMode);
     });
   }
-  let ctxShownAt = 0, ctxColorChosen = false;
   function showContextMenu(x, y){
-    ctxShownAt = Date.now(); ctxColorChosen = false;
     ctxMenu.classList.add("show");
     updateMarkupChecks();
     const rect = ctxMenu.getBoundingClientRect();
@@ -1849,14 +1843,12 @@
   document.addEventListener("pointerdown", e => { if(!e.target.closest("#pdfCtxMenu")) hideContextMenu(); }, true);
 
   ctxMenu.addEventListener("click", e => {
-    // تجاهل اللمسة الأولى اللي فتحت القائمة (كانت بتنفّذ أول عنصر تحت الإصبع)
-    if(Date.now() - ctxShownAt < 450){ e.preventDefault(); e.stopPropagation(); return; }
     const sw = e.target.closest(".ctx-swatches .sw");
     if(sw){
       e.preventDefault(); e.stopPropagation();
       ctxHighlightColor = sw.dataset.color;
       document.querySelectorAll("#highlightSwatches .sw").forEach(x => { x.classList.toggle("selected", x === sw); });
-      ctxColorChosen = true; // اختيار اللون فقط — التنفيذ عند الضغط على نوع التظليل
+      if(selectedRange) applyTextMark("text-highlight", ctxHighlightColor);
       return;
     }
     const item = e.target.closest("[data-act]");
@@ -1934,7 +1926,7 @@
           "ai-gemini":  "https://gemini.google.com/app",
           "ai-glm":     "https://chat.z.ai/",
           "ai-deepseek":"https://chat.deepseek.com/",
-          "ai-kimi":    "https://www.kimi.com/"
+          "ai-kimi":    "https://www.kimi.ai/"
         };
         // النسخ بيتم الأول وبشكل متزامن (قبل فتح التبويب) عشان المتصفح ما يرفضوش
         const copied = copyTextSync(prompt);
@@ -1947,7 +1939,7 @@
       }
       case "highlight": {
         // على الموبايل: الضغط يفتح ألوان التظليل داخل القائمة، واختيار لون يطبّق التظليل
-        if(true){
+        if(window.matchMedia("(hover: none), (max-width: 700px)").matches){
           const hb = ctxMenu.querySelector(".ctx-has-submenu");
           hb.classList.toggle("open");
           const hr = ctxMenu.getBoundingClientRect();
@@ -1956,9 +1948,8 @@
         } else applyTextMark("text-highlight", ctxHighlightColor);
         break;
       }
-      case "highlight-apply": applyTextMark("text-highlight", ctxHighlightColor); break;
-      case "underline": applyTextMark("text-underline", ctxColorChosen ? ctxHighlightColor : undefined); break;
-      case "strike": applyTextMark("text-strike", ctxColorChosen ? ctxHighlightColor : undefined); break;
+      case "underline": applyTextMark("text-underline"); break;
+      case "strike": applyTextMark("text-strike"); break;
       case "translate": {
         $("#tpInput").value = text;
         const isArabic = isArabicText(text);
