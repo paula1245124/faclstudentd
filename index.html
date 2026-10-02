@@ -968,6 +968,16 @@ var lecturesAddedLog = [
       "مقدمة في العمليات: تعريفها، جدولة المهام والمعالج، تعدد البرمجة والمشاركة الزمنية، النمط المزدوج (User/Kernel Mode)، المقاطعات والـ Traps، واستدعاءات النظام، وإدارة العمليات.",
   },
 ];
+var lecturesAddedLog = [
+  {
+    id: "lec-004",
+    subject: "Software Engineering",
+    lectureTitle: "المحاضرة الثانية - عمليات البرمجيات (Software Processes)",
+    lectureDesc:
+      "شرح مفهوم عمليات البرمجيات: نماذج SDLC الأساسية، الأنشطة الأربعة (التوصيف، التطوير، التحقق، والتطور)، التعامل مع التغيير، ونموذج CMMI.",
+  },
+]
+
 function loadNotifications(){
   try{ var n = localStorage.getItem('notifications_data'); if(n) notifications = JSON.parse(n); }catch(e){ notifications = []; }
 }
