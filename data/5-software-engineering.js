@@ -597,7 +597,7 @@ subjects.push({
       pdf: "Software Engineering/lectures/Software Engineering, 10th GLOBAL Edition - Chapter 2 - Software processes.pdf",
       pdf2: "Software Engineering/Questions/New/Questions on each lecture/SE_Chapter2_Sections2.1-2.2_Questions.pdf",
       // فئات روابط منظمة مخصصة للفصل الثاني (Chapter 1: Introduction) من كتاب Software Engineering - Ian Sommerville (10th Edition)
-
+      notes: "الأسئلة المطلوبة من الكتاب:  1 , 3  , 4 , 6 , 8 ",
       linkCategories: [
         {
           category: "فيديوهات عربية",
