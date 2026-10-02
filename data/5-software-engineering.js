@@ -43,6 +43,32 @@ subjects.push({
                 },
               ],
             },
+            {
+              t: "مقدمة في هندسة البرمجيات (الأجزاء 1 - 4) - د. محمد المدهون",
+              d: "شرح كامل لمقدمة هندسة البرمجيات من كتاب Sommerville: التعريفات، المصطلحات الأساسية، والأخلاقيات",
+              icon: "🇪🇬",
+              actions: [
+                {
+                  label: "📖 الشرح",
+                  url: "https://youtube.com/playlist?list=PLSdxbt9aypHLpUEjVa96utjc_lcDndJ8K&si=_12REw8yZYYYPJpQ",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
+            {
+              t: "Software Engineering - د. أحمد العقيد (المحاضرة الأولى)",
+              d: "المحاضرة الأولى: مقدمة شاملة في هندسة البرمجيات والمفاهيم الأساسية للمادة",
+              icon: "🇪🇬",
+              actions: [
+                {
+                  label: "🎬 مشاهدة الفيديو",
+                  url: "https://www.youtube.com/watch?v=Kbt0cfPxTO8",
+                  type: "view",
+                  color: "red",
+                },
+              ],
+            },
           ],
         },
         {
@@ -182,7 +208,6 @@ subjects.push({
           ],
         },
       ],
-
       questions: [
         // ─── MCQ ───
         {
@@ -566,6 +591,4 @@ subjects.push({
       ],
     },
   ],
-
-  
 });
