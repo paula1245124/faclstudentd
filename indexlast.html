@@ -285,6 +285,14 @@ iframe{width:100%;height:600px;border:none;display:block}
 .attach-title{font-weight:bold;font-size:16px;color:var(--text-heading)}
 .attach-line{height:3px;background:linear-gradient(270deg,var(--accent),transparent);border-radius:2px;margin:10px 0 14px;opacity:.6}
 
+/* ★ كارت ملاحظات وتكاليف المحاضرة */
+.notes-card{background:var(--bg-quiz-card);border:2px solid var(--warning);border-inline-start:6px solid var(--warning);border-radius:12px;padding:16px 18px;margin:0 0 16px;transition:background .4s,border-color .4s}
+.notes-card-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.notes-card-icon{width:30px;height:30px;border-radius:50%;background:var(--warning);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.notes-card-title{font-weight:bold;font-size:16px;color:var(--text-heading);line-height:1.5}
+.notes-card-text{margin:0;color:var(--text-primary);font-size:15px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}
+.card-notes-badge{background:var(--warning);color:#fff;border-radius:20px;padding:5px 12px;font-size:13px;white-space:nowrap;flex-shrink:0}
+
 /* ============================================================
    8) كروت الروابط + الأسئلة المقالية
    ============================================================ */
@@ -1439,6 +1447,7 @@ function renderLecturesList(){
 
     return '<div class="card" onclick="openLecture('+currentSubject+','+i+')">'+
              '<div class="card-text"><h3>'+(i+1)+'. '+esc(l.t)+'</h3><p>'+(l.d ? esc(l.d) : '')+'</p>'+progressBar+'</div>'+
+             (lectureHasNotes(l) ? '<span class="card-notes-badge" title="المحاضرة دي فيها ملاحظات وتكاليف">📝</span>' : '') +
              badge +
            '</div>';
   }).join('');
@@ -2289,6 +2298,44 @@ function renderLectureLinks(boxId, links, categories){
 }
 
 // ============================================================
+// ★ كارت ملاحظات وتكاليف المحاضرة (defensive)
+// ============================================================
+function lectureHasNotes(lec){
+  return !!(lec && typeof lec.notes === 'string' && lec.notes.trim() !== '');
+}
+
+function buildNotesCardHTML(lec){
+  try{
+    if(!lectureHasNotes(lec)) return '';
+    return '<div class="notes-card" id="ld-notes-card">'+
+             '<div class="notes-card-head">'+
+               '<span class="notes-card-icon" aria-hidden="true">📝</span>'+
+               '<span class="notes-card-title">📌 ملاحظات وتكاليف المحاضرة</span>'+
+             '</div>'+
+             '<p class="notes-card-text">'+esc(lec.notes.trim())+'</p>'+
+           '</div>';
+  }catch(e){ return ''; }
+}
+
+// بيشيل أي كارت قديم، ولو فيه ملاحظات بيدخل الكارت الجديد أول .ld-body (قبل ملف المحاضرة)
+function renderNotesCard(lec){
+  try{
+    var old = document.getElementById('ld-notes-card');
+    if(old && old.parentNode) old.parentNode.removeChild(old);
+
+    var html = buildNotesCardHTML(lec);
+    if(!html) return;                       // مفيش ملاحظات = مفيش عنصر في الـ DOM
+
+    var body = document.querySelector('#ld-file .ld-body');
+    if(!body) return;
+    var tpl = document.createElement('template');
+    tpl.innerHTML = html;
+    var el = tpl.content.firstElementChild;
+    if(el) body.insertBefore(el, body.firstChild);
+  }catch(e){}
+}
+
+// ============================================================
 // 17) فتح الصفحات
 // ============================================================
 function openLecture(subjIdx, lecIdx){
@@ -2325,6 +2372,7 @@ function openLecture(subjIdx, lecIdx){
   document.getElementById('ld-file-meta').innerHTML = pdf ? '' : '<p class="ld-hint">مفيش ملف مرفق بالمحاضرة دي.</p>';
   renderAttachCard('ld-attach-card', l.t, pdf);
   document.getElementById('lecture-content-area').innerHTML = '';
+  renderNotesCard(l);
 
   var total = (l.questions || []).length;
   var done = Object.keys(getSavedQuizFor(s, lecQuizKey(l))).length;

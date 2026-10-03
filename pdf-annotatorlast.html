@@ -6,7 +6,6 @@
 <title>قلم PDF — علّم على ملفاتك</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- SRI-TODO -->
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -209,17 +208,16 @@
   #textInputBox .ti-dir button{background:#E3DDCD;color:var(--ink);padding:4px 10px;font-size:11px;font-weight:600;}
   #textInputBox .ti-dir button.active{background:var(--accent);color:#fff;}
 
-  #translatePanel{display:none;position:fixed;right:20px;top:90px;width:min(400px,92vw);background:#fff;border:1px solid #E3DDCD;border-radius:14px;box-shadow:0 14px 44px rgba(0,0,0,.28);z-index:250;overflow:hidden;direction:rtl;max-height:calc(100vh - 110px);max-height:calc(100dvh - 110px);flex-direction:column;}
-  #translatePanel.show{display:flex;}
+  #translatePanel{display:none;position:fixed;right:20px;top:90px;width:min(400px,92vw);background:#fff;border:1px solid #E3DDCD;border-radius:14px;box-shadow:0 14px 44px rgba(0,0,0,.28);z-index:250;overflow:hidden;direction:rtl;}
+  #translatePanel.show{display:block;}
   #translatePanel .tp-header{background:var(--ink);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600;}
   #translatePanel .tp-header button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;}
-  #translatePanel .tp-body{padding:12px 14px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;min-height:0;flex:1 1 auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;}
-  #translatePanel .tp-header{flex:none;}
+  #translatePanel .tp-body{padding:12px 14px;display:flex;flex-direction:column;gap:10px;}
   #translatePanel .tp-langs{display:flex;gap:8px;align-items:center;justify-content:center;}
   #translatePanel .tp-langs select{flex:1;padding:6px 8px;border:1px solid #E3DDCD;border-radius:8px;font-family:inherit;font-size:13px;background:#F9F7F1;cursor:pointer;}
   #translatePanel .tp-swap{background:var(--accent);color:#fff;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:14px;flex:none;display:flex;align-items:center;justify-content:center;}
   #translatePanel textarea{width:100%;min-height:80px;border:1px solid #E3DDCD;border-radius:10px;padding:10px;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:14px;resize:vertical;background:#FCFAF4;outline:none;}
-  #translatePanel .tp-result{min-height:80px;border:1px solid #E3DDCD;border-radius:10px;padding:10px;background:#FBEFE4;font-size:14px;line-height:1.6;white-space:pre-wrap;max-height:40vh;overflow-y:auto;flex:none;overscroll-behavior:contain;}
+  #translatePanel .tp-result{min-height:80px;border:1px solid #E3DDCD;border-radius:10px;padding:10px;background:#FBEFE4;font-size:14px;line-height:1.6;white-space:pre-wrap;}
   #translatePanel .tp-actions{display:flex;gap:8px;}
   #translatePanel .tp-actions button{flex:1;padding:8px 12px;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;background:var(--accent);color:#fff;}
   #translatePanel .tp-actions button.ghost{background:#E3DDCD;color:var(--ink);font-weight:500;}
@@ -527,9 +525,7 @@
 <div id="toast"></div>
 <div id="loadingOverlay"><div class="spinner"></div><div class="mono" id="loadingText" style="font-size:13px;"></div></div>
 
-<!-- SRI-TODO -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-<!-- SRI-TODO -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script>
 (function(){
@@ -620,7 +616,7 @@
   async function extractAttachmentsViaPdfJs(bytes){
     const result = {};
     try{
-      const task = pdfjsLib.getDocument({ data: bytes.slice(0), disableWorker: false, isEvalSupported: false });
+      const task = pdfjsLib.getDocument({ data: bytes.slice(0), disableWorker: false });
       const doc = await task.promise;
       try{
         const atts = await doc.getAttachments();
@@ -702,7 +698,6 @@
 
   // ============ postMessage ============
   window.addEventListener("message", function(e){
-    if (e.origin !== location.origin) return;
     var d = e.data; if(!d || typeof d !== "object") return;
     if(d.type === "load-pdf" && d.bytes){
       try{
@@ -851,7 +846,7 @@
       originalPdfBytes = recoveredFromAttachment ? recoveredOriginalBytes : buf;
       pdfBytes = renderBytes;
 
-      const task = pdfjsLib.getDocument({ data: renderBytes.slice(0), isEvalSupported: false });
+      const task = pdfjsLib.getDocument({ data: renderBytes.slice(0) });
       pdfDoc = await task.promise;
       numPages = pdfDoc.numPages;
 
@@ -1911,10 +1906,10 @@
         hideContextMenu(); break;
       }
       case "search":
-        window.open("https://www.google.com/search?q=" + encodeURIComponent(text), "_blank", "noopener,noreferrer");
+        window.open("https://www.google.com/search?q=" + encodeURIComponent(text), "_blank");
         hideContextMenu(); break;
       case "search-youtube":
-        window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(text), "_blank", "noopener,noreferrer");
+        window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(text), "_blank");
         hideContextMenu(); break;
       case "ai-menu": {
         const box = ctxMenu.querySelector(".ctx-has-ai");
@@ -1943,7 +1938,7 @@
         };
         // النسخ بيتم الأول وبشكل متزامن (قبل فتح التبويب) عشان المتصفح ما يرفضوش
         const copied = copyTextSync(prompt);
-        window.open(urls[act], "_blank", "noopener,noreferrer");
+        window.open(urls[act], "_blank");
         const direct = (act === "ai-claude" || act === "ai-chatgpt");
         if(direct) toast("تم إرسال النص للشات ✓");
         else if(copied) toast("تم نسخ النص ✓ — الصقيه في الشات (Ctrl+V)");
@@ -2373,7 +2368,7 @@
     picker.className = "color-picker-btn";
     picker.title = "🎨 منتقي الألوان";
     picker.style.color = currentColor;
-    picker.innerHTML = '<div class="c-swatch"></div><span class="c-icon">🎨</span><input type="color" value="'+escapeHtml(currentColor)+'">';
+    picker.innerHTML = '<div class="c-swatch"></div><span class="c-icon">🎨</span><input type="color" value="'+currentColor+'">';
     const inp = picker.querySelector('input');
     inp.addEventListener("input", e => { currentColor = e.target.value; picker.style.color = currentColor; updateSelectedPen(); });
     inp.addEventListener("change", e => { currentColor = e.target.value; picker.style.color = currentColor; saveCustomColor(currentColor); refreshCustomColors(); updateSelectedPen(); });

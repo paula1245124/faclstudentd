@@ -285,14 +285,6 @@ iframe{width:100%;height:600px;border:none;display:block}
 .attach-title{font-weight:bold;font-size:16px;color:var(--text-heading)}
 .attach-line{height:3px;background:linear-gradient(270deg,var(--accent),transparent);border-radius:2px;margin:10px 0 14px;opacity:.6}
 
-/* ★ كارت ملاحظات وتكاليف المحاضرة */
-.notes-card{background:var(--bg-quiz-card);border:2px solid var(--warning);border-inline-start:6px solid var(--warning);border-radius:12px;padding:16px 18px;margin:0 0 16px;transition:background .4s,border-color .4s}
-.notes-card-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.notes-card-icon{width:30px;height:30px;border-radius:50%;background:var(--warning);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-.notes-card-title{font-weight:bold;font-size:16px;color:var(--text-heading);line-height:1.5}
-.notes-card-text{margin:0;color:var(--text-primary);font-size:15px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}
-.card-notes-badge{background:var(--warning);color:#fff;border-radius:20px;padding:5px 12px;font-size:13px;white-space:nowrap;flex-shrink:0}
-
 /* ============================================================
    8) كروت الروابط + الأسئلة المقالية
    ============================================================ */
@@ -1025,7 +1017,7 @@ function renderNotifDropdown(){
   var html = '';
   notifications.forEach(function(n){
     var cls = n.read ? '' : 'unread';
-    html += '<div class="notif-item ' + cls + '" onclick="markNotifRead(event,' + (Number(n.id) || 0) + ')">';
+    html += '<div class="notif-item ' + cls + '" onclick="markNotifRead(event,' + n.id + ')">';
     if(n.type === 'audit'){
       html += '<strong>' + esc(n.title) + '</strong>';
       html += '<span class="notif-detail">📁 ' + esc(n.context) + ' | سؤال #' + esc(n.questionNum) + '</span>';
@@ -1040,7 +1032,7 @@ function renderNotifDropdown(){
       html += '<strong>' + esc(n.title || 'إشعار') + '</strong>';
       if(n.context) html += '<span class="notif-detail">📁 ' + esc(n.context) + '</span>';
       if(n.questionText) html += '<span class="notif-detail">📝 ' + esc(truncateText(n.questionText, 60)) + '</span>';
-      if(n.score !== undefined) html += '<span class="notif-detail">🏆 النتيجة: ' + esc(n.score) + '%</span>';
+      if(n.score !== undefined) html += '<span class="notif-detail">🏆 النتيجة: ' + n.score + '%</span>';
     }
     html += '<div class="notif-meta">🕐 ' + esc(n.time) + ' | 📅 ' + esc(n.date) + '</div>';
     html += '</div>';
@@ -1427,7 +1419,7 @@ function renderLecturesList(){
     var badge;
     if(score){
       var color = score.score >= 75 ? 'done' : (score.score >= 50 ? 'warn' : 'bad');
-      badge = '<span class="badge '+color+'">🏆 '+esc(score.score)+'%</span>';
+      badge = '<span class="badge '+color+'">🏆 '+score.score+'%</span>';
     }
     else if(total && done >= total){
       badge = '<span class="badge done">✅ مكتملة</span>';
@@ -1447,7 +1439,6 @@ function renderLecturesList(){
 
     return '<div class="card" onclick="openLecture('+currentSubject+','+i+')">'+
              '<div class="card-text"><h3>'+(i+1)+'. '+esc(l.t)+'</h3><p>'+(l.d ? esc(l.d) : '')+'</p>'+progressBar+'</div>'+
-             (lectureHasNotes(l) ? '<span class="card-notes-badge" title="المحاضرة دي فيها ملاحظات وتكاليف">📝</span>' : '') +
              badge +
            '</div>';
   }).join('');
@@ -1498,7 +1489,7 @@ function examCardHTML(s, e, prop, idx, total, key){
   var tag;
   if(score){
     var color = score.score >= 75 ? 'green' : (score.score >= 50 ? 'warn' : 'bad');
-    tag = '<span class="er-tag '+color+'">🏆 '+esc(score.score)+'%</span>';
+    tag = '<span class="er-tag '+color+'">🏆 '+score.score+'%</span>';
   }
   else if(total && done >= total){
     tag = '<span class="er-tag green">✅ مكتمل</span>';
@@ -2061,7 +2052,6 @@ function downloadPDFAt(idx){
   a.href = encodeURI(u);
   a.setAttribute('download','');
   a.setAttribute('target','_blank');
-  a.setAttribute('rel','noopener noreferrer');
   document.body.appendChild(a);
   a.click();
   setTimeout(function(){ a.remove(); }, 800);
@@ -2151,7 +2141,7 @@ var urlRegistry = [];
 function regUrl(u){ urlRegistry.push(u); return urlRegistry.length - 1; }
 function openReg(i){
   var u = urlRegistry[i];
-  if(u) window.open(encodeURI(u), '_blank', 'noopener,noreferrer');
+  if(u) window.open(encodeURI(u), '_blank');
 }
 
 function availableLinks(links){
@@ -2299,44 +2289,6 @@ function renderLectureLinks(boxId, links, categories){
 }
 
 // ============================================================
-// ★ كارت ملاحظات وتكاليف المحاضرة (defensive)
-// ============================================================
-function lectureHasNotes(lec){
-  return !!(lec && typeof lec.notes === 'string' && lec.notes.trim() !== '');
-}
-
-function buildNotesCardHTML(lec){
-  try{
-    if(!lectureHasNotes(lec)) return '';
-    return '<div class="notes-card" id="ld-notes-card">'+
-             '<div class="notes-card-head">'+
-               '<span class="notes-card-icon" aria-hidden="true">📝</span>'+
-               '<span class="notes-card-title">📌 ملاحظات وتكاليف المحاضرة</span>'+
-             '</div>'+
-             '<p class="notes-card-text">'+esc(lec.notes.trim())+'</p>'+
-           '</div>';
-  }catch(e){ return ''; }
-}
-
-// بيشيل أي كارت قديم، ولو فيه ملاحظات بيدخل الكارت الجديد أول .ld-body (قبل ملف المحاضرة)
-function renderNotesCard(lec){
-  try{
-    var old = document.getElementById('ld-notes-card');
-    if(old && old.parentNode) old.parentNode.removeChild(old);
-
-    var html = buildNotesCardHTML(lec);
-    if(!html) return;                       // مفيش ملاحظات = مفيش عنصر في الـ DOM
-
-    var body = document.querySelector('#ld-file .ld-body');
-    if(!body) return;
-    var tpl = document.createElement('template');
-    tpl.innerHTML = html;
-    var el = tpl.content.firstElementChild;
-    if(el) body.insertBefore(el, body.firstChild);
-  }catch(e){}
-}
-
-// ============================================================
 // 17) فتح الصفحات
 // ============================================================
 function openLecture(subjIdx, lecIdx){
@@ -2373,7 +2325,6 @@ function openLecture(subjIdx, lecIdx){
   document.getElementById('ld-file-meta').innerHTML = pdf ? '' : '<p class="ld-hint">مفيش ملف مرفق بالمحاضرة دي.</p>';
   renderAttachCard('ld-attach-card', l.t, pdf);
   document.getElementById('lecture-content-area').innerHTML = '';
-  renderNotesCard(l);
 
   var total = (l.questions || []).length;
   var done = Object.keys(getSavedQuizFor(s, lecQuizKey(l))).length;
@@ -2692,69 +2643,19 @@ function STANDALONE_ENGINE(){
     showToast('💾 تم تحميل النسخة (' + count + ' عنصر)');
   };
 
-  // ★ تحصين الاستيراد (نسخة الكويز المستقلة): الدالة جوه STANDALONE_ENGINE عشان تتصدّر مع الملف
-  function validateBackup(data){
-    var BAD = ['__proto__','constructor','prototype'];
-    function isObj(v){ return !!v && typeof v === 'object' && !Array.isArray(v); }
-    function num(v){ return typeof v === 'number' && isFinite(v); }
-    function safe(o){ return Object.keys(o).every(function(k){ return BAD.indexOf(k) === -1; }); }
-    function parse(r){ try{ return JSON.parse(r); }catch(e){ return undefined; } }
-    if(!isObj(data)) return 'الملف مش نسخة احتياطية صالحة (المحتوى مش كائن JSON).';
-    if(data._app !== 'study-platform-backup') return 'الملف مش نسخة احتياطية من المنصة دي.';
-    if(data._version !== undefined && !num(data._version)) return 'رقم إصدار النسخة غير صالح.';
-    if(data._date !== undefined && (typeof data._date !== 'string' || data._date.length > 100)) return 'تاريخ النسخة غير صالح.';
-    var keys = Object.keys(data), bad = 'الملف فيه قيم غير صالحة أو مشبوهة — اتحفظ للأمان وماتستوردش.';
-    for(var i = 0; i < keys.length; i++){
-      var k = keys[i], v = data[k], o;
-      if(k.charAt(0) === '_'){ if(k !== '_app' && k !== '_version' && k !== '_date') return 'الملف فيه بيانات غير متوقعة — اترفض لأمانك.'; continue; }
-      if(!isOwnKey(k)) continue;
-      if(typeof v !== 'string') return bad;
-      if(k === 'themeMode'){ if(['light','dark','noon','night','auto'].indexOf(v) === -1) return bad; }
-      else if(k.indexOf('qa_' + DATA.name + '_') === 0){
-        o = parse(v);
-        if(!isObj(o) || !safe(o) || !Object.keys(o).every(function(f){ return /^\d+$/.test(f) && num(o[f]) && o[f] >= 0 && Math.floor(o[f]) === o[f]; })) return bad;
-      }
-      else if(k.indexOf('quiz_progress_' + DATA.name) === 0){
-        o = parse(v);
-        if(!isObj(o) || !safe(o) || !Object.keys(o).every(function(f){
-          var r = o[f];
-          return isObj(r) && safe(r) && Object.keys(r).every(function(x){
-            if(x === 'date') return typeof r[x] === 'string' && r[x].length <= 100;
-            return (x === 'score' || x === 'correct' || x === 'wrong' || x === 'total') && num(r[x]);
-          });
-        })) return bad;
-      }
-      else if(k.indexOf('qmark_' + DATA.name + '_') === 0){
-        o = parse(v);
-        if(!isObj(o) || !safe(o) || !Object.keys(o).every(function(f){ return /^\d+$/.test(f) && (typeof o[f] === 'boolean' || num(o[f])); })) return bad;
-      }
-    }
-    return null;
-  }
-  // مفاتيح المادة دي بس (باقي مفاتيح المواد التانية في النسخة الشاملة بتتجاهل ومابتتكتبش)
-  function isOwnKey(k){
-    if(k.length > 400) return false;
-    return k === 'themeMode' || k.indexOf('qa_' + DATA.name + '_') === 0 || k.indexOf('quiz_progress_' + DATA.name) === 0 || k.indexOf('qmark_' + DATA.name + '_') === 0;
-  }
-
   window.importProgress = function(ev){
     var file = ev.target.files && ev.target.files[0];
     if(ev.target) ev.target.value = '';
     if(!file) return;
-    if(file.size > 5 * 1024 * 1024){ showToast('❌ الملف كبير جدًا — ده مش نسخة احتياطية عادية'); return; }
     if(!window.confirm('هيتم دمج النسخة مع تقدمك الحالي — متأكدة؟')) return;
     var reader = new FileReader();
     reader.onload = function(){
       try{
-        var data;
-        try{ data = JSON.parse(reader.result); }
-        catch(parseErr){ showToast('❌ الملف مش JSON صالح — اختاري نسخة احتياطية اتصدّرت من المنصة'); return; }
-        var verr = validateBackup(data);
-        if(verr){ showToast('❌ ' + verr); return; }
+        var data = JSON.parse(reader.result);
+        if(!data || typeof data !== 'object' || !data._app) throw new Error('bad');
         var count = 0;
         Object.keys(data).forEach(function(k){
           if(k.charAt(0) === '_') return;
-          if(!isOwnKey(k)) return;
           if(typeof data[k] === 'string'){
             try{ localStorage.setItem(k, data[k]); count++; }catch(e){}
           }
@@ -2799,7 +2700,7 @@ function STANDALONE_ENGINE(){
       var done = Object.keys(getSavedQuizFor(e.t)).length;
       var score = getScore(e.t);
       var tag;
-      if(score) tag = '<span class="er-tag green">🏆 '+esc(score.score)+'%</span>';
+      if(score) tag = '<span class="er-tag green">🏆 '+score.score+'%</span>';
       else if(done >= total) tag = '<span class="er-tag green">✅ مكتمل</span>';
       else if(done > 0) tag = '<span class="er-tag warn">⏳ قيد الحل</span>';
       else tag = '<span class="er-tag">جديد</span>';
@@ -3413,130 +3314,6 @@ function showPdfMergeDialog(callback){
 var PROGRESS_KEYS = ['last_open_state','themeMode','notifications_data','cg_sections_v1','seen_system_edits','seen_added_lectures'];
 var PROGRESS_PREFIXES = ['qa_','quiz_progress_','qmark_','pdfqalam:'];
 
-// ★ تحصين الاستيراد: whitelist للمفاتيح + فحص أنواع القيم (أي قيمة مستوردة تعتبر غير موثوقة)
-var BACKUP_MAX_BYTES = 5 * 1024 * 1024;
-var BACKUP_UNSAFE_KEYS = ['__proto__','constructor','prototype'];
-var BACKUP_COLOR_RE = /^#[0-9a-fA-F]{3,8}$|^rgba?\([0-9.,\s%]+\)$/;
-function _bkIsObj(v){ return !!v && typeof v === 'object' && !Array.isArray(v); }
-function _bkNum(v){ return typeof v === 'number' && isFinite(v); }
-function _bkStr(v, max){ return typeof v === 'string' && v.length <= (max || 2000); }
-function _bkParse(raw){ try{ return JSON.parse(raw); }catch(e){ return undefined; } }
-function _bkSafe(o){ return Object.keys(o).every(function(k){ return BACKUP_UNSAFE_KEYS.indexOf(k) === -1; }); }
-function _bkPrim(v){ return v === null || typeof v === 'boolean' || _bkNum(v) || _bkStr(v, 2000); }
-function _bkIsAllowedKey(k){
-  if(k.length > 400) return false;
-  if(PROGRESS_KEYS.indexOf(k) !== -1) return true;
-  for(var p = 0; p < PROGRESS_PREFIXES.length; p++){ if(k.indexOf(PROGRESS_PREFIXES[p]) === 0) return true; }
-  return false;
-}
-function _bkValidStroke(st){
-  if(!_bkIsObj(st) || !_bkSafe(st)) return false;
-  return Object.keys(st).every(function(f){
-    if(/color|fill|stroke/i.test(f) && typeof st[f] === 'string') return BACKUP_COLOR_RE.test(st[f]);
-    return true;
-  });
-}
-function _bkValidValue(k, raw){
-  var o;
-  if(k === 'themeMode') return ['light','dark','noon','night','auto'].indexOf(raw) !== -1;
-  if(k === 'notifications_data'){
-    o = _bkParse(raw);
-    if(!Array.isArray(o) || o.length > 50) return false;
-    return o.every(function(n){
-      return _bkIsObj(n) && _bkSafe(n) && _bkNum(n.id) && Object.keys(n).every(function(f){ return _bkPrim(n[f]); });
-    });
-  }
-  if(k === 'last_open_state'){
-    o = _bkParse(raw);
-    if(!_bkIsObj(o) || !_bkSafe(o)) return false;
-    return Object.keys(o).every(function(f){
-      var v = o[f];
-      if(f === 'subject' || f === 'lecture') return _bkNum(v);
-      if(f === 'qidx') return v === null || _bkNum(v);
-      if(f === 'prop') return v === null || _bkStr(v, 100);
-      if(f === 'view' || f === 'tab' || f === 'subTab') return _bkStr(v, 100);
-      return false;
-    });
-  }
-  if(k === 'cg_sections_v1'){
-    o = _bkParse(raw);
-    if(!_bkIsObj(o) || !_bkSafe(o)) return false;
-    return Object.keys(o).every(function(f){ return (f === 'pdf' || f === 'questions') && typeof o[f] === 'boolean'; });
-  }
-  if(k === 'seen_system_edits' || k === 'seen_added_lectures'){
-    o = _bkParse(raw);
-    return Array.isArray(o) && o.length <= 2000 && o.every(function(v){ return _bkNum(v) || _bkStr(v, 200); });
-  }
-  if(k.indexOf('qa_') === 0){
-    o = _bkParse(raw);
-    if(!_bkIsObj(o) || !_bkSafe(o)) return false;
-    return Object.keys(o).every(function(f){ return /^\d+$/.test(f) && _bkNum(o[f]) && o[f] >= 0 && Math.floor(o[f]) === o[f]; });
-  }
-  if(k.indexOf('quiz_progress_') === 0){
-    o = _bkParse(raw);
-    if(!_bkIsObj(o) || !_bkSafe(o)) return false;
-    return Object.keys(o).every(function(f){
-      var r = o[f];
-      if(!_bkIsObj(r) || !_bkSafe(r)) return false;
-      return Object.keys(r).every(function(x){
-        if(x === 'date') return _bkStr(r[x], 100);
-        return (x === 'score' || x === 'correct' || x === 'wrong' || x === 'total') && _bkNum(r[x]);
-      });
-    });
-  }
-  if(k.indexOf('qmark_') === 0){
-    o = _bkParse(raw);
-    if(!_bkIsObj(o) || !_bkSafe(o)) return false;
-    return Object.keys(o).every(function(f){ return /^\d+$/.test(f) && (typeof o[f] === 'boolean' || _bkNum(o[f])); });
-  }
-  if(k.indexOf('pdfqalam:annot:') === 0){
-    o = _bkParse(raw);
-    if(!_bkIsObj(o) || !_bkSafe(o) || !_bkIsObj(o.pages) || !_bkSafe(o.pages)) return false;
-    if(!Object.keys(o).every(function(f){ return f === 'pages' || f === 'name' || f === 'size' || f === 'savedAt'; })) return false;
-    if(o.name !== undefined && !_bkStr(o.name, 500)) return false;
-    if(o.size !== undefined && !_bkNum(o.size)) return false;
-    if(o.savedAt !== undefined && !_bkNum(o.savedAt)) return false;
-    return Object.keys(o.pages).every(function(p){
-      var arr = o.pages[p];
-      return /^\d+$/.test(p) && Array.isArray(arr) && arr.length <= 5000 && arr.every(_bkValidStroke);
-    });
-  }
-  if(k === 'pdfqalam:recent-files-list'){
-    o = _bkParse(raw);
-    if(!Array.isArray(o) || o.length > 10) return false;
-    return o.every(function(it){
-      return _bkIsObj(it) && _bkSafe(it) && _bkStr(it.id, 200) && _bkStr(it.name, 500) && _bkNum(it.size) && _bkNum(it.savedAt) &&
-        Object.keys(it).every(function(f){ return f === 'id' || f === 'name' || f === 'size' || f === 'savedAt'; });
-    });
-  }
-  if(k === 'pdfqalam:custom-colors'){
-    o = _bkParse(raw);
-    return Array.isArray(o) && o.length <= 8 && o.every(function(c){ return typeof c === 'string' && BACKUP_COLOR_RE.test(c); });
-  }
-  if(k === 'pdfqalam:lang') return raw === 'ar' || raw === 'en';
-  return false;
-}
-// بترجّع نص رسالة الخطأ (عربي) لو الملف مرفوض، أو null لو سليم
-function validateBackupData(data){
-  if(!_bkIsObj(data)) return 'الملف مش نسخة احتياطية صالحة (المحتوى مش كائن JSON).';
-  if(data._app !== 'study-platform-backup') return 'الملف مش نسخة احتياطية من المنصة دي.';
-  if(data._version !== undefined && !_bkNum(data._version)) return 'رقم إصدار النسخة غير صالح.';
-  if(data._date !== undefined && !_bkStr(data._date, 100)) return 'تاريخ النسخة غير صالح.';
-  var keys = Object.keys(data);
-  if(keys.length > 5000) return 'الملف فيه عناصر أكتر من المسموح.';
-  for(var i = 0; i < keys.length; i++){
-    var k = keys[i];
-    if(k.charAt(0) === '_'){
-      if(k !== '_app' && k !== '_version' && k !== '_date') return 'الملف فيه بيانات غير متوقعة — اترفض لأمانك.';
-      continue;
-    }
-    if(!_bkIsAllowedKey(k)) return 'الملف فيه بيانات غير متوقعة — اترفض لأمانك.';
-    if(typeof data[k] !== 'string') return 'الملف فيه قيم بصيغة غير صالحة — اتحفظ للأمان وماتستوردش.';
-    if(!_bkValidValue(k, data[k])) return 'الملف فيه قيم غير صالحة أو مشبوهة — اتحفظ للأمان وماتستوردش.';
-  }
-  return null;
-}
-
 function mergeLocalStorageValue(key, backupRaw){
   if(key.indexOf('pdfqalam:annot:') === 0){
     var strategy = window.__pdfMergeStrategy || 'current';
@@ -3613,16 +3390,12 @@ function importProgress(ev){
   var file = ev.target.files && ev.target.files[0];
   if(ev.target) ev.target.value = '';
   if(!file) return;
-  if(file.size > BACKUP_MAX_BYTES){ showToast('❌ الملف كبير جدًا — ده مش نسخة احتياطية عادية'); return; }
 
   var reader = new FileReader();
   reader.onload = function(){
     try{
-      var data;
-      try{ data = JSON.parse(reader.result); }
-      catch(parseErr){ showToast('❌ الملف مش JSON صالح — اختاري نسخة احتياطية اتصدّرت من المنصة'); return; }
-      var verr = validateBackupData(data);
-      if(verr){ showToast('❌ ' + verr); return; }
+      var data = JSON.parse(reader.result);
+      if(!data || typeof data !== 'object' || !data._app) throw new Error('bad');
 
       var hasConflict = false;
       Object.keys(data).forEach(function(k){
