@@ -18,6 +18,9 @@ h1{font-size:22px;margin:0}h2{font-size:17px;margin:22px 0 8px}
 a,button,select,summary{color:var(--p);font:inherit}
 .btn{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:8px 14px;min-height:44px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
 .btn:disabled{opacity:.5}
+.fld{display:flex;flex-direction:column;background:var(--s);border:1px solid var(--b);border-radius:14px;padding:6px 14px;min-width:140px}
+.fld span{font-size:12px;color:var(--m)}
+.fld select{border:0;background:transparent;font-weight:700;padding:0;min-height:32px;width:100%}
 :focus-visible{outline:2px solid var(--p);outline-offset:2px}
 select{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:8px;min-height:44px;color:var(--t)}
 .card{background:var(--s);border:1px solid var(--b);border-radius:14px;padding:12px 16px;margin-bottom:8px;border-inline-start:4px solid var(--b)}
@@ -42,7 +45,9 @@ details{margin-bottom:6px}summary{cursor:pointer;min-height:44px;display:flex;al
 <header>
   <div><h1>لوحتي</h1><div class="sub" id="today"></div></div>
   <div class="row">
-    <select id="grp" aria-label="المجموعة"><option value="">كل المجموعات</option></select>
+    <label class="fld"><span>القسم</span><select id="prog"><option value="">اختر القسم</option></select></label>
+    <label class="fld"><span>السكشن</span><select id="sec"><option value="">اختر السكشن</option></select></label>
+    <label class="fld"><span>اليوم</span><select id="dsel"><option value="">النهاردة</option><option value="Saturday">السبت</option><option value="Sunday">الأحد</option><option value="Monday">الاثنين</option><option value="Tuesday">الثلاثاء</option><option value="Wednesday">الأربعاء</option><option value="Thursday">الخميس</option></select></label>
     <button class="btn" id="rf" type="button">تحديث</button>
     <a class="btn" href="index.html">المحاضرات والأسئلة</a>
   </div>
@@ -50,7 +55,7 @@ details{margin-bottom:6px}summary{cursor:pointer;min-height:44px;display:flex;al
 <div id="banner" role="status"></div>
 <div id="alerts"></div>
 <h2>المحاضرة الجاية</h2><div id="next"></div>
-<h2>جدول النهاردة</h2><div id="day"></div>
+<h2 id="dayh">جدول النهاردة</h2><div id="day"></div>
 <h2>المواعيد القادمة</h2><div id="dl"></div>
 <h2>جدول الأسبوع</h2><div id="week"></div>
 <p class="sub" id="stamp"></p>
@@ -74,16 +79,16 @@ function cairo(){var p={};new Intl.DateTimeFormat('en-GB',{timeZone:'Africa/Cair
  return{day:p.weekday,min:+p.hour*60+ +p.minute,date:p.year+'-'+p.month+'-'+p.day,at:new Date(+p.year,+p.month-1,+p.day,+p.hour,+p.minute)}}
 function tm(s){var a=s.split(':');return+a[0]*60+ +a[1]}
 function dur(min){if(min<60)return min+' دقيقة';if(min<1440)return Math.floor(min/60)+' ساعة'+(min%60?' و'+min%60+' دقيقة':'');return Math.floor(min/1440)+' يوم'}
-function need(){return!$('grp').value&&$('grp').options.length>1}
-function sess(day,n){var g=$('grp').value;if(need())return[];
- return((D&&D.schedule)||[]).filter(function(s){return s.day===day&&(!s.effective_from||s.effective_from<=n.date)&&(!s.effective_to||s.effective_to>=n.date)&&(!s.group||/^all$/i.test(s.group)||(g&&(s.group===g||g.indexOf(s.group+' ')===0)))}).sort(function(a,b){return tm(a.start)-tm(b.start)})}
+function need(){return!$('prog').value||!$('sec').value}
+function sess(day,n){if(need())return[];var P=$('prog').value,C=$('sec').value;
+ return((D&&D.schedule)||[]).filter(function(s){return s.day===day&&(!s.effective_from||s.effective_from<=n.date)&&(!s.effective_to||s.effective_to>=n.date)&&(!s.program||s.program===P)&&(!s.section||s.section.split(/[\s,]+/).indexOf(C)>-1)}).sort(function(a,b){return tm(a.start)-tm(b.start)})}
 function card(s,state){var c=h('div','card '+(state||'')+' '+(s.status||'')),r=h('div','row');
  r.appendChild(h('span','tm',s.start+' – '+s.end));r.appendChild(h('strong','nm',s.course_name_ar));
  if(TYPE[s.type])r.appendChild(h('span','bd',TYPE[s.type]));
  if(ST[s.status])r.appendChild(h('span','bd '+s.status,ST[s.status]));
  if(state==='now')r.appendChild(h('span','bd','دلوقتي'));
  c.appendChild(r);
- var m=[s.instructor,s.location,s.group&&!/^all$/i.test(s.group)?'مجموعة '+s.group:'',s.notes].filter(Boolean).join(' • ');
+ var m=[s.instructor,s.location,s.notes].filter(Boolean).join(' • ');
  if(m)c.appendChild(h('div','meta',m));return c}
 function empty(el,t){el.appendChild(h('p','meta',t))}
 function draw(){
@@ -96,14 +101,15 @@ function draw(){
   if(a.link&&/^https:\/\//i.test(a.link)){var l=h('a',null,'فتح الرابط');l.href=a.link;l.target='_blank';l.rel='noopener noreferrer';c.appendChild(l)}
   $('alerts').appendChild(c)});
  // اليوم + الجاية
- var today=sess(n.day,n),nx=null,idx=DAYS.indexOf(n.day);
- today.forEach(function(s){var st=s.status==='cancelled'?'cancelled':tm(s.end)<=n.min?'done':tm(s.start)<=n.min?'now':'';
-  if(!nx&&!st&&tm(s.start)>n.min)nx={s:s,i:0};$('day').appendChild(card(s,st))});
- if(!today.length)empty($('day'),need()?'اختر مجموعتك من القائمة فوق.':'مفيش محاضرات النهاردة.');
+ var idx=DAYS.indexOf(n.day),nx=null,vd=$('dsel').value||n.day,list=sess(vd,n);
+ $('dayh').textContent=vd===n.day?'جدول النهاردة':'جدول يوم '+AR[vd];
+ sess(n.day,n).forEach(function(s){if(!nx&&s.status!=='cancelled'&&tm(s.start)>n.min)nx={s:s,i:0}});
+ list.forEach(function(s){var st=s.status==='cancelled'?'cancelled':vd!==n.day?'':tm(s.end)<=n.min?'done':tm(s.start)<=n.min?'now':'';$('day').appendChild(card(s,st))});
+ if(!list.length)empty($('day'),need()?'اختر القسم والسكشن من فوق.':vd===n.day?'مفيش محاضرات النهاردة.':'مفيش محاضرات في اليوم ده.');
  for(var i=1;i<8&&!nx;i++){var dn=DAYS[(idx+i)%7],q=sess(dn,n).filter(function(s){return s.status!=='cancelled'});if(q.length)nx={s:q[0],i:i,d:dn}}
  if(nx){var c=card(nx.s,'next');c.classList.add('hero');
   c.insertBefore(h('div','big',nx.i?'يوم '+AR[nx.d]:'بعد '+dur(tm(nx.s.start)-n.min)),c.firstChild);$('next').appendChild(c)}
- else empty($('next'),need()?'اختر مجموعتك من القائمة فوق عشان يظهر جدولك.':'مفيش محاضرات جاية في الجدول.');
+ else empty($('next'),need()?'اختر القسم والسكشن من فوق عشان يظهر جدولك.':'مفيش محاضرات جاية في الجدول.');
  // المواعيد
  var dl=(D.deadlines||[]).map(function(d){var p=d.due_at.split(/[- :]/);d._t=new Date(+p[0],+p[1]-1,+p[2],+(p[3]||23),+(p[4]||59));return d})
   .filter(function(d){return d._t>=n.at}).sort(function(a,b){return a._t-b._t}).slice(0,5);
@@ -114,14 +120,18 @@ function draw(){
  if(!dl.length)empty($('dl'),'مفيش مواعيد قادمة.');
  // الأسبوع
  DAYS.forEach(function(dn){var q=sess(dn,n);if(need()||!q.length&&dn==='Friday')return;
-  var d=document.createElement('details');d.open=dn===n.day;var s=h('summary',null,AR[dn]+' ('+q.length+')');d.appendChild(s);
+  var d=document.createElement('details');d.open=dn===vd;var s=h('summary',null,AR[dn]+' ('+q.length+')');d.appendChild(s);
   q.forEach(function(x){d.appendChild(card(x,x.status==='cancelled'?'cancelled':''))});
   if(!q.length)d.appendChild(h('p','meta','مفيش محاضرات.'));$('week').appendChild(d)});
  $('stamp').textContent=last?'آخر تحديث: '+new Date(last).toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'}):''}
-function groups(){var sel=$('grp'),cur=ls(GK)||'',set={};
- ((D&&D.schedule)||[]).forEach(function(s){if(s.group&&!/^all$/i.test(s.group))set[s.group]=1});
- while(sel.options.length>1)sel.remove(1);
- Object.keys(set).filter(function(g){return!Object.keys(set).some(function(o){return o.indexOf(g+' ')===0})}).sort().forEach(function(g){sel.appendChild(new Option('مجموعة '+g,g))});sel.value=set[cur]?cur:''}
+function groups(){var P=$('prog'),ps={},cur=P.value||ls('sd.prog')||'';
+ ((D&&D.schedule)||[]).forEach(function(s){if(s.program)ps[s.program]=1});
+ while(P.options.length>1)P.remove(1);
+ Object.keys(ps).sort().forEach(function(p){P.appendChild(new Option(p,p))});P.value=ps[cur]?cur:'';secs($('sec').value||ls('sd.sec')||'')}
+function secs(want){var P=$('prog').value,S=$('sec'),set={};
+ ((D&&D.schedule)||[]).forEach(function(s){if(s.program===P&&s.section)s.section.split(/[\s,]+/).forEach(function(x){if(/^\d+$/.test(x))set[x]=1})});
+ while(S.options.length>1)S.remove(1);
+ Object.keys(set).sort(function(a,b){return a-b}).forEach(function(x){S.appendChild(new Option('سكشن '+x,x))});S.value=set[want]?want:''}
 function get(t){return fetch('/api/sheet?tab='+t,{headers:{Accept:'application/json'}}).then(function(r){return r.json()}).then(function(j){if(!j.ok)throw new Error(j.code);return j.items}).catch(function(e){return t==='schedule'?Promise.reject(e):null})}
 function banner(t){var b=$('banner');b.textContent=t;b.style.display=t?'block':'none'}
 function load(){$('rf').disabled=true;
@@ -132,7 +142,9 @@ function load(){$('rf').disabled=true;
  .then(function(){$('rf').disabled=false})}
 theme();matchMedia('(prefers-color-scheme:dark)').addEventListener('change',theme);
 var c=ls(KEY);if(c&&c.d){D=c.d;last=c.t}
-$('grp').addEventListener('change',function(){ls(GK,this.value);draw()});
+$('prog').addEventListener('change',function(){ls('sd.prog',this.value);ls('sd.sec','');secs('');draw()});
+$('sec').addEventListener('change',function(){ls('sd.sec',this.value);draw()});
+$('dsel').addEventListener('change',draw);
 $('rf').addEventListener('click',load);
 document.addEventListener('visibilitychange',function(){if(!document.hidden){theme();draw();if(Date.now()-last>300000)load()}});
 setInterval(function(){if(!document.hidden)draw()},60000);

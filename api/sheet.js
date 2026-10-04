@@ -46,6 +46,7 @@ function build(tab, csv) {
     for (const k of Object.keys(ENUM)) if (o[k] && !ENUM[k].includes(o[k])) return bad('bad ' + k);
     if (tab === 'schedule') {
       if (!TIME.test(o.start) || !TIME.test(o.end) || o.end <= o.start) return bad('bad time');
+      if (o.section && !/^\d+(\s+\d+)*$/.test(o.section)) return bad('bad section'); // أرقام مفصولة بمسافة
       if (['effective_from', 'effective_to'].some(k => o[k] && !DATE.test(o[k]))) return bad('bad date');
     }
     if (tab === 'deadlines' && !/^\d{4}-\d{2}-\d{2}( \d{2}:\d{2})?$/.test(o.due_at)) return bad('bad due_at');
