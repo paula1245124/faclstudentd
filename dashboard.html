@@ -74,8 +74,9 @@ function cairo(){var p={};new Intl.DateTimeFormat('en-GB',{timeZone:'Africa/Cair
  return{day:p.weekday,min:+p.hour*60+ +p.minute,date:p.year+'-'+p.month+'-'+p.day,at:new Date(+p.year,+p.month-1,+p.day,+p.hour,+p.minute)}}
 function tm(s){var a=s.split(':');return+a[0]*60+ +a[1]}
 function dur(min){if(min<60)return min+' دقيقة';if(min<1440)return Math.floor(min/60)+' ساعة'+(min%60?' و'+min%60+' دقيقة':'');return Math.floor(min/1440)+' يوم'}
-function sess(day,n){var g=$('grp').value;
- return((D&&D.schedule)||[]).filter(function(s){return s.day===day&&(!s.effective_from||s.effective_from<=n.date)&&(!s.effective_to||s.effective_to>=n.date)&&(!g||!s.group||/^all$/i.test(s.group)||s.group===g)}).sort(function(a,b){return tm(a.start)-tm(b.start)})}
+function need(){return!$('grp').value&&$('grp').options.length>1}
+function sess(day,n){var g=$('grp').value;if(need())return[];
+ return((D&&D.schedule)||[]).filter(function(s){return s.day===day&&(!s.effective_from||s.effective_from<=n.date)&&(!s.effective_to||s.effective_to>=n.date)&&(!s.group||/^all$/i.test(s.group)||(g&&(s.group===g||g.indexOf(s.group+' ')===0)))}).sort(function(a,b){return tm(a.start)-tm(b.start)})}
 function card(s,state){var c=h('div','card '+(state||'')+' '+(s.status||'')),r=h('div','row');
  r.appendChild(h('span','tm',s.start+' – '+s.end));r.appendChild(h('strong','nm',s.course_name_ar));
  if(TYPE[s.type])r.appendChild(h('span','bd',TYPE[s.type]));
@@ -98,11 +99,11 @@ function draw(){
  var today=sess(n.day,n),nx=null,idx=DAYS.indexOf(n.day);
  today.forEach(function(s){var st=s.status==='cancelled'?'cancelled':tm(s.end)<=n.min?'done':tm(s.start)<=n.min?'now':'';
   if(!nx&&!st&&tm(s.start)>n.min)nx={s:s,i:0};$('day').appendChild(card(s,st))});
- if(!today.length)empty($('day'),'مفيش محاضرات النهاردة.');
+ if(!today.length)empty($('day'),need()?'اختر مجموعتك من القائمة فوق.':'مفيش محاضرات النهاردة.');
  for(var i=1;i<8&&!nx;i++){var dn=DAYS[(idx+i)%7],q=sess(dn,n).filter(function(s){return s.status!=='cancelled'});if(q.length)nx={s:q[0],i:i,d:dn}}
  if(nx){var c=card(nx.s,'next');c.classList.add('hero');
   c.insertBefore(h('div','big',nx.i?'يوم '+AR[nx.d]:'بعد '+dur(tm(nx.s.start)-n.min)),c.firstChild);$('next').appendChild(c)}
- else empty($('next'),'مفيش محاضرات جاية في الجدول.');
+ else empty($('next'),need()?'اختر مجموعتك من القائمة فوق عشان يظهر جدولك.':'مفيش محاضرات جاية في الجدول.');
  // المواعيد
  var dl=(D.deadlines||[]).map(function(d){var p=d.due_at.split(/[- :]/);d._t=new Date(+p[0],+p[1]-1,+p[2],+(p[3]||23),+(p[4]||59));return d})
   .filter(function(d){return d._t>=n.at}).sort(function(a,b){return a._t-b._t}).slice(0,5);
@@ -112,7 +113,7 @@ function draw(){
   var mt=[d.course_code,d.due_at,d.location,d.notes].filter(Boolean).join(' • ');if(mt)c.appendChild(h('div','meta',mt));$('dl').appendChild(c)});
  if(!dl.length)empty($('dl'),'مفيش مواعيد قادمة.');
  // الأسبوع
- DAYS.forEach(function(dn){var q=sess(dn,n);if(!q.length&&dn==='Friday')return;
+ DAYS.forEach(function(dn){var q=sess(dn,n);if(need()||!q.length&&dn==='Friday')return;
   var d=document.createElement('details');d.open=dn===n.day;var s=h('summary',null,AR[dn]+' ('+q.length+')');d.appendChild(s);
   q.forEach(function(x){d.appendChild(card(x,x.status==='cancelled'?'cancelled':''))});
   if(!q.length)d.appendChild(h('p','meta','مفيش محاضرات.'));$('week').appendChild(d)});
@@ -120,7 +121,7 @@ function draw(){
 function groups(){var sel=$('grp'),cur=ls(GK)||'',set={};
  ((D&&D.schedule)||[]).forEach(function(s){if(s.group&&!/^all$/i.test(s.group))set[s.group]=1});
  while(sel.options.length>1)sel.remove(1);
- Object.keys(set).sort().forEach(function(g){sel.appendChild(new Option('مجموعة '+g,g))});sel.value=set[cur]?cur:''}
+ Object.keys(set).filter(function(g){return!Object.keys(set).some(function(o){return o.indexOf(g+' ')===0})}).sort().forEach(function(g){sel.appendChild(new Option('مجموعة '+g,g))});sel.value=set[cur]?cur:''}
 function get(t){return fetch('/api/sheet?tab='+t,{headers:{Accept:'application/json'}}).then(function(r){return r.json()}).then(function(j){if(!j.ok)throw new Error(j.code);return j.items}).catch(function(e){return t==='schedule'?Promise.reject(e):null})}
 function banner(t){var b=$('banner');b.textContent=t;b.style.display=t?'block':'none'}
 function load(){$('rf').disabled=true;
