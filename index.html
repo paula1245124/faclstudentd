@@ -956,9 +956,25 @@ function scrollToTop(){ window.scrollTo({top:0, behavior:'smooth'}); }
 // 4) الإشعارات
 // ============================================================
 var notifications = [], notifSeq = 0;
-var answerEditsLog = [{ id: "edit-001", context: "المحاضرة الأولى", questionNum: 1, questionText: "", oldAnswer: "الإجابة القديمة", newAnswer: "الإجابة الصحيحة الجديدة" }];
-var lecturesAddedLog = [{ id: "lec-001", subject: "Computer Graphics", lectureTitle: "المحاضرة الاول", lectureDesc: "مقدمة في الرسم بالحواسيب" }];
+
+/* ★★★ إعدادات الجدول ★★★
+   حطي هنا لينك ملف الإكسل (Google Sheets) — هيظهر في:
+   1) إشعارات تعديل الجدول
+   2) زر "الجدول كامل" جوه لوحتي (لو ركبتي السنيبت الاختياري) */
+var SCHEDULE_EXCEL_URL = "https://docs.google.com/spreadsheets/d/14uqRwlWcMWv2bbE6EDokCmkIBmk6NvAX/edit?gid=1850487248#gid=1850487248";  // ← بدّلي اللينك ده
+
+var answerEditsLog = [
+  { id: "edit-001", context: "المحاضرة الأولى", questionNum: 1, questionText: "", oldAnswer: "الإجابة القديمة", newAnswer: "الإجابة الصحيحة الجديدة" },
+];
+
+/* ⚠️ مهم: كل المحاضرات في ARRAY واحد — التكرار السابق كان بيمسح اللي قبله */
 var lecturesAddedLog = [
+  {
+    id: "lec-001",
+    subject: "Computer Graphics",
+    lectureTitle: "المحاضرة الاول",
+    lectureDesc: "مقدمة في الرسم بالحواسيب",
+  },
   {
     id: "lec-002",
     subject: "Computer Networks",
@@ -966,8 +982,6 @@ var lecturesAddedLog = [
     lectureDesc:
       "شرح Circuit Switching vs Packet Switching، Multiplexing، Network of Networks (Access ISPs, Regional ISPs, Tier-1 ISPs, PoPs, Multi-homing, Peering, IXPs)، Content Provider Networks (Google)، أنواع التأخير الأربعة، Traffic Intensity، Packet Loss، Throughput، و End-to-End Delay.",
   },
-];
-var lecturesAddedLog = [
   {
     id: "lec-003",
     subject: "Operating Systems",
@@ -975,8 +989,6 @@ var lecturesAddedLog = [
     lectureDesc:
       "مقدمة في العمليات: تعريفها، جدولة المهام والمعالج، تعدد البرمجة والمشاركة الزمنية، النمط المزدوج (User/Kernel Mode)، المقاطعات والـ Traps، واستدعاءات النظام، وإدارة العمليات.",
   },
-];
-var lecturesAddedLog = [
   {
     id: "lec-004",
     subject: "Software Engineering",
@@ -984,7 +996,19 @@ var lecturesAddedLog = [
     lectureDesc:
       "شرح مفهوم عمليات البرمجيات: نماذج SDLC الأساسية، الأنشطة الأربعة (التوصيف، التطوير، التحقق، والتطور)، التعامل مع التغيير، ونموذج CMMI.",
   },
-]
+];
+
+/* ★★★ سجل تعديلات الجدول ★★★
+   كل ماتعدّلي الجدول في الشيت → ضيفي عنصر جديد هنا بـ id مختلف
+   وهيتعمل إشعار لكل طالبة مرة واحدة بس (زي باقي السجلات) */
+var scheduleUpdatesLog = [
+  {
+    id: "sched-001",
+    title: "🗓️ تم تعديل الجدول",
+    details: "اتحدّث جدول المحاضرات الأسبوعي — شوفي التغييرات الجديدة.",
+    link: ""   /* اختياري: لو فاضي هيستخدم SCHEDULE_EXCEL_URL تلقائيًا */
+  },
+];
 
 function loadNotifications(){
   try{ var n = localStorage.getItem('notifications_data'); if(n) notifications = JSON.parse(n); }catch(e){ notifications = []; }
@@ -1036,6 +1060,17 @@ function renderNotifDropdown(){
       html += '<span class="notif-detail">📁 المادة: ' + esc(n.subject) + '</span>';
       html += '<span class="notif-detail">📚 المحاضرة: ' + esc(n.lectureTitle) + '</span>';
       if(n.lectureDesc) html += '<span class="notif-detail">📝 ' + esc(truncateText(n.lectureDesc, 60)) + '</span>';
+    }else if(n.type === 'schedule_update'){
+      /* ★ إشعار تعديل الجدول + لينك الإكسل */
+      html += '<strong>' + esc(n.title || '🗓️ تم تعديل الجدول') + '</strong>';
+      if(n.details) html += '<span class="notif-detail">📝 ' + esc(truncateText(n.details, 90)) + '</span>';
+      var lk = n.link || (typeof SCHEDULE_EXCEL_URL !== 'undefined' ? SCHEDULE_EXCEL_URL : '');
+      if(lk){
+        html += '<span class="notif-detail" style="margin-top:4px;display:flex;gap:12px;flex-wrap:wrap;">';
+        html += '<a href="' + esc(lk) + '" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:bold;text-decoration:underline;">📊 الجدول كامل (Excel)</a>';
+        html += '<a href="javascript:void(0)" onclick="window.openDashboard&&window.openDashboard()" style="color:var(--success);font-weight:bold;text-decoration:underline;">🖼️ لوحتي</a>';
+        html += '</span>';
+      }
     }else{
       html += '<strong>' + esc(n.title || 'إشعار') + '</strong>';
       if(n.context) html += '<span class="notif-detail">📁 ' + esc(n.context) + '</span>';
@@ -1082,12 +1117,30 @@ function syncLecturesAddedLog(){
   });
   if(changed){ try{ localStorage.setItem('seen_added_lectures', JSON.stringify(seenIds)); }catch(e){} }
 }
+/* ★ مزامنة إشعارات تعديل الجدول */
+function syncScheduleUpdatesLog(){
+  var seenIds = [];
+  try{ seenIds = JSON.parse(localStorage.getItem('seen_schedule_updates') || '[]'); }catch(e){ seenIds = []; }
+  if(!Array.isArray(seenIds)) seenIds = [];
+  var changed = false;
+  scheduleUpdatesLog.forEach(function(entry){
+    if(seenIds.indexOf(entry.id) === -1){
+      addNotification({
+        type: 'schedule_update',
+        title: entry.title || '🗓️ تم تعديل الجدول',
+        details: entry.details || '',
+        link: entry.link || (typeof SCHEDULE_EXCEL_URL !== 'undefined' ? SCHEDULE_EXCEL_URL : '')
+      });
+      seenIds.push(entry.id); changed = true;
+    }
+  });
+  if(changed){ try{ localStorage.setItem('seen_schedule_updates', JSON.stringify(seenIds)); }catch(e){} }
+}
 document.addEventListener('click', function(e){
   var wrap = document.getElementById('notif-bell-wrap');
   var dd = document.getElementById('notif-dropdown');
   if(wrap && dd && !wrap.contains(e.target)) dd.classList.remove('show');
 });
-
 // ============================================================
 // 5) أدوات مساعدة
 // ============================================================
@@ -3670,6 +3723,7 @@ function __initApp(){
   loadNotifications();
   syncAnswerEditsLog();
   syncLecturesAddedLog();
+  syncScheduleUpdatesLog();   // ★ الجديد
   updateNotifBadge();
   loadSectionStates();
 
@@ -4152,6 +4206,31 @@ document.addEventListener('visibilitychange', function(){
   if(!D || Date.now()-last>300000) load(false);
 });
 
+})();
+</script>
+<script>
+/* ★ زر "الجدول كامل" في لوحتي — بيستخدم SCHEDULE_EXCEL_URL */
+(function(){
+  function addExcelBtn(){
+    var f = document.querySelector('#dashboard-view .dash-filters');
+    if(!f || document.getElementById('dash-excel-btn')) return true;
+    if(typeof SCHEDULE_EXCEL_URL !== 'string' || !/^https:\/\//.test(SCHEDULE_EXCEL_URL)) return false;
+    var a = document.createElement('a');
+    a.id = 'dash-excel-btn';
+    a.className = 'dash-refresh-btn';
+    a.href = SCHEDULE_EXCEL_URL;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.style.background = 'var(--success)';
+    a.style.textDecoration = 'none';
+    a.textContent = '📊 الجدول كامل';
+    f.appendChild(a);
+    return true;
+  }
+  var tries = 0;
+  var t = setInterval(function(){
+    if(addExcelBtn() || ++tries > 60) clearInterval(t);   /* ي retry لمدة 30 ثانية لحد ما اللوحة تتحقن */
+  }, 500);
 })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
