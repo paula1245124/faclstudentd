@@ -4030,6 +4030,31 @@ if(document.readyState === 'loading'){
 }
 
 </script>
+<script>
+/* ★ زر "الجدول كامل" في لوحتي — بيستخدم SCHEDULE_EXCEL_URL */
+(function(){
+  function addExcelBtn(){
+    var f = document.querySelector('#dashboard-view .dash-filters');
+    if(!f || document.getElementById('dash-excel-btn')) return true;
+    if(typeof SCHEDULE_EXCEL_URL !== 'string' || !/^https:\/\//.test(SCHEDULE_EXCEL_URL)) return false;
+    var a = document.createElement('a');
+    a.id = 'dash-excel-btn';
+    a.className = 'dash-refresh-btn';
+    a.href = SCHEDULE_EXCEL_URL;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.style.background = 'var(--success)';
+    a.style.textDecoration = 'none';
+    a.textContent = '📊 الجدول كامل';
+    f.appendChild(a);
+    return true;
+  }
+  var tries = 0;
+  var t = setInterval(function(){
+    if(addExcelBtn() || ++tries > 60) clearInterval(t);   /* ي retry لمدة 30 ثانية لحد ما اللوحة تتحقن */
+  }, 500);
+})();
+</script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
