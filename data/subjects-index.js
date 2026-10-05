@@ -81,7 +81,7 @@ var SUBJECTS_INDEX = [
     icon: "🧪",
     slug: "sample",
     file: "data/sample.js",
-    active: true,
+    active: false,
   },
 ];
 
