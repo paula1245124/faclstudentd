@@ -7,6 +7,7 @@
       "instructorId": "sample-1",
       "instructorName": "م/ معيد تجريبي",
       "groupName": "مجموعة 1",
+      "notes": "ملاحظة تجريبية من المعيد.",
       "materials": {
         "file": "https://example.com/section.pdf",
         "exercises": "https://example.com/exercises.pdf",
