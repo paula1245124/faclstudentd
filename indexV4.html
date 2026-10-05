@@ -229,7 +229,8 @@ iframe{width:100%;height:600px;border:none;display:block}
 /* ============================================================
    5) عناصر ثابتة + Toast + العدّاد
    ============================================================ */
-.scroll-to-top{position:fixed;bottom:20px;left:20px;width:46px;height:46px;background:var(--scroll-btn-bg);color:#fff;border:none;border-radius:50%;font-size:22px;cursor:pointer;z-index:999;box-shadow:0 4px 15px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);pointer-events:none;transition:all .3s}
+/* ★ التعديل: زر العودة للأعلى فوق الفوتر */
+.scroll-to-top{position:fixed;bottom:80px;left:20px;width:46px;height:46px;background:var(--scroll-btn-bg);color:#fff;border:none;border-radius:50%;font-size:22px;cursor:pointer;z-index:1050;box-shadow:0 4px 15px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);pointer-events:none;transition:all .3s}
 .scroll-to-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
 .scroll-to-top:hover{filter:brightness(1.2);transform:scale(1.1) translateY(-4px)}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--bg-header);color:#fff;border:1px solid var(--border);padding:12px 22px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:3000;box-shadow:0 6px 20px var(--shadow)}
@@ -758,6 +759,32 @@ body.footer-hidden{padding-bottom:0}
   .fb-modal-dialog{max-height:95vh;border-radius:16px 16px 0 0;padding:18px 14px}
   .fb-modal-title{font-size:17px}
 }
+
+/* ★ التعديل 5: أكورديون جدولي الشخصي */
+.ins-day-acc{background:var(--bg-card);border:2px solid var(--border);border-radius:12px;margin-bottom:12px;overflow:hidden;transition:border-color .3s,box-shadow .3s}
+.ins-day-acc.open{border-color:var(--accent);box-shadow:0 4px 14px var(--show-score-shadow)}
+.ins-day-head{display:flex;align-items:center;gap:10px;padding:14px 16px;cursor:pointer;background:linear-gradient(135deg,var(--accent),var(--score-bg-2));color:#fff;user-select:none;transition:filter .25s}
+.ins-day-head:hover{filter:brightness(1.08)}
+.ins-day-title-tt{flex:1;font-weight:bold;font-size:16px;line-height:1.4}
+.ins-day-badge{background:rgba(255,255,255,.22);padding:3px 12px;border-radius:20px;font-size:12px;font-weight:bold;white-space:nowrap}
+.ins-busy-badge{background:#ff9500;color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:bold;white-space:nowrap}
+.ins-arrow{width:28px;height:28px;border:2px solid rgba(255,255,255,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;transition:transform .3s,background .3s;color:#fff;flex-shrink:0;line-height:1}
+.ins-day-acc.open .ins-day-head .ins-arrow{transform:rotate(90deg);background:rgba(255,255,255,.25)}
+.ins-day-body{display:none;padding:10px;background:var(--bg-quiz-card)}
+.ins-day-acc.open .ins-day-body{display:block;animation:ldOpen .3s ease}
+
+.ins-slot-acc{background:var(--bg-card);border:2px solid var(--border);border-inline-start:5px solid var(--accent);border-radius:10px;margin-bottom:8px;overflow:hidden;transition:border-color .25s}
+.ins-slot-acc:last-child{margin-bottom:0}
+.ins-slot-acc.open{border-inline-start-color:var(--success)}
+.ins-slot-head{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;background:var(--bg-card-hover);user-select:none;transition:filter .2s}
+.ins-slot-head:hover{filter:brightness(1.05)}
+.ins-slot-time{background:var(--accent);color:#fff;padding:4px 12px;border-radius:16px;font-weight:bold;font-size:13px;direction:ltr;font-variant-numeric:tabular-nums;flex-shrink:0;white-space:nowrap}
+.ins-slot-acc.open .ins-slot-time{background:var(--success)}
+.ins-slot-count{background:var(--bg-quiz-card);border:1px solid var(--border);color:var(--text-secondary);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:bold;white-space:nowrap}
+.ins-slot-acc .ins-arrow{border-color:var(--accent);color:var(--accent);margin-inline-start:auto}
+.ins-slot-acc.open .ins-slot-head .ins-arrow{transform:rotate(90deg);background:var(--accent);color:#fff}
+.ins-slot-body{display:none;padding:10px;background:var(--bg-quiz-card)}
+.ins-slot-acc.open .ins-slot-body{display:block;animation:ldOpen .25s ease}
 </style>
 </head>
 <body>
@@ -936,16 +963,15 @@ body.footer-hidden{padding-bottom:0}
 <!-- ★ التعديل 5: جدولي الشخصي (نفس شاشة دليل الدكاترة) -->
 <div id="instructors-view" class="content-section">
     <button class="back-btn" onclick="goBackFromInstructors()">← رجوع للوحة</button>
-    <h2 id="instructors-title" style="margin:0 0 6px;">📌 جدولي الشخصي</h2>
-    <p id="instructors-subtitle" style="color:var(--text-hint);margin:0 0 16px;font-size:13px;">
-        اختر الدكتور/المعيد أو الفلتر المناسب، وضيف أي موعد لجدولك الشخصي. الدكتور بيدرّس أكثر من معاد؟ هيظهر في <b>كل</b> مواعيده.
+    <h2 style="margin:0 0 6px;">📌 جدولي الشخصي</h2>
+    <p style="color:var(--text-hint);margin:0 0 16px;font-size:13px;">
+        اختر الدكتور/المعيد أو الفلتر المناسب، وضيف أي موعد لجدولك الشخصي.
     </p>
     <div class="ins-filters">
         <label class="fld"><span>القسم</span><select id="ins-prog"><option value="">كل الأقسام</option></select></label>
         <label class="fld"><span>اليوم</span><select id="ins-day"><option value="">كل الأيام</option></select></label>
-        <label class="fld"><span>الساعة</span><select id="ins-hour"><option value="">كل الساعات</option></select></label>
         <label class="fld"><span>النوع</span><select id="ins-type"><option value="">الكل</option></select></label>
-        <label class="fld" style="max-width:240px;"><span>بحث بالاسم / المادة / المكان</span><input type="text" id="ins-search" placeholder="مثال: احمد، شبكات، C305" dir="auto"></label>
+        <label class="fld" style="max-width:260px;"><span>بحث بالاسم / المادة / المكان</span><input type="text" id="ins-search" placeholder="مثال: احمد، شبكات، C305" dir="auto"></label>
         <button class="d-btn" onclick="insResetFilters()">🔄 تصفير</button>
     </div>
     <div class="ins-quick-bar">
@@ -957,6 +983,7 @@ body.footer-hidden{padding-bottom:0}
     </div>
     <div id="ins-list"></div>
 </div>
+
 
     </div>
 </div>
@@ -4176,7 +4203,8 @@ window.addEventListener('popstate', function(e){
 var INS_DAYS = ['Saturday','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday'];
 var INS_DAYS_AR = {Saturday:'السبت',Sunday:'الأحد',Monday:'الاثنين',Tuesday:'الثلاثاء',Wednesday:'الأربعاء',Thursday:'الخميس',Friday:'الجمعة'};
 var INS_TYPES = {lecture:'محاضرة',section:'سكشن',lab:'معمل',other:'أخرى',exam:'امتحان'};
-var insState = { program:'', day:'', type:'', search:'', hour:'' };
+var insState = { program:'', day:'', type:'', search:'' };
+
 function insData(){
   var d = window.dashGetData && window.dashGetData();
   return (d && d.schedule) || [];
@@ -4240,7 +4268,6 @@ function insFmtHour(h){
 function insInit(){
   var progSel = document.getElementById('ins-prog');
   var daySel  = document.getElementById('ins-day');
-  var hourSel = document.getElementById('ins-hour');
   var typeSel = document.getElementById('ins-type');
   var searchI = document.getElementById('ins-search');
   if(!progSel) return;
@@ -4253,23 +4280,17 @@ function insInit(){
   if(daySel.options.length <= 1){
     INS_DAYS.forEach(function(dn){ daySel.appendChild(new Option(INS_DAYS_AR[dn], dn)); });
   }
-  if(hourSel && hourSel.options.length <= 1){
-    var hrs = insCollectHours();
-    hrs.forEach(function(h){ hourSel.appendChild(new Option(insFmtHour(h), h)); });
-  }
   if(typeSel.options.length <= 1){
     Object.keys(INS_TYPES).forEach(function(k){ typeSel.appendChild(new Option(INS_TYPES[k], k)); });
   }
 
   progSel.value = insState.program;
   daySel.value  = insState.day;
-  if(hourSel) hourSel.value = insState.hour || '';
   typeSel.value = insState.type;
   searchI.value = insState.search;
 
   progSel.onchange  = function(){ insState.program = this.value; insRender(); };
   daySel.onchange   = function(){ insState.day = this.value; insRender(); };
-  if(hourSel) hourSel.onchange = function(){ insState.hour = this.value; insRender(); };
   typeSel.onchange  = function(){ insState.type = this.value; insRender(); };
   searchI.oninput   = function(){
     insState.search = this.value.trim();
@@ -4280,11 +4301,11 @@ function insInit(){
   insRender();
 }
 
+
 function insResetFilters(){
-  insState = { program:'', day:'', type:'', search:'', hour:'' };
+  insState = { program:'', day:'', type:'', search:'' };
   var p = document.getElementById('ins-prog'); if(p) p.value='';
   var d = document.getElementById('ins-day');  if(d) d.value='';
-  var h = document.getElementById('ins-hour'); if(h) h.value='';
   var t = document.getElementById('ins-type'); if(t) t.value='';
   var s = document.getElementById('ins-search'); if(s) s.value='';
   insRender();
@@ -4296,12 +4317,6 @@ function insFiltered(){
     if(insState.program && r.program !== insState.program) return false;
     if(insState.day && r.day !== insState.day) return false;
     if(insState.type && r.type !== insState.type) return false;
-    // ★ التعديل 5: فلتر الساعة
-    if(insState.hour && r.start){
-      var rh = (r.start.split(':')[0] || '');
-      if(rh.length === 1) rh = '0' + rh;
-      if(rh !== insState.hour) return false;
-    }
     if(q){
       var hay = ((r.instructor||'')+' '+(r.course_name_ar||'')+' '+(r.location||'')).toLowerCase();
       if(hay.indexOf(q) === -1) return false;
@@ -4319,7 +4334,6 @@ function insActiveInstructors(){
   Object.keys(counts).forEach(function(n){ if(counts[n] >= 5) active[n] = counts[n]; });
   return active;
 }
-
 function insRender(){
   var box = document.getElementById('ins-list');
   if(!box) return;
@@ -4330,36 +4344,50 @@ function insRender(){
     return;
   }
 
+  // تجميع بـ day → slot
   var byDay = {};
   rows.forEach(function(r){
     if(!byDay[r.day]) byDay[r.day] = {};
-    var slot = r.start + '-' + r.end;
+    var slot = (r.start || '') + '-' + (r.end || '');
     if(!byDay[r.day][slot]) byDay[r.day][slot] = [];
     byDay[r.day][slot].push(r);
   });
 
   var activeIns = insActiveInstructors();
   var html = '';
+  var firstDay = null;
+
   INS_DAYS.forEach(function(dn){
     if(!byDay[dn]) return;
+    if(!firstDay) firstDay = dn;
+
     var dayTotal = 0;
     Object.keys(byDay[dn]).forEach(function(s){ dayTotal += byDay[dn][s].length; });
 
-    // ★ التعديل 6.3: بادج "الأكثر ازدحامًا"
     var busyBadge = dayTotal > 4 ? '<span class="ins-busy-badge">🔥 الأكثر ازدحامًا</span>' : '';
+    var isFirst = (dn === firstDay); // أول يوم مفتوح افتراضيًا
 
-    html += '<div class="ins-day-title"><span>📅 ' + INS_DAYS_AR[dn] + '</span>' +
-            '<span style="display:flex;gap:8px;align-items:center;">' + busyBadge +
-            '<span class="ins-day-count">' + dayTotal + ' موعد</span></span></div>';
+    html += '<div class="ins-day-acc' + (isFirst ? ' open' : '') + '">' +
+              '<div class="ins-day-head" onclick="toggleInsAcc(this)" role="button" tabindex="0" aria-expanded="' + (isFirst ? 'true' : 'false') + '">' +
+                '<span class="ins-arrow">▶</span>' +
+                '<span class="ins-day-title-tt">📅 ' + INS_DAYS_AR[dn] + '</span>' +
+                busyBadge +
+                '<span class="ins-day-badge">' + dayTotal + ' موعد</span>' +
+              '</div>' +
+              '<div class="ins-day-body">';
 
     Object.keys(byDay[dn]).sort().forEach(function(slot){
       var items = byDay[dn][slot].sort(function(a,b){
         return (a.course_name_ar||'').localeCompare(b.course_name_ar||'', 'ar');
       });
 
-      html += '<div class="ins-slot"><div class="ins-slot-head">' +
-              '<span class="ins-slot-time">' + esc(slot.replace('-', ' → ')) + '</span>' +
-              '<span class="ins-slot-count">' + items.length + ' جلسة</span></div>';
+      html += '<div class="ins-slot-acc open">' +
+                '<div class="ins-slot-head" onclick="toggleInsAcc(this)" role="button" tabindex="0" aria-expanded="true">' +
+                  '<span class="ins-arrow">▶</span>' +
+                  '<span class="ins-slot-time">⏰ ' + esc(slot.replace('-', ' → ')) + '</span>' +
+                  '<span class="ins-slot-count">' + items.length + ' جلسة</span>' +
+                '</div>' +
+                '<div class="ins-slot-body">';
 
       items.forEach(function(r){
         var mine = (window.mys && mys.ids && mys.ids.indexOf(r.id) > -1);
@@ -4368,25 +4396,39 @@ function insRender(){
         if(r.program)         meta.push('🎓 ' + esc(r.program));
         if(r.section)         meta.push('سكشن ' + esc(r.section));
 
-        // ★ التعديل 6.4: بادج نشِط
-        var instructorBadge = activeIns[r.instructor] ? '<span class="ins-active-badge" title="'+activeIns[r.instructor]+' مواعيد في الأسبوع">⭐ نشِط</span>' : '';
+        var instructorBadge = activeIns[r.instructor]
+          ? '<span class="ins-active-badge" title="' + activeIns[r.instructor] + ' مواعيد في الأسبوع">⭐ نشِط</span>'
+          : '';
 
         html += '<div class="ins-row' + (mine ? ' mine' : '') + '">' +
-                '<div class="ins-row-main"><strong>' + esc(r.course_name_ar || '') + '</strong>' +
-                '<div class="ins-row-meta">' + meta.join(' · ') + '</div></div>' +
-                '<div class="ins-row-instructor">👨‍🏫 ' + esc(r.instructor || '—') + instructorBadge + '</div>' +
-                '<div class="ins-row-location">📍 ' + esc(r.location || '—') + '</div>' +
-                '<button class="ins-row-btn' + (mine ? ' remove' : '') + '" onclick="insToggle(\'' + esc(r.id) + '\')">' +
-                (mine ? '✕ إزالة' : '➕ ضيف') + '</button></div>';
+                  '<div class="ins-row-main">' +
+                    '<strong>' + esc(r.course_name_ar || '') + '</strong>' +
+                    '<div class="ins-row-meta">' + meta.join(' · ') + '</div>' +
+                  '</div>' +
+                  '<div class="ins-row-instructor">👨‍🏫 ' + esc(r.instructor || '—') + instructorBadge + '</div>' +
+                  '<div class="ins-row-location">📍 ' + esc(r.location || '—') + '</div>' +
+                  '<button class="ins-row-btn' + (mine ? ' remove' : '') + '" onclick="insToggle(\'' + esc(r.id) + '\')">' +
+                    (mine ? '✕ إزالة' : '➕ ضيف') +
+                  '</button>' +
+                '</div>';
       });
 
-      html += '</div>';
+      html += '</div></div>';
     });
+
+    html += '</div></div>';
   });
 
   box.innerHTML = html;
 }
 
+// ★ دالة toggle الأكورديون (تشتغل مع الأيام والفترات)
+function toggleInsAcc(headEl){
+  if(!headEl || !headEl.parentNode) return;
+  var acc = headEl.parentNode;
+  var isOpen = acc.classList.toggle('open');
+  headEl.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
 // ★ التعديل 6.1: كشف تعارض المواعيد
 function insToggle(id){
   if(!window.mys) window.mys = {ids: []};
@@ -4483,14 +4525,13 @@ function insExportExcel(){
     lines.push(line.join(','));
   });
 
-  var csv = '\ufeff' + lines.join('\r\n'); // \ufeff = BOM لضمان قراءة العربية في Excel
+  var csv = '\ufeff' + lines.join('\r\n'); // BOM لضمان قراءة العربية في Excel
   var blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
   var d = new Date();
   var fname = 'جدولي-' + d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0') + '.csv';
   triggerDownload(blob, fname);
   showToast('📊 تم تصدير ' + rows.length + ' موعد');
 }
-
 // ============================================================
 // اقتراحات وشكاوى — ★ التعديل 3: كلاسات ok/err
 // ============================================================
