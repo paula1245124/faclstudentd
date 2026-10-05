@@ -4149,7 +4149,7 @@ var SD_STORE = (function(){
   var KEY = 'sd.my.v1', DB = 'sd-store', OS = 'kv', MAXLS = 4096;
   function valid(r){
     return !!r && typeof r === 'object' && Array.isArray(r.ids) && typeof r.updatedAt === 'number' &&
-      r.ids.every(function(x){ return typeof x === 'string' && x.length <= 80; });
+      r.ids.every(function(x){ return typeof x === 'string' && x.length <= 200; });
   }
   function readLS(){ try{ var r = JSON.parse(localStorage.getItem(KEY)); return valid(r) ? r : null; }catch(e){ return null; } }
   function open(){
@@ -4207,6 +4207,32 @@ function mysLine(r){
   return (MYS_T[r.type] ? MYS_T[r.type] + ' — ' : '') + r.start + ' إلى ' + r.end;
 }
 function mysMeta(r){ return [r.location, r.instructor].filter(Boolean).join(' • '); }
+
+// مفتاح فريد لكل موعد (مش بس الـ id) عشان لو نفس المادة ليها أكتر من معاد كلهم يتحفظوا
+function mysKey(r){
+  return [r.id, r.day || '', r.start || '', r.end || ''].join('|');
+}
+// فهرسة الصفوف: بالمفتاح الفريد + بالـ id (للتوافق مع البيانات القديمة المخزّنة)
+function mysIndex(){
+  var byKey = {}, byId = {};
+  mysRows().forEach(function(r){
+    if(!r || !r.id) return;
+    byKey[mysKey(r)] = r;
+    if(!byId[r.id]) byId[r.id] = r;
+  });
+  return {byKey: byKey, byId: byId};
+}
+function mysRow(tok, idx){ return (idx.byKey[tok] || idx.byId[tok]) || null; }
+// تحويل أي ids قديمة (id لوحده) لمفاتيح فريدة من غير ما نفقد أي اختيار
+function mysNormalize(idx){
+  var out = [], seen = {};
+  mys.ids.forEach(function(tok){
+    var r = mysRow(tok, idx), k = r ? mysKey(r) : tok;
+    if(seen[k]) return;
+    seen[k] = 1; out.push(k);
+  });
+  return out;
+}
 function mysSave(ids){
   mys.ids = ids;
   return SD_STORE.set(ids).catch(function(){ showToast('تعذّر حفظ جدولك على الجهاز'); });
@@ -4214,11 +4240,23 @@ function mysSave(ids){
 function mysRender(){
   var body = document.getElementById('my-body'); if(!body) return;
   body.textContent = '';
-  var rows = mysRows(), byId = {};
-  rows.forEach(function(r){ if(r.id) byId[r.id] = r; });
+  var rows = mysRows(), idx = mysIndex();
+  if(rows.length) mys.ids = mysNormalize(idx);
   body.appendChild(secEl('h3', null, 'جدولي'));
-  var mine = mys.ids.map(function(id){ return byId[id]; }).filter(Boolean);
-  if(!mine.length){
+
+  // كل المواعيد المختارة (مع الحفاظ على التكرارات)
+  var mine = [], seen = {};
+  mys.ids.forEach(function(tok){
+    var r = mysRow(tok, idx);
+    if(!r) return;
+    var k = mysKey(r);
+    if(seen[k]) return;
+    seen[k] = 1; mine.push(r);
+  });
+
+  if(!rows.length){
+    body.appendChild(secEl('p','ld-hint','⏳ جاري تحميل الجدول...'));
+  }else if(!mine.length){
     body.appendChild(secEl('p','ld-hint','لم تتم إضافة أي محاضرات أو سكاشن بعد.'));
   }else{
     MYS_DAYS.forEach(function(dn){
@@ -4232,7 +4270,10 @@ function mysRender(){
         if(mysMeta(r)) m.appendChild(secEl('div','dash-meta', mysMeta(r)));
         it.appendChild(m);
         var b = secEl('button','my-sm','إزالة'); b.type = 'button'; b.setAttribute('aria-label','إزالة ' + r.course_name_ar);
-        b.onclick = function(){ mysSave(mys.ids.filter(function(x){ return x !== r.id; })).then(mysRender); };
+        b.onclick = function(){
+          var k = mysKey(r);
+          mysSave(mys.ids.filter(function(x){ return x !== k && x !== r.id; })).then(mysRender);
+        };
         it.appendChild(b); body.appendChild(it);
       });
     });
@@ -4240,6 +4281,7 @@ function mysRender(){
     clr.onclick = function(){ if(confirm('متأكدة إنك عايزة تمسحي جدولك الشخصي؟')){ mys.ids = []; SD_STORE.clear().then(mysRender); } };
     body.appendChild(clr);
   }
+
   body.appendChild(secEl('h3', null, 'اختيار المحاضرات والسكاشن'));
   var P = (document.getElementById('d-prog') || {}).value, C = (document.getElementById('d-sec') || {}).value;
   if(!rows.length){ body.appendChild(secEl('p','ld-hint','⏳ جاري تحميل الجدول...')); return; }
@@ -4253,11 +4295,12 @@ function mysRender(){
   order.forEach(function(name){
     body.appendChild(secEl('div','my-course', name));
     groups[name].forEach(function(r){
+      var k = mysKey(r);
       var lb = secEl('label','my-chk'), cb = document.createElement('input');
-      cb.type = 'checkbox'; cb.className = 'my-chk-input'; cb.checked = mys.ids.indexOf(r.id) > -1;
+      cb.type = 'checkbox'; cb.className = 'my-chk-input'; cb.checked = mys.ids.indexOf(k) > -1;
       cb.onchange = function(){
-        var ids = mys.ids.filter(function(x){ return x !== r.id; });
-        if(cb.checked) ids.push(r.id);
+        var ids = mys.ids.filter(function(x){ return x !== k && x !== r.id; });
+        if(cb.checked) ids.push(k);
         mysSave(ids).then(mysRender);
       };
       var t = secEl('span'); t.appendChild(secEl('strong', null, MYS_AR[r.day] + ' — ' + mysLine(r)));
@@ -4283,7 +4326,6 @@ window.addEventListener('popstate', function(e){
   if(!dv || !dv.classList.contains('active')) return;
   if(e.state && e.state.v === 'my') mysOpen(true); else dv.classList.remove('my-open');
 });
-
 // ============================================================
 // نموذج الملاحظات — الأزرار بتظهر بس لو بيانات التواصل موجودة هنا
 // الموقع Static: بنفتح تطبيق/موقع Telegram أو WhatsApp بس، مفيش إرسال لخادم.
