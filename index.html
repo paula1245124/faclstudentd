@@ -602,46 +602,6 @@ body.app-ready #main-view{
   visibility:visible;
   transition:opacity .2s ease;
 }
-
-/* ===== لوحتي (مدمجة) ===== */
-#dashboard-view .d-filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;background:var(--bg-card);padding:12px;border-radius:12px;border:2px solid var(--border)}
-#dashboard-view .fld{display:flex;flex-direction:column;background:var(--bg-quiz-card);border:1px solid var(--border);border-radius:10px;padding:4px 12px;min-width:130px;flex:1;max-width:200px}
-#dashboard-view .fld>span{font-size:11px;color:var(--text-hint)}
-#dashboard-view .fld select{border:0;background:transparent;font:inherit;font-weight:700;font-size:14px;padding:0;min-height:30px;width:100%;color:var(--text-primary)}
-#dashboard-view .d-btn{background:var(--accent);color:#fff;border:0;padding:10px 18px;border-radius:10px;cursor:pointer;font:inherit;font-weight:700;min-height:44px}
-#dashboard-view .d-btn:disabled{opacity:.5;cursor:wait}
-#dashboard-view h3{color:var(--text-heading);font-size:17px;margin:22px 0 10px}
-#d-banner{display:none;border:1px solid var(--warning);color:var(--warning);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-weight:700;font-size:14px}
-#dashboard-view .dcard{background:var(--bg-quiz-card);border:2px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:8px;border-inline-start:5px solid var(--border)}
-#dashboard-view .dcard.now{border-inline-start-color:var(--success)}
-#dashboard-view .dcard.next{border-inline-start-color:var(--accent)}
-#dashboard-view .dcard.done{opacity:.55}
-#dashboard-view .dcard.cancelled .nm{text-decoration:line-through}
-#dashboard-view .dcard.alert{border-inline-start-color:var(--warning)}
-#dashboard-view .hero{border-inline-start-width:6px;padding:16px 18px;background:var(--bg-card-hover)}
-#dashboard-view .big{font-size:20px;font-weight:700;color:var(--text-heading);margin-bottom:6px}
-#dashboard-view .row{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center}
-#dashboard-view .tm{font-variant-numeric:tabular-nums;font-weight:700;direction:ltr;unicode-bidi:isolate;color:var(--accent);font-size:14px;white-space:nowrap}
-#dashboard-view .nm{color:var(--text-heading);font-size:16px}
-#dashboard-view .meta{color:var(--text-secondary);font-size:13px;margin:6px 0 0;line-height:1.6;word-break:break-word}
-#dashboard-view .bd{border:1px solid var(--border);border-radius:999px;padding:1px 10px;font-size:12px;color:var(--text-secondary);white-space:nowrap}
-#dashboard-view .bd.cancelled,#dashboard-view .bd.urgent{color:var(--danger);border-color:var(--danger)}
-#dashboard-view .bd.moved,#dashboard-view .bd.online,#dashboard-view .bd.makeup,#dashboard-view .bd.soon{color:var(--warning);border-color:var(--warning)}
-#dashboard-view details{margin-bottom:6px;border:1px solid var(--border);border-radius:10px;overflow:hidden}
-#dashboard-view summary{cursor:pointer;padding:10px 14px;background:var(--bg-card);font-weight:700;color:var(--text-heading);min-height:44px;display:flex;align-items:center}
-#dashboard-view details .dcard{margin:8px 10px}
-/* ===== السكشن 🧩 ===== */
-#lecture-view.sec-open>:not(#sec-view){display:none}
-#lecture-view:not(.sec-open)>#sec-view{display:none}
-#sec-title{margin:0 0 14px}
-.sec-list{display:flex;flex-direction:column;gap:10px}
-.sec-item,.sec-row{display:flex;align-items:center;gap:12px;width:100%;min-height:52px;padding:12px 16px;background:var(--bg-quiz-card);border:2px solid var(--border);border-radius:12px;color:var(--text-primary);font:inherit;text-align:start;text-decoration:none;cursor:pointer;transition:border-color .25s}
-.sec-item:hover,.sec-row:hover{border-color:var(--accent)}
-.sec-item:focus-visible,.sec-row:focus-visible,#sec-view .back-btn:focus-visible,#ld-sec .ld-header:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.sec-row.off{opacity:.6;cursor:default}.sec-row.off:hover{border-color:var(--border)}
-.sec-ic{font-size:20px}.sec-lb{flex:1;font-weight:700;color:var(--text-heading)}
-.sec-sub{display:block;font-weight:400;color:var(--text-hint);font-size:12px}
-.sec-act{color:var(--accent);font-size:13px;font-weight:700;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -759,20 +719,6 @@ body.app-ready #main-view{
                     <div id="lecture-quiz-root"></div>
                 </div>
             </div>
-
-            <div class="ld-section" id="ld-sec">
-                <div class="ld-header" onclick="openSections()" role="button" tabindex="0" aria-label="فتح السكشن" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openSections()}">
-                    <span class="ld-num">4</span>
-                    <span class="ld-title">🧩 السكشن</span>
-                    <span class="ld-chip">قائمة المعيدين</span>
-                    <span class="ld-arrow">◀</span>
-                </div>
-            </div>
-            <div id="sec-view">
-                <button class="back-btn" type="button" id="sec-back" onclick="secBack()" aria-label="رجوع">← رجوع</button>
-                <h2 id="sec-title"></h2>
-                <div id="sec-body" aria-live="polite"></div>
-            </div>
         </div>
 
         <div id="quiz-view" class="content-section">
@@ -780,23 +726,6 @@ body.app-ready #main-view{
             <div class="exam-titlebar" id="quiz-title"></div>
             <div id="quiz-pdf-area"></div>
             <div id="quiz-view-root"></div>
-        </div>
-
-        <div id="dashboard-view" class="content-section">
-            <div class="d-filters">
-                <label class="fld"><span>القسم</span><select id="d-prog"><option value="">اختر القسم</option></select></label>
-                <label class="fld"><span>السكشن</span><select id="d-sec"><option value="">اختر السكشن</option></select></label>
-                <label class="fld"><span>اليوم</span><select id="d-dsel"><option value="">النهاردة</option><option value="Saturday">السبت</option><option value="Sunday">الأحد</option><option value="Monday">الاثنين</option><option value="Tuesday">الثلاثاء</option><option value="Wednesday">الأربعاء</option><option value="Thursday">الخميس</option></select></label>
-                <button class="d-btn" id="d-rf" type="button">🔄 تحديث</button>
-            </div>
-            <p class="meta" id="d-today" style="margin:0 0 10px"></p>
-            <div id="d-banner" role="status"></div>
-            <div id="d-alerts"></div>
-            <h3>⏭️ المحاضرة الجاية</h3><div id="d-next"></div>
-            <h3 id="d-dayh">📅 جدول النهاردة</h3><div id="d-day"></div>
-            <h3>⏰ المواعيد القادمة</h3><div id="d-dl"></div>
-            <h3>🗓️ جدول الأسبوع</h3><div id="d-week"></div>
-            <p class="meta" id="d-stamp"></p>
         </div>
     </div>
 </div>
@@ -1027,9 +956,25 @@ function scrollToTop(){ window.scrollTo({top:0, behavior:'smooth'}); }
 // 4) الإشعارات
 // ============================================================
 var notifications = [], notifSeq = 0;
-var answerEditsLog = [{ id: "edit-001", context: "المحاضرة الأولى", questionNum: 1, questionText: "", oldAnswer: "الإجابة القديمة", newAnswer: "الإجابة الصحيحة الجديدة" }];
-var lecturesAddedLog = [{ id: "lec-001", subject: "Computer Graphics", lectureTitle: "المحاضرة الاول", lectureDesc: "مقدمة في الرسم بالحواسيب" }];
+
+/* ★★★ إعدادات الجدول ★★★
+   حطي هنا لينك ملف الإكسل (Google Sheets) — هيظهر في:
+   1) إشعارات تعديل الجدول
+   2) زر "الجدول كامل" جوه لوحتي (لو ركبتي السنيبت الاختياري) */
+var SCHEDULE_EXCEL_URL = "https://docs.google.com/spreadsheets/d/14uqRwlWcMWv2bbE6EDokCmkIBmk6NvAX/edit?gid=1850487248#gid=1850487248";  // ← بدّلي اللينك ده
+
+var answerEditsLog = [
+  { id: "edit-001", context: "المحاضرة الأولى", questionNum: 1, questionText: "", oldAnswer: "الإجابة القديمة", newAnswer: "الإجابة الصحيحة الجديدة" },
+];
+
+/* ⚠️ مهم: كل المحاضرات في ARRAY واحد — التكرار السابق كان بيمسح اللي قبله */
 var lecturesAddedLog = [
+  {
+    id: "lec-001",
+    subject: "Computer Graphics",
+    lectureTitle: "المحاضرة الاول",
+    lectureDesc: "مقدمة في الرسم بالحواسيب",
+  },
   {
     id: "lec-002",
     subject: "Computer Networks",
@@ -1037,8 +982,6 @@ var lecturesAddedLog = [
     lectureDesc:
       "شرح Circuit Switching vs Packet Switching، Multiplexing، Network of Networks (Access ISPs, Regional ISPs, Tier-1 ISPs, PoPs, Multi-homing, Peering, IXPs)، Content Provider Networks (Google)، أنواع التأخير الأربعة، Traffic Intensity، Packet Loss، Throughput، و End-to-End Delay.",
   },
-];
-var lecturesAddedLog = [
   {
     id: "lec-003",
     subject: "Operating Systems",
@@ -1046,8 +989,6 @@ var lecturesAddedLog = [
     lectureDesc:
       "مقدمة في العمليات: تعريفها، جدولة المهام والمعالج، تعدد البرمجة والمشاركة الزمنية، النمط المزدوج (User/Kernel Mode)، المقاطعات والـ Traps، واستدعاءات النظام، وإدارة العمليات.",
   },
-];
-var lecturesAddedLog = [
   {
     id: "lec-004",
     subject: "Software Engineering",
@@ -1055,7 +996,19 @@ var lecturesAddedLog = [
     lectureDesc:
       "شرح مفهوم عمليات البرمجيات: نماذج SDLC الأساسية، الأنشطة الأربعة (التوصيف، التطوير، التحقق، والتطور)، التعامل مع التغيير، ونموذج CMMI.",
   },
-]
+];
+
+/* ★★★ سجل تعديلات الجدول ★★★
+   كل ماتعدّلي الجدول في الشيت → ضيفي عنصر جديد هنا بـ id مختلف
+   وهيتعمل إشعار لكل طالبة مرة واحدة بس (زي باقي السجلات) */
+var scheduleUpdatesLog = [
+  {
+    id: "sched-001",
+    title: "🗓️ تم تعديل الجدول",
+    details: "اتحدّث جدول المحاضرات الأسبوعي — شوفي التغييرات الجديدة.",
+    link: ""   /* اختياري: لو فاضي هيستخدم SCHEDULE_EXCEL_URL تلقائيًا */
+  },
+];
 
 function loadNotifications(){
   try{ var n = localStorage.getItem('notifications_data'); if(n) notifications = JSON.parse(n); }catch(e){ notifications = []; }
@@ -1107,6 +1060,17 @@ function renderNotifDropdown(){
       html += '<span class="notif-detail">📁 المادة: ' + esc(n.subject) + '</span>';
       html += '<span class="notif-detail">📚 المحاضرة: ' + esc(n.lectureTitle) + '</span>';
       if(n.lectureDesc) html += '<span class="notif-detail">📝 ' + esc(truncateText(n.lectureDesc, 60)) + '</span>';
+    }else if(n.type === 'schedule_update'){
+      /* ★ إشعار تعديل الجدول + لينك الإكسل */
+      html += '<strong>' + esc(n.title || '🗓️ تم تعديل الجدول') + '</strong>';
+      if(n.details) html += '<span class="notif-detail">📝 ' + esc(truncateText(n.details, 90)) + '</span>';
+      var lk = n.link || (typeof SCHEDULE_EXCEL_URL !== 'undefined' ? SCHEDULE_EXCEL_URL : '');
+      if(lk){
+        html += '<span class="notif-detail" style="margin-top:4px;display:flex;gap:12px;flex-wrap:wrap;">';
+        html += '<a href="' + esc(lk) + '" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:bold;text-decoration:underline;">📊 الجدول كامل (Excel)</a>';
+        html += '<a href="javascript:void(0)" onclick="window.openDashboard&&window.openDashboard()" style="color:var(--success);font-weight:bold;text-decoration:underline;">🖼️ لوحتي</a>';
+        html += '</span>';
+      }
     }else{
       html += '<strong>' + esc(n.title || 'إشعار') + '</strong>';
       if(n.context) html += '<span class="notif-detail">📁 ' + esc(n.context) + '</span>';
@@ -1153,12 +1117,30 @@ function syncLecturesAddedLog(){
   });
   if(changed){ try{ localStorage.setItem('seen_added_lectures', JSON.stringify(seenIds)); }catch(e){} }
 }
+/* ★ مزامنة إشعارات تعديل الجدول */
+function syncScheduleUpdatesLog(){
+  var seenIds = [];
+  try{ seenIds = JSON.parse(localStorage.getItem('seen_schedule_updates') || '[]'); }catch(e){ seenIds = []; }
+  if(!Array.isArray(seenIds)) seenIds = [];
+  var changed = false;
+  scheduleUpdatesLog.forEach(function(entry){
+    if(seenIds.indexOf(entry.id) === -1){
+      addNotification({
+        type: 'schedule_update',
+        title: entry.title || '🗓️ تم تعديل الجدول',
+        details: entry.details || '',
+        link: entry.link || (typeof SCHEDULE_EXCEL_URL !== 'undefined' ? SCHEDULE_EXCEL_URL : '')
+      });
+      seenIds.push(entry.id); changed = true;
+    }
+  });
+  if(changed){ try{ localStorage.setItem('seen_schedule_updates', JSON.stringify(seenIds)); }catch(e){} }
+}
 document.addEventListener('click', function(e){
   var wrap = document.getElementById('notif-bell-wrap');
   var dd = document.getElementById('notif-dropdown');
   if(wrap && dd && !wrap.contains(e.target)) dd.classList.remove('show');
 });
-
 // ============================================================
 // 5) أدوات مساعدة
 // ============================================================
@@ -1233,9 +1215,9 @@ window.addEventListener('message', function(e){
 var currentSubject = 0, currentLecture = -1;
 
 function renderSubjectBar(){
-  document.getElementById('subject-bar').innerHTML = dashBtnHtml() + SUBJECTS_INDEX.map(function(s,i){
+  document.getElementById('subject-bar').innerHTML = SUBJECTS_INDEX.map(function(s,i){
     if(s.active === false) return '';
-    return '<button class="subj-btn '+((i===currentSubject && !document.body.classList.contains('dashboard-mode'))?'active':'')+'" onclick="selectSubject('+i+')">'+
+    return '<button class="subj-btn '+(i===currentSubject?'active':'')+'" onclick="selectSubject('+i+')">'+
       '<span>'+(s.icon || '📚')+'</span>'+
       '<span style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.25;">'+
         '<span>'+esc(s.name)+'</span>'+
@@ -1246,7 +1228,6 @@ function renderSubjectBar(){
 
 function selectSubject(i){
   if(!SUBJECTS_INDEX[i] || SUBJECTS_INDEX[i].active === false) return;
-  document.body.classList.remove('dashboard-mode');
   currentSubject = i;
   closeQuizEverywhere();
 
@@ -1284,11 +1265,10 @@ function selectSubject(i){
 }
 
 function showView(id){
-  ['main-view','lecture-view','quiz-view','dashboard-view'].forEach(function(v){
+  ['main-view','lecture-view','quiz-view'].forEach(function(v){
     var el = document.getElementById(v);
     if(el) el.classList.toggle('active', v === id);
   });
-  if(id !== 'lecture-view' && typeof secResetUI === 'function') secResetUI();
 }
 
 function openTab(evt, id){
@@ -2419,7 +2399,6 @@ function openLecture(subjIdx, lecIdx){
   var l = s.lectures[lecIdx];
   if(!l) return;
   currentLecture = lecIdx;
-  secResetUI();
   urlRegistry = [];
   closeQuizState();
   detachQNSidebar();
@@ -3725,227 +3704,6 @@ function importProgress(ev){
 // ============================================================
 // 23) التشغيل (Lazy Load)
 // ============================================================
-
-// ============================================================
-// لوحتي (مدمجة في index.html — زر جنب المواد)
-// ============================================================
-function dashBtnHtml(){
-  var on = document.body.classList.contains('dashboard-mode');
-  return '<button class="subj-btn '+(on?'active':'')+'" onclick="openDashboard()"><span>📊</span>'+
-    '<span style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.25;"><span>لوحتي</span>'+
-    '<span style="font-size:10px;opacity:.8;font-weight:normal;">Dashboard</span></span></button>';
-}
-function openDashboard(){
-  document.body.classList.add('dashboard-mode');
-  closeQuizEverywhere(); detachQNSidebar(); setQuizMode(false);
-  document.getElementById('main-title').textContent = 'لوحتي — الجدول الدراسي';
-  renderSubjectBar();
-  showView('dashboard-view');
-  window.scrollTo({top:0, behavior:'smooth'});
-  saveLS({subject:currentSubject, view:'dashboard', lecture:-1, prop:null, qidx:null});
-  if(window.dashOpen) window.dashOpen();
-}
-
-(function(){
-'use strict';
-var DAYS=['Saturday','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday'],
-AR={Saturday:'السبت',Sunday:'الأحد',Monday:'الاثنين',Tuesday:'الثلاثاء',Wednesday:'الأربعاء',Thursday:'الخميس',Friday:'الجمعة'},
-TYPE={lecture:'محاضرة',section:'سكشن',lab:'معمل',exam:'امتحان',other:'أخرى',assignment:'تسليم',quiz:'كويز',midterm:'ميدتيرم',final:'فاينل',project:'مشروع'},
-ST={cancelled:'ملغاة',moved:'متغيّرة',online:'أونلاين',makeup:'تعويضية'},
-KEY='sd.cache.v1',GK='sd.group',D=null,last=0;
-function $(i){return document.getElementById(i)}
-function h(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
-function ls(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k));localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
-function cairo(){var p={};new Intl.DateTimeFormat('en-GB',{timeZone:'Africa/Cairo',weekday:'long',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date()).forEach(function(x){p[x.type]=x.value});
- return{day:p.weekday,min:+p.hour*60+ +p.minute,date:p.year+'-'+p.month+'-'+p.day,at:new Date(+p.year,+p.month-1,+p.day,+p.hour,+p.minute)}}
-function tm(s){var a=s.split(':');return+a[0]*60+ +a[1]}
-function dur(min){if(min<60)return min+' دقيقة';if(min<1440)return Math.floor(min/60)+' ساعة'+(min%60?' و'+min%60+' دقيقة':'');return Math.floor(min/1440)+' يوم'}
-function need(){return!$('d-prog').value||!$('d-sec').value}
-function sess(day,n){if(need())return[];var P=$('d-prog').value,C=$('d-sec').value;
- return((D&&D.schedule)||[]).filter(function(s){return s.day===day&&(!s.effective_from||s.effective_from<=n.date)&&(!s.effective_to||s.effective_to>=n.date)&&(!s.program||s.program===P)&&(!s.section||s.section.split(/[\s,]+/).indexOf(C)>-1)}).sort(function(a,b){return tm(a.start)-tm(b.start)})}
-function card(s,state){var c=h('div','dcard '+(state||'')+' '+(s.status||'')),r=h('div','row');
- r.appendChild(h('span','tm',s.start+' – '+s.end));r.appendChild(h('strong','nm',s.course_name_ar));
- if(TYPE[s.type])r.appendChild(h('span','bd',TYPE[s.type]));
- if(ST[s.status])r.appendChild(h('span','bd '+s.status,ST[s.status]));
- if(state==='now')r.appendChild(h('span','bd','دلوقتي'));
- c.appendChild(r);
- var m=[s.instructor,s.location,s.notes].filter(Boolean).join(' • ');
- if(m)c.appendChild(h('div','meta',m));return c}
-function empty(el,t){el.appendChild(h('p','meta',t))}
-function draw(){
- var n=cairo();$('d-today').textContent=AR[n.day]+' — '+n.date;
- ['d-alerts','d-next','d-day','d-dl','d-week'].forEach(function(i){$(i).textContent=''});
- if(!D){empty($('d-next'),'مفيش بيانات لسه.');return}
- // تنبيهات مهمة
- (D.announcements||[]).filter(function(a){return a.priority==='important'&&(!a.publish_at||a.publish_at<=n.date)&&(!a.expires_at||a.expires_at>=n.date)}).forEach(function(a){
-  var c=h('div','dcard alert');c.appendChild(h('strong',null,'مهم: '+a.title));if(a.body)c.appendChild(h('div','meta',a.body));
-  if(a.link&&/^https:\/\//i.test(a.link)){var l=h('a',null,'فتح الرابط');l.href=a.link;l.target='_blank';l.rel='noopener noreferrer';c.appendChild(l)}
-  $('d-alerts').appendChild(c)});
- // اليوم + الجاية
- var idx=DAYS.indexOf(n.day),nx=null,vd=$('d-dsel').value||n.day,list=sess(vd,n);
- $('d-dayh').textContent=vd===n.day?'جدول النهاردة':'جدول يوم '+AR[vd];
- sess(n.day,n).forEach(function(s){if(!nx&&s.status!=='cancelled'&&tm(s.start)>n.min)nx={s:s,i:0}});
- list.forEach(function(s){var st=s.status==='cancelled'?'cancelled':vd!==n.day?'':tm(s.end)<=n.min?'done':tm(s.start)<=n.min?'now':'';$('d-day').appendChild(card(s,st))});
- if(!list.length)empty($('d-day'),need()?'اختر القسم والسكشن من فوق.':vd===n.day?'مفيش محاضرات النهاردة.':'مفيش محاضرات في اليوم ده.');
- for(var i=1;i<8&&!nx;i++){var dn=DAYS[(idx+i)%7],q=sess(dn,n).filter(function(s){return s.status!=='cancelled'});if(q.length)nx={s:q[0],i:i,d:dn}}
- if(nx){var c=card(nx.s,'next');c.classList.add('hero');
-  c.insertBefore(h('div','big',nx.i?'يوم '+AR[nx.d]:'بعد '+dur(tm(nx.s.start)-n.min)),c.firstChild);$('d-next').appendChild(c)}
- else empty($('d-next'),need()?'اختر القسم والسكشن من فوق عشان يظهر جدولك.':'مفيش محاضرات جاية في الجدول.');
- // المواعيد
- var dl=(D.deadlines||[]).map(function(d){var p=d.due_at.split(/[- :]/);d._t=new Date(+p[0],+p[1]-1,+p[2],+(p[3]||23),+(p[4]||59));return d})
-  .filter(function(d){return d._t>=n.at}).sort(function(a,b){return a._t-b._t}).slice(0,5);
- dl.forEach(function(d){var m=Math.round((d._t-n.at)/60000),c=h('div','dcard'),r=h('div','row');
-  r.appendChild(h('strong',null,d.title));if(TYPE[d.type])r.appendChild(h('span','bd',TYPE[d.type]));
-  r.appendChild(h('span','bd '+(m<=1440?'urgent':m<=4320?'soon':''),'بعد '+dur(m)));c.appendChild(r);
-  var mt=[d.course_code,d.due_at,d.location,d.notes].filter(Boolean).join(' • ');if(mt)c.appendChild(h('div','meta',mt));$('d-dl').appendChild(c)});
- if(!dl.length)empty($('d-dl'),'مفيش مواعيد قادمة.');
- // الأسبوع
- DAYS.forEach(function(dn){var q=sess(dn,n);if(need()||!q.length&&dn==='Friday')return;
-  var d=document.createElement('details');d.open=dn===vd;var s=h('summary',null,AR[dn]+' ('+q.length+')');d.appendChild(s);
-  q.forEach(function(x){d.appendChild(card(x,x.status==='cancelled'?'cancelled':''))});
-  if(!q.length)d.appendChild(h('p','meta','مفيش محاضرات.'));$('d-week').appendChild(d)});
- $('d-stamp').textContent=last?'آخر تحديث: '+new Date(last).toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'}):''}
-function groups(){var P=$('d-prog'),ps={},cur=P.value||ls('sd.prog')||'';
- ((D&&D.schedule)||[]).forEach(function(s){if(s.program)ps[s.program]=1});
- while(P.options.length>1)P.remove(1);
- Object.keys(ps).sort().forEach(function(p){P.appendChild(new Option(p,p))});P.value=ps[cur]?cur:'';secs($('d-sec').value||ls('sd.sec')||'')}
-function secs(want){var P=$('d-prog').value,S=$('d-sec'),set={};
- ((D&&D.schedule)||[]).forEach(function(s){if(s.program===P&&s.section)s.section.split(/[\s,]+/).forEach(function(x){if(/^\d+$/.test(x))set[x]=1})});
- while(S.options.length>1)S.remove(1);
- Object.keys(set).sort(function(a,b){return a-b}).forEach(function(x){S.appendChild(new Option('سكشن '+x,x))});S.value=set[want]?want:''}
-function get(t){return fetch('/api/sheet?tab='+t,{headers:{Accept:'application/json'}}).then(function(r){return r.json()}).then(function(j){if(!j.ok)throw new Error(j.code);return j.items}).catch(function(e){return t==='schedule'?Promise.reject(e):null})}
-function banner(t){var b=$('d-banner');b.textContent=t;b.style.display=t?'block':'none'}
-function load(){$('d-rf').disabled=true;
- Promise.all(['schedule','announcements','deadlines'].map(get)).then(function(a){
-  D={schedule:a[0],announcements:a[1]||(D&&D.announcements)||[],deadlines:a[2]||(D&&D.deadlines)||[]};
-  last=Date.now();ls(KEY,{t:last,d:D});banner('');groups();draw()})
- .catch(function(){banner(D?'تعذّر التحديث — ده آخر جدول محفوظ'+(navigator.onLine?'':' (غير متصل)'):'تعذّر تحميل الجدول — تحقق من إعداد الشيت وروابط النشر.')})
- .then(function(){$('d-rf').disabled=false})}
-var inited=false;
-function init(){
-var c=ls(KEY);if(c&&c.d){D=c.d;last=c.t}
-$('d-prog').addEventListener('change',function(){ls('sd.prog',this.value);ls('sd.sec','');secs('');draw()});
-$('d-sec').addEventListener('change',function(){ls('sd.sec',this.value);draw()});
-$('d-dsel').addEventListener('change',draw);
-$('d-rf').addEventListener('click',load);
-document.addEventListener('visibilitychange',function(){if(!document.hidden&&document.body.classList.contains('dashboard-mode')){draw();if(Date.now()-last>300000)load()}});
-setInterval(function(){if(!document.hidden&&document.body.classList.contains('dashboard-mode'))draw()},60000);
-setInterval(function(){if(!document.hidden&&document.body.classList.contains('dashboard-mode'))load()},600000);
-groups();draw();load();
-}
-window.dashOpen=function(){if(!inited){inited=true;init()}else{draw();if(Date.now()-last>60000)load()}};
-})();
-
-// ============================================================
-// السكشن 🧩 — lecture → sections → instructor (داخل نفس الكونتينر)
-// البيانات مصدر مستقل: data/sections.json (lazy، مرة واحدة، عند الضغط على الزر فقط)
-// ============================================================
-var secState = {view:'lecture', inst:null}, _secData = null, _secPromise = null, _secErr = '';
-var SEC_MAT = [['file','📄','ملف السكشن','فتح'],['exercises','📝','التمارين','فتح'],['solution','✅','الحل النموذجي','فتح'],['recording','🎥','تسجيل السكشن','مشاهدة']];
-var SEC_STATUS = {soon:'قريبًا', unavailable:'غير متاح', available:'متاح'};
-function secEl(t,c,x){ var e = document.createElement(t); if(c) e.className = c; if(x != null) e.textContent = x; return e; }
-function secUrl(u){ return (typeof u === 'string' && /^https:\/\/[^\s]+$/i.test(u.trim())) ? u.trim() : null; }
-function secLoad(){
-  if(_secData) return Promise.resolve(_secData);
-  if(_secPromise) return _secPromise;
-  _secPromise = fetch('data/sections.json', {headers:{Accept:'application/json'}}).then(function(r){
-    if(r.status === 404) throw new Error('NOFILE');
-    if(!r.ok) throw new Error('HTTP');
-    return r.json();
-  }).then(function(j){
-    if(!j || !Array.isArray(j.sections)) throw new Error('BAD');
-    _secData = j.sections.filter(function(x){
-      return x && typeof x === 'object' && typeof x.subject === 'string' && typeof x.lecture === 'string' &&
-        typeof x.instructorId === 'string' && x.instructorId && typeof x.instructorName === 'string' && x.instructorName.trim();
-    });
-    return _secData;
-  }).catch(function(e){ _secPromise = null; throw e; });
-  return _secPromise;
-}
-function secForLecture(){
-  var m = SUBJECTS_INDEX[currentSubject], s = subjects[currentSubject], l = s && s.lectures && s.lectures[currentLecture];
-  if(!m || !l || !_secData) return [];
-  var seen = {};
-  return _secData.filter(function(x){
-    if(x.subject !== m.slug || x.lecture !== lecQuizKey(l) || seen[x.instructorId]) return false;
-    seen[x.instructorId] = 1; return true;
-  });
-}
-function secRow(icon, label, action, url, off){
-  var el = secEl(url && !off ? 'a' : 'div', 'sec-row' + (url && !off ? '' : ' off'));
-  if(url && !off){ el.href = url; el.target = '_blank'; el.rel = 'noopener noreferrer'; el.setAttribute('aria-label', label + ' — ' + action); }
-  el.appendChild(secEl('span','sec-ic',icon)); el.appendChild(secEl('span','sec-lb',label));
-  el.appendChild(secEl('span','sec-act', off ? off : action)); return el;
-}
-function secRender(){
-  var lv = document.getElementById('lecture-view'), body = document.getElementById('sec-body'), title = document.getElementById('sec-title');
-  lv.classList.toggle('sec-open', secState.view !== 'lecture');
-  body.textContent = '';
-  if(secState.view === 'lecture') return;
-  window.scrollTo({top:0, behavior:'smooth'});
-  if(secState.view === 'sections'){
-    title.textContent = 'السكشن 🧩';
-    if(_secErr){
-      body.appendChild(secEl('p','ld-hint', _secErr));
-      var rt = secEl('button','sec-item','🔄 إعادة المحاولة'); rt.type = 'button';
-      rt.onclick = function(){ _secErr = ''; secRender(); secLoad().then(secRender).catch(secFail); };
-      body.appendChild(rt); return;
-    }
-    if(!_secData){ body.appendChild(secEl('p','ld-hint','⏳ جاري تحميل السكاشن...')); return; }
-    var list = secForLecture();
-    if(!list.length){ body.appendChild(secEl('p','ld-hint','لا توجد سكاشن لهذه المحاضرة حتى الآن.')); return; }
-    var wrap = secEl('div','sec-list');
-    list.forEach(function(x){
-      var b = secEl('button','sec-item'); b.type = 'button';
-      b.appendChild(secEl('span','sec-ic','🧑‍🏫'));
-      var t = secEl('span','sec-lb',x.instructorName.trim());
-      if(typeof x.groupName === 'string' && x.groupName.trim()) t.appendChild(secEl('small','sec-sub',x.groupName.trim()));
-      b.appendChild(t); b.appendChild(secEl('span','sec-act','◀'));
-      b.onclick = function(){ secOpenInst(x.instructorId); };
-      wrap.appendChild(b);
-    });
-    body.appendChild(wrap); return;
-  }
-  var cur = secForLecture().filter(function(x){ return x.instructorId === secState.inst; })[0];
-  if(!cur){ secGo('sections'); return; }
-  title.textContent = 'سكشن ' + cur.instructorName.trim();
-  var off = (cur.status === 'soon' || cur.status === 'unavailable') ? SEC_STATUS[cur.status] : null;
-  if(SEC_STATUS[cur.status]) body.appendChild(secEl('span','ld-chip' + (cur.status === 'available' ? ' ok' : ' warn'), SEC_STATUS[cur.status]));
-  var mats = (cur.materials && typeof cur.materials === 'object') ? cur.materials : {}, n = 0, box = secEl('div','sec-list');
-  SEC_MAT.forEach(function(d){
-    var v = mats[d[0]]; if(!v) return;
-    var u = typeof v === 'object' ? v.url : v, lb = (typeof v === 'object' && typeof v.label === 'string' && v.label.trim()) ? v.label.trim() : d[2];
-    var ok = secUrl(u); n++;
-    box.appendChild(secRow(d[1], lb, d[3], ok, off || (ok ? null : 'الرابط غير صالح')));
-  });
-  (Array.isArray(mats.extraLinks) ? mats.extraLinks : []).forEach(function(x){
-    if(!x || typeof x !== 'object' || typeof x.label !== 'string' || !x.label.trim()) return;
-    var ok = secUrl(x.url); n++;
-    box.appendChild(secRow('🔗', x.label.trim(), 'فتح', ok, off || (ok ? null : 'الرابط غير صالح')));
-  });
-  body.appendChild(n ? box : secEl('p','ld-hint','لا توجد مواد لهذا المعيد حتى الآن.'));
-}
-function secFail(e){
-  _secErr = (e && e.message === 'NOFILE') ? 'لم تتم إضافة بيانات السكاشن بعد.' : 'تعذّر تحميل السكاشن. تحقق من الاتصال وحاول مرة أخرى.';
-  if(secState.view !== 'lecture') secRender();
-}
-function secGo(view, inst){ secState = {view:view, inst:inst || null}; secRender(); }
-function openSections(){
-  history.pushState({sv:'sections'}, '');
-  _secErr = ''; secGo('sections');
-  if(!_secData) secLoad().then(secRender).catch(secFail);
-}
-function secOpenInst(id){ history.pushState({sv:'instructor', id:id}, ''); secGo('instructor', id); }
-function secBack(){ if(history.state && history.state.sv) history.back(); else secGo(secState.view === 'instructor' ? 'sections' : 'lecture'); }
-function secResetUI(){ secState = {view:'lecture', inst:null}; var lv = document.getElementById('lecture-view'); if(lv) lv.classList.remove('sec-open'); }
-window.addEventListener('popstate', function(e){
-  var lv = document.getElementById('lecture-view');
-  if(!lv || !lv.classList.contains('active')) return;
-  var st = e.state;
-  if(st && st.sv){ _secErr = ''; secGo(st.sv, st.id); if(st.sv === 'sections' && !_secData) secLoad().then(secRender).catch(secFail); }
-  else secGo('lecture');
-});
-
 function __initApp(){
   // ★ احتياطي مبكر: نضمن إظهار الصفحة حتى لو حصل خطأ في أي مكان بالدالة
   setTimeout(function(){
@@ -3965,6 +3723,7 @@ function __initApp(){
   loadNotifications();
   syncAnswerEditsLog();
   syncLecturesAddedLog();
+  syncScheduleUpdatesLog();   // ★ الجديد
   updateNotifBadge();
   loadSectionStates();
 
@@ -3988,7 +3747,6 @@ function __initApp(){
   // ⬇️ نحمّل المادة المطلوبة بس
   showSubjectLoading();
   loadSubject(startIdx).then(function(){
-    if(last && last.view === 'dashboard'){ openDashboard(); return; }
     var s = subjects[startIdx];
     updateSubTabsVisibility(s); // ★★★ التعديل هنا ★★★
 
@@ -4029,6 +3787,426 @@ if(document.readyState === 'loading'){
   __initApp();
 }
 
+</script>
+<!-- ============================================================
+     ★★★ Dashboard — لوحتي (بلوك واحد مستقل) ★★★
+     الصقه في index.html قبل </body> مباشرة
+     مش محتاج تعدل أي كود قديم — بيعمل كل حاجة بنفسه
+     ============================================================ -->
+<script>
+(function(){
+'use strict';
+
+/* ============ 1) حقن الـ CSS ============ */
+var st = document.createElement('style');
+st.textContent =
+'#dashboard-view h3{color:var(--text-heading);font-size:17px;margin:22px 0 10px}'+
+'#dashboard-view h3:first-of-type{margin-top:8px}'+
+'.dash-today{color:var(--text-hint);font-size:14px;font-weight:bold;text-align:center;margin:0 0 14px}'+
+'.dash-filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px;background:var(--bg-card);padding:12px;border-radius:12px;border:2px solid var(--border)}'+
+'.dash-fld{display:flex;flex-direction:column;background:var(--bg-quiz-card);border:1px solid var(--border);border-radius:10px;padding:4px 12px;min-width:130px;flex:1;max-width:200px}'+
+'.dash-fld>span{font-size:11px;color:var(--text-hint);line-height:1.4}'+
+'.dash-fld select{border:0;background:transparent;font-weight:700;padding:0;min-height:30px;width:100%;color:var(--text-primary);font-family:inherit;font-size:14px}'+
+'.dash-fld select:focus{outline:none}'+
+'.dash-refresh-btn{background:var(--accent);color:var(--text-white);border:none;padding:10px 18px;border-radius:10px;cursor:pointer;font-family:inherit;font-weight:bold;font-size:14px;min-height:44px;transition:all .25s;white-space:nowrap}'+
+'.dash-refresh-btn:hover{filter:brightness(1.15)}'+
+'.dash-refresh-btn:disabled{opacity:.5;cursor:wait}'+
+'.dash-banner{display:none;border:1px solid var(--warning);color:var(--warning);background:rgba(243,156,18,.08);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-weight:bold;font-size:14px}'+
+'.dash-card{background:var(--bg-quiz-card);border:2px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:8px;border-inline-start:5px solid var(--border);transition:border-color .2s}'+
+'.dash-card.now{border-inline-start-color:var(--success);background:rgba(39,174,96,.06)}'+
+'.dash-card.next{border-inline-start-color:var(--accent)}'+
+'.dash-card.done{opacity:.55}'+
+'.dash-card.cancelled{opacity:.7}'+
+'.dash-card.cancelled .dash-nm{text-decoration:line-through}'+
+'.dash-card.hero{border-inline-start:6px solid var(--accent);padding:16px 18px;background:var(--bg-card-hover)}'+
+'.dash-big{font-size:20px;font-weight:700;color:var(--text-heading);margin-bottom:6px}'+
+'.dash-row{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;line-height:1.5}'+
+'.dash-tm{font-variant-numeric:tabular-nums;font-weight:700;direction:ltr;unicode-bidi:isolate;color:var(--accent);font-size:14px;white-space:nowrap}'+
+'.dash-nm{color:var(--text-heading);font-size:16px;font-weight:bold}'+
+'.dash-meta{color:var(--text-secondary);font-size:13px;margin-top:6px;line-height:1.6;word-break:break-word}'+
+'.dash-bd{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:1px 10px;font-size:12px;color:var(--text-secondary);white-space:nowrap;line-height:1.7}'+
+'.dash-bd.cancelled,.dash-bd.urgent{color:var(--danger);border-color:var(--danger)}'+
+'.dash-bd.moved,.dash-bd.online,.dash-bd.makeup,.dash-bd.soon{color:var(--warning);border-color:var(--warning)}'+
+'.dash-bd.now-badge{color:var(--success);border-color:var(--success)}'+
+'.dash-alert-card{border-inline-start:5px solid var(--warning);background:rgba(243,156,18,.08)}'+
+'.dash-alert-card a{color:var(--accent);font-weight:bold}'+
+'.dash-stamp{color:var(--text-hint);font-size:12px;text-align:center;margin-top:20px}'+
+'.dash-week details{margin-bottom:6px;border:1px solid var(--border);border-radius:10px;overflow:hidden}'+
+'.dash-week details>summary{cursor:pointer;padding:10px 14px;background:var(--bg-card);font-weight:bold;color:var(--text-heading);font-size:14px;list-style:none;transition:background .2s;display:flex;align-items:center;gap:6px}'+
+'.dash-week details>summary::-webkit-details-marker{display:none}'+
+'.dash-week details>summary::before{content:"▶";font-size:11px;color:var(--accent);display:inline-block;transition:transform .2s}'+
+'.dash-week details[open]>summary::before{transform:rotate(90deg)}'+
+'.dash-week details>summary:hover{background:var(--bg-card-hover)}'+
+'.dash-week .dash-card{margin:8px 10px}'+
+'.dash-week .dash-card:last-child{margin-bottom:10px}'+
+'@media (max-width:640px){'+
+'.dash-filters{gap:8px;padding:10px}'+
+'.dash-fld{min-width:110px}'+
+'.dash-refresh-btn{flex:1;max-width:220px}'+
+'.dash-nm{font-size:15px}'+
+'}';
+document.head.appendChild(st);
+
+/* ============ 2) حقن الـ HTML ============ */
+var container = document.querySelector('.container');
+if(!container || document.getElementById('dashboard-view')) return;
+
+container.insertAdjacentHTML('beforeend',
+'<div id="dashboard-view" class="content-section">'+
+'<p class="dash-today" id="dash-today"></p>'+
+'<div class="dash-filters">'+
+'<label class="dash-fld"><span>القسم</span><select id="dash-prog"><option value="">اختر القسم</option></select></label>'+
+'<label class="dash-fld"><span>السكشن</span><select id="dash-sec"><option value="">اختر السكشن</option></select></label>'+
+'<label class="dash-fld"><span>اليوم</span><select id="dash-day">'+
+'<option value="">النهاردة</option><option value="Saturday">السبت</option>'+
+'<option value="Sunday">الأحد</option><option value="Monday">الاثنين</option>'+
+'<option value="Tuesday">الثلاثاء</option><option value="Wednesday">الأربعاء</option>'+
+'<option value="Thursday">الخميس</option></select></label>'+
+'<button class="dash-refresh-btn" id="dash-refresh" type="button">🔄 تحديث</button>'+
+'</div>'+
+'<div class="dash-banner" id="dash-banner" role="status"></div>'+
+'<div id="dash-alerts"></div>'+
+'<h3>⏭️ المحاضرة الجاية</h3><div id="dash-next"></div>'+
+'<h3 id="dash-dayh">📅 جدول النهاردة</h3><div id="dash-day-content"></div>'+
+'<h3>⏰ المواعيد القادمة</h3><div id="dash-dl"></div>'+
+'<h3>🗓️ جدول الأسبوع</h3><div id="dash-week" class="dash-week"></div>'+
+'<p class="dash-stamp" id="dash-stamp"></p>'+
+'</div>');
+
+function $(id){ return document.getElementById(id); }
+
+/* ============ 3) منطق اللوحة ============ */
+var DAYS=['Saturday','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday'],
+AR={Saturday:'السبت',Sunday:'الأحد',Monday:'الاثنين',Tuesday:'الثلاثاء',Wednesday:'الأربعاء',Thursday:'الخميس',Friday:'الجمعة'},
+TYPE={lecture:'محاضرة',section:'سكشن',lab:'معمل',exam:'امتحان',other:'أخرى',assignment:'تسليم',quiz:'كويز',midterm:'ميدتيرم',final:'فاينل',project:'مشروع'},
+ST={cancelled:'ملغاة',moved:'متغيّرة',online:'أونلاين',makeup:'تعويضية'},
+CACHE='sd.cache.v1', D=null, last=0, loading=false;
+
+function ls(k,v){
+  try{
+    if(v===undefined) return JSON.parse(localStorage.getItem(k));
+    localStorage.setItem(k, JSON.stringify(v));
+  }catch(e){ return null; }
+}
+function cairo(){
+  var p={};
+  new Intl.DateTimeFormat('en-GB',{timeZone:'Africa/Cairo',weekday:'long',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'})
+    .formatToParts(new Date()).forEach(function(x){ p[x.type]=x.value; });
+  return {day:p.weekday, min:+p.hour*60 + +p.minute, date:p.year+'-'+p.month+'-'+p.day,
+          at:new Date(+p.year, +p.month-1, +p.day, +p.hour, +p.minute)};
+}
+function tm(s){ var a=String(s).split(':'); return +a[0]*60 + +a[1]; }
+function dur(m){
+  if(m<60)   return m+' دقيقة';
+  if(m<1440) return Math.floor(m/60)+' ساعة'+(m%60 ? ' و'+m%60+' دقيقة' : '');
+  return Math.floor(m/1440)+' يوم';
+}
+function need(){ return !$('dash-prog').value || !$('dash-sec').value; }
+function sess(day, n){
+  if(need()) return [];
+  var P=$('dash-prog').value, C=$('dash-sec').value;
+  return ((D && D.schedule)||[]).filter(function(s){
+    return s.day===day &&
+      (!s.effective_from || s.effective_from<=n.date) &&
+      (!s.effective_to   || s.effective_to  >=n.date) &&
+      (!s.program || s.program===P) &&
+      (!s.section || s.section.split(/[\s,]+/).indexOf(C)>-1);
+  }).sort(function(a,b){ return tm(a.start)-tm(b.start); });
+}
+function card(s, state){
+  var c=document.createElement('div');
+  c.className='dash-card '+(state||'')+' '+(s.status||'');
+  var r=document.createElement('div'); r.className='dash-row';
+  var t=document.createElement('span'); t.className='dash-tm';
+  t.textContent=s.start+' – '+s.end; r.appendChild(t);
+  var nm=document.createElement('strong'); nm.className='dash-nm';
+  nm.textContent=s.course_name_ar; r.appendChild(nm);
+  if(TYPE[s.type]){ var b=document.createElement('span'); b.className='dash-bd'; b.textContent=TYPE[s.type]; r.appendChild(b); }
+  if(ST[s.status]){ var b2=document.createElement('span'); b2.className='dash-bd '+s.status; b2.textContent=ST[s.status]; r.appendChild(b2); }
+  if(state==='now'){ var b3=document.createElement('span'); b3.className='dash-bd now-badge'; b3.textContent='دلوقتي'; r.appendChild(b3); }
+  c.appendChild(r);
+  var m=[s.instructor, s.location, s.notes].filter(Boolean).join(' • ');
+  if(m){ var me=document.createElement('div'); me.className='dash-meta'; me.textContent=m; c.appendChild(me); }
+  return c;
+}
+function empty(el, t){
+  if(!el) return;
+  var p=document.createElement('p'); p.className='dash-meta'; p.textContent=t;
+  el.appendChild(p);
+}
+
+function draw(){
+  var n=cairo();
+  $('dash-today').textContent = AR[n.day]+' — '+n.date;
+  ['dash-alerts','dash-next','dash-day-content','dash-dl','dash-week'].forEach(function(id){
+    var el=$(id); if(el) el.textContent='';
+  });
+  if(!D){ empty($('dash-next'), '⏳ جاري تحميل الجدول...'); return; }
+
+  /* تنبيهات مهمة */
+  (D.announcements||[]).filter(function(a){
+    return a.priority==='important' &&
+      (!a.publish_at || a.publish_at<=n.date) &&
+      (!a.expires_at || a.expires_at>=n.date);
+  }).forEach(function(a){
+    var c=document.createElement('div'); c.className='dash-card dash-alert-card';
+    var s=document.createElement('strong'); s.textContent='⚠️ مهم: '+a.title; c.appendChild(s);
+    if(a.body){ var b=document.createElement('div'); b.className='dash-meta'; b.textContent=a.body; c.appendChild(b); }
+    if(a.link && /^https:\/\//i.test(a.link)){
+      var l=document.createElement('a'); l.href=a.link; l.target='_blank';
+      l.rel='noopener noreferrer'; l.textContent='🔗 فتح الرابط'; c.appendChild(l);
+    }
+    $('dash-alerts').appendChild(c);
+  });
+
+  /* جدول اليوم المختار */
+  var idx=DAYS.indexOf(n.day), nx=null;
+  var vd=$('dash-day').value || n.day;
+  var list=sess(vd, n);
+  $('dash-dayh').textContent = vd===n.day ? '📅 جدول النهاردة' : '📅 جدول يوم '+AR[vd];
+
+  sess(n.day, n).forEach(function(s){
+    if(!nx && s.status!=='cancelled' && tm(s.start)>n.min) nx={s:s, i:0};
+  });
+  list.forEach(function(s){
+    var st = s.status==='cancelled' ? 'cancelled'
+           : (vd!==n.day ? ''
+           : (tm(s.end)<=n.min ? 'done'
+           : (tm(s.start)<=n.min ? 'now' : '')));
+    $('dash-day-content').appendChild(card(s, st));
+  });
+  if(!list.length)
+    empty($('dash-day-content'), need() ? 'اختر القسم والسكشن من فوق.'
+      : (vd===n.day ? 'مفيش محاضرات النهاردة.' : 'مفيش محاضلات في اليوم ده.'));
+
+  /* المحاضرة الجاية */
+  for(var i=1; i<8 && !nx; i++){
+    var dn=DAYS[(idx+i)%7];
+    var q=sess(dn, n).filter(function(s){ return s.status!=='cancelled'; });
+    if(q.length) nx={s:q[0], i:i, d:dn};
+  }
+  if(nx){
+    var c2=card(nx.s, 'next'); c2.classList.add('hero');
+    var big=document.createElement('div'); big.className='dash-big';
+    big.textContent = nx.i ? 'يوم '+AR[nx.d] : 'بعد '+dur(tm(nx.s.start)-n.min);
+    c2.insertBefore(big, c2.firstChild);
+    $('dash-next').appendChild(c2);
+  }else{
+    empty($('dash-next'), need() ? 'اختر القسم والسكشن من فوق عشان يظهر جدولك.'
+                                 : 'مفيش محاضرات جاية في الجدول.');
+  }
+
+  /* المواعيد القادمة */
+  var dl=(D.deadlines||[]).map(function(d){
+    var p=String(d.due_at||'').split(/[- :]/);
+    d._t=new Date(+p[0], +p[1]-1, +p[2], +(p[3]||23), +(p[4]||59));
+    return d;
+  }).filter(function(d){ return d._t>=n.at; })
+    .sort(function(a,b){ return a._t-b._t; })
+    .slice(0,5);
+
+  dl.forEach(function(d){
+    var m=Math.round((d._t-n.at)/60000);
+    var c=document.createElement('div'); c.className='dash-card';
+    var r=document.createElement('div'); r.className='dash-row';
+    var t=document.createElement('strong'); t.className='dash-nm'; t.textContent=d.title; r.appendChild(t);
+    if(TYPE[d.type]){ var b=document.createElement('span'); b.className='dash-bd'; b.textContent=TYPE[d.type]; r.appendChild(b); }
+    var b2=document.createElement('span');
+    b2.className='dash-bd '+(m<=1440 ? 'urgent' : (m<=4320 ? 'soon' : ''));
+    b2.textContent='بعد '+dur(m); r.appendChild(b2);
+    c.appendChild(r);
+    var mt=[d.course_code, d.due_at, d.location, d.notes].filter(Boolean).join(' • ');
+    if(mt){ var me=document.createElement('div'); me.className='dash-meta'; me.textContent=mt; c.appendChild(me); }
+    $('dash-dl').appendChild(c);
+  });
+  if(!dl.length) empty($('dash-dl'), 'مفيش مواعيد قادمة.');
+
+  /* جدول الأسبوع */
+  if(!need()){
+    DAYS.forEach(function(dn){
+      var q=sess(dn, n);
+      var dt=document.createElement('details'); dt.open=(dn===vd);
+      var sm=document.createElement('summary'); sm.textContent=AR[dn]+' ('+q.length+')';
+      dt.appendChild(sm);
+      q.forEach(function(x){ dt.appendChild(card(x, x.status==='cancelled' ? 'cancelled' : '')); });
+      if(!q.length) empty(dt, 'مفيش محاضلات.');
+      $('dash-week').appendChild(dt);
+    });
+  }else{
+    empty($('dash-week'), 'اختر القسم والسكشن عشان يظهر الجدول الأسبوعي.');
+  }
+
+  $('dash-stamp').textContent = last
+    ? '🕐 آخر تحديث: '+new Date(last).toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'})
+    : '';
+}
+
+/* ============ 4) القوائم + جلب البيانات ============ */
+function groups(){
+  var P=$('dash-prog'), ps={}, cur=P.value || ls('sd.prog') || '';
+  ((D && D.schedule)||[]).forEach(function(s){ if(s.program) ps[s.program]=1; });
+  while(P.options.length>1) P.remove(1);
+  Object.keys(ps).sort().forEach(function(p){ P.appendChild(new Option(p, p)); });
+  P.value = ps[cur] ? cur : '';
+  secs($('dash-sec').value || ls('sd.sec') || '');
+}
+function secs(want){
+  var P=$('dash-prog').value, S=$('dash-sec'), set={};
+  ((D && D.schedule)||[]).forEach(function(s){
+    if(s.program===P && s.section)
+      s.section.split(/[\s,]+/).forEach(function(x){ if(/^\d+$/.test(x)) set[x]=1; });
+  });
+  while(S.options.length>1) S.remove(1);
+  Object.keys(set).sort(function(a,b){ return a-b; })
+    .forEach(function(x){ S.appendChild(new Option('سكشن '+x, x)); });
+  S.value = set[want] ? want : '';
+}
+function get(tab){
+  return fetch('/api/sheet?tab='+tab, {headers:{Accept:'application/json'}})
+    .then(function(r){ return r.json(); })
+    .then(function(j){ if(!j.ok) throw new Error(j.code||'sheet'); return j.items; })
+    .catch(function(e){ return tab==='schedule' ? Promise.reject(e) : null; });
+}
+function load(force){
+  if(loading) return;
+  if(D && !force && Date.now()-last<60000){ draw(); return; }
+  loading=true;
+  var btn=$('dash-refresh'); if(btn) btn.disabled=true;
+  Promise.all(['schedule','announcements','deadlines'].map(get)).then(function(a){
+    D={ schedule:a[0], announcements:a[1]||(D&&D.announcements)||[], deadlines:a[2]||(D&&D.deadlines)||[] };
+    last=Date.now(); ls(CACHE, {t:last, d:D});
+    var b=$('dash-banner'); if(b) b.style.display='none';
+    groups(); draw();
+  }).catch(function(){
+    var b=$('dash-banner');
+    if(b){
+      b.style.display='block';
+      b.textContent = D
+        ? '⚠️ تعذّر التحديث — ده آخر جدول محفوظ'+(navigator.onLine?'':' (غير متصل)')
+        : '⚠️ تعذّر تحميل الجدول — تحقق من إعداد الشيت وروابط النشر.';
+    }
+    if(D){ groups(); draw(); }
+  }).then(function(){ loading=false; if(btn) btn.disabled=false; });
+}
+
+/* ============ 5) فتح اللوحة (زي أي مادة) ============ */
+function openDashboard(){
+  document.body.classList.add('dashboard-mode');
+  try{ if(typeof closeQuizEverywhere==='function') closeQuizEverywhere(); }catch(e){}
+  try{ if(typeof detachQNSidebar==='function') detachQNSidebar(); }catch(e){}
+  try{ if(typeof setQuizMode==='function') setQuizMode(false); }catch(e){}
+  try{ if(typeof renderSubjectBar==='function') renderSubjectBar(); }catch(e){}
+  addDashButton();
+  if(typeof showView==='function'){ showView('dashboard-view'); }
+  else{
+    ['main-view','lecture-view','quiz-view'].forEach(function(v){ var el=$(v); if(el) el.classList.remove('active'); });
+    var dv=$('dashboard-view'); if(dv) dv.classList.add('active');
+  }
+  window.scrollTo({top:0, behavior:'smooth'});
+  try{
+    if(typeof saveLS==='function')
+      saveLS({subject:(typeof currentSubject!=='undefined'?currentSubject:null), view:'dashboard', lecture:-1, prop:null, qidx:null});
+  }catch(e){}
+  if(!D){ var c=ls(CACHE); if(c && c.d){ D=c.d; last=c.t; } }
+  if(D){ groups(); draw(); }
+  load(false);
+}
+window.openDashboard = openDashboard;
+
+/* ============ 6) زر "📊 لوحتي" في شريط المواد ============ */
+function addDashButton(){
+  var bar=document.getElementById('subject-bar');
+  if(!bar) return;
+  /* شيل أي زر لوحتي قديم (من تعديل يدوي سابق أو رسم سابق) عشان ميتكررش */
+  var olds=bar.querySelectorAll('#dash-subj-btn, [onclick*="openDashboard"]');
+  Array.prototype.forEach.call(olds, function(x){ if(x.parentNode) x.parentNode.removeChild(x); });
+  var isDash=document.body.classList.contains('dashboard-mode');
+  var b=document.createElement('button');
+  b.id='dash-subj-btn';
+  b.type='button';
+  b.className='subj-btn'+(isDash?' active':'');
+  b.innerHTML='<span>📊</span>'+
+    '<span style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.25;">'+
+    '<span>لوحتي</span>'+
+    '<span style="font-size:10px;opacity:.8;font-weight:normal;">Dashboard</span></span>';
+  b.addEventListener('click', openDashboard);
+  bar.insertBefore(b, bar.firstChild);
+  if(isDash){
+    Array.prototype.forEach.call(bar.querySelectorAll('.subj-btn'), function(x){
+      if(x.id!=='dash-subj-btn') x.classList.remove('active');
+    });
+  }
+}
+
+/* wrap renderSubjectBar: الزر يترجع تلقائيًا بعد أي إعادة رسم للشريط */
+if(typeof window.renderSubjectBar==='function'){
+  var origRSB=window.renderSubjectBar;
+  window.renderSubjectBar=function(){
+    var out=origRSB.apply(this, arguments);
+    try{ addDashButton(); }catch(e){}
+    return out;
+  };
+}
+/* wrap showView: يفتح/يقفل dashboard-view مع باقي الصفحات */
+if(typeof window.showView==='function'){
+  var origSV=window.showView;
+  window.showView=function(id){
+    var dv=$('dashboard-view');
+    if(id==='dashboard-view'){
+      ['main-view','lecture-view','quiz-view'].forEach(function(v){
+        var el=$(v); if(el) el.classList.remove('active');
+      });
+      if(dv) dv.classList.add('active');
+    }else{
+      if(dv) dv.classList.remove('active');
+      return origSV.apply(this, arguments);
+    }
+  };
+}
+/* wrap selectSubject: الرجوع لأي مادة يطفّي وضع اللوحة */
+if(typeof window.selectSubject==='function'){
+  var origSS=window.selectSubject;
+  window.selectSubject=function(){
+    document.body.classList.remove('dashboard-mode');
+    var db=$('dash-subj-btn'); if(db) db.classList.remove('active');
+    return origSS.apply(this, arguments);
+  };
+}
+
+/* ============ 7) ربط الأحداث ============ */
+ $('dash-prog').addEventListener('change', function(){ ls('sd.prog', this.value); ls('sd.sec',''); secs(''); draw(); });
+ $('dash-sec').addEventListener('change', function(){ ls('sd.sec', this.value); draw(); });
+ $('dash-day').addEventListener('change', draw);
+ $('dash-refresh').addEventListener('click', function(){ load(true); });
+
+/* ============ 8) التشغيل + استعادة آخر تبويب + تحديث تلقائي ============ */
+addDashButton();
+document.addEventListener('DOMContentLoaded', function(){ try{ addDashButton(); }catch(e){} });
+
+window.addEventListener('load', function(){
+  try{
+    var s=(typeof window.loadLS==='function') ? window.loadLS() : null;
+    if(s && s.view==='dashboard') openDashboard();
+  }catch(e){}
+});
+
+setInterval(function(){
+  if(document.hidden) return;
+  var v=$('dashboard-view');
+  if(!v || !v.classList.contains('active')) return;
+  draw();                                                     /* كل دقيقة: حدّث "دلوقتي/الجاية" */
+  if(!D || Date.now()-last>600000) load(false);               /* كل 10 دقايق: بيانات جديدة */
+}, 60000);
+
+document.addEventListener('visibilitychange', function(){
+  if(document.hidden) return;
+  var v=$('dashboard-view');
+  if(!v || !v.classList.contains('active')) return;
+  draw();
+  if(!D || Date.now()-last>300000) load(false);
+});
+
+})();
 </script>
 <script>
 /* ★ زر "الجدول كامل" في لوحتي — بيستخدم SCHEDULE_EXCEL_URL */
