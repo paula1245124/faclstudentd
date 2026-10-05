@@ -9,11 +9,13 @@
       "groupName": "مجموعة 1",
       "notes": "ملاحظة تجريبية من المعيد.",
       "materials": {
-        "file": "https://example.com/section.pdf",
-        "exercises": "https://example.com/exercises.pdf",
-        "solution": "https://example.com/solution.pdf",
+        "file": "../Visual Programming/lectures/Chapter 1.pdf",
+        "exercises": "Computer Graphics/lectures/Lec1-Computer Graphics.pdf",
+        "solution": "Computer Networks/Questions/Questions on each lecture/Chapter 1 - Questions - Computer Networks.pdf",
         "recording": "https://example.com/recording",
-        "extraLinks": [{ "label": "رابط إضافي", "url": "https://example.com/extra" }]
+        "extraLinks": [
+          { "label": "رابط إضافي", "url": "https://example.com/extra" }
+        ]
       }
     }
   ]

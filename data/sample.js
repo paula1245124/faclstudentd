@@ -6,7 +6,7 @@ subjects.push({
     {
       t: 'المحاضرة الأولى — تجريبية',
       d: 'وصف قصير للمحاضرة',
-      pdf: 'https://example.com/lecture1.pdf',
+      pdf: 'Software Engineering/lectures/Software Engineering Chapter 1 Lecture 1.pdf',
       summary: { text: 'ملخص تجريبي قصير للمحاضرة.' },
       links: [
         { t: '🎥 تسجيل فيديو المحاضرة', d: 'مشاهدة التسجيل كاملاً', url: 'https://example.com/video' }

@@ -610,6 +610,9 @@ body.app-ready #main-view{
 #dashboard-view .fld select{border:0;background:transparent;font:inherit;font-weight:700;font-size:14px;padding:0;min-height:30px;width:100%;color:var(--text-primary)}
 #dashboard-view .d-btn{background:var(--accent);color:#fff;border:0;padding:10px 18px;border-radius:10px;cursor:pointer;font:inherit;font-weight:700;min-height:44px}
 #dashboard-view .d-btn:disabled{opacity:.5;cursor:wait}
+#dashboard-view a.d-btn{display:inline-flex;align-items:center;text-decoration:none}
+#dashboard-view a.d-btn[hidden]{display:none}
+#dashboard-view .d-green{background:var(--success)}
 #dashboard-view h3{color:var(--text-heading);font-size:17px;margin:22px 0 10px}
 #d-banner{display:none;border:1px solid var(--warning);color:var(--warning);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-weight:700;font-size:14px}
 #dashboard-view .dcard{background:var(--bg-quiz-card);border:2px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:8px;border-inline-start:5px solid var(--border)}
@@ -647,6 +650,40 @@ body.app-ready #main-view{
 .sec-viewer[hidden],.sum-text[hidden]{display:none}
 .sum-actions{margin:0 0 10px}
 .sum-text{margin:0;padding:14px 16px;background:var(--bg-quiz-card);border:2px solid var(--border);border-radius:12px;color:var(--text-primary);font-size:15px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}
+
+/* ===== ترجمة/شرح الأسئلة ===== */
+.q-extra-btns{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.q-extra-btn{background:var(--bg-card);color:var(--accent);border:2px solid var(--border);border-radius:10px;padding:8px 14px;min-height:44px;font:inherit;font-weight:700;cursor:pointer}
+.q-extra-btn:hover{border-color:var(--accent)}
+.q-extra-btn:focus-visible,.fb-box summary:focus-visible,.my-chk:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.q-extra-panel{margin:8px 0;padding:12px 14px;background:var(--bg-quiz-card);border:2px solid var(--border);border-inline-start:5px solid var(--accent);border-radius:12px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.9;color:var(--text-primary)}
+.q-extra-panel[hidden]{display:none}
+.sec-notes{margin:0 0 12px;padding:12px 14px;background:var(--bg-quiz-card);border:2px solid var(--warning);border-inline-start:6px solid var(--warning);border-radius:12px}
+.sec-notes b{display:block;margin-bottom:6px;color:var(--text-heading)}
+.sec-notes p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.9;color:var(--text-primary)}
+/* ===== جدولي الشخصي ===== */
+#dashboard-view.my-open>:not(#my-panel){display:none}
+#dashboard-view:not(.my-open)>#my-panel{display:none}
+.my-entry{margin-top:24px;text-align:center}
+#my-panel h3{margin-top:20px}
+.my-day{font-weight:700;color:var(--text-heading);margin:14px 0 6px}
+.my-item{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg-quiz-card);border:2px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.my-item .my-main{flex:1;min-width:160px}
+.my-chk{display:flex;align-items:flex-start;gap:10px;min-height:44px;padding:8px 12px;background:var(--bg-quiz-card);border:2px solid var(--border);border-radius:12px;margin-bottom:8px;cursor:pointer}
+.my-chk input{width:20px;height:20px;margin-top:3px;accent-color:var(--accent)}
+.my-course{font-weight:700;color:var(--text-heading);margin:16px 0 6px}
+.my-sm{background:transparent;border:1px solid var(--border);color:var(--danger);border-radius:10px;padding:6px 12px;min-height:40px;font:inherit;cursor:pointer}
+/* ===== نموذج الملاحظات ===== */
+.fb-box{margin:28px 0 12px;background:var(--bg-card);border:2px solid var(--border);border-radius:12px}
+.fb-box summary{cursor:pointer;padding:14px 16px;font-weight:700;color:var(--text-heading);min-height:48px;display:flex;align-items:center}
+.fb-body{display:flex;flex-direction:column;gap:10px;padding:0 16px 16px}
+.fb-body label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--text-hint)}
+.fb-body input,.fb-body select,.fb-body textarea{background:var(--bg-quiz-card);border:1px solid var(--border);border-radius:10px;padding:10px;color:var(--text-primary);font:inherit;font-size:15px;min-height:44px}
+.fb-btns{display:flex;flex-wrap:wrap;gap:10px}
+.fb-btns button:disabled{opacity:.6;cursor:wait}
+.fb-btns button{flex:1;min-width:150px;background:var(--accent);color:#fff;border:0;border-radius:10px;padding:10px 14px;min-height:46px;font:inherit;font-weight:700;cursor:pointer}
+#fb-wa{background:var(--success)!important}
+#fb-status{margin:0;font-size:14px;color:var(--text-secondary);min-height:20px}
 </style>
 </head>
 <body>
@@ -807,6 +844,7 @@ body.app-ready #main-view{
                 <label class="fld"><span>السكشن</span><select id="d-sec"><option value="">اختر السكشن</option></select></label>
                 <label class="fld"><span>اليوم</span><select id="d-dsel"><option value="">النهاردة</option><option value="Saturday">السبت</option><option value="Sunday">الأحد</option><option value="Monday">الاثنين</option><option value="Tuesday">الثلاثاء</option><option value="Wednesday">الأربعاء</option><option value="Thursday">الخميس</option></select></label>
                 <button class="d-btn" id="d-rf" type="button">🔄 تحديث</button>
+                <a class="d-btn d-green" id="d-xl" href="data/schedule-year3.xlsx" download hidden>📊 الجدول كامل</a>
             </div>
             <p class="meta" id="d-today" style="margin:0 0 10px"></p>
             <div id="d-banner" role="status"></div>
@@ -816,7 +854,27 @@ body.app-ready #main-view{
             <h3>⏰ المواعيد القادمة</h3><div id="d-dl"></div>
             <h3>🗓️ جدول الأسبوع</h3><div id="d-week"></div>
             <p class="meta" id="d-stamp"></p>
+            <div class="my-entry"><button class="d-btn" type="button" onclick="mysOpen()" aria-label="فتح جدولي الشخصي">📌 جدولي الشخصي</button></div>
+            <div id="my-panel">
+                <button class="back-btn" type="button" onclick="mysClose()" aria-label="رجوع">← رجوع</button>
+                <h2>📌 جدولي الشخصي</h2>
+                <div id="my-body" aria-live="polite"></div>
+            </div>
         </div>
+        <details class="fb-box" id="fb-box">
+            <summary>💬 اقتراحات وشكاوى</summary>
+            <div class="fb-body">
+                <input id="fb-hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+                <label>الاسم (اختياري)<input id="fb-name" maxlength="60" autocomplete="name"></label>
+                <label>وسيلة تواصل (اختياري)<input id="fb-contact" maxlength="80"></label>
+                <label>نوع الطلب<select id="fb-type"><option>اقتراح</option><option>شكوى</option><option>الإبلاغ عن مشكلة</option><option>طلب إضافة محتوى</option><option>طلب تصحيح بيانات</option><option>ملاحظة على الموقع</option></select></label>
+                <label>المادة أو المحاضرة (اختياري)<input id="fb-ref" maxlength="120"></label>
+                <label>التفاصيل<textarea id="fb-text" rows="4" maxlength="1000"></textarea></label>
+                <label>رابط صورة أو رابط المشكلة (اختياري)<input id="fb-link" maxlength="300" inputmode="url" dir="ltr"></label>
+                <div class="fb-btns"><button type="button" id="fb-tg" onclick="fbSend('tg')">✈️ إرسال عبر Telegram</button><button type="button" id="fb-wa" onclick="fbSend('wa')">🟢 إرسال عبر WhatsApp</button></div>
+                <p id="fb-status" role="status"></p>
+            </div>
+        </details>
     </div>
 </div>
 
@@ -1845,6 +1903,7 @@ function renderCurrentQuestion(){
         '</div>'+
         '<span class="essay-type-badge">📝 سؤال مقالي</span>'+
         '<div class="exam-qtext'+(qLatin?' ltr':'')+'">'+esc(q.q)+'</div>'+
+        qTrHTML(q, 'q'+i)+
         '<button class="eq-toggle-btn" onclick="toggleEssayAnswer(this)">👁 اعرض الإجابة النموذجية</button>'+
         '<div class="eq-answer">'+
           '<div class="eq-answer-text">'+esc(q.answer || '').replace(/\n/g,'<br>')+'</div>'+
@@ -1896,8 +1955,10 @@ function renderCurrentQuestion(){
         '<button class="qmark-btn '+(isMarked?'on':'')+'" onclick="toggleMark('+i+')" title="علّمي السؤال — يظهر في ملف Word">'+(isMarked?'⭐ معلّم':'☆ علّم')+'</button>'+
       '</div>'+
       '<div class="exam-qtext'+(qLatin?' ltr':'')+'">'+esc(q.q)+'</div>'+
+      qTrHTML(q, 'q'+i)+
       '<div class="exam-opts">'+opts+'</div>'+
       fb +
+      (answered ? qExHTML(q, 'q'+i) : '') +
       '<div class="exam-navbtns">'+
         '<button class="exam-nav-btn prev"'+(i===0?' disabled':'')+' onclick="examGo(-1)">→ السابق</button>'+
         (st.finished ? '<button class="exam-nav-btn" onclick="showResults(true)">📊 النتيجة</button>' : '')+
@@ -2040,6 +2101,7 @@ function showResults(silent){
             '<div class="wrong-q-text">'+esc(w.q.q)+'</div>'+
             '<div class="wrong-q-answer wrong-q-user"><span class="wrong-q-label">إجابتك:</span>'+esc((w.q.options||[])[w.user] || '—')+'</div>'+
             '<div class="wrong-q-answer wrong-q-correct"><span class="wrong-q-label">الإجابة الصحيحة:</span>'+esc((w.q.options||[])[w.q.correct] || '—')+'</div>'+
+            qTrHTML(w.q, 'w'+w.i)+qExHTML(w.q, 'w'+w.i)+
           '</div>';
         }).join('')+
       '</div>'+
@@ -2616,6 +2678,12 @@ function goBackFromQuiz(){
 // ============================================================
 // 18) Word
 // ============================================================
+function wordExtras(q){
+  var tr = qTxt(q && q.translation), ex = qTxt(q && q.explanation), h = '';
+  if(tr) h += '<div style="margin-top:4pt;"><b>الترجمة:</b> '+esc(tr).replace(/\n/g,'<br>')+'</div>';
+  if(ex) h += '<div style="margin-top:4pt;padding:6pt;background:#eef6ff;border-right:4px solid #3498db;"><b>لماذا هذه الإجابة؟</b><br>'+esc(ex).replace(/\n/g,'<br>')+'</div>';
+  return h;
+}
 function downloadWord(questions, title, picks){
   if(!questions || !questions.length){ showToast('لا توجد أسئلة للتحميل'); return; }
   var rows = questions.map(function(q, i){
@@ -2627,6 +2695,7 @@ function downloadWord(questions, title, picks){
                '</div>'+
                (q.tags && q.tags.length ? '<div style="color:#7f8c8d;font-size:10pt;margin-top:3pt;">🏷️ '+q.tags.map(esc).join(' • ')+'</div>' : '')+
                (q.ref ? '<div style="color:#7f8c8d;font-size:10pt;">📚 '+esc(q.ref)+'</div>' : '')+
+               wordExtras(q)+
              '</div>';
     }
     var opts = (q.options || []).map(function(op, oi){
@@ -2647,6 +2716,7 @@ function downloadWord(questions, title, picks){
              '<div style="font-weight:bold;">'+(i+1)+') '+esc(q.q)+'</div>'+
              opts + mine +
              '<div style="color:#1e8449;font-weight:bold;margin-top:3pt;">الإجابة الصحيحة: '+ans+'</div>'+
+             wordExtras(q)+
            '</div>';
   }).join('');
   var html = '<html dir="rtl" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">'+
@@ -3766,6 +3836,16 @@ function openDashboard(){
   window.scrollTo({top:0, behavior:'smooth'});
   saveLS({subject:currentSubject, view:'dashboard', lecture:-1, prop:null, qidx:null});
   if(window.dashOpen) window.dashOpen();
+  dashExcelInit();
+}
+// زر "الجدول كامل" بيظهر بس لو ملف الإكسل موجود فعلًا (HEAD بس، من غير تحميل الملف)
+var _xlChecked = false;
+function dashExcelInit(){
+  if(_xlChecked) return; _xlChecked = true;
+  var a = document.getElementById('d-xl'); if(!a) return;
+  fetch(a.getAttribute('href'), {method:'HEAD'}).then(function(r){
+    if(r.ok && !/text\/html/i.test(r.headers.get('content-type') || '')) a.hidden = false;
+  }).catch(function(){});
 }
 
 (function(){
@@ -3840,7 +3920,7 @@ function banner(t){var b=$('d-banner');b.textContent=t;b.style.display=t?'block'
 function load(){$('d-rf').disabled=true;
  Promise.all(['schedule','announcements','deadlines'].map(get)).then(function(a){
   D={schedule:a[0],announcements:a[1]||(D&&D.announcements)||[],deadlines:a[2]||(D&&D.deadlines)||[]};
-  last=Date.now();ls(KEY,{t:last,d:D});banner('');groups();draw()})
+  last=Date.now();ls(KEY,{t:last,d:D});banner('');groups();draw();if(window.mysRefresh)window.mysRefresh()})
  .catch(function(){banner(D?'تعذّر التحديث — ده آخر جدول محفوظ'+(navigator.onLine?'':' (غير متصل)'):'تعذّر تحميل الجدول — تحقق من إعداد الشيت وروابط النشر.')})
  .then(function(){$('d-rf').disabled=false})}
 var inited=false;
@@ -3855,6 +3935,7 @@ setInterval(function(){if(!document.hidden&&document.body.classList.contains('da
 setInterval(function(){if(!document.hidden&&document.body.classList.contains('dashboard-mode'))load()},600000);
 groups();draw();load();
 }
+window.dashGetData=function(){return D};
 window.dashOpen=function(){if(!inited){inited=true;init()}else{draw();if(Date.now()-last>60000)load()}};
 })();
 
@@ -3877,7 +3958,7 @@ function secLoad(){
   }).then(function(j){
     if(!j || !Array.isArray(j.sections)) throw new Error('BAD');
     _secData = j.sections.filter(function(x){
-      return x && typeof x === 'object' && typeof x.subject === 'string' && typeof x.lecture === 'string' &&
+      return x && typeof x === 'object' && typeof x.subject === 'string' && (typeof x.lecture === 'string' || typeof x.lectureId === 'string') &&
         typeof x.instructorId === 'string' && x.instructorId && typeof x.instructorName === 'string' && x.instructorName.trim();
     });
     return _secData;
@@ -3950,7 +4031,8 @@ function secForLecture(){
   if(!m || !l || !_secData) return [];
   var seen = {};
   return _secData.filter(function(x){
-    if(x.subject !== m.slug || x.lecture !== lecQuizKey(l) || seen[x.instructorId]) return false;
+    if(x.subject !== m.slug || seen[x.instructorId]) return false;
+    if(!(x.lecture === lecQuizKey(l) || (x.lectureId && l.id && x.lectureId === l.id))) return false;
     seen[x.instructorId] = 1; return true;
   });
 }
@@ -4013,6 +4095,8 @@ function secRender(){
   title.textContent = 'سكشن ' + cur.instructorName.trim();
   var off = (cur.status === 'soon' || cur.status === 'unavailable') ? SEC_STATUS[cur.status] : null;
   if(SEC_STATUS[cur.status]) body.appendChild(secEl('span','ld-chip' + (cur.status === 'available' ? ' ok' : ' warn'), SEC_STATUS[cur.status]));
+  var notes = qTxt(cur.notes);
+  if(notes){ var nb = secEl('div','sec-notes'); nb.appendChild(secEl('b', null, '📝 ملاحظات المعيد:')); nb.appendChild(secEl('p', null, notes)); body.appendChild(nb); }
   var mats = (cur.materials && typeof cur.materials === 'object') ? cur.materials : {}, n = 0, box = secEl('div','sec-list');
   SEC_MAT.forEach(function(d){
     var v = mats[d[0]]; if(!v) return;
@@ -4031,7 +4115,7 @@ function secRender(){
     var ok = secUrl(x.url); n++;
     box.appendChild(secRow('🔗', x.label.trim(), 'فتح', ok, off || (ok ? null : 'الرابط غير صالح')));
   });
-  body.appendChild(n ? box : secEl('p','ld-hint','لا توجد مواد لهذا المعيد حتى الآن.'));
+  if(n) body.appendChild(box); else if(!notes) body.appendChild(secEl('p','ld-hint','لا توجد مواد لهذا المعيد حتى الآن.'));
 }
 function secFail(e){
   _secErr = (e && e.message === 'NOFILE') ? 'لم تتم إضافة بيانات السكاشن بعد.' : 'تعذّر تحميل السكاشن. تحقق من الاتصال وحاول مرة أخرى.';
@@ -4053,6 +4137,208 @@ window.addEventListener('popstate', function(e){
   if(st && st.sv){ _secErr = ''; secGo(st.sv, st.id); if(st.sv === 'sections' && !_secData) secLoad().then(secRender).catch(secFail); }
   else secGo('lecture');
 });
+
+
+// ============================================================
+// أسئلة: ترجمة السؤال (question.translation) وشرح الإجابة (question.explanation)
+// بتظهر الأزرار بس لو الحقل موجود وفيه نص فعلي — نفس المكوّن للأسئلة العادية وقائمة الأخطاء
+// ============================================================
+function qTxt(v){ return (typeof v === 'string' && v.trim()) ? v.trim() : null; }
+function qExtraBtn(k, uid, label){
+  return '<button type="button" class="q-extra-btn" data-k="'+k+'" aria-expanded="false" aria-controls="q'+k+'-'+uid+'" onclick="toggleQExtra(this)">'+label+'</button>';
+}
+function qTrHTML(q, uid){
+  var t = qTxt(q && q.translation); if(!t) return '';
+  return '<div class="q-extra-btns">'+qExtraBtn('tr', uid, '🌐 ترجمة السؤال')+'</div>'+
+         '<div class="q-extra-panel" dir="auto" id="qtr-'+uid+'" hidden>'+esc(t)+'</div>';
+}
+function qExHTML(q, uid){
+  var t = qTxt(q && q.explanation); if(!t) return '';
+  return '<div class="q-extra-btns">'+qExtraBtn('ex', uid, '💡 لماذا هذه الإجابة؟')+'</div>'+
+         '<div class="q-extra-panel" dir="auto" id="qex-'+uid+'" hidden>'+esc(t)+'</div>';
+}
+function toggleQExtra(btn){
+  var p = document.getElementById(btn.getAttribute('aria-controls')); if(!p) return;
+  p.hidden = !p.hidden;
+  btn.setAttribute('aria-expanded', String(!p.hidden));
+  btn.textContent = btn.getAttribute('data-k') === 'tr'
+    ? (p.hidden ? '🌐 ترجمة السؤال' : '🙈 إخفاء الترجمة')
+    : (p.hidden ? '💡 لماذا هذه الإجابة؟' : '🙈 إخفاء الشرح');
+}
+
+// ============================================================
+// تخزين الجدول الشخصي: localStorage أولًا ← IndexedDB لو فشل أو كبرت البيانات (> 4KB)
+// بيتخزن ids بس + updatedAt (مفيش ملفات ولا PDF)
+// ============================================================
+var SD_STORE = (function(){
+  var KEY = 'sd.my.v1', DB = 'sd-store', OS = 'kv', MAXLS = 4096;
+  function valid(r){
+    return !!r && typeof r === 'object' && Array.isArray(r.ids) && typeof r.updatedAt === 'number' &&
+      r.ids.every(function(x){ return typeof x === 'string' && x.length <= 80; });
+  }
+  function readLS(){ try{ var r = JSON.parse(localStorage.getItem(KEY)); return valid(r) ? r : null; }catch(e){ return null; } }
+  function open(){
+    return new Promise(function(res, rej){
+      if(!window.indexedDB) return rej(new Error('noidb'));
+      var q = indexedDB.open(DB, 1);
+      q.onupgradeneeded = function(){ q.result.createObjectStore(OS); };
+      q.onsuccess = function(){ res(q.result); };
+      q.onerror = function(){ rej(q.error); };
+      q.onblocked = function(){ rej(new Error('blocked')); };
+    });
+  }
+  function tx(mode, fn){
+    return open().then(function(db){
+      return new Promise(function(res, rej){
+        var t = db.transaction(OS, mode), r = fn(t.objectStore(OS));
+        t.oncomplete = function(){ db.close(); res(r && r.result); };
+        t.onerror = t.onabort = function(){ db.close(); rej(t.error); };
+      });
+    });
+  }
+  function readIDB(){ return tx('readonly', function(s){ return s.get(KEY); }).then(function(r){ return valid(r) ? r : null; }).catch(function(){ return null; }); }
+  return {
+    // القراءة: localStorage أولًا، وIndexedDB كاحتياطي — ولو الاتنين فيهم بيانات الأحدث (updatedAt) هو اللي بيتعرض
+    get: function(){
+      var l = readLS();
+      return readIDB().then(function(i){ if(l && i) return i.updatedAt > l.updatedAt ? i : l; return l || i || null; });
+    },
+    set: function(ids){
+      var rec = {ids: ids.slice(), updatedAt: Date.now()}, json = JSON.stringify(rec);
+      if(json.length <= MAXLS){
+        try{
+          localStorage.setItem(KEY, json);
+          return tx('readwrite', function(s){ return s['delete'](KEY); }).catch(function(){}).then(function(){ return 'ls'; });
+        }catch(e){ /* QuotaExceededError → IndexedDB */ }
+      }
+      return tx('readwrite', function(s){ return s.put(rec, KEY); }).then(function(){
+        try{ localStorage.removeItem(KEY); }catch(e){}
+        return 'idb';
+      });
+    },
+    clear: function(){
+      try{ localStorage.removeItem(KEY); }catch(e){}
+      return tx('readwrite', function(s){ return s['delete'](KEY); }).catch(function(){});
+    }
+  };
+})();
+
+var mys = {ids: []};
+var MYS_DAYS = ['Saturday','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday'];
+var MYS_AR = {Saturday:'السبت',Sunday:'الأحد',Monday:'الاثنين',Tuesday:'الثلاثاء',Wednesday:'الأربعاء',Thursday:'الخميس',Friday:'الجمعة'};
+var MYS_T = {lecture:'محاضرة',section:'سكشن',lab:'معمل',exam:'امتحان',other:'أخرى'};
+function mysRows(){ var d = window.dashGetData && window.dashGetData(); return (d && d.schedule) || []; }
+function mysLine(r){
+  return (MYS_T[r.type] ? MYS_T[r.type] + ' — ' : '') + r.start + ' إلى ' + r.end;
+}
+function mysMeta(r){ return [r.location, r.instructor].filter(Boolean).join(' • '); }
+function mysSave(ids){
+  mys.ids = ids;
+  return SD_STORE.set(ids).catch(function(){ showToast('تعذّر حفظ جدولك على الجهاز'); });
+}
+function mysRender(){
+  var body = document.getElementById('my-body'); if(!body) return;
+  body.textContent = '';
+  var rows = mysRows(), byId = {};
+  rows.forEach(function(r){ if(r.id) byId[r.id] = r; });
+  body.appendChild(secEl('h3', null, 'جدولي'));
+  var mine = mys.ids.map(function(id){ return byId[id]; }).filter(Boolean);
+  if(!mine.length){
+    body.appendChild(secEl('p','ld-hint','لم تتم إضافة أي محاضرات أو سكاشن بعد.'));
+  }else{
+    MYS_DAYS.forEach(function(dn){
+      var list = mine.filter(function(r){ return r.day === dn; }).sort(function(a,b){ return a.start < b.start ? -1 : 1; });
+      if(!list.length) return;
+      body.appendChild(secEl('div','my-day', MYS_AR[dn]));
+      list.forEach(function(r){
+        var it = secEl('div','my-item'), m = secEl('div','my-main');
+        m.appendChild(secEl('strong', null, r.course_name_ar));
+        m.appendChild(secEl('div','dash-meta', mysLine(r)));
+        if(mysMeta(r)) m.appendChild(secEl('div','dash-meta', mysMeta(r)));
+        it.appendChild(m);
+        var b = secEl('button','my-sm','إزالة'); b.type = 'button'; b.setAttribute('aria-label','إزالة ' + r.course_name_ar);
+        b.onclick = function(){ mysSave(mys.ids.filter(function(x){ return x !== r.id; })).then(mysRender); };
+        it.appendChild(b); body.appendChild(it);
+      });
+    });
+    var clr = secEl('button','my-sm','🗑️ مسح جدولي بالكامل'); clr.type = 'button';
+    clr.onclick = function(){ if(confirm('متأكدة إنك عايزة تمسحي جدولك الشخصي؟')){ mys.ids = []; SD_STORE.clear().then(mysRender); } };
+    body.appendChild(clr);
+  }
+  body.appendChild(secEl('h3', null, 'اختيار المحاضرات والسكاشن'));
+  var P = (document.getElementById('d-prog') || {}).value, C = (document.getElementById('d-sec') || {}).value;
+  if(!rows.length){ body.appendChild(secEl('p','ld-hint','⏳ جاري تحميل الجدول...')); return; }
+  if(!P || !C){ body.appendChild(secEl('p','ld-hint','اختاري القسم والسكشن من صفحة لوحتي عشان تظهر المواعيد المتاحة.')); return; }
+  var avail = rows.filter(function(r){
+    return r.id && (!r.program || r.program === P) && (!r.section || r.section.split(/[\s,]+/).indexOf(C) > -1);
+  });
+  if(!avail.length){ body.appendChild(secEl('p','ld-hint','لا توجد مواعيد متاحة للاختيار.')); return; }
+  var groups = {}, order = [];
+  avail.forEach(function(r){ if(!groups[r.course_name_ar]){ groups[r.course_name_ar] = []; order.push(r.course_name_ar); } groups[r.course_name_ar].push(r); });
+  order.forEach(function(name){
+    body.appendChild(secEl('div','my-course', name));
+    groups[name].forEach(function(r){
+      var lb = secEl('label','my-chk'), cb = document.createElement('input');
+      cb.type = 'checkbox'; cb.className = 'my-chk-input'; cb.checked = mys.ids.indexOf(r.id) > -1;
+      cb.onchange = function(){
+        var ids = mys.ids.filter(function(x){ return x !== r.id; });
+        if(cb.checked) ids.push(r.id);
+        mysSave(ids).then(mysRender);
+      };
+      var t = secEl('span'); t.appendChild(secEl('strong', null, MYS_AR[r.day] + ' — ' + mysLine(r)));
+      if(mysMeta(r)) t.appendChild(secEl('div','dash-meta', mysMeta(r)));
+      lb.appendChild(cb); lb.appendChild(t); body.appendChild(lb);
+    });
+  });
+}
+window.mysRefresh = function(){ if(document.getElementById('dashboard-view').classList.contains('my-open')) mysRender(); };
+function mysOpen(fromUrl){
+  document.getElementById('dashboard-view').classList.add('my-open');
+  if(!fromUrl) history.pushState({v:'my'}, '', '?view=schedule');
+  mysRender();
+  SD_STORE.get().then(function(r){ mys.ids = r ? r.ids : []; mysRender(); }).catch(function(){ mysRender(); });
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function mysClose(){
+  if(history.state && history.state.v === 'my') history.back();
+  else { document.getElementById('dashboard-view').classList.remove('my-open'); history.replaceState(null, '', location.pathname); }
+}
+window.addEventListener('popstate', function(e){
+  var dv = document.getElementById('dashboard-view');
+  if(!dv || !dv.classList.contains('active')) return;
+  if(e.state && e.state.v === 'my') mysOpen(true); else dv.classList.remove('my-open');
+});
+
+// ============================================================
+// اقتراحات وشكاوى — الإرسال عن طريق /api/feedback
+// توكن بوت تيليجرام ورقم واتساب موجودين في متغيّرات Vercel بس، مش في كود الصفحة.
+// ============================================================
+function fbSend(kind){
+  var st = document.getElementById('fb-status');
+  function v(id){ return (document.getElementById(id).value || '').replace(/\s+/g,' ').trim(); }
+  var text = (document.getElementById('fb-text').value || '').trim(), link = v('fb-link');
+  if(!text){ st.textContent = 'اكتبي التفاصيل الأول.'; return; }
+  if(link && !/^https:\/\/[^\s]+$/i.test(link)){ st.textContent = 'الرابط لازم يبدأ بـ https:// وبدون مسافات.'; return; }
+  var btns = document.querySelectorAll('.fb-btns button');
+  function lock(on){ [].forEach.call(btns, function(b){ b.disabled = on; }); }
+  lock(true); st.textContent = '⏳ جاري الإرسال...';
+  fetch('/api/feedback', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({
+    channel: kind, type: v('fb-type'), name: v('fb-name'), contact: v('fb-contact'), ref: v('fb-ref'),
+    text: text, link: link, website: document.getElementById('fb-hp').value
+  })}).then(function(r){ return r.json().catch(function(){ return {ok:false}; }); }).then(function(j){
+    if(j.ok && kind === 'tg'){
+      st.textContent = '✅ تم إرسال رسالتك. شكرًا ليكي!';
+      ['fb-text','fb-ref','fb-link'].forEach(function(id){ document.getElementById(id).value = ''; });
+    }else if(j.ok && kind === 'wa' && typeof j.url === 'string' && /^https:\/\/wa\.me\/\d{8,15}\?text=/.test(j.url)){
+      var w = window.open(j.url, '_blank', 'noopener,noreferrer');
+      st.textContent = w === null ? 'المتصفح منع فتح واتساب — اسمحي بالنوافذ المنبثقة وحاولي تاني.' : 'اتفتح واتساب — اضغطي إرسال هناك. الموقع نفسه ماببعتش حاجة.';
+    }else{
+      st.textContent = j.code === 'CONFIG' ? 'الإرسال لسه مش مفعّل على الخادم.' :
+        j.code === 'RATE' ? 'محاولات كتير — جرّبي بعد شوية.' :
+        j.code === 'INVALID' ? 'راجعي البيانات وحاولي تاني.' : 'تعذّر الإرسال، حاولي تاني.';
+    }
+  }).catch(function(){ st.textContent = 'تعذّر الاتصال بالخادم.'; }).then(function(){ lock(false); });
+}
 
 function __initApp(){
   // ★ احتياطي مبكر: نضمن إظهار الصفحة حتى لو حصل خطأ في أي مكان بالدالة
@@ -4096,7 +4382,8 @@ function __initApp(){
   // ⬇️ نحمّل المادة المطلوبة بس
   showSubjectLoading();
   loadSubject(startIdx).then(function(){
-    if(last && last.view === 'dashboard'){ openDashboard(); return; }
+    var wantMy = /[?&]view=schedule(&|$)/.test(location.search);
+    if(wantMy || (last && last.view === 'dashboard')){ openDashboard(); if(wantMy) mysOpen(true); return; }
     var s = subjects[startIdx];
     updateSubTabsVisibility(s); // ★★★ التعديل هنا ★★★
 
