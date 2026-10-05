@@ -67,5 +67,21 @@ var SUBJECTS_INDEX = [
     file: "data/tesrnew.js",
     active: false,
   },
+  // {
+  //   slug: "field-net",
+  //   icon: "🔷",
+  //   name: "Field Training - .NET",
+  //   en: "التدريب الميداني",
+  //   file: "data/sample.js",
+  //   active: true,
+  // },
+  {
+    name: "مادة تجريبية",
+    en: "Sample",
+    icon: "🧪",
+    slug: "sample",
+    file: "data/sample.js",
+    active: false,
+  },
 ];
 

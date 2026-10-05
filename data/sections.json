@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "sections": [
+    {
+      "subject": "sample",
+      "lecture": "المحاضرة الأولى — تجريبية",
+      "instructorId": "sample-1",
+      "instructorName": "م/ معيد تجريبي",
+      "groupName": "مجموعة 1",
+      "materials": {
+        "file": "https://example.com/section.pdf",
+        "exercises": "https://example.com/exercises.pdf",
+        "solution": "https://example.com/solution.pdf",
+        "recording": "https://example.com/recording",
+        "extraLinks": [{ "label": "رابط إضافي", "url": "https://example.com/extra" }]
+      }
+    }
+  ]
+}
