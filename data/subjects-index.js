@@ -9,6 +9,7 @@ var SUBJECTS_INDEX = [
     name: "Computer Graphics",
     en: "الرسم بالحاسوب",
     file: "data/1-graphics.js",
+    sectionsFile: "data/graphics/sections-graphics.json",
     active: true,
   },
   {
@@ -83,5 +84,9 @@ var SUBJECTS_INDEX = [
     file: "data/sample.js",
     active: true,
   },
+  /*
+  { slug:"math-copy", name:"الرياضيات (نسخة)", file:"data/math-copy.js",
+  sectionsFile:"data/sections-math-copy.json", active:true }
+  */
 ];
 

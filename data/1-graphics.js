@@ -4,6 +4,8 @@ subjects.push({
   icon: "🎨",
   lectures: [
     {
+      id: "lecture-01", // ★ معرّف فريد (يُستخدم في URL)
+
       t: "المحاضرة 1: مقدمة الرسوميات، الإسقاط المنظوري، والـ Rasterization",
       d: "تغطي المفاهيم الأساسية لرسوميات الحاسوب، تحويل المجسمات من 3D إلى 2D باستخدام الإسقاط المنظوري (Perspective Projection)، وخوارزميات تحويل الخطوط إلى بيكسلات (Rasterization).",
       pdf: "Computer Graphics/lectures/Lec1-Computer Graphics.pdf",

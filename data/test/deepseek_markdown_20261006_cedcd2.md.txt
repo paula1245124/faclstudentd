@@ -1,0 +1,27 @@
+# 📚 دليل هيكل الداتا — منصة المواد الدراسية
+
+هذا الدليل يشرح كل ملفات الداتا اللي المنصة بتقرأها، وإزاي تضيف محاضرة جديدة، سكشن، أو نسخة احتياطية.
+
+---
+
+## أ) هيكل `data/subjects-index.js`
+
+```js
+var SUBJECTS_INDEX = [
+  {
+    slug:         "math",                        // ★ معرّف فريد بالإنجليزي (يُستخدم في URLs وأسماء الملفات)
+    name:         "الرياضيات",                    // الاسم بالعربي (إجباري)
+    en:           "Mathematics",                 // الاسم بالإنجليزي (اختياري — يظهر تحت الاسم)
+    icon:         "📐",                          // أيقونة (اختياري — الافتراضي 📚)
+    file:         "data/math.js",                // ★ ملف بيانات المادة (إجباري)
+    sectionsFile: "data/sections-math.json",     // ★ (اختياري) ملف السكاشن — لو مش موجود نستخدم data/sections-{slug}.json
+    sectionTitle: "🧩 سكاشن الرياضيات",           // ★ (اختياري) عنوان قسم السكشن
+    active:       true                           // false = إخفاء المادة من الشريط
+  },
+  {
+    slug: "physics", name: "الفيزياء", en: "Physics", icon: "⚛️",
+    file: "data/physics.js",
+    sectionsFile: "data/sections-physics.json",
+    active: true
+  }
+];
