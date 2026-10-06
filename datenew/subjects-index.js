@@ -37,16 +37,16 @@ var SUBJECTS_INDEX = [
   // ─────────────────────────────────────────────────────────────
   // 3) Computer Networks — شبكات الحاسوب
   // ─────────────────────────────────────────────────────────────
-  //   {
-  //     slug: "networks",
-  //     name: "Computer Networks",
-  //     en: "شبكات الحاسوب",
-  //     icon: "🌐",
-  //     file: "datenew/networks/networks.js",
-  //     sectionsFile: "datenew/networks/sections-networks.json",
-  //     sectionTitle: "🧩 سكاشن الشبكات",
-  //     active: false,
-  //   },
+  {
+    slug: "networks",
+    name: "Computer Networks",
+    en: "شبكات الحاسوب",
+    icon: "🌐",
+    file: "datenew/networks/networks.js",
+    sectionsFile: "datenew/networks/sections-networks.json",
+    sectionTitle: "🧩 سكاشن الشبكات",
+    active: true,
+  },
 
   // ─────────────────────────────────────────────────────────────
   // 4) Operating Systems — نظم التشغيل
@@ -88,7 +88,7 @@ var SUBJECTS_INDEX = [
     file: "datenew/sample/sample.js",
     sectionsFile: "datenew/sample/sections-sample.json",
     sectionTitle: "🧩 سكاشن تجريبية",
-    active: true,
+    active: false,
   },
 
   // ─────────────────────────────────────────────────────────────
