@@ -1,24 +1,16 @@
 // api/feedback.js
-// دالة Serverless على Vercel — ترسل الرسائل + الصور إلى Telegram
-//
-// ملاحظات مهمة:
-// - حُذف فرع WhatsApp بالكامل (تم إلغاؤه من الواجهة).
-// - حُذف حقل "link" (تم حذفه من الواجهة).
-// - أضيف contactType + contactValue بدلاً من contact النصي.
-// - أضيف دعم images[] (Base64) وإرسالها عبر Telegram sendPhoto.
-//
-// ⚠️ حدود Vercel:
-//   - Hobby: 4.5MB كحد أقصى لجسم الطلب (JSON)
-//   - Pro:   4.5MB افتراضيًا، يمكن رفعه في vercel.json إلى حد أقصى
-//   - 5 صور × 5MB → ~33MB بعد Base64 → تجاوز الحد بكثير.
-//   → الحل: قيّد حجم الصور في الواجهة، أو استخدم رفع multipart منفصل
-//     (مثلاً endpoint رفع مباشر على S3/Cloudinary) ثم أرسل الروابط لتليجرام.
+// Serverless Function على Vercel — يستقبل رسالة + صور + reCAPTCHA v2
+// ثم يرسلها إلى Telegram
 
-// نحاول نرفع حد الـ body parser إلى 10MB (يُطبَّق فقط لو خطة Vercel تسمح)
+// ⚠️ حدود Vercel:
+//   - Hobby: 4.5MB كحد أقصى لجسم الطلب → نستخدم 4MB للأمان
+//   - الصور تُضغط في المتصفح (1200px @ 0.75) → عادةً 100-300KB لكل صورة
+//   - 5 صور × ~300KB = ~1.5MB → تحت الحد بسهولة
+
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: "1mb",
+      sizeLimit: "4mb",
     },
   },
 };
@@ -27,8 +19,9 @@ export const config = {
 // ثوابت
 // ──────────────────────────────────────────────────────────────
 const MAX_TEXT_LEN = 1000;
-const MAX_IMAGES = 1;
-const MAX_IMAGE_BYTES = 1 * 1024 * 1024; // حد تليجرام للصور عبر sendPhoto
+const MAX_IMAGES = 5;
+const MAX_IMAGE_BYTES = 1 * 1024 * 1024; // 1MB لكل صورة
+const RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
 
 const CONTACT_LABELS = {
   telegram: "تليجرام",
@@ -45,7 +38,7 @@ function bad(res, status, code, error) {
 }
 
 /**
- * يستخرج MIME + Base64 من data URL.
+ * يستخرج MIME + Buffer من data URL.
  * @returns {{ mime: string, buffer: Buffer } | null}
  */
 function decodeDataUrl(dataUrl) {
@@ -62,42 +55,130 @@ function decodeDataUrl(dataUrl) {
 }
 
 /**
- * يُرسل صورة واحدة إلى تليجرام عبر sendPhoto (multipart).
- * @returns {Promise<boolean>} true لو نجح الإرسال
+ * اسم ملف آمن
+ */
+function safeFileName(name, fallback = "image.jpg") {
+  if (!name) return fallback;
+  return (
+    String(name)
+      .replace(/[^\w.\-]+/g, "_")
+      .slice(0, 60) || fallback
+  );
+}
+
+/**
+ * ✅ التحقق من reCAPTCHA v2
+ * @returns {Promise<{ok: boolean, reason?: string}>}
+ */
+async function verifyRecaptcha(token, remoteip) {
+  const secret = process.env.RECAPTCHA_SECRET;
+  if (!secret) {
+    console.error("RECAPTCHA_SECRET not set");
+    return { ok: false, reason: "CONFIG" };
+  }
+  if (!token) {
+    return { ok: false, reason: "MISSING_TOKEN" };
+  }
+
+  try {
+    const params = new URLSearchParams({
+      secret,
+      response: token,
+    });
+    if (remoteip) params.append("remoteip", remoteip);
+
+    const r = await fetch(RECAPTCHA_VERIFY_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: params,
+    });
+    const j = await r.json().catch(() => ({ success: false }));
+
+    if (!j.success) {
+      console.warn("reCAPTCHA failed:", j["error-codes"] || j);
+      return { ok: false, reason: "CAPTCHA_FAILED" };
+    }
+    return { ok: true };
+  } catch (err) {
+    console.error("reCAPTCHA verify exception:", err);
+    return { ok: false, reason: "CAPTCHA_ERROR" };
+  }
+}
+
+/**
+ * إرسال صورة واحدة عبر sendPhoto (multipart).
  */
 async function sendPhotoToTelegram(botToken, chatId, img) {
   const decoded = decodeDataUrl(img && img.data);
   if (!decoded) return false;
   if (decoded.buffer.length > MAX_IMAGE_BYTES) {
-    console.warn(
-      "Image skipped (too large):",
-      img && img.name,
-      decoded.buffer.length,
-    );
+    console.warn("Image skipped (too large):", img.name, decoded.buffer.length);
     return false;
   }
 
-  // اسم ملف آمن
-  const safeName =
-    (img.name &&
-      String(img.name)
-        .replace(/[^\w.\-]+/g, "_")
-        .slice(0, 60)) ||
-    "image.jpg";
+  const name = safeFileName(img.name);
+  const form = new FormData();
+  form.append("chat_id", String(chatId));
+  form.append("caption", `📷 ${name}`.slice(0, 1024));
+
+  const file = new File([decoded.buffer], name, { type: decoded.mime });
+  form.append("photo", file, name);
+
+  try {
+    const r = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+      method: "POST",
+      body: form,
+    });
+    const j = await r.json().catch(() => ({ ok: false }));
+    if (!j.ok) console.warn("sendPhoto failed:", j.description);
+    return !!j.ok;
+  } catch (err) {
+    console.warn("sendPhoto exception:", err);
+    return false;
+  }
+}
+
+/**
+ * إرسال 2-5 صور عبر sendMediaGroup (multipart).
+ */
+async function sendMediaGroupToTelegram(botToken, chatId, images) {
+  const decoded = images
+    .map((img) => ({ img, decoded: decodeDataUrl(img && img.data) }))
+    .filter((x) => x.decoded && x.decoded.buffer.length <= MAX_IMAGE_BYTES);
+
+  if (!decoded.length) return 0;
 
   const form = new FormData();
   form.append("chat_id", String(chatId));
-  form.append("caption", `📷 ${safeName}`.slice(0, 1024));
 
-  // File constructor متاح في Node 18+ عبر undici
-  const file = new File([decoded.buffer], safeName, { type: decoded.mime });
-  form.append("photo", file, safeName);
+  const media = decoded.map((x, i) => ({
+    type: "photo",
+    media: `attach://photo_${i}`,
+    caption: i === 0 ? `📷 مرفقات (${decoded.length})` : undefined,
+  }));
+  form.append("media", JSON.stringify(media));
 
-  const url = `https://api.telegram.org/bot${botToken}/sendPhoto`;
-  const r = await fetch(url, { method: "POST", body: form });
-  const j = await r.json().catch(() => ({ ok: false }));
-  if (!j.ok) console.warn("sendPhoto failed:", j && j.description);
-  return !!j.ok;
+  decoded.forEach((x, i) => {
+    const name = safeFileName(x.img.name, `photo_${i}.jpg`);
+    const file = new File([x.decoded.buffer], name, { type: x.decoded.mime });
+    form.append(`photo_${i}`, file, name);
+  });
+
+  try {
+    const r = await fetch(
+      `https://api.telegram.org/bot${botToken}/sendMediaGroup`,
+      { method: "POST", body: form },
+    );
+    const j = await r.json().catch(() => ({ ok: false }));
+    if (!j.ok) {
+      console.warn("sendMediaGroup failed:", j.description);
+      return 0;
+    }
+    return decoded.length;
+  } catch (err) {
+    console.warn("sendMediaGroup exception:", err);
+    return 0;
+  }
 }
 
 // ──────────────────────────────────────────────────────────────
@@ -111,15 +192,16 @@ export default async function handler(req, res) {
 
   // 2) استخراج الحقول
   const {
-    channel, // 'tg' فقط الآن (كان 'tg' أو 'wa')
+    channel, // 'tg' فقط
     type,
     name,
     contactType, // 'telegram' | 'whatsapp' | 'email' | 'phone' | ''
-    contactValue, // القيمة النصية
+    contactValue,
     ref,
     text,
-    images, // مصفوفة [{name, type, data: 'data:image/...;base64,...'}]
+    images, // [{ name, type, data: 'data:image/...;base64,...' }]
     website, // honeypot
+    recaptchaToken, // ★ جديد — reCAPTCHA v2 token
   } = req.body || {};
 
   // 3) Honeypot
@@ -129,12 +211,25 @@ export default async function handler(req, res) {
       .json({ ok: false, code: "HONEYPOT", error: "تم رفض الطلب" });
   }
 
-  // 4) التحقق من القناة (الآن تليجرام فقط)
+  // 4) ★ التحقق من reCAPTCHA (قبل أي حاجة تانية)
+  const remoteip =
+    (req.headers["x-forwarded-for"] || "").split(",")[0].trim() ||
+    req.socket?.remoteAddress ||
+    "";
+  const cap = await verifyRecaptcha(recaptchaToken, remoteip);
+  if (!cap.ok) {
+    if (cap.reason === "CONFIG") {
+      return bad(res, 500, "CONFIG", "إعدادات reCAPTCHA ناقصة على السيرفر");
+    }
+    return bad(res, 400, "CAPTCHA_FAILED", "فشل التحقق البشري — حاول تاني");
+  }
+
+  // 5) قناة الإرسال (تليجرام فقط)
   if (channel && channel !== "tg") {
     return bad(res, 400, "INVALID", "قناة الإرسال غير مدعومة");
   }
 
-  // 5) التحقق من النص
+  // 6) التحقق من النص
   if (!text || String(text).trim() === "") {
     return bad(res, 400, "INVALID", "النص مطلوب");
   }
@@ -142,7 +237,7 @@ export default async function handler(req, res) {
     return bad(res, 400, "BIG", "الرسالة طويلة جدًا");
   }
 
-  // 6) التحقق من وسيلة التواصل
+  // 7) التحقق من وسيلة التواصل
   const cType = String(contactType || "").trim();
   const cVal = String(contactValue || "")
     .replace(/\s+/g, " ")
@@ -167,7 +262,7 @@ export default async function handler(req, res) {
     return bad(res, 400, "BIG", "قيمة وسيلة التواصل طويلة جدًا");
   }
 
-  // 7) تجهيز قائمة الصور
+  // 8) تجهيز قائمة الصور
   const rawImages = Array.isArray(images) ? images : [];
   const imageList = rawImages
     .slice(0, MAX_IMAGES)
@@ -179,7 +274,7 @@ export default async function handler(req, res) {
         im.data.startsWith("data:image/"),
     );
 
-  // 8) تجهيز نص الرسالة
+  // 9) تجهيز نص الرسالة
   const contactLabel = cType
     ? `${CONTACT_LABELS[cType]}${cVal ? `: ${cVal}` : ""}`
     : "غير محدد";
@@ -198,16 +293,16 @@ export default async function handler(req, res) {
   }
   const message = messageLines.join("\n");
 
-  // 9) إعدادات تليجرام
-  const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-  const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+  // 10) إعدادات تليجرام — دعم تسميتين للمتغيرات
+  const BOT_TOKEN = process.env.TG_BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN;
+  const CHAT_ID = process.env.TG_CHAT_ID || process.env.TELEGRAM_CHAT_ID;
 
   if (!BOT_TOKEN || !CHAT_ID) {
-    console.error("Missing Telegram env vars");
+    console.error("Missing Telegram env vars (TG_BOT_TOKEN / TG_CHAT_ID)");
     return bad(res, 500, "CONFIG", "إعدادات تليجرام ناقصة");
   }
 
-  // 10) إرسال الرسالة النصية أولاً
+  // 11) إرسال الرسالة النصية أولاً
   try {
     const tgResponse = await fetch(
       `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
@@ -233,18 +328,41 @@ export default async function handler(req, res) {
     return bad(res, 500, "SERVER", "خطأ في السيرفر");
   }
 
-  // 11) إرسال الصور (كل صورة على حدة — الفشل في واحدة لا يوقف الباقي)
+  // 12) إرسال الصور
   let imagesSent = 0;
-  for (const img of imageList) {
+
+  if (imageList.length === 1) {
+    // صورة واحدة → sendPhoto
     try {
-      const ok = await sendPhotoToTelegram(BOT_TOKEN, CHAT_ID, img);
-      if (ok) imagesSent++;
+      const ok = await sendPhotoToTelegram(BOT_TOKEN, CHAT_ID, imageList[0]);
+      if (ok) imagesSent = 1;
     } catch (err) {
       console.warn("sendPhoto exception:", err);
     }
+  } else if (imageList.length > 1) {
+    // أكثر من صورة → sendMediaGroup (كلها مع بعض)
+    try {
+      imagesSent = await sendMediaGroupToTelegram(
+        BOT_TOKEN,
+        CHAT_ID,
+        imageList,
+      );
+    } catch (err) {
+      console.warn("sendMediaGroup exception:", err);
+
+      // fallback: إرسال كل صورة على حدة
+      for (const img of imageList) {
+        try {
+          const ok = await sendPhotoToTelegram(BOT_TOKEN, CHAT_ID, img);
+          if (ok) imagesSent++;
+        } catch (e) {
+          console.warn("sendPhoto fallback exception:", e);
+        }
+      }
+    }
   }
 
-  // 12) الرد النهائي
+  // 13) الرد النهائي
   return res.status(200).json({
     ok: true,
     message: "تم الإرسال بنجاح",
