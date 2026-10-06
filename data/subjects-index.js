@@ -95,7 +95,7 @@ var SUBJECTS_INDEX = [
     en: "Computer Networks",
     icon: "🌐",
     file: "data/computer-networks.js",
-    sectionsFile: "data/sections-computer-networks.json", // ★ التعديل 9
+    sectionsFile: "data/graphics/sections-computer-networks.json", // ★ التعديل 9
     sectionTitle: "🧩 سكاشن الشبكات", // ★ التعديل 6
     active: true,
   },
