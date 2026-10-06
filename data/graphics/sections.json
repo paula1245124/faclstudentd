@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "sections": [
     {
-      "subject": "sample",
-      "lecture": "المحاضرة الأولى — تجريبية",
-      "instructorId": "sample-1",
+      "subject": "1-graphics",
+      "lecture": "المحاضرة 1: مقدمة الرسوميات، الإسقاط المنظوري، والـ Rasterization",
+      "instructorId": "1-graphics-1",
       "instructorName": "م/ معيد تجريبي",
       "groupName": "مجموعة 1",
       "notes": "ملاحظة تجريبية من المعيد.",
