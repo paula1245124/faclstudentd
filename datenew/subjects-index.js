@@ -45,7 +45,7 @@ var SUBJECTS_INDEX = [
     file: "datanew/networks/networks.js",
     sectionsFile: "datanew/networks/sections-networks.json",
     sectionTitle: "🧩 سكاشن الشبكات",
-    active: true,
+    active: false,
   },
 
   // ─────────────────────────────────────────────────────────────
