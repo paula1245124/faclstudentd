@@ -82,12 +82,22 @@ var SUBJECTS_INDEX = [
     icon: "🧪",
     slug: "sample",
     file: "data/sample.js",
-    sectionsFile:"data/sections-sample.json",
+    sectionsFile: "data/sections-sample.json",
     active: true,
   },
   /*
   { slug:"math-copy", name:"الرياضيات (نسخة)", file:"data/math-copy.js",
   sectionsFile:"data/sections-math-copy.json", active:true }
   */
+  {
+    slug: "computer-networks",
+    name: "Computer Networks",
+    en: "Computer Networks",
+    icon: "🌐",
+    file: "data/computer-networks.js",
+    sectionsFile: "data/sections-computer-networks.json", // ★ التعديل 9
+    sectionTitle: "🧩 سكاشن الشبكات", // ★ التعديل 6
+    active: true,
+  },
 ];
 
