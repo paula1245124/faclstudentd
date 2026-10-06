@@ -798,6 +798,156 @@ html.fb-modal-open,html.fb-modal-open body{ overflow:hidden; }
 /* ★ التعديل 2: زر رجوع المعيدين لمعيد واحد */
 #sec-view .sec-back-to-sections{margin-bottom:10px;background:var(--bg-card);color:var(--text-primary);border:2px solid var(--border);padding:8px 16px;border-radius:10px;font:inherit;font-weight:bold;cursor:pointer}
 #sec-view .sec-back-to-sections:hover{border-color:var(--accent)}
+/* ============================================================
+   ★ قسم رفع الصور في نموذج الاقتراحات
+   ============================================================ */
+.fb-upload-section{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin:4px 0;
+}
+
+.fb-upload-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:6px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--text-secondary);
+}
+
+.fb-upload-head small{
+    color:var(--text-hint);
+    font-size:11px;
+    font-weight:400;
+}
+
+.fb-drop{
+    position:relative;
+    border:2px dashed var(--border);
+    border-radius:10px;
+    background:var(--bg-card);
+    transition:border-color .2s, background .2s, transform .15s;
+    cursor:pointer;
+    outline:none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.fb-drop:hover,
+.fb-drop:focus-visible{
+    border-color:var(--accent);
+    background:var(--bg-card-hover);
+}
+
+.fb-drop.dragover{
+    border-color:var(--accent);
+    background:var(--option-hover-bg);
+    transform:scale(1.01);
+}
+
+.fb-drop-inner{
+    padding:20px 14px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    color:var(--text-secondary);
+    font-size:13px;
+    text-align:center;
+    pointer-events:none;
+}
+
+.fb-drop-icon{
+    font-size:26px;
+    line-height:1;
+}
+
+.fb-drop-text{
+    font-weight:600;
+}
+
+.fb-thumbs{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(72px, 1fr));
+    gap:8px;
+    margin-top:4px;
+}
+
+.fb-thumbs:empty{ display:none; }
+
+.fb-thumb{
+    position:relative;
+    aspect-ratio:1/1;
+    border-radius:8px;
+    overflow:hidden;
+    border:2px solid var(--border);
+    background:var(--bg-card);
+    animation:fbThumbIn .25s ease;
+}
+
+@keyframes fbThumbIn{
+    from{ opacity:0; transform:scale(.9); }
+    to{ opacity:1; transform:scale(1); }
+}
+
+.fb-thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.fb-thumb-del{
+    position:absolute;
+    top:4px;
+    inset-inline-end:4px;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    background:rgba(0,0,0,.7);
+    color:#fff;
+    border:none;
+    cursor:pointer;
+    font-size:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    line-height:1;
+    font-family:inherit;
+    transition:background .2s, transform .2s;
+    z-index:2;
+}
+
+.fb-thumb-del:hover{
+    background:var(--danger);
+    transform:scale(1.1);
+}
+
+.fb-thumb-loading{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.fb-thumb-loading::after{
+    content:'';
+    width:20px;
+    height:20px;
+    border:2px solid rgba(255,255,255,.3);
+    border-top-color:#fff;
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+}
 </style>
 <body>
 
@@ -1023,63 +1173,95 @@ html.fb-modal-open,html.fb-modal-open body{ overflow:hidden; }
 </footer>
 
 <!-- ★ التعديل 8: Modal جديد للاقتراحات -->
-<div class="fb-modal-overlay" id="fb-modal" aria-hidden="true" onclick="if(event.target===this)closeFbModal()">
+<!-- ★ التعديل 8: Modal الاقتراحات — نسخة نهائية -->
+<div class="fb-modal-overlay" id="fb-modal" aria-hidden="true"
+     onclick="if(event.target===this)closeFbModal()">
     <div class="fb-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="fb-modal-title">
-        <button class="fb-modal-close" onclick="closeFbModal()" aria-label="إغلاق">✕</button>
+        <button type="button" class="fb-modal-close" onclick="closeFbModal()" aria-label="إغلاق">✕</button>
         <h2 class="fb-modal-title" id="fb-modal-title">💬 اقتراحات وشكاوى</h2>
-        <div class="fb-body">
-            <input id="fb-hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
 
-            <label>الاسم (اختياري)<input id="fb-name" maxlength="60" autocomplete="name"></label>
+        <div class="fb-body">
+            <!-- Honeypot -->
+            <input id="fb-hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+                   style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+
+            <label>الاسم (اختياري)
+                <input id="fb-name" maxlength="60" autocomplete="name">
+            </label>
 
             <label>طريقة التواصل (اختياري)
-              <select id="fb-contact-type">
-                <option value="">— اختر —</option>
-                <option value="telegram">تليجرام</option>
-                <option value="whatsapp">واتساب</option>
-                <option value="email">إيميل</option>
-                <option value="phone">اتصال هاتفي</option>
-              </select>
+                <select id="fb-contact-type">
+                    <option value="">— اختر —</option>
+                    <option value="telegram">تليجرام</option>
+                    <option value="whatsapp">واتساب</option>
+                    <option value="email">إيميل</option>
+                    <option value="phone">اتصال هاتفي</option>
+                </select>
             </label>
             <label id="fb-contact-val-wrap" style="display:none;">القيمة
-              <input id="fb-contact-val" maxlength="80" dir="ltr" inputmode="text">
+                <input id="fb-contact-val" maxlength="80" dir="ltr" inputmode="text">
             </label>
 
             <label>نوع الطلب
-              <select id="fb-type">
-                <option>اقتراح</option><option>شكوى</option><option>الإبلاغ عن مشكلة</option>
-                <option>طلب إضافة محتوى</option><option>طلب تصحيح بيانات</option><option>ملاحظة على الموقع</option>
-              </select>
+                <select id="fb-type">
+                    <option>اقتراح</option>
+                    <option>شكوى</option>
+                    <option>الإبلاغ عن مشكلة</option>
+                    <option>طلب إضافة محتوى</option>
+                    <option>طلب تصحيح بيانات</option>
+                    <option>ملاحظة على الموقع</option>
+                </select>
             </label>
-            <label>المادة أو المحاضرة (اختياري)<input id="fb-ref" maxlength="120"></label>
-            <label>التفاصيل<textarea id="fb-text" rows="4" maxlength="1000"></textarea></label>
 
-            <!-- ★ منطقة رفع الصور -->
-            <div class="fb-upload-area" id="fb-upload-area">
-              <label class="fb-upload-label" for="fb-images">
-                <span class="fb-upload-icon">📷</span>
-                <span>اضغط لإضافة صور (حتى 5 صور — 5MB لكل صورة)</span>
-              </label>
-              <input type="file" id="fb-images" accept="image/*" multiple style="position:absolute;left:-9999px;opacity:0">
-              <div id="fb-images-preview" class="fb-images-preview"></div>
+            <label>المادة أو المحاضرة (اختياري)
+                <input id="fb-ref" maxlength="120">
+            </label>
+
+            <label>التفاصيل
+                <textarea id="fb-text" rows="4" maxlength="1000"></textarea>
+            </label>
+
+            <!-- ★ قسم رفع الصور -->
+            <div class="fb-upload-section">
+                <div class="fb-upload-head">
+                    <span>📷 صور (اختياري)</span>
+                    <small id="fb-img-counter">0 / 5 صور — أقصى حجم 1MB لكل صورة</small>
+                </div>
+
+                <input type="file" id="fb-images" accept="image/*" multiple hidden>
+
+                <div class="fb-drop" id="fb-drop" role="button" tabindex="0"
+                     aria-label="اضغط لاختيار الصور">
+                    <div class="fb-drop-inner">
+                        <span class="fb-drop-icon">📤</span>
+                        <span class="fb-drop-text">اضغط لاختيار الصور أو اسحبها هنا</span>
+                    </div>
+                </div>
+
+                <div class="fb-thumbs" id="fb-thumbs" aria-live="polite"></div>
             </div>
 
-            <!-- ★ تحقق بشري بسيط -->
+            <!-- ★ التحقق البشري -->
             <label>تحقق بشري
-              <div class="fb-captcha">
-                <span id="fb-captcha-q">— + — = ؟</span>
-                <input id="fb-captcha-a" type="number" inputmode="numeric" min="0" placeholder="الناتج">
-                <button type="button" class="fb-captcha-refresh" onclick="fbInitCaptcha()" aria-label="سؤال جديد">🔄</button>
-              </div>
+                <div class="fb-captcha">
+                    <span id="fb-captcha-q">— + — = ؟</span>
+                    <input id="fb-captcha-a" type="number" inputmode="numeric" min="0"
+                           placeholder="الناتج" autocomplete="off">
+                    <button type="button" class="fb-captcha-refresh"
+                            onclick="fbInitCaptcha()" aria-label="سؤال جديد">🔄</button>
+                </div>
             </label>
 
+            <!-- ★ الأزرار -->
             <div class="fb-btns">
-              <button type="button" id="fb-tg" onclick="fbSend('tg')">✈️ إرسال عبر Telegram</button>
+                <button type="button" id="fb-tg" onclick="fbSend('tg')">✈️ إرسال عبر Telegram</button>
             </div>
+
             <p id="fb-status" role="status"></p>
         </div>
     </div>
 </div>
+
 <div class="toast" id="toast"></div>
 <script>var subjects = [];</script>
 <script src="datenew/subjects-index.js" defer></script>
@@ -4069,9 +4251,21 @@ function insExportExcel(){
 // ============================================================
 // ★ التعديل 8: نموذج الاقتراحات — نسخة جديدة
 // ============================================================
+// ============================================================
+// ★ التعديل 8: نموذج الاقتراحات — نسخة مصححة نهائية
+// ============================================================
+
+// ⚠️⚠️ مهم جداً: لازم يكونوا في السكوب العام قبل أي دالة
 var _fbImages = [];
 var _fbCaptchaAns = null;
 
+// الثوابت
+var FB_MAX_IMAGES   = 5;
+var FB_MAX_SIZE     = 1 * 1024 * 1024; // ★ 1 ميجا
+var FB_MAX_DIM      = 1200;
+var FB_JPEG_QUALITY = 0.75;
+
+// ---------- الكابتشا ----------
 function fbInitCaptcha(){
   var a = Math.floor(Math.random() * 9) + 1;
   var b = Math.floor(Math.random() * 9) + 1;
@@ -4082,92 +4276,221 @@ function fbInitCaptcha(){
   if(ia) ia.value = '';
 }
 
+// ---------- العرض ----------
 function fbRenderPreviews(){
-  var box = document.getElementById('fb-images-preview');
+  var box = document.getElementById('fb-thumbs');           // ← كان fb-images-preview
+  var counter = document.getElementById('fb-img-counter');  // ← كان fb-images-counter
+  if(counter){
+    counter.textContent = _fbImages.length + ' / ' + FB_MAX_IMAGES
+      + ' صور — أقصى حجم 1MB لكل صورة';
+  }
   if(!box) return;
   box.innerHTML = _fbImages.map(function(img, i){
-    return '<div class="fb-img-thumb"><img src="' + img.data + '" alt="">' +
-           '<button type="button" onclick="fbRemoveImage(' + i + ')" aria-label="حذف">✕</button></div>';
+    return '<div class="fb-img-thumb">' +
+             '<img src="' + img.data + '" alt="">' +
+             '<button type="button" onclick="fbRemoveImage(' + i + ')" aria-label="حذف">✕</button>' +
+           '</div>';
   }).join('');
 }
 
 function fbRemoveImage(i){
+  if(i < 0 || i >= _fbImages.length) return;
   _fbImages.splice(i, 1);
   fbRenderPreviews();
 }
 
-function fbHandleImages(ev){
-  var files = ev.target.files || [];
-  if(!files.length) return;
-  var MAX = 5, MAXSIZE = 5 * 1024 * 1024;
-  var remain = MAX - _fbImages.length;
-  if(files.length > remain){ showToast('⚠️ الحد الأقصى ' + MAX + ' صور — سيتم تجاهل الزائد'); }
-  var arr = Array.prototype.slice.call(files, 0, Math.max(0, remain));
-  arr.forEach(function(file){
-    if(!/^image\//.test(file.type)){ showToast('⚠️ ' + file.name + ' ليس صورة'); return; }
-    if(file.size > MAXSIZE){ showToast('⚠️ ' + file.name + ' أكبر من 5 ميجا'); return; }
+// ---------- ضغط الصورة ----------
+function fbCompressImage(file){
+  return new Promise(function(resolve){
     var reader = new FileReader();
-    reader.onload = function(){
-      _fbImages.push({name:file.name, size:file.size, type:file.type, data:String(reader.result)});
-      fbRenderPreviews();
+    reader.onload = function(e){
+      var originalDataUrl = e.target.result;
+      var img = new Image();
+      img.onload = function(){
+        try{
+          var w = img.naturalWidth;
+          var h = img.naturalHeight;
+          if(w > FB_MAX_DIM || h > FB_MAX_DIM){
+            var ratio = Math.min(FB_MAX_DIM / w, FB_MAX_DIM / h);
+            w = Math.max(1, Math.round(w * ratio));
+            h = Math.max(1, Math.round(h * ratio));
+          }
+          var canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          var ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, w, h);
+          ctx.drawImage(img, 0, 0, w, h);
+
+          var dataUrl = canvas.toDataURL('image/jpeg', FB_JPEG_QUALITY);
+          if(dataUrl && dataUrl.length > 20){
+            resolve(dataUrl);
+          } else {
+            resolve(originalDataUrl);
+          }
+        }catch(err){
+          resolve(originalDataUrl); // fallback لو canvas فشل
+        }
+      };
+      img.onerror = function(){ resolve(originalDataUrl); };
+      img.src = originalDataUrl;
     };
-    reader.onerror = function(){ showToast('❌ فشل قراءة ' + file.name); };
+    reader.onerror = function(){ resolve(null); };
     reader.readAsDataURL(file);
   });
-  ev.target.value = '';
 }
 
-/* ربط أحداث النموذج */
+// ---------- استقبال الصور ----------
+function fbHandleImages(ev){
+  var files = ev && ev.target && ev.target.files;
+  if(!files || !files.length) return;
+
+  var list = Array.prototype.slice.call(files);
+  var accepted = [];
+
+  list.forEach(function(file){
+    if(!/^image\//.test(file.type)){
+      showToast('⚠️ ' + file.name + ' مش صورة');
+      return;
+    }
+    if(file.size > FB_MAX_SIZE){
+      showToast('⚠️ ' + file.name + ' أكبر من 1 ميجا (' +
+                (file.size / (1024 * 1024)).toFixed(2) + 'MB)');
+      return;
+    }
+    if(_fbImages.length + accepted.length >= FB_MAX_IMAGES){
+      showToast('⚠️ الحد الأقصى ' + FB_MAX_IMAGES + ' صور');
+      return;
+    }
+    accepted.push(file);
+  });
+
+  // تفريغ الـ input بسرعة عشان لو اختار نفس الصورة تاني
+  if(ev && ev.target) ev.target.value = '';
+
+  if(!accepted.length) return;
+
+  showToast('⏳ جاري معالجة ' + accepted.length + ' صورة...');
+
+  Promise.all(accepted.map(function(f){
+    return fbCompressImage(f).then(function(dataUrl){
+      if(!dataUrl) return null;
+      return {
+        name: f.name,
+        size: f.size,
+        type: 'image/jpeg',
+        data: dataUrl
+      };
+    });
+  })).then(function(results){
+    var okCount = 0;
+    results.forEach(function(r){
+      if(r && _fbImages.length < FB_MAX_IMAGES){
+        _fbImages.push(r);
+        okCount++;
+      }
+    });
+    fbRenderPreviews();
+    if(okCount) showToast('✅ ' + okCount + ' صورة جاهزة');
+  }).catch(function(err){
+    console.error('fbHandleImages error:', err);
+    showToast('❌ فشل معالجة الصور');
+  });
+}
+
+// ---------- ربط الأحداث ----------
 (function fbInitEvents(){
   function bind(){
+    // 1) input الملفات
     var inp = document.getElementById('fb-images');
-    if(inp) inp.addEventListener('change', fbHandleImages);
-    var area = document.getElementById('fb-upload-area');
-    if(area){
+    if(inp && !inp._fbBound){
+      inp._fbBound = true;
+      inp.addEventListener('change', fbHandleImages);
+    }
+
+    // 2) منطقة السحب والإفلات
+var area = document.getElementById('fb-drop');   // ← تم التصحيح
+    if(area && !area._fbBound){
+      area._fbBound = true;
+
       ['dragenter','dragover'].forEach(function(ev){
-        area.addEventListener(ev, function(e){ e.preventDefault(); area.classList.add('dragover'); });
+        area.addEventListener(ev, function(e){
+          e.preventDefault(); e.stopPropagation();
+          area.classList.add('dragover');
+        });
       });
       ['dragleave','drop'].forEach(function(ev){
-        area.addEventListener(ev, function(e){ e.preventDefault(); area.classList.remove('dragover'); });
+        area.addEventListener(ev, function(e){
+          e.preventDefault(); e.stopPropagation();
+          area.classList.remove('dragover');
+        });
       });
       area.addEventListener('drop', function(e){
         var dt = e.dataTransfer;
-        if(dt && dt.files && dt.files.length){ fbHandleImages({target:{files:dt.files, value:''}}); }
+        if(dt && dt.files && dt.files.length){
+          fbHandleImages({ target: { files: dt.files, value: '' } });
+        }
+      });
+
+      // الضغط على المنطقة يفتح الـ input
+      area.addEventListener('click', function(e){
+        if(e.target !== inp && inp){
+          inp.click();
+        }
       });
     }
+
+    // 3) قائمة نوع وسيلة التواصل
     var cSel = document.getElementById('fb-contact-type');
-    if(cSel){
+    if(cSel && !cSel._fbBound){
+      cSel._fbBound = true;
       cSel.addEventListener('change', function(){
         var w = document.getElementById('fb-contact-val-wrap');
         var v = document.getElementById('fb-contact-val');
         if(w) w.style.display = cSel.value ? '' : 'none';
         if(v){
-          v.type = (cSel.value === 'phone') ? 'tel' : (cSel.value === 'email' ? 'email' : 'text');
-          v.placeholder = cSel.value === 'email' ? 'name@example.com' :
-                          cSel.value === 'phone' ? '+201234567890' :
-                          cSel.value === 'telegram' ? '@username' :
-                          cSel.value === 'whatsapp' ? '+201234567890' : '';
+          v.type = (cSel.value === 'phone') ? 'tel'
+                 : (cSel.value === 'email') ? 'email'
+                 : 'text';
+          v.placeholder = cSel.value === 'email'    ? 'name@example.com'
+                        : cSel.value === 'phone'    ? '+201234567890'
+                        : cSel.value === 'telegram' ? '@username'
+                        : cSel.value === 'whatsapp' ? '+201234567890'
+                        : '';
         }
       });
     }
+
     fbInitCaptcha();
   }
-  if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', bind); } else { bind(); }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', bind);
+  } else {
+    bind();
+  }
 })();
 
-/* ★ fbSend الجديدة */
+// ---------- الإرسال ----------
 function fbSend(kind){
   var stt = document.getElementById('fb-status');
   var btns = document.querySelectorAll('.fb-btns button');
 
-  function v(id){ var el = document.getElementById(id); return el ? (el.value || '').replace(/\s+/g,' ').trim() : ''; }
-  function setStatus(cls, msg){ stt.className = cls; stt.textContent = msg; }
-  function lock(on){ [].forEach.call(btns, function(b){ b.disabled = on; }); }
+  function v(id){
+    var el = document.getElementById(id);
+    return el ? (el.value || '').replace(/\s+/g,' ').trim() : '';
+  }
+  function setStatus(cls, msg){
+    if(!stt) return;
+    stt.className = cls || '';
+    stt.textContent = msg || '';
+  }
+  function lock(on){
+    [].forEach.call(btns, function(b){ b.disabled = on; });
+  }
 
-  var textEl = document.getElementById('fb-text');
-  var text = textEl ? (textEl.value || '').trim() : '';
-
-  /* كابتشا */
+  // 1) الكابتشا
   var ansRaw = (document.getElementById('fb-captcha-a') || {}).value;
   var ans = parseInt(ansRaw, 10);
   if(isNaN(ans) || ans !== _fbCaptchaAns){
@@ -4176,68 +4499,95 @@ function fbSend(kind){
     return;
   }
 
+  // 2) النص
+  var textEl = document.getElementById('fb-text');
+  var text = textEl ? (textEl.value || '').trim() : '';
   if(!text){ setStatus('err', '✏️ اكتبي التفاصيل الأول.'); return; }
-  if(text.length < 5){ setStatus('err', '✏️ التفاصيل قصيرة جدًا — اكتبي على الأقل 5 حروف.'); return; }
+  if(text.length < 5){ setStatus('err', '✏️ التفاصيل قصيرة جدًا (5 حروف على الأقل).'); return; }
 
+  // 3) وسيلة التواصل
   var cType = v('fb-contact-type');
   var cVal  = v('fb-contact-val');
   if(cType && !cVal){ setStatus('err', '📞 اكتبي قيمة وسيلة التواصل.'); return; }
   if(cVal && !cType){ setStatus('err', '📞 اختاري نوع وسيلة التواصل.'); return; }
-  if(cType === 'email' && cVal && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(cVal)){ setStatus('err', '📧 صيغة الإيميل غير صحيحة.'); return; }
-  if(cType === 'phone' && cVal && !/^[+\d][\d\s\-]{6,}$/.test(cVal)){ setStatus('err', '📱 صيغة رقم الهاتف غير صحيحة.'); return; }
+  if(cType === 'email' && cVal && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(cVal)){
+    setStatus('err', '📧 صيغة الإيميل غير صحيحة.'); return;
+  }
+  if(cType === 'phone' && cVal && !/^[+\d][\d\s\-]{6,}$/.test(cVal)){
+    setStatus('err', '📱 صيغة رقم الهاتف غير صحيحة.'); return;
+  }
 
-  if(_fbImages.length > 5){ setStatus('err','⚠️ عدد الصور أكبر من 5.'); return; }
+  if(_fbImages.length > FB_MAX_IMAGES){
+    setStatus('err', '⚠️ عدد الصور أكبر من ' + FB_MAX_IMAGES + '.');
+    return;
+  }
 
   lock(true);
-  setStatus('', '⏳ جاري الإرسال...');
+  setStatus('', '⏳ جاري الإرسال' +
+    (_fbImages.length ? ' (' + _fbImages.length + ' صورة)...' : '...'));
 
   var payload = {
-    channel: kind,
-    type: v('fb-type'),
-    name: v('fb-name'),
-    contactType: cType,
+    channel:      kind,
+    type:         v('fb-type'),
+    name:         v('fb-name'),
+    contactType:  cType,
     contactValue: cVal,
-    ref: v('fb-ref'),
-    text: text,
-    images: _fbImages.map(function(im){ return {name:im.name, type:im.type, data:im.data}; }),
+    ref:          v('fb-ref'),
+    text:         text,
+    images:       _fbImages.map(function(im){
+      return { name: im.name, type: im.type, data: im.data };
+    }),
     website: (document.getElementById('fb-hp') || {}).value || ''
   };
 
   var controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
-  var timeoutId = setTimeout(function(){ if(controller) try{ controller.abort(); }catch(e){} }, 30000);
+  var timeoutId = setTimeout(function(){
+    if(controller) try{ controller.abort(); }catch(e){}
+  }, 45000);
 
-  var fetchOpts = { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) };
+  var fetchOpts = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  };
   if(controller) fetchOpts.signal = controller.signal;
 
   fetch('/api/feedback', fetchOpts)
     .then(function(r){
-      return r.json().catch(function(){ return { ok:false, code:'BAD_JSON', httpStatus:r.status }; }).then(function(j){ j._httpStatus = r.status; return j; });
+      return r.json().catch(function(){
+        return { ok:false, code:'BAD_JSON', httpStatus: r.status };
+      }).then(function(j){ j._httpStatus = r.status; return j; });
     })
     .then(function(j){
       clearTimeout(timeoutId);
+
       if(j.ok && kind === 'tg'){
-        setStatus('ok', '✅ تم إرسال رسالتك. شكرًا ليكي!');
-        ['fb-text','fb-ref','fb-contact-val'].forEach(function(id){ var el = document.getElementById(id); if(el) el.value = ''; });
-        _fbImages = []; fbRenderPreviews();
+        setStatus('ok', '✅ تم إرسال رسالتك. شكرًا!');
+        ['fb-text','fb-ref','fb-contact-val'].forEach(function(id){
+          var el = document.getElementById(id);
+          if(el) el.value = '';
+        });
+        _fbImages = [];
+        fbRenderPreviews();
         fbInitCaptcha();
         return;
       }
-      if(j.code === 'CONFIG'){ setStatus('err','⚙️ الإرسال لسه مش مفعّل على الخادم.'); }
-      else if(j.code === 'RATE'){ setStatus('err','⏳ محاولات كتير — جرّبي بعد شوية.'); }
-      else if(j.code === 'INVALID'){ setStatus('err','📝 راجعي البيانات وحاولي تاني.'); }
-      else if(j.code === 'BIG'){ setStatus('err','📦 الرسالة أو الصور طويلة جدًا — اختصري شوية.'); }
-      else if(j.code === 'HONEYPOT'){ setStatus('err','🤖 تم رفض الطلب.'); }
-      else if(j.httpStatus >= 500){ setStatus('err','🔧 في مشكلة في السيرفر — حاولي بعد شوية.'); }
-      else { setStatus('err','❌ تعذّر الإرسال، حاولي تاني.'); }
+
+      if(j.code === 'CONFIG')         setStatus('err','⚙️ الإرسال لسه مش مفعّل.');
+      else if(j.code === 'RATE')      setStatus('err','⏳ محاولات كتير — جرّبي بعد شوية.');
+      else if(j.code === 'INVALID')   setStatus('err','📝 راجعي البيانات.');
+      else if(j.code === 'BIG')       setStatus('err','📦 الصور كبيرة — قللي عددها.');
+      else if(j.code === 'HONEYPOT')  setStatus('err','🤖 تم رفض الطلب.');
+      else if(j.httpStatus >= 500)    setStatus('err','🔧 مشكلة في السيرفر.');
+      else                            setStatus('err','❌ تعذّر الإرسال.');
     })
     .catch(function(err){
       clearTimeout(timeoutId);
-      if(err && err.name === 'AbortError') setStatus('err','⏰ الاستجابة اتأخرت — حاولي تاني.');
-      else setStatus('err','📡 تعذّر الاتصال بالخادم. اتأكدي من الإنترنت.');
+      if(err && err.name === 'AbortError') setStatus('err','⏰ اتأخر — حاولي تاني.');
+      else                                 setStatus('err','📡 تعذّر الاتصال بالخادم.');
     })
     .finally(function(){ lock(false); });
 }
-
 // ============================================================
 // ★ التعديل 7: صفحة "غير موجود" + URL
 // ============================================================
@@ -4331,27 +4681,51 @@ window.addEventListener('popstate', function(e){
 // ============================================================
 // ★ التعديل 8.4: Footer
 // ============================================================
+
 function toggleFbBox(){
   var modal = document.getElementById('fb-modal');
-  if(!modal){ showToast('⚠️ قسم الاقتراحات غير متاح حالياً'); return; }
+  if(!modal){ showToast('⚠️ قسم الاقتراحات غير متاح'); return; }
+
   modal.classList.add('show');
   modal.setAttribute('aria-hidden', 'false');
   document.documentElement.classList.add('fb-modal-open');
+
+  // ★ تهيئة الكابتشا
+  if(typeof fbInitCaptcha === 'function') fbInitCaptcha();
+
+  // ★ تصفير الصور
+  if(typeof _fbImages !== 'undefined'){
+    _fbImages = [];
+    if(typeof fbRenderPreviews === 'function') fbRenderPreviews();
+  }
+
+  // ★ إعادة ربط الأحداث (لو المودال ظهر بعد السكربت)
   setTimeout(function(){
     try{
-      var firstInput = modal.querySelector('input:not([type="hidden"]):not(#fb-hp), textarea, select');
-      if(firstInput && typeof firstInput.focus === 'function'){ firstInput.focus({preventScroll:true}); }
+      var firstInput = modal.querySelector(
+        'input:not([type="hidden"]):not(#fb-hp):not(#fb-images), textarea, select'
+      );
+      if(firstInput && typeof firstInput.focus === 'function'){
+        firstInput.focus({ preventScroll: true });
+      }
     }catch(e){}
   }, 150);
-  fbInitCaptcha();
 }
+
 function closeFbModal(){
   var modal = document.getElementById('fb-modal');
   if(!modal) return;
   modal.classList.remove('show');
   modal.setAttribute('aria-hidden', 'true');
   document.documentElement.classList.remove('fb-modal-open');
+
+  // ★ تفريغ الصور
+  if(typeof _fbImages !== 'undefined'){
+    _fbImages = [];
+    if(typeof fbRenderPreviews === 'function') fbRenderPreviews();
+  }
 }
+
 document.addEventListener('keydown', function(e){
   if((e.key === 'Escape' || e.key === 'Esc')){
     var modal = document.getElementById('fb-modal');
