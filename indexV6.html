@@ -3270,10 +3270,18 @@ function secEl(t,c,x){ var e = document.createElement(t); if(c) e.className = c;
 function secUrl(u){ return (typeof u === 'string' && /^https:\/\/[^\s]+$/i.test(u.trim())) ? u.trim() : null; }
 
 /* ★ التعديل 9: بناء مسار ملف السكاشن */
+/* ★ التعديل 9 المحسّن: ملفات السكاشن في مجلد المادة */
 function secFileForSubject(meta){
-  if(meta && typeof meta.sectionsFile === 'string' && meta.sectionsFile.trim()) return meta.sectionsFile.trim();
-  if(meta && meta.slug) return 'data/sections-' + meta.slug + '.json';
-  return 'data/sections.json';
+  // 1) لو محدّد صراحةً في subjects-index.js
+  if(meta && typeof meta.sectionsFile === 'string' && meta.sectionsFile.trim()){
+    return meta.sectionsFile.trim();
+  }
+  // 2) fallback: data/{slug}/sections-{slug}.json
+  if(meta && meta.slug){
+    return 'datanew/' + meta.slug + '/sections-' + meta.slug + '.json';
+  }
+  // 3) آخر fallback قديم
+  return 'datanew/sections.json';
 }
 
 /* ★ التعديل 9: secLoad جديدة مع cache لكل مادة */
