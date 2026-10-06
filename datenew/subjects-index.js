@@ -86,9 +86,9 @@ var SUBJECTS_INDEX = [
     en: "Sample",
     icon: "🧪",
     file: "datenew/sample/sample.js",
-    sectionsFile: "data/sample/sections-sample.json",
+    sectionsFile: "datenew/sample/sections-sample.json",
     sectionTitle: "🧩 سكاشن تجريبية",
-    active: false,
+    active: true,
   },
 
   // ─────────────────────────────────────────────────────────────
