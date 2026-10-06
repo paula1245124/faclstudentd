@@ -4,6 +4,7 @@ subjects.push({
   icon: "🌐",
   lectures: [
     {
+      id: "networks-lecture-01",
       t: "المحاضرة الأولى",
       d: "مقدمة في الشبكات ونموذج الطبقات OSI.",
       pdf: "Computer Networks/lectures/lec 1/Ch01 - Computer Networks - Lec 01.pdf",
