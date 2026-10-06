@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "sections": [
     {
-      "subject": "1-graphics",
+      "subject": "Computer Graphics",
       "lecture": "المحاضرة 1: مقدمة الرسوميات، الإسقاط المنظوري، والـ Rasterization",
-      "instructorId": "1-graphics-1",
+      "instructorId": "Computer Graphics-1",
       "instructorName": "م/ معيد تجريبي",
       "groupName": "مجموعة 1",
       "notes": "ملاحظة تجريبية من المعيد.",
