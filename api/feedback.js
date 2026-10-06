@@ -18,7 +18,7 @@
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: "10mb",
+      sizeLimit: "1mb",
     },
   },
 };
@@ -27,8 +27,8 @@ export const config = {
 // ثوابت
 // ──────────────────────────────────────────────────────────────
 const MAX_TEXT_LEN = 1000;
-const MAX_IMAGES = 5;
-const MAX_IMAGE_BYTES = 10 * 1024 * 1024; // حد تليجرام للصور عبر sendPhoto
+const MAX_IMAGES = 1;
+const MAX_IMAGE_BYTES = 1 * 1024 * 1024; // حد تليجرام للصور عبر sendPhoto
 
 const CONTACT_LABELS = {
   telegram: "تليجرام",

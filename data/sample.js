@@ -4,6 +4,7 @@ subjects.push({
   en: 'Sample',
   lectures: [
     {
+      
       t: 'المحاضرة الأولى — تجريبية',
       d: 'وصف قصير للمحاضرة',
       pdf: 'Software Engineering/lectures/Software Engineering Chapter 1 Lecture 1.pdf',

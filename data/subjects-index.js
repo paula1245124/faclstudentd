@@ -82,6 +82,7 @@ var SUBJECTS_INDEX = [
     icon: "🧪",
     slug: "sample",
     file: "data/sample.js",
+    sectionsFile:"data/sections-sample.json",
     active: true,
   },
   /*
