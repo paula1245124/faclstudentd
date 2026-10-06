@@ -1496,7 +1496,7 @@ function selectSubject(i, skipUrlUpdate){
     }).catch(function(err){
       document.getElementById('lectures-list').innerHTML =
         '<p style="color:var(--danger);padding:24px;text-align:center;font-weight:bold;">⚠️ ' + esc(err.message) + '</p>' +
-        '<p style="text-align:center;color:var(--text-hint);">تأكدي إن الملف موجود في مجلد data/</p>';
+        '<p style="text-align:center;color:var(--text-hint);">تأكدي إن الملف موجود في مجلد datanew/</p>';
       showToast('فشل تحميل المادة');
     });
   }else{
@@ -3271,16 +3271,18 @@ function secUrl(u){ return (typeof u === 'string' && /^https:\/\/[^\s]+$/i.test(
 
 /* ★ التعديل 9: بناء مسار ملف السكاشن */
 /* ★ التعديل 9 المحسّن: ملفات السكاشن في مجلد المادة */
+/* ★ هيكل مجلدات: كل مادة في مجلدها datanew/{slug}/ */
+
 function secFileForSubject(meta){
   // 1) لو محدّد صراحةً في subjects-index.js
   if(meta && typeof meta.sectionsFile === 'string' && meta.sectionsFile.trim()){
     return meta.sectionsFile.trim();
   }
-  // 2) fallback: data/{slug}/sections-{slug}.json
+  // 2) fallback: datanew/{slug}/sections-{slug}.json
   if(meta && meta.slug){
     return 'datanew/' + meta.slug + '/sections-' + meta.slug + '.json';
   }
-  // 3) آخر fallback قديم
+  // 3) آخر fallback
   return 'datanew/sections.json';
 }
 

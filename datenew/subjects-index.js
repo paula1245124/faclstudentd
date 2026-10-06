@@ -94,14 +94,14 @@ var SUBJECTS_INDEX = [
   // ─────────────────────────────────────────────────────────────
   // 7) Computer Networks (نسخة بديلة — اختياري)
   // ─────────────────────────────────────────────────────────────
-  {
-    slug: "computer-networks",
-    name: "Computer Networks (Alt)",
-    en: "Computer Networks — نسخة بديلة",
-    icon: "🌐",
-    file: "data/computer-networks/computer-networks.js",
-    sectionsFile: "data/computer-networks/sections-computer-networks.json",
-    sectionTitle: "🧩 سكاشن الشبكات",
-    active: false, // ← مقفولة. شيلها لو مش محتاجها
-  },
+  //   {
+  //     slug: "computer-networks",
+  //     name: "Computer Networks (Alt)",
+  //     en: "Computer Networks — نسخة بديلة",
+  //     icon: "🌐",
+  //     file: "data/computer-networks/computer-networks.js",
+  //     sectionsFile: "data/computer-networks/sections-computer-networks.json",
+  //     sectionTitle: "🧩 سكاشن الشبكات",
+  //     active: false, // ← مقفولة. شيلها لو مش محتاجها
+  //   },
 ];
