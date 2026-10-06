@@ -10,6 +10,8 @@
 <link rel="icon" type="image/png" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <script src="pwa.js" defer></script>
+<script src="https://www.google.com/recaptcha/api.js?hl=ar" async defer></script>
+
 <style>
 /* ============================================================
    1) الثيمات
@@ -948,6 +950,33 @@ html.fb-modal-open,html.fb-modal-open body{ overflow:hidden; }
     border-radius:50%;
     animation:spin .8s linear infinite;
 }
+/* ============================================================
+   ★ reCAPTCHA wrapper
+   ============================================================ */
+.fb-recaptcha-wrap{
+    display:flex;
+    justify-content:center;
+    margin:12px 0;
+    min-height:78px;
+    /* عشان الـ iframe بتاع جوجل ميتجاوزش العرض */
+    transform-origin:center;
+}
+
+/* على الموبايل الصغير نعمل scale عشان يبان كامل */
+@media (max-width: 400px){
+    .fb-recaptcha-wrap{
+        transform:scale(.85);
+        margin:4px 0 -6px;
+        min-height:66px;
+    }
+}
+
+.fb-modal-dialog .fb-btns button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+    transform:none !important;
+    filter:none !important;
+}
 </style>
 <body>
 
@@ -1241,16 +1270,16 @@ html.fb-modal-open,html.fb-modal-open body{ overflow:hidden; }
                 <div class="fb-thumbs" id="fb-thumbs" aria-live="polite"></div>
             </div>
 
-            <!-- ★ التحقق البشري -->
-            <label>تحقق بشري
-                <div class="fb-captcha">
-                    <span id="fb-captcha-q">— + — = ؟</span>
-                    <input id="fb-captcha-a" type="number" inputmode="numeric" min="0"
-                           placeholder="الناتج" autocomplete="off">
-                    <button type="button" class="fb-captcha-refresh"
-                            onclick="fbInitCaptcha()" aria-label="سؤال جديد">🔄</button>
-                </div>
-            </label>
+<!-- ★ Google reCAPTCHA v2 -->
+<div class="fb-recaptcha-wrap">
+    <div class="g-recaptcha"
+         data-sitekey="ضع_هنا_SITE_KEY_بتاعك"
+         data-theme="light"
+         data-size="normal"
+         data-callback="onRecaptchaOk"
+         data-expired-callback="onRecaptchaExpired">
+    </div>
+</div>
 
             <!-- ★ الأزرار -->
             <div class="fb-btns">
@@ -4247,39 +4276,53 @@ function insExportExcel(){
   triggerDownload(blob, fname);
   showToast('📊 تم تصدير ' + rows.length + ' موعد من جدولك الشخصي');
 }
-
 // ============================================================
-// ★ التعديل 8: نموذج الاقتراحات — نسخة جديدة
-// ============================================================
-// ============================================================
-// ★ التعديل 8: نموذج الاقتراحات — نسخة مصححة نهائية
+// ★ التعديل 8: نموذج الاقتراحات — reCAPTCHA v2 + رفع صور
 // ============================================================
 
-// ⚠️⚠️ مهم جداً: لازم يكونوا في السكوب العام قبل أي دالة
+// ⚠️ متغيرات عامة
 var _fbImages = [];
-var _fbCaptchaAns = null;
 
-// الثوابت
+// ثوابت
 var FB_MAX_IMAGES   = 5;
-var FB_MAX_SIZE     = 1 * 1024 * 1024; // ★ 1 ميجا
+var FB_MAX_SIZE     = 1 * 1024 * 1024;   // 1 ميجا
 var FB_MAX_DIM      = 1200;
 var FB_JPEG_QUALITY = 0.75;
 
-// ---------- الكابتشا ----------
-function fbInitCaptcha(){
-  var a = Math.floor(Math.random() * 9) + 1;
-  var b = Math.floor(Math.random() * 9) + 1;
-  _fbCaptchaAns = a + b;
-  var q = document.getElementById('fb-captcha-q');
-  if(q) q.textContent = a + ' + ' + b + ' = ؟';
-  var ia = document.getElementById('fb-captcha-a');
-  if(ia) ia.value = '';
+// ============================================================
+// ★ Google reCAPTCHA v2
+// ============================================================
+var _recaptchaToken = null;
+
+window.onRecaptchaOk = function(token){
+  _recaptchaToken = token;
+  var stt = document.getElementById('fb-status');
+  if(stt && stt.classList.contains('err')){
+    stt.className = '';
+    stt.textContent = '';
+  }
+};
+
+window.onRecaptchaExpired = function(){
+  _recaptchaToken = null;
+};
+
+function fbResetRecaptcha(){
+  _recaptchaToken = null;
+  if(window.grecaptcha && typeof window.grecaptcha.reset === 'function'){
+    try{ window.grecaptcha.reset(); }catch(e){}
+  }
 }
 
-// ---------- العرض ----------
+// دالة متوافقة مع الكود القديم (no-op)
+function fbInitCaptcha(){ /* reCAPTCHA بتشتغل لوحدها */ }
+
+// ============================================================
+// عرض المعاينات
+// ============================================================
 function fbRenderPreviews(){
-  var box = document.getElementById('fb-thumbs');           // ← كان fb-images-preview
-  var counter = document.getElementById('fb-img-counter');  // ← كان fb-images-counter
+  var box = document.getElementById('fb-thumbs');
+  var counter = document.getElementById('fb-img-counter');
   if(counter){
     counter.textContent = _fbImages.length + ' / ' + FB_MAX_IMAGES
       + ' صور — أقصى حجم 1MB لكل صورة';
@@ -4299,7 +4342,9 @@ function fbRemoveImage(i){
   fbRenderPreviews();
 }
 
-// ---------- ضغط الصورة ----------
+// ============================================================
+// ضغط الصورة
+// ============================================================
 function fbCompressImage(file){
   return new Promise(function(resolve){
     var reader = new FileReader();
@@ -4324,13 +4369,9 @@ function fbCompressImage(file){
           ctx.drawImage(img, 0, 0, w, h);
 
           var dataUrl = canvas.toDataURL('image/jpeg', FB_JPEG_QUALITY);
-          if(dataUrl && dataUrl.length > 20){
-            resolve(dataUrl);
-          } else {
-            resolve(originalDataUrl);
-          }
+          resolve(dataUrl && dataUrl.length > 20 ? dataUrl : originalDataUrl);
         }catch(err){
-          resolve(originalDataUrl); // fallback لو canvas فشل
+          resolve(originalDataUrl);
         }
       };
       img.onerror = function(){ resolve(originalDataUrl); };
@@ -4341,7 +4382,9 @@ function fbCompressImage(file){
   });
 }
 
-// ---------- استقبال الصور ----------
+// ============================================================
+// استقبال الصور
+// ============================================================
 function fbHandleImages(ev){
   var files = ev && ev.target && ev.target.files;
   if(!files || !files.length) return;
@@ -4366,9 +4409,7 @@ function fbHandleImages(ev){
     accepted.push(file);
   });
 
-  // تفريغ الـ input بسرعة عشان لو اختار نفس الصورة تاني
   if(ev && ev.target) ev.target.value = '';
-
   if(!accepted.length) return;
 
   showToast('⏳ جاري معالجة ' + accepted.length + ' صورة...');
@@ -4399,7 +4440,9 @@ function fbHandleImages(ev){
   });
 }
 
-// ---------- ربط الأحداث ----------
+// ============================================================
+// ربط الأحداث
+// ============================================================
 (function fbInitEvents(){
   function bind(){
     // 1) input الملفات
@@ -4410,7 +4453,7 @@ function fbHandleImages(ev){
     }
 
     // 2) منطقة السحب والإفلات
-var area = document.getElementById('fb-drop');   // ← تم التصحيح
+    var area = document.getElementById('fb-drop');
     if(area && !area._fbBound){
       area._fbBound = true;
 
@@ -4433,11 +4476,8 @@ var area = document.getElementById('fb-drop');   // ← تم التصحيح
         }
       });
 
-      // الضغط على المنطقة يفتح الـ input
       area.addEventListener('click', function(e){
-        if(e.target !== inp && inp){
-          inp.click();
-        }
+        if(e.target !== inp && inp){ inp.click(); }
       });
     }
 
@@ -4461,8 +4501,6 @@ var area = document.getElementById('fb-drop');   // ← تم التصحيح
         }
       });
     }
-
-    fbInitCaptcha();
   }
 
   if(document.readyState === 'loading'){
@@ -4472,7 +4510,9 @@ var area = document.getElementById('fb-drop');   // ← تم التصحيح
   }
 })();
 
-// ---------- الإرسال ----------
+// ============================================================
+// الإرسال
+// ============================================================
 function fbSend(kind){
   var stt = document.getElementById('fb-status');
   var btns = document.querySelectorAll('.fb-btns button');
@@ -4490,12 +4530,9 @@ function fbSend(kind){
     [].forEach.call(btns, function(b){ b.disabled = on; });
   }
 
-  // 1) الكابتشا
-  var ansRaw = (document.getElementById('fb-captcha-a') || {}).value;
-  var ans = parseInt(ansRaw, 10);
-  if(isNaN(ans) || ans !== _fbCaptchaAns){
-    setStatus('err', '🤖 نتيجة الحساب غلط — حاولي تاني');
-    fbInitCaptcha();
+  // 1) ★ التحقق من reCAPTCHA
+  if(!_recaptchaToken){
+    setStatus('err', '🤖 فعّل التحقق "I\'m not a robot" الأول');
     return;
   }
 
@@ -4517,6 +4554,7 @@ function fbSend(kind){
     setStatus('err', '📱 صيغة رقم الهاتف غير صحيحة.'); return;
   }
 
+  // 4) الصور
   if(_fbImages.length > FB_MAX_IMAGES){
     setStatus('err', '⚠️ عدد الصور أكبر من ' + FB_MAX_IMAGES + '.');
     return;
@@ -4527,17 +4565,18 @@ function fbSend(kind){
     (_fbImages.length ? ' (' + _fbImages.length + ' صورة)...' : '...'));
 
   var payload = {
-    channel:      kind,
-    type:         v('fb-type'),
-    name:         v('fb-name'),
-    contactType:  cType,
-    contactValue: cVal,
-    ref:          v('fb-ref'),
-    text:         text,
-    images:       _fbImages.map(function(im){
+    channel:        kind,
+    type:           v('fb-type'),
+    name:           v('fb-name'),
+    contactType:    cType,
+    contactValue:   cVal,
+    ref:            v('fb-ref'),
+    text:           text,
+    images:         _fbImages.map(function(im){
       return { name: im.name, type: im.type, data: im.data };
     }),
-    website: (document.getElementById('fb-hp') || {}).value || ''
+    website:        (document.getElementById('fb-hp') || {}).value || '',
+    recaptchaToken: _recaptchaToken  // ★
   };
 
   var controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
@@ -4561,7 +4600,8 @@ function fbSend(kind){
     .then(function(j){
       clearTimeout(timeoutId);
 
-      if(j.ok && kind === 'tg'){
+      // ★ نجاح
+      if(j.ok){
         setStatus('ok', '✅ تم إرسال رسالتك. شكرًا!');
         ['fb-text','fb-ref','fb-contact-val'].forEach(function(id){
           var el = document.getElementById(id);
@@ -4569,7 +4609,14 @@ function fbSend(kind){
         });
         _fbImages = [];
         fbRenderPreviews();
-        fbInitCaptcha();
+        fbResetRecaptcha();  // ★
+        return;
+      }
+
+      // ★ فشل reCAPTCHA
+      if(j.code === 'CAPTCHA_FAILED'){
+        setStatus('err', '🔒 فشل التحقق — جرّبي تاني.');
+        fbResetRecaptcha();
         return;
       }
 
@@ -4690,14 +4737,18 @@ function toggleFbBox(){
   modal.setAttribute('aria-hidden', 'false');
   document.documentElement.classList.add('fb-modal-open');
 
-  // ★ تهيئة الكابتشا
-  if(typeof fbInitCaptcha === 'function') fbInitCaptcha();
+  // ★ إعادة تعيين reCAPTCHA عند الفتح (احتياط)
+  if(typeof fbResetRecaptcha === 'function') fbResetRecaptcha();
 
   // ★ تصفير الصور
   if(typeof _fbImages !== 'undefined'){
     _fbImages = [];
     if(typeof fbRenderPreviews === 'function') fbRenderPreviews();
   }
+
+  // ★ تفريغ الحالة
+  var stt = document.getElementById('fb-status');
+  if(stt){ stt.className = ''; stt.textContent = ''; }
 
   // ★ إعادة ربط الأحداث (لو المودال ظهر بعد السكربت)
   setTimeout(function(){
@@ -4724,6 +4775,13 @@ function closeFbModal(){
     _fbImages = [];
     if(typeof fbRenderPreviews === 'function') fbRenderPreviews();
   }
+
+  // ★ إعادة تعيين reCAPTCHA (عشان لما يفتح تاني يبقى نظيف)
+  if(typeof fbResetRecaptcha === 'function') fbResetRecaptcha();
+
+  // ★ تفريغ الحالة (اختياري بس أنضف)
+  var stt = document.getElementById('fb-status');
+  if(stt){ stt.className = ''; stt.textContent = ''; }
 }
 
 document.addEventListener('keydown', function(e){
