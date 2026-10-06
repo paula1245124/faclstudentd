@@ -37,16 +37,16 @@ var SUBJECTS_INDEX = [
   // ─────────────────────────────────────────────────────────────
   // 3) Computer Networks — شبكات الحاسوب
   // ─────────────────────────────────────────────────────────────
-  {
-    slug: "networks",
-    name: "Computer Networks",
-    en: "شبكات الحاسوب",
-    icon: "🌐",
-    file: "datanew/networks/networks.js",
-    sectionsFile: "datanew/networks/sections-networks.json",
-    sectionTitle: "🧩 سكاشن الشبكات",
-    active: false,
-  },
+  //   {
+  //     slug: "networks",
+  //     name: "Computer Networks",
+  //     en: "شبكات الحاسوب",
+  //     icon: "🌐",
+  //     file: "datanew/networks/networks.js",
+  //     sectionsFile: "datanew/networks/sections-networks.json",
+  //     sectionTitle: "🧩 سكاشن الشبكات",
+  //     active: false,
+  //   },
 
   // ─────────────────────────────────────────────────────────────
   // 4) Operating Systems — نظم التشغيل
