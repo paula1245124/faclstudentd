@@ -52,7 +52,8 @@
   if ("serviceWorker" in navigator) {
     var userAskedUpdate = false;
 
-    window.addEventListener("load", function () {
+    // ★ pwa.js بيتحمّل متأخر (بعد load) فلازم نسجّل فورًا لو load عدّى
+    function registerSW() {
       navigator.serviceWorker
         .register("./sw.js")
         .then(function (reg) {
@@ -79,7 +80,9 @@
         .catch(function (err) {
           console.error("SW registration failed:", err);
         });
-    });
+    }
+    if (document.readyState === "complete") registerSW();
+    else window.addEventListener("load", registerSW);
 
     // reload بس لما أنا اللي ضغطت "تحديث" — عشان حالة الكويز متضيعش
     navigator.serviceWorker.addEventListener("controllerchange", function () {
@@ -119,11 +122,14 @@
     var deferredPrompt = null;
     hideBtn();
 
-    window.addEventListener("beforeinstallprompt", function (e) {
+    function onBIP(e) {
       e.preventDefault();
       deferredPrompt = e;
       showBtn();
-    });
+    }
+    window.addEventListener("beforeinstallprompt", onBIP);
+    // ★ الحدث ممكن يكون اتطلق قبل تحميل pwa.js (اتلقط في index)
+    if (window.__bip) onBIP(window.__bip);
 
     btn.addEventListener("click", function () {
       if (deferredPrompt) {

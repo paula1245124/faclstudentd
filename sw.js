@@ -4,8 +4,10 @@ const CACHE = `study-platform-${VERSION}`;
 
 const APP_SHELL = [
   "./",
+  "./indexV3.html",
   "./index.html",
-  "./pdf-annotator.html", // ★ أضيفي السطر ده
+  "./app.js",
+  "./pdf-annotator.html",
   "./manifest.webmanifest",
   "./pwa.js",
   "./icons/icon.svg",
@@ -13,13 +15,12 @@ const APP_SHELL = [
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
-  "./data/1-graphics.js",
-  "./data/2-visual-programming.js",
-  "./data/3-networks.js",
-  "./data/4-operating-systems.js",
-  "./data/5-software-engineering.js",
-  "./data/6-field-python.js",
-  "./data/7-field-net.js",
+  "./datenew/subjects-index.js",
+  "./datenew/graphics/graphics.js",
+  "./datenew/visual-programming/visual-programming.js",
+  "./datenew/networks/networks.js",
+  "./datenew/operating-systems/operating-systems.js",
+  "./datenew/software-engineering/software-engineering.js",
 ];
 
 // مكتبات وخطوط خارجية مسموح تتخزن أوفلاين (Google Drive والـ iframes مش هتتخزن)
@@ -62,7 +63,7 @@ self.addEventListener("message", (event) => {
   if (event.data === "SKIP_WAITING") self.skipWaiting();
 });
 
-async function networkFirst(request) {
+async function networkFirst(request, isPage) {
   const cache = await caches.open(CACHE);
   try {
     const response = await fetch(request);
@@ -70,14 +71,21 @@ async function networkFirst(request) {
       cache.put(request, response.clone());
     return response;
   } catch (err) {
-    return (
-      (await cache.match(request)) ||
-      (await cache.match("./index.html")) ||
-      (await cache.match("./")) ||
-      new Response("📴 لا يوجد اتصال بالإنترنت — والصفحة دي مش متخزنة بعد", {
+    const hit = await cache.match(request);
+    if (hit) return hit;
+    if (isPage) {
+      const page =
+        (await cache.match("./indexV3.html")) ||
+        (await cache.match("./index.html")) ||
+        (await cache.match("./"));
+      if (page) return page;
+    }
+    return new Response(
+      "📴 لا يوجد اتصال بالإنترنت — والصفحة دي مش متخزنة بعد",
+      {
         status: 503,
         headers: { "Content-Type": "text/plain; charset=utf-8" },
-      })
+      },
     );
   }
 }
@@ -104,8 +112,16 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
 
   if (url.origin === self.location.origin) {
+    // insights بتتجاوز الكاش
+    if (url.pathname.startsWith("/_vercel/")) return;
     if (request.mode === "navigate") {
-      event.respondWith(networkFirst(request));
+      event.respondWith(networkFirst(request, true));
+    } else if (
+      url.pathname.endsWith("/app.js") ||
+      url.pathname.startsWith("/api/")
+    ) {
+      // app.js لازم يطابق نسخة الـ HTML، والـ API لازم يبقى طازج (الكاش fallback أوفلاين بس)
+      event.respondWith(networkFirst(request, false));
     } else {
       event.respondWith(staleWhileRevalidate(request));
     }
