@@ -1,0 +1,103 @@
+// ═══════════════════════════════════════════════════════════
+// فهرس المواد — بيتحمّل مع أول فتح للموقع (صغير جداً)
+// الملفات الكاملة (data/*.js) بتتحمّل بس لما تضغط على المادة
+// ═══════════════════════════════════════════════════════════
+var SUBJECTS_INDEX = [
+  {
+    slug: "graphics",
+    icon: "🎨",
+    name: "Computer Graphics",
+    en: "الرسم بالحاسوب",
+    file: "data/1-graphics.js",
+    sectionsFile: "data/graphics/sections-graphics.json",
+    active: true,
+  },
+  {
+    slug: "visual-programming",
+    icon: "🧩",
+    name: "Visual Programming",
+    en: "البرمجة المرئية",
+    file: "data/2-visual-programming.js",
+    active: true,
+  },
+  {
+    slug: "networks",
+    icon: "🌐",
+    name: "Computer Networks",
+    en: "شبكات الحاسوب",
+    file: "data/3-networks.js",
+    active: true,
+  },
+  {
+    slug: "operating-systems",
+    icon: "⚙️",
+    name: "Operating Systems",
+    en: "نظم التشغيل",
+    file: "data/4-operating-systems.js",
+    active: true,
+  },
+  {
+    slug: "software-engineering",
+    icon: "🏗️",
+    name: "Software Engineering",
+    en: "هندسة البرمجيات",
+    file: "data/5-software-engineering.js",
+    active: true,
+  },
+  {
+    slug: "field-python",
+    icon: "🐍",
+    name: "Field Training - Python",
+    en: "التدريب الميداني",
+    file: "data/6-field-python.js",
+    active: false,
+  },
+  {
+    slug: "field-net",
+    icon: "🔷",
+    name: "Field Training - .NET",
+    en: "التدريب الميداني",
+    file: "data/7-field-net.js",
+    active: false,
+  },
+  {
+    slug: "field-net",
+    icon: "🔷",
+    name: "Field Training - .NET",
+    en: "التدريب الميداني",
+    file: "data/tesrnew.js",
+    active: false,
+  },
+  // {
+  //   slug: "field-net",
+  //   icon: "🔷",
+  //   name: "Field Training - .NET",
+  //   en: "التدريب الميداني",
+  //   file: "data/sample.js",
+  //   active: true,
+  // },
+  {
+    name: "مادة تجريبية",
+    en: "Sample",
+    icon: "🧪",
+    slug: "sample",
+    file: "data/sample.js",
+    sectionsFile: "data/sections-sample.json",
+    active: true,
+  },
+  /*
+  { slug:"math-copy", name:"الرياضيات (نسخة)", file:"data/math-copy.js",
+  sectionsFile:"data/sections-math-copy.json", active:true }
+  */
+  {
+    slug: "computer-networks",
+    name: "Computer Networks",
+    en: "Computer Networks",
+    icon: "🌐",
+    file: "data/computer-networks.js",
+    sectionsFile: "data/graphics/sections-computer-networks.json", // ★ التعديل 9
+    sectionTitle: "🧩 سكاشن الشبكات", // ★ التعديل 6
+    active: true,
+  },
+];
+
