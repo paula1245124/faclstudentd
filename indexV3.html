@@ -1022,6 +1022,79 @@ html.fb-modal-open,html.fb-modal-open body{ overflow:hidden; }
 @media (max-width:520px){
   .fb-modal-dialog{padding-bottom:calc(12px + env(safe-area-inset-bottom,0px))}
 }
+/* ═══════════════════════════════════════════════════════════
+   ★★★ الحل  — نسخة  لإزالة المساحة الفارغة ★★★
+   ═══════════════════════════════════════════════════════════ */
+
+/* 1) اختفي #fb-status تماماً لو فاضي (بما فيه المسافات والـ line-height) */
+html body .fb-modal-dialog #fb-status:empty {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    line-height: 0 !important;
+    font-size: 0 !important;
+    overflow: hidden !important;
+}
+
+/* 2) شيل كل padding/margin/space من آخر عنصرين جوه body */
+html body .fb-modal-dialog .fb-body > *:last-child,
+html body .fb-modal-dialog .fb-body > *:nth-last-child(2) {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* 3) الـ body: خلّي ارتفاعه بمقدار محتواه بالظبط */
+html body .fb-modal-dialog .fb-body {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    flex: 0 0 auto !important;
+}
+
+/* 4) الـ dialog: خلّيه shrink-to-fit محتواه */
+html body .fb-modal-dialog {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: 88vh !important;
+    flex: 0 0 auto !important;
+    align-self: center !important;
+    padding-bottom: 14px !important;
+    /* لا تعتمد على dvh للتوافق */
+}
+
+/* 5) الـ overlay: خلي الـ dialog في وسط الشاشة */
+html body .fb-modal-overlay.show {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 16px !important;
+}
+
+/* 6) إصلاح أزرار الإرسال - شيل أي مسافة تحتها */
+html body .fb-modal-dialog .fb-btns {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* 7) على الموبايل: خليها نافذة من تحت بحجم محتواها */
+@media (max-width: 520px) {
+    html body .fb-modal-overlay.show {
+        align-items: flex-end !important;
+        padding: 0 !important;
+    }
+    html body .fb-modal-dialog {
+        align-self: flex-end !important;
+        max-height: 90vh !important;
+        border-radius: 16px 16px 0 0 !important;
+        padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+}
 </style>
 <body>
 
