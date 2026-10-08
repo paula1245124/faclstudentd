@@ -1,0 +1,10 @@
+
+# Google Cloud Service Account
+study-platform-bot-*.json
+*-service-account.json
+service-account.json
+.env
+.env.local
+
+# Logs
+push_error.txt
