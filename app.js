@@ -205,7 +205,17 @@ function scrollToTop(){ window.scrollTo({top:0, behavior:'smooth'}); }
 // ============================================================
 // 4) الإشعارات
 // ============================================================
-var notifications = [], notifSeq = 0;
+var notifications = [
+    {
+      type: "info",
+      title: "📢 تنبيه هام بشأن جدول الاختبارات",
+      context: "مادة البرمجة الكائنية",
+      questionText:
+        "تم إتاحة نموذج اختبار تجريبي جديد على المنصة، يرجى مراجعته قبل موعد الاختبار النهائي.",
+      score: undefined, // يمكنك وضع رقم هنا إذا كان الإشعار يرتبط بنتيجة اختبار (مثال: 85)
+    },
+  ],
+  notifSeq = 0;
 var answerEditsLog = [{ id: "edit-001", context: "المحاضرة الأولى", questionNum: 1, questionText: "", oldAnswer: "الإجابة القديمة", newAnswer: "الإجابة الصحيحة الجديدة" }];
 var lecturesAddedLog = [];
 
