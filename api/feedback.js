@@ -9,7 +9,12 @@ export const config = {
     },
   },
 };
-
+import {
+  appendFeedback,
+  getCairoNow,
+  formatDateCairo,
+  formatTimeCairo,
+} from "./sheets.js";
 // ──────────────────────────────────────────────────────────────
 // ثوابت
 // ──────────────────────────────────────────────────────────────
@@ -506,7 +511,30 @@ export default async function handler(req, res) {
     }
   }
 
-  // 17) الرد النهائي
+  // 17) ★ حفظ في Google Sheets
+  try {
+    const cairoNow = getCairoNow();
+    const dateStr = formatDateCairo(cairoNow);
+    const timeStr = formatTimeCairo(cairoNow);
+
+    await appendFeedback([
+      Date.now(), // ID
+      `${dateStr} ${timeStr}`, // التاريخ
+      cleanType || "غير محدد", // النوع
+      cleanName || "مجهول", // الاسم
+      cleanCType || "", // نوع وسيلة التواصل
+      cleanCVal || "", // قيمة وسيلة التواصل
+      cleanRef || "", // المرجع
+      cleanText, // التفاصيل
+      imageList.length, // عدد الصور
+    ]);
+    console.log("✅ Saved to Google Sheets");
+  } catch (sheetErr) {
+    // لا نوقف الرد لو الشيت فشل — بس نسجل الخطأ
+    console.error("❌ Sheets append failed:", sheetErr.message);
+  }
+
+  // 18) الرد النهائي
   return res.status(200).json({
     ok: true,
     message: "تم الإرسال بنجاح",

@@ -205,10 +205,21 @@ function scrollToTop(){ window.scrollTo({top:0, behavior:'smooth'}); }
 // ============================================================
 // 4) الإشعارات
 // ============================================================
-var notifications = [], notifSeq = 0;
+var notifications = [],
+  notifSeq = 0;
 var answerEditsLog = [{ id: "edit-001", context: "المحاضرة الأولى", questionNum: 1, questionText: "", oldAnswer: "الإجابة القديمة", newAnswer: "الإجابة الصحيحة الجديدة" }];
 var lecturesAddedLog = [];
-
+// نموذج إضافة إشعار عام (Info Notification)
+// نموذج إشعار عام عن تجربة جديدة
+ addNotification(
+//{
+//   type: "info",
+//   title: "🚀 ميزة جديدة: تجربة نظام الاختبارات التفاعلية",
+//   context: "منصة التعلم",
+//   questionText: "تم إطلاق الواجهة الجديدة لمراجعة الأسئلة! جربها الآن وشاركونا آرائكم لنسهل عليكم المذاكرة.",
+//   score: undefined
+// }
+);
 function loadNotifications(){
   try{ var n = localStorage.getItem('notifications_data'); if(n) notifications = JSON.parse(n); }catch(e){ notifications = []; }
 }
