@@ -52,19 +52,56 @@
   if ("serviceWorker" in navigator) {
     var userAskedUpdate = false;
 
+    // ★ نافذة "الفتح" — لو التحديث وصل خلال 20 ثانية من فتح التطبيق
+    //   → نطبقه تلقائي (بدون زرار). بعد كده → زرار.
+    var COLD_START_MS = 20000;
+    var coldStartUntil = Date.now() + COLD_START_MS;
+    var autoApplied = false;
+    var userInteracted = false;
+
+    // ★ لو المستخدم داس/لمس/كتب → ما نعملش auto-reload (نعرض زرار بدل)
+    function markInteracted(e) {
+      if (e && e.isTrusted) userInteracted = true;
+    }
+    ["click", "keydown", "touchstart"].forEach(function (ev) {
+      document.addEventListener(ev, markInteracted, { passive: true });
+    });
+
+    function shouldAutoApply() {
+      return !autoApplied && !userInteracted && Date.now() < coldStartUntil;
+    }
+
     // ★ pwa.js بيتحمّل متأخر (بعد load) فلازم نسجّل فورًا لو load عدّى
     function registerSW() {
       navigator.serviceWorker
         .register("./sw.js")
         .then(function (reg) {
+          // helper: تنفيذ التحديث (تلقائي أو يدوي)
+          function applyUpdate(worker, isAuto) {
+            if (isAuto) autoApplied = true;
+            userAskedUpdate = true;
+            worker.postMessage("SKIP_WAITING");
+          }
+
+          // helper: التعامل مع SW جاهز (installed + waiting)
           function offerUpdate(worker) {
+            // ★ داخل نافذة الفتح + مفيش تفاعل → تحديث تلقائي
+            if (shouldAutoApply()) {
+              applyUpdate(worker, true);
+              return;
+            }
+            // ★ غير كده → اعرض زرار
             toast("🔄 فيه تحديث جديد للموقع", "تحديث", function () {
-              userAskedUpdate = true;
-              worker.postMessage("SKIP_WAITING");
+              applyUpdate(worker, false);
             });
           }
-          if (reg.waiting && navigator.serviceWorker.controller)
+
+          // ★ SW في حالة waiting من جلسة سابقة
+          if (reg.waiting && navigator.serviceWorker.controller) {
             offerUpdate(reg.waiting);
+          }
+
+          // ★ SW جديد اتنزّل
           reg.addEventListener("updatefound", function () {
             var worker = reg.installing;
             if (!worker) return;
@@ -72,10 +109,38 @@
               if (
                 worker.state === "installed" &&
                 navigator.serviceWorker.controller
-              )
+              ) {
                 offerUpdate(worker);
+              }
             });
           });
+
+          // ★ helper آمن لنداء reg.update()
+          function safeUpdate() {
+            try {
+              var p = reg.update();
+              if (p && typeof p.catch === "function") p.catch(function () {});
+            } catch (e) {}
+          }
+
+          // ★ فحص فوري عند الفتح (عشان نافذة الـ cold start تلقط التحديث)
+          if (navigator.serviceWorker.controller) safeUpdate();
+
+          // ★ فحص دوري كل 5 دقايق (شغّال بس والتطبيق ظاهر)
+          setInterval(
+            function () {
+              if (!document.hidden) safeUpdate();
+            },
+            5 * 60 * 1000,
+          );
+
+          // ★ فحص عند رجوع المستخدم للتطبيق (المضمون على الموبايل)
+          document.addEventListener("visibilitychange", function () {
+            if (!document.hidden) safeUpdate();
+          });
+
+          // ★ فحص عند رجوع الاتصال
+          window.addEventListener("online", safeUpdate);
         })
         .catch(function (err) {
           console.error("SW registration failed:", err);
@@ -84,7 +149,7 @@
     if (document.readyState === "complete") registerSW();
     else window.addEventListener("load", registerSW);
 
-    // reload بس لما أنا اللي ضغطت "تحديث" — عشان حالة الكويز متضيعش
+    // ★ reload بس لما نكون قررنا نطبّق (تلقائي أو يدوي) — عشان الكويز ما يتقطعش
     navigator.serviceWorker.addEventListener("controllerchange", function () {
       if (userAskedUpdate) window.location.reload();
     });

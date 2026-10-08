@@ -58,7 +58,7 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// الصفحة بتبعت "SKIP_WAITING" لما تدوسي "تحديث" في التوست
+// الصفحة بتبعت "SKIP_WAITING" لما تدوسي "تحديث" في التوست (أو تلقائي في نافذة الفتح)
 self.addEventListener("message", (event) => {
   if (event.data === "SKIP_WAITING") self.skipWaiting();
 });
